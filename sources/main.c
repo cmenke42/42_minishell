@@ -6,11 +6,21 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/01 19:00:35 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/02 01:30:18 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	ft_print_double_pointer(char **string)
+{
+	int i;
+	
+	i = 0;
+	while (string && string[i])
+		printf("%s\n", string[i++]);
+}
+
 
 //take care that it frees all neccessary things
 void	ft_exit_ctrl_d()
@@ -35,9 +45,16 @@ void ft_sig_sigint_handler(int sig_num)
 	//add functionality to send signal to child process
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*line_read;
+	t_data	*data;
+
+	// ft_print_double_pointer(envp);
+
+	data = ft_calloc(1, sizeof(t_data));
+	if (!data)
+		perror("struct allocation error");
 
 	//to ignore the SIG_QUIT signal from ctrl- Backslash
 	signal(SIGQUIT, SIG_IGN);

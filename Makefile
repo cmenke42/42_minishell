@@ -6,7 +6,7 @@
 #    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/06/01 01:02:32 by cmenke           ###   ########.fr        #
+#    Updated: 2023/06/02 01:48:55 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ SRCS := $(addprefix ${SRCDIR}/,main.c \
 								${BUILTINS} \
 								${PARSER} \
 								${EXECUTION} \
-								${SIGNALS})
+								${SIGNALS} \
+								fork_childs.c)
 
 OBJS := ${SRCS:.c=.o}
 
@@ -43,7 +44,8 @@ INCLUDE := ${LIBFTDIR}/${LIBFT} -lreadline \
 -I ${HOME}/goinfre/.brew/opt/readline/include/ \
 -L ${HOME}/goinfre/.brew/opt/readline/lib/
 
-CFLAGS := -Wall -Werror -Wextra
+CFLAGS := -Wall -Wextra
+# CFLAGS := -Wall -Werror -Wextra
 
 CC := cc
 
