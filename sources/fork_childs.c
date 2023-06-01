@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 01:30:32 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/02 01:48:29 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/02 01:49:59 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ int	ft_fork_childs(t_data *data)
 	{
 		if (cmd_and_args->next)
 		{
-			pipe(cmd_and_args->pipe);
-			if (!pipe)
+			if (pipe(cmd_and_args->pipe) == -1);
 				exit(1);
 			//call the exit functio to stop things and clear up.
 		}
