@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/02 01:35:27 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/05 21:55:30 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 // //terminal
 // # include <sys/ttydefaults.h>
 
+#include <stdbool.h>
+
 # define PROMPT "Minishell:$ "
 
 typedef struct s_cmd_in_child
@@ -51,4 +53,8 @@ typedef struct s_data
 	t_child_cmd		*command;
 }					t_data;
 
+//sources
+//fork_childs.c
+void	ft_child_process_executor(t_data *data);
+int	ft_fork_childs(t_data *data);
 #endif

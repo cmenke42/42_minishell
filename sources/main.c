@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/02 01:30:18 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/05 21:55:50 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,31 @@ void ft_sig_sigint_handler(int sig_num)
 	//add functionality to send signal to child process
 }
 
+
+
+bool	ft_initialize_command_struct(t_data *data, char **envp)
+{
+	t_child_cmd *commands;
+
+	commands = ft_calloc(1, sizeof(t_child_cmd));
+	if (!commands)
+	{
+		perror("command struct allocation error");
+		return (false);
+	}
+	commands->cmd_path = "/bin/cat";
+	commands->cmd_args = ft_calloc(3, sizeof(char *));
+	commands->cmd_args[0] = "cat";
+	commands->cmd_args[1] = "main.c";
+	commands->cmd_args[2] = NULL;
+	commands->envp = envp;
+	commands->input_fd = STDIN_FILENO;
+	commands->output_fd = STDOUT_FILENO;
+	commands->next = NULL;
+	data->command = commands;
+	return (true);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line_read;
@@ -55,6 +80,9 @@ int	main(int argc, char **argv, char **envp)
 	data = ft_calloc(1, sizeof(t_data));
 	if (!data)
 		perror("struct allocation error");
+	ft_initialize_command_struct(data, envp);
+	ft_fork_childs(data);
+	exit(0);
 
 	//to ignore the SIG_QUIT signal from ctrl- Backslash
 	signal(SIGQUIT, SIG_IGN);
