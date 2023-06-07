@@ -6,14 +6,40 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 01:30:32 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/07 14:47:48 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/07 16:50:59 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+void ft_close_all_pipes(int pipes[][2], int nbr_pipes)
+{
+	int	i;
 
-void	ft_child_process_executor(t_data *data, int i)
+	i = 0;
+	while (i < nbr_pipes)
+	{	
+		if (pipes[i][0] > 2)
+		{
+			printf("closing pipe nbr: %d, FD:%d\n", i, pipes[i][0]);
+			close(pipes[i][0]);
+		}
+		if (pipes[i][1] > 2)
+		{
+			printf("closing pipe nbr: %d, FD:%d\n", i, pipes[i][1]);
+			close(pipes[i][1]);
+		}
+		i++;
+	}
+	//free the array after closing all the pipes
+	// i = 0;
+	// while (i < nbr_pipes)
+	// 	free(pipes[i++]);
+	// free(pipes);
+}
+
+
+void	ft_child_process_executor(t_data *data, t_child_cmd *command ,int i)
 {
 	printf("child process %d\n", i);
 	exit(0);
@@ -59,13 +85,20 @@ int	ft_fork_childs(t_data *data, int nbr_cmds)
 		if (pids[i] == 0)
 		{
 			//child process
-			ft_child_process_executor(data, i);
+			ft_child_process_executor(data, data->command, i);
 		}
 		i++;
 	}
-	waitpid(pids[nbr_cmds - 1], stat_loc, 0);
+	//wait for all children to finish
+	waitpid(pids[--i], &stat_loc, 0);
+	printf("waiting for pid %d\n", pids[i]);
 	if (WIFEXITED(stat_loc))
 		exit_code = WEXITSTATUS(stat_loc);
+	while (--i >= 0)
+	{
+		printf("waiting for pid %d\n", pids[i]);
+		waitpid(pids[i], NULL, 0);
+	}
 	i = 0;
 	//print pids
 	while (i < nbr_cmds)
@@ -73,5 +106,7 @@ int	ft_fork_childs(t_data *data, int nbr_cmds)
 		printf("pid %d: %d\n", i, pids[i]);
 		i++;
 	}
+	//close all pipes
+	ft_close_all_pipes(pipes, nbr_cmds - 1);
 	return (exit_code);
 }

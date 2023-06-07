@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/07 14:49:34 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/07 15:31:07 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,9 @@ int	main(int argc, char **argv, char **envp)
 	if (!data)
 		perror("struct allocation error");
 	// ft_initialize_command_struct(data, envp);
-	printf("welcome to minishell\n");
-	printf("exit_code last schild:%d\n", ft_fork_childs(data, 8));
+	printf(BOLD_PINK"Minishell START\n"STYLE_DEFAULT);
+	printf("exit_code last child:%d\n", ft_fork_childs(data, 8));
+	printf(BOLD_PINK"Minishell END\n"STYLE_DEFAULT);
 	exit(0);
 
 	//to ignore the SIG_QUIT signal from ctrl- Backslash

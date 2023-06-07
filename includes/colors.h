@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42wolfsburg.de >    +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 18:18:07 by cmenke            #+#    #+#             */
-/*   Updated: 2023/05/29 19:04:42 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/07 15:18:36 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,9 @@
 //\x1B[38;2;255;0;204m"
 # define STYLE_DEFAULT "\033[0m"
 # define BOLD_PINK "\033[1;38;2;255;0;204m"
+# define BOLD_RED "\033[1;31m";
+# define BOLD_GREEN "\033[1;32m";
+# define BOLD_YELLOW "\033[1;33m";
+# define BOLD_BLUE "\033[1;34m";
 
 #endif
