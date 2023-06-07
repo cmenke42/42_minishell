@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/05 21:55:50 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/07 14:49:34 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,28 +47,28 @@ void ft_sig_sigint_handler(int sig_num)
 
 
 
-bool	ft_initialize_command_struct(t_data *data, char **envp)
-{
-	t_child_cmd *commands;
+// bool	ft_initialize_command_struct(t_data *data, char **envp)
+// {
+// 	t_child_cmd *commands;
 
-	commands = ft_calloc(1, sizeof(t_child_cmd));
-	if (!commands)
-	{
-		perror("command struct allocation error");
-		return (false);
-	}
-	commands->cmd_path = "/bin/cat";
-	commands->cmd_args = ft_calloc(3, sizeof(char *));
-	commands->cmd_args[0] = "cat";
-	commands->cmd_args[1] = "main.c";
-	commands->cmd_args[2] = NULL;
-	commands->envp = envp;
-	commands->input_fd = STDIN_FILENO;
-	commands->output_fd = STDOUT_FILENO;
-	commands->next = NULL;
-	data->command = commands;
-	return (true);
-}
+// 	commands = ft_calloc(1, sizeof(t_child_cmd));
+// 	if (!commands)
+// 	{
+// 		perror("command struct allocation error");
+// 		return (false);
+// 	}
+// 	commands->cmd_path = "/bin/cat";
+// 	commands->cmd_args = ft_calloc(3, sizeof(char *));
+// 	commands->cmd_args[0] = "cat";
+// 	commands->cmd_args[1] = "main.c";
+// 	commands->cmd_args[2] = NULL;
+// 	commands->envp = envp;
+// 	commands->input_fd = STDIN_FILENO;
+// 	commands->output_fd = STDOUT_FILENO;
+// 	commands->next = NULL;
+// 	data->command = commands;
+// 	return (true);
+// }
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -80,8 +80,9 @@ int	main(int argc, char **argv, char **envp)
 	data = ft_calloc(1, sizeof(t_data));
 	if (!data)
 		perror("struct allocation error");
-	ft_initialize_command_struct(data, envp);
-	ft_fork_childs(data);
+	// ft_initialize_command_struct(data, envp);
+	printf("welcome to minishell\n");
+	printf("exit_code last schild:%d\n", ft_fork_childs(data, 8));
 	exit(0);
 
 	//to ignore the SIG_QUIT signal from ctrl- Backslash

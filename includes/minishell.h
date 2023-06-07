@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/05 21:55:30 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/07 14:42:20 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,6 @@ typedef struct s_data
 
 //sources
 //fork_childs.c
-void	ft_child_process_executor(t_data *data);
-int	ft_fork_childs(t_data *data);
+void	ft_child_process_executor(t_data *data, int i);
+int		ft_fork_childs(t_data *data, int nbr_cmds);
 #endif
