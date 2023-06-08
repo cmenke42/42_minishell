@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/08 14:10:57 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/08 14:28:29 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,18 @@ bool	ft_initialize_command_struct(t_data *data, char **envp)
 	}
 	commands->cmd_path = "/bin/cat";
 	commands->cmd_args = ft_calloc(3, sizeof(char *));
-	commands->cmd_args[0] = "echo";
+	// commands->cmd_args[0] = "echo";
+	// commands->cmd_args[0] = "./minishell";
+	// commands->cmd_args[0] = "../../../../../../bin/ls";
+	// commands->cmd_args[0] = "/bin/ls";
+	commands->cmd_args[0] = "cat";
 	commands->cmd_args[1] = "main.c";
 	commands->cmd_args[2] = NULL;
 	commands->input_fd = STDIN_FILENO;
 	commands->output_fd = STDOUT_FILENO;
 	commands->next = NULL;
 	data->command = commands;
+	data->envp = envp;
 	return (true);
 }
 

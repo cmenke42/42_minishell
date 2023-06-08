@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 01:30:32 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/08 14:19:33 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/08 14:27:48 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,27 @@ bool	ft_check_if_builtin(t_data *data, t_child_cmd *command)
 
 bool	ft_check_if_cmd_path_is_valid(t_data *data, t_child_cmd *command)
 {
+	//do we need to chek if cmd_args is NULL?
+	//check if the command is a builtin
 	if (ft_check_if_builtin(data, command) == true)
 	{
 		printf("builtin found: %s\n", command->cmd_args[0]);
 		return (true);
 	}
+	//check if the command is a relative path or an absolute path
+	if (access(command->cmd_args[0], X_OK) == 0)
+	{
+		printf("relative path or absolute path found: %s\n", command->cmd_args[0]);
+		return (true);
+	}
+	//check if the command is in the PATH from envp
 	command->envp_paths = ft_get_envp_paths(data->envp);
-	//do we need to chek if cmd_args is NULL?
-	//modify the command checking so it can take {a path, a cmd, an executable} as input
 	command->cmd_path = ft_get_cmd_path(command->envp_paths, command->cmd_args[0]);
-
+	if (command->cmd_path != NULL)
+	{
+		printf("command found in PATH: %s\n", command->cmd_path);
+		return (true);
+	}
 	//check if the command path is valid
 	//if not, print error message and return false
 	//if valid, return true
