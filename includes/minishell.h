@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/08 13:54:08 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/08 15:44:56 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,14 @@
 /// @param next The next command in the command sequence.
 typedef struct s_cmd_in_child
 {
+	//start at 0
+	int						cmd_nbr;
 	char					**envp_paths;
 	char					*cmd_path;
 	char					**cmd_args;
+	//initially set to -1
 	int						input_fd;
+	//initially set to -1
 	int						output_fd;
 	int						**pipes;
 	struct s_cmd_in_child	*next;

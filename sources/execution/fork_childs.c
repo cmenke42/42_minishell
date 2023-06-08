@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 01:30:32 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/08 14:27:48 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/08 16:37:33 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ bool	ft_check_if_cmd_path_is_valid(t_data *data, t_child_cmd *command)
 
 void	ft_child_process_executor(t_data *data, t_child_cmd *command ,int i)
 {
+	//check if the command is a builtin
 	//check if the command path is valid
 	if (ft_check_if_cmd_path_is_valid(data, command) == false)
 	{
@@ -103,7 +104,13 @@ void	ft_child_process_executor(t_data *data, t_child_cmd *command ,int i)
 		printf("minishell: %s: command not found\n", command->cmd_args[0]);
 		exit(127);
 	}
-	//check if the command is a builtin
+	//When do we need to print the error message?
+	//mange input redirection - 1. here_doc 2. < - stops at error
+	//manage output redirection - left to right last one wins - stops at error
+	//manage pipes
+	//what happens to the content in the pipe when a command doesnt read it?
+	//execute the command
+	//clean up in case of error
 	
 
 	printf("child process %d\n", i);
