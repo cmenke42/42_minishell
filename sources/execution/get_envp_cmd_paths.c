@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:24:19 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/08 12:33:36 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/08 13:53:43 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,10 @@ char	**ft_get_envp_paths(char **envp)
 	{
 		envp_paths = ft_split(path_string, ':');
 		if (!envp_paths)
+		{
+			//what should be freed and what should be closed?
 			ft_free_close_err_exit(NULL, NULL, NULL, "Malloc error envp paths");
+		}
 	}
 	envp_paths = ft_add_slash_to_envp_paths(envp_paths);
 	if (!envp_paths)
@@ -97,7 +100,7 @@ char	**ft_get_envp_paths(char **envp)
 }
 
 //checks if the cmd is to be found in one of the paths specified by envp
-static char	*ft_get_cmd_path(char **envp_paths, char *cmd)
+char	*ft_get_cmd_path(char **envp_paths, char *cmd)
 {
 	int		i;
 	char	*cmd_path;

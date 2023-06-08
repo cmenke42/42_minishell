@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/08 12:26:12 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/08 13:54:08 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 
 /// @brief The main data structure for a command.
 /// @details This strucutre stores the information for one command.
+/// @param envp_paths The paths to the commands. PATH= from envp.
 /// @param cmd_path The path to the command.
 /// @param cmd_args The arguments for the command.
 /// @param input_fd The file descriptor for the input.
@@ -45,6 +46,7 @@
 /// @param next The next command in the command sequence.
 typedef struct s_cmd_in_child
 {
+	char					**envp_paths;
 	char					*cmd_path;
 	char					**cmd_args;
 	int						input_fd;
@@ -56,12 +58,10 @@ typedef struct s_cmd_in_child
 /// @brief The main data structure for minishell.
 /// @param command The struct for one command of the command sequence.
 /// @param envp The environment variables.
-/// @param cmd_paths The paths to the commands. PATH= from envp.
 typedef struct s_data
 {
 	t_child_cmd		*command;
 	char			**envp;
-	char			**cmd_paths;
 }					t_data;
 
 //sources
@@ -74,5 +74,9 @@ void	ft_echo(char **command);
 // clearing
 // ft_free_double_pointer.c
 char	**ft_free_double_pointer(char **ptr);
+//execution
+// get_envp_cmd_paths.c
+char	**ft_get_envp_paths(char **envp);
+char	*ft_get_cmd_path(char **envp_paths, char *cmd);
 
 #endif

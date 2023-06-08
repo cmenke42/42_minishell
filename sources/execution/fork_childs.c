@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 01:30:32 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/08 12:33:44 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/08 14:19:33 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,60 @@ void ft_close_all_pipes(int pipes[][2], int nbr_pipes)
 	// free(pipes);
 }
 
+bool	ft_check_if_builtin(t_data *data, t_child_cmd *command)
+{
+	int		cmd_length;
+
+	cmd_length = 0;
+	cmd_length = ft_strlen(command->cmd_args[0]);
+	//how to manage the calling of the builtin and the correct closing of the pipes, redirection and freeing?
+	if (cmd_length < 2 || cmd_length > 6)
+		return (false);
+	if (ft_strncmp("echo", command->cmd_args[0], cmd_length) == 0)
+		return (true);
+	else if (ft_strncmp("cd", command->cmd_args[0], cmd_length) == 0)
+		return (true);
+	else if (ft_strncmp("pwd", command->cmd_args[0], cmd_length) == 0)
+		return (true);
+	else if (ft_strncmp("export", command->cmd_args[0], cmd_length) == 0)
+		return (true);
+	else if (ft_strncmp("unset", command->cmd_args[0], cmd_length) == 0)
+		return (true);
+	else if (ft_strncmp("env", command->cmd_args[0], cmd_length) == 0)
+		return (true);
+	else if (ft_strncmp("exit", command->cmd_args[0], cmd_length) == 0)
+		return (true);
+	return (false);
+}
+
 bool	ft_check_if_cmd_path_is_valid(t_data *data, t_child_cmd *command)
 {
+	if (ft_check_if_builtin(data, command) == true)
+	{
+		printf("builtin found: %s\n", command->cmd_args[0]);
+		return (true);
+	}
+	command->envp_paths = ft_get_envp_paths(data->envp);
+	//do we need to chek if cmd_args is NULL?
+	//modify the command checking so it can take {a path, a cmd, an executable} as input
+	command->cmd_path = ft_get_cmd_path(command->envp_paths, command->cmd_args[0]);
+
 	//check if the command path is valid
 	//if not, print error message and return false
 	//if valid, return true
-	return (true);
+	return (false);
 }
 
 
 void	ft_child_process_executor(t_data *data, t_child_cmd *command ,int i)
 {
 	//check if the command path is valid
-
+	if (ft_check_if_cmd_path_is_valid(data, command) == false)
+	{
+		//print the error message
+		printf("minishell: %s: command not found\n", command->cmd_args[0]);
+		exit(127);
+	}
 	//check if the command is a builtin
 	
 
