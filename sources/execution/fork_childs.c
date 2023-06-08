@@ -6,11 +6,11 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 01:30:32 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/07 16:53:48 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/08 12:33:44 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void ft_close_all_pipes(int pipes[][2], int nbr_pipes)
 {
@@ -38,9 +38,22 @@ void ft_close_all_pipes(int pipes[][2], int nbr_pipes)
 	// free(pipes);
 }
 
+bool	ft_check_if_cmd_path_is_valid(t_data *data, t_child_cmd *command)
+{
+	//check if the command path is valid
+	//if not, print error message and return false
+	//if valid, return true
+	return (true);
+}
+
 
 void	ft_child_process_executor(t_data *data, t_child_cmd *command ,int i)
 {
+	//check if the command path is valid
+
+	//check if the command is a builtin
+	
+
 	printf("child process %d\n", i);
 	exit(0);
 }

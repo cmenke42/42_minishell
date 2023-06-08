@@ -6,7 +6,7 @@
 #    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/06/02 01:48:55 by cmenke           ###   ########.fr        #
+#    Updated: 2023/06/08 12:30:57 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,11 +14,14 @@ NAME := minishell
 
 SRCDIR := sources
 
-BUILTINS := $(addprefix builtins/, )
+BUILTINS := $(addprefix builtins/,echo.c)
+
+CLEARING := $(addprefix clearing/,free_double_pointer.c)
 
 PARSER := $(addprefix parser/, )
 
-EXECUTION := $(addprefix execution/, )
+EXECUTION := $(addprefix execution/,get_envp_cmd_paths.c \
+									fork_childs.c)
 
 SIGNALS := $(addprefix signals/, )
 
@@ -27,7 +30,7 @@ SRCS := $(addprefix ${SRCDIR}/,main.c \
 								${PARSER} \
 								${EXECUTION} \
 								${SIGNALS} \
-								fork_childs.c)
+								${CLEARING})
 
 OBJS := ${SRCS:.c=.o}
 

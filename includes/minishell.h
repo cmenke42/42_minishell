@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/08 12:16:25 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/08 12:26:12 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,8 @@ int		ft_fork_childs(t_data *data, int nbr_cmds);
 //builtins
 // echo.c
 void	ft_echo(char **command);
+// clearing
+// ft_free_double_pointer.c
+char	**ft_free_double_pointer(char **ptr);
+
 #endif
