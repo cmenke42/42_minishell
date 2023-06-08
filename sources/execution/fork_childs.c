@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 01:30:32 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/08 16:37:33 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/08 18:57:40 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ void	ft_child_process_executor(t_data *data, t_child_cmd *command ,int i)
 	}
 	//When do we need to print the error message?
 	//mange input redirection - 1. here_doc 2. < - stops at error
+	// if ()
 	//manage output redirection - left to right last one wins - stops at error
 	//manage pipes
 	//what happens to the content in the pipe when a command doesnt read it?
