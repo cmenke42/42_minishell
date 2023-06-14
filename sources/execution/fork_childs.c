@@ -120,6 +120,7 @@ void	ft_child_process_executor(t_data *data, t_child_cmd *command ,int i)
 		printf("minishell: %s: command not found\n", command->cmd_args[0]);
 		exit(127);
 	}
+	//when to execute the builtin?
 	if (exit_code == 0 && command->input_fd != -1
 		&& (dup2(command->input_fd, STDIN_FILENO) == -1))
 			exit_code = ft_error_ret_exit_code("dup2 error", 1);
