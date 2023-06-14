@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 01:30:32 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/14 23:26:30 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/14 23:42:10 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void	ft_child_process_executor(t_data *data, t_child_cmd *command ,int i)
 	if (exit_code == 0 && execve(command->cmd_path, command->cmd_args, data->envp) == -1)
 		exit_code = ft_error_ret_exit_code("execve error", 1);
 	ft_close_standard_fd();
-	//call the clear function
+	ft_clear_all_data(data);
 	exit(exit_code);
 	//When do we need to print the error message?
 	//mange input redirection - 1. here_doc 2. < - stops at error

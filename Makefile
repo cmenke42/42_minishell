@@ -6,7 +6,7 @@
 #    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/06/08 13:53:17 by cmenke           ###   ########.fr        #
+#    Updated: 2023/06/14 23:29:05 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ SRCDIR := sources
 
 BUILTINS := $(addprefix builtins/,echo.c)
 
-CLEARING := $(addprefix clearing/,free_double_pointer.c)
+CLEARING := $(addprefix clearing/,free_double_pointer.c \
+									clear_all.c)
 
 PARSER := $(addprefix parser/, )
 
