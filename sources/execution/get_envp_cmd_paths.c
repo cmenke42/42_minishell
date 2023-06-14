@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:24:19 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/08 13:53:43 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/14 23:19:04 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_free_close_err_exit(int *files_fd, int *pipe_fd, char **envp_paths,
 							char *error_text)
 {
 	ft_close_fd(files_fd, pipe_fd);
-	envp_paths = ft_free_double_pointer(envp_paths);
+	ft_free_double_pointer_char(&envp_paths);
 	if (error_text)
 	{
 		perror(error_text);
@@ -60,12 +60,12 @@ static char	**ft_add_slash_to_envp_paths(char **envp_paths)
 		if (!result[i])
 		{
 			perror("Malloc error join slash");
-			result = ft_free_double_pointer(result);
+			ft_free_double_pointer_char(&result);
 			break ;
 		}
 		i++;
 	}
-	ft_free_double_pointer(envp_paths);
+	ft_free_double_pointer_char(&envp_paths);
 	return (result);
 }
 

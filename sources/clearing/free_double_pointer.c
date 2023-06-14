@@ -6,22 +6,46 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:25:39 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/08 12:34:02 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/14 23:13:21 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	**ft_free_double_pointer(char **ptr)
+void	ft_free_double_pointer_char(char ***ptr)
 {
 	int	i;
-
+	char	**temp;
+	
 	i = 0;
-	if (ptr)
+	if (!ptr)
+		return ;
+	temp = *ptr;
+	if (temp)
 	{
-		while (ptr[i])
-			free(ptr[i++]);
-		free(ptr);
+		while (temp[i])
+			free(temp[i++]);
+		free(temp);
+		temp = NULL;
 	}
-	return (NULL);
+	return ;
+}
+
+void	ft_free_double_pointer_int(int ***ptr)
+{
+	int	i;
+	int	**temp;
+	
+	i = 0;
+	if (!ptr)
+		return ;
+	temp = *ptr;
+	if (temp)
+	{
+		while (temp[i])
+			free(temp[i++]);
+		free(temp);
+		temp = NULL;
+	}
+	return ;
 }

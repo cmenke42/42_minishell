@@ -6,13 +6,29 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 01:30:32 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/08 18:57:40 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/14 23:26:30 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void ft_close_all_pipes(int pipes[][2], int nbr_pipes)
+int	ft_error_ret_exit_code(char *error_text, int exit_code)
+{
+	if (exit_code == 127)
+		ft_putendl_fd(error_text, 2);
+	else
+		perror(error_text);
+	return (exit_code);
+}
+
+void	ft_close_standard_fd(void)
+{
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
+}
+
+void ft_close_all_pipes(int **pipes, int nbr_pipes)
 {
 	int	i;
 
@@ -96,6 +112,9 @@ bool	ft_check_if_cmd_path_is_valid(t_data *data, t_child_cmd *command)
 
 void	ft_child_process_executor(t_data *data, t_child_cmd *command ,int i)
 {
+	int		exit_code;
+
+	exit_code = 0;
 	//check if the command is a builtin
 	//check if the command path is valid
 	if (ft_check_if_cmd_path_is_valid(data, command) == false)
@@ -104,6 +123,22 @@ void	ft_child_process_executor(t_data *data, t_child_cmd *command ,int i)
 		printf("minishell: %s: command not found\n", command->cmd_args[0]);
 		exit(127);
 	}
+	if (exit_code == 0 && command->input_fd != -1 &&
+		(dup2(command->input_fd, STDIN_FILENO) == -1))
+			exit_code = ft_error_ret_exit_code("dup2 error", 1);
+	// else
+	//check if a pipe input redirection is needed
+	if (exit_code == 0 && command->output_fd != -1 &&
+		(dup2(command->output_fd, STDOUT_FILENO) == -1))
+			exit_code = ft_error_ret_exit_code("dup2 error", 1);
+	// else
+	//check if a pipe output redirection is needed
+	ft_close_all_pipes(data->pipes, data->nbr_cmds - 1);
+	if (exit_code == 0 && execve(command->cmd_path, command->cmd_args, data->envp) == -1)
+		exit_code = ft_error_ret_exit_code("execve error", 1);
+	ft_close_standard_fd();
+	//call the clear function
+	exit(exit_code);
 	//When do we need to print the error message?
 	//mange input redirection - 1. here_doc 2. < - stops at error
 	// if ()
@@ -158,6 +193,8 @@ int	ft_fork_childs(t_data *data, int nbr_cmds)
 		if (pids[i] == 0)
 		{
 			//child process
+			data->pipes = (int **)pipes;
+			data->nbr_cmds = nbr_cmds;
 			ft_child_process_executor(data, data->command, i);
 		}
 		i++;
@@ -180,6 +217,6 @@ int	ft_fork_childs(t_data *data, int nbr_cmds)
 		i++;
 	}
 	//close all pipes
-	ft_close_all_pipes(pipes, nbr_cmds - 1);
+	ft_close_all_pipes(data->pipes, data->nbr_cmds - 1);
 	return (exit_code);
 }

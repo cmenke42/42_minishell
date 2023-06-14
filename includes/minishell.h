@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/08 15:44:56 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/14 23:21:43 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ typedef struct s_cmd_in_child
 	int						input_fd;
 	//initially set to -1
 	int						output_fd;
-	int						**pipes;
 	struct s_cmd_in_child	*next;
 }					t_child_cmd;
 
@@ -66,6 +65,8 @@ typedef struct s_data
 {
 	t_child_cmd		*command;
 	char			**envp;
+	int				**pipes;
+	int				nbr_cmds;
 }					t_data;
 
 //sources
@@ -77,7 +78,8 @@ int		ft_fork_childs(t_data *data, int nbr_cmds);
 void	ft_echo(char **command);
 // clearing
 // ft_free_double_pointer.c
-char	**ft_free_double_pointer(char **ptr);
+void	ft_free_double_pointer_char(char ***ptr);
+void	ft_free_double_pointer_int(int ***ptr);
 //execution
 // get_envp_cmd_paths.c
 char	**ft_get_envp_paths(char **envp);
