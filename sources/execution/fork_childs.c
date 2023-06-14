@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 01:30:32 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/14 23:42:10 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/15 00:56:53 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,16 @@ void ft_close_all_pipes(int **pipes, int nbr_pipes)
 		{
 			printf("closing pipe nbr: %d, FD:%d\n", i, pipes[i][0]);
 			close(pipes[i][0]);
+			pipes[i][0] = -1;
 		}
 		if (pipes[i][1] > 2)
 		{
 			printf("closing pipe nbr: %d, FD:%d\n", i, pipes[i][1]);
 			close(pipes[i][1]);
+			pipes[i][1] = -1;
 		}
 		i++;
 	}
-	//free the array after closing all the pipes
-	// i = 0;
-	// while (i < nbr_pipes)
-	// 	free(pipes[i++]);
-	// free(pipes);
 }
 
 bool	ft_check_if_builtin(t_data *data, t_child_cmd *command)
@@ -123,13 +120,19 @@ void	ft_child_process_executor(t_data *data, t_child_cmd *command ,int i)
 		printf("minishell: %s: command not found\n", command->cmd_args[0]);
 		exit(127);
 	}
-	if (exit_code == 0 && command->input_fd != -1 &&
-		(dup2(command->input_fd, STDIN_FILENO) == -1))
+	if (exit_code == 0 && command->input_fd != -1
+		&& (dup2(command->input_fd, STDIN_FILENO) == -1))
+			exit_code = ft_error_ret_exit_code("dup2 error", 1);
+	else if (exit_code == 0 && data->nbr_cmds > 1 && command->cmd_index > 0
+		&& dup2(data->pipes[command->cmd_index - 1][0], STDIN_FILENO) == -1)
 			exit_code = ft_error_ret_exit_code("dup2 error", 1);
 	// else
 	//check if a pipe input redirection is needed
-	if (exit_code == 0 && command->output_fd != -1 &&
-		(dup2(command->output_fd, STDOUT_FILENO) == -1))
+	if (exit_code == 0 && command->output_fd != -1
+		&& (dup2(command->output_fd, STDOUT_FILENO) == -1))
+			exit_code = ft_error_ret_exit_code("dup2 error", 1);
+	else if (exit_code == 0 && data->nbr_cmds > 1 && command->cmd_index < data->nbr_cmds
+		&& dup2(data->pipes[command->cmd_index][1], STDOUT_FILENO) == -1)
 			exit_code = ft_error_ret_exit_code("dup2 error", 1);
 	// else
 	//check if a pipe output redirection is needed
@@ -147,10 +150,7 @@ void	ft_child_process_executor(t_data *data, t_child_cmd *command ,int i)
 	//what happens to the content in the pipe when a command doesnt read it?
 	//execute the command
 	//clean up in case of error
-	
-
 	printf("child process %d\n", i);
-	exit(0);
 }
 
 int	ft_fork_childs(t_data *data, int nbr_cmds)

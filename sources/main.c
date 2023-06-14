@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/14 23:43:32 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/15 00:54:55 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,12 @@ bool	ft_initialize_command_struct(t_data *data, char **envp)
 	// commands->cmd_args[0] = "../../../../../../bin/ls";
 	// commands->cmd_args[0] = "/bin/ls";
 	commands->cmd_args[0] = "cat";
-	commands->cmd_args[1] = "test";
-	commands->cmd_args[2] = NULL;
+	// commands->cmd_args[1] = "test";
+	commands->cmd_args[1] = NULL;
 	commands->input_fd = STDIN_FILENO;
-	commands->output_fd = STDOUT_FILENO;
+	mode_t	mode;
+	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+	commands->output_fd = open("output", O_WRONLY | O_TRUNC | O_CREAT, mode);
 	commands->next = NULL;
 	data->command = commands;
 	data->envp = envp;
@@ -85,7 +87,7 @@ int	main(int argc, char **argv, char **envp)
 		perror("struct allocation error");
 	ft_initialize_command_struct(data, envp);
 	printf(BOLD_PINK"Minishell START\n"STYLE_DEFAULT);
-	printf("exit_code last child:%d\n", ft_fork_childs(data, 1));
+	printf("exit_code last child:%d\n", ft_fork_childs(data, 2));
 	printf(BOLD_PINK"Minishell END\n"STYLE_DEFAULT);
 	exit(0);
 

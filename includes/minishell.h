@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/14 23:42:05 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/15 00:54:34 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@
 
 #include <stdbool.h>
 
+//open
+#include <fcntl.h>
+
 # define PROMPT "Minishell:$ "
 
 /// @brief The main data structure for a command.
@@ -46,7 +49,7 @@
 typedef struct s_cmd_in_child
 {
 	//start at 0
-	int						cmd_nbr;
+	int						cmd_index;
 	char					**envp_paths;
 	char					*cmd_path;
 	char					**cmd_args;
