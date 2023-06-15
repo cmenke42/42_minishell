@@ -1,52 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_double_pointer.c                              :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/08 12:25:39 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/15 16:30:28 by cmenke           ###   ########.fr       */
+/*   Created: 2023/06/15 17:26:23 by cmenke            #+#    #+#             */
+/*   Updated: 2023/06/15 17:32:12 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_free_double_pointer_char(char ***ptr)
+//split up the command into tokens
+//|, <, >, space, tab, newline.
+
+bool	ft_create_tokens(t_data *data, char *line_read)
 {
-	int	i;
-	char	**temp;
-	
-	i = 0;
-	if (!ptr)
-		return ;
-	temp = *ptr;
-	if (temp)
-	{
-		while (temp[i])
-			free(temp[i++]);
-		free(temp);
-		temp = NULL;
-	}
-	return ;
+
 }
 
-void	ft_free_double_pointer_int(int ***ptr)
-{
-	int	i;
-	int	**temp;
-	
-	i = 0;
-	if (!ptr)
-		return ;
-	temp = *ptr;
-	if (temp)
-	{
-		while (temp[i])
-			free(temp[i++]);
-		free(temp);
-		temp = NULL;
-	}
-	return ;
-}
-
+//check for syntax errors in the command line

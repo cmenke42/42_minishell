@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 23:28:35 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/14 23:43:04 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/15 16:31:48 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ void	ft_clear_all_data(t_data *data)
 	temp = data->command;
 	ft_free_double_pointer_char(&data->envp);
 	ft_free_double_pointer_int(&data->pipes);
+	if (data->pids)
+	{
+		free(data->pids);
+		data->pids = NULL;
+	}
 	while (temp)
 	{
 		ft_free_double_pointer_char(&temp->envp_paths);

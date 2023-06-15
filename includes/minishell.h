@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/15 00:54:34 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/15 16:29:39 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_data
 	t_child_cmd		*command;
 	char			**envp;
 	int				**pipes;
+	int				*pids;
 	int				nbr_cmds;
 }					t_data;
 

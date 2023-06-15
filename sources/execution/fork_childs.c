@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 01:30:32 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/15 00:58:21 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/15 16:38:17 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ void ft_close_all_pipes(int **pipes, int nbr_pipes)
 		{
 			printf("closing pipe nbr: %d, FD:%d\n", i, pipes[i][0]);
 			close(pipes[i][0]);
-			pipes[i][0] = -1;
+			pipes[i][0] = 0;
 		}
 		if (pipes[i][1] > 2)
 		{
 			printf("closing pipe nbr: %d, FD:%d\n", i, pipes[i][1]);
 			close(pipes[i][1]);
-			pipes[i][1] = -1;
+			pipes[i][1] = 0;
 		}
 		i++;
 	}
@@ -171,6 +171,7 @@ int	ft_fork_childs(t_data *data, int nbr_cmds)
 		if (pipe(pipes[i]) == -1)
 		{
 			//clear old pipes, free data, and call the custom exit function.
+			ft_clear_all_data(data);
 			exit(1);
 		}
 		i++;
@@ -188,7 +189,11 @@ int	ft_fork_childs(t_data *data, int nbr_cmds)
 		pids[i] = fork();
 		if (pids[i] == -1)
 		{
+			// Do we need to wait for all pids to be created before we start to execute them?
+				//send a custom signal to all childs to start executing? SIGUSR1
 			//clear old pipes, free data, and call the custom exit function.
+			ft_clear_all_data(data);
+			//send signals to all childs to exit?
 			exit(2);
 		}
 		if (pids[i] == 0)
