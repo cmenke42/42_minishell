@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42wolfsburg.de >    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/15 00:54:55 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/16 01:03:47 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,11 @@ int	main(int argc, char **argv, char **envp)
 	data = ft_calloc(1, sizeof(t_data));
 	if (!data)
 		perror("struct allocation error");
-	ft_initialize_command_struct(data, envp);
-	printf(BOLD_PINK"Minishell START\n"STYLE_DEFAULT);
-	printf("exit_code last child:%d\n", ft_fork_childs(data, 2));
-	printf(BOLD_PINK"Minishell END\n"STYLE_DEFAULT);
-	exit(0);
+	// ft_initialize_command_struct(data, envp);
+	// printf(BOLD_PINK"Minishell START\n"STYLE_DEFAULT);
+	// printf("exit_code last child:%d\n", ft_fork_childs(data, 2));
+	// printf(BOLD_PINK"Minishell END\n"STYLE_DEFAULT);
+	// exit(0);
 
 	//to ignore the SIG_QUIT signal from ctrl- Backslash
 	signal(SIGQUIT, SIG_IGN);
@@ -101,6 +101,8 @@ int	main(int argc, char **argv, char **envp)
 		if (line_read && *line_read && *line_read != ' ')
 		{
 			add_history(line_read);
+			//work with the line read
+			ft_create_tokens(data, line_read);
 			free(line_read);
 		}
 		else if (!line_read)

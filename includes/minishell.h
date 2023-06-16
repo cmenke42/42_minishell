@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42wolfsburg.de >    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/15 16:29:39 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/16 01:21:34 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,18 @@
 // //terminal
 // # include <sys/ttydefaults.h>
 
-#include <stdbool.h>
+# include <stdbool.h>
 
 //open
-#include <fcntl.h>
+# include <fcntl.h>
+
+//Wait functions
+# include <sys/types.h>
+# include <sys/wait.h>
 
 # define PROMPT "Minishell:$ "
+# define QUOTE_ERROR "minishell: syntax error while looking for matching \"\'"
+
 
 /// @brief The main data structure for a command.
 /// @details This strucutre stores the information for one command.
@@ -91,5 +97,8 @@ void	ft_clear_all_data(t_data *data);
 // get_envp_cmd_paths.c
 char	**ft_get_envp_paths(char **envp);
 char	*ft_get_cmd_path(char **envp_paths, char *cmd);
+// lexer_tokens
+// lexer.c
+bool	ft_create_tokens(t_data *data, char *line_read);
 
 #endif
