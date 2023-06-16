@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42wolfsburg.de >    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/16 01:21:34 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/16 01:41:46 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@
 # include <sys/wait.h>
 
 # define PROMPT "Minishell:$ "
-# define QUOTE_ERROR "minishell: syntax error while looking for matching \"\'"
+# define SQUOTE_ERROR "minishell: syntax error while looking for matching `''"
+# define DQUOTE_ERROR "minishell: syntax error while looking for matching `\"'"
 
 
 /// @brief The main data structure for a command.

@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42wolfsburg.de >    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:26:23 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/16 01:22:26 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/16 01:42:17 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ bool	ft_check_equal_quote_amt(char *s)
 			while (s[++i] && s[i] != '\'')
 				;
 			if (s[i] != '\'')
-				return (false);
+				return (ft_putendl_fd(L_RED SQUOTE_ERROR STYLE_DEF, 2), false);
 		}
 		else if (s[i] == '\"')
 		{
 			while (s[++i] && s[i] != '\"')
 				;
 			if (s[i] != '\"')
-				return (false);
+				return (ft_putendl_fd(L_RED DQUOTE_ERROR STYLE_DEF, 2), false);
 		}
 		if (s[i])
 			i++;
@@ -48,7 +48,7 @@ bool	ft_check_equal_quote_amt(char *s)
 bool	ft_create_tokens(t_data *data, char *line_read)
 {
 	if (ft_check_equal_quote_amt(line_read) == false)
-		ft_putendl_fd(LIGHT_RED QUOTE_ERROR STYLE_DEFAULT, STDERR_FILENO);
+		return (false);
 	
 }
 
