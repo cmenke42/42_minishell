@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cmenke <cmenke@student.42wolfsburg.de >    +#+  +:+       +#+         #
+#    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/06/16 01:07:35 by cmenke           ###   ########.fr        #
+#    Updated: 2023/06/16 22:51:45 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,8 +45,8 @@ HOME := /Users/cmenke
 
 #including libft and the readline library
 INCLUDE := ${LIBFTDIR}/${LIBFT} -lreadline \
-# -I ${HOME}/goinfre/.brew/opt/readline/include/ \
-# -L ${HOME}/goinfre/.brew/opt/readline/lib/
+-I ${HOME}/goinfre/.brew/opt/readline/include/ \
+-L ${HOME}/goinfre/.brew/opt/readline/lib/
 
 CFLAGS := -Wall -Wextra -g
 # CFLAGS := -Wall -Werror -Wextra

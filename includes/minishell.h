@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42wolfsburg.de >    +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/16 01:41:46 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/16 22:35:23 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,16 @@ typedef struct s_cmd_in_child
 	//initially set to -1
 	int						output_fd;
 	struct s_cmd_in_child	*next;
-}					t_child_cmd;
+}							t_child_cmd;
+
+typedef struct s_tokens
+{
+	int					token_index;
+	int					token_type;
+	char				*token;
+	struct s_tokens		*next;
+}						t_tokens;
+
 
 /// @brief The main data structure for minishell.
 /// @param command The struct for one command of the command sequence.
@@ -75,6 +84,8 @@ typedef struct s_cmd_in_child
 typedef struct s_data
 {
 	t_child_cmd		*command;
+	t_tokens		*tokens;
+	int				token_index;
 	char			**envp;
 	int				**pipes;
 	int				*pids;
