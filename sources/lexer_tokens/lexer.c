@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:26:23 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/16 23:03:58 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/17 00:22:52 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,24 @@ bool	ft_check_equal_quote_amt(char *s)
 	return (true);
 }
 
+//skips a block of chars which is inbetween two quotes of the same type.
+void	ft_skip_quote_block(char *cmd_line, int *i)
+{
+	char	quote;
+
+	while (cmd_line[*i] && (cmd_line[*i] == '\'' || cmd_line[*i] == '\"'))
+	{
+		quote = '\"';
+		if (cmd_line[*i] == '\'')
+			quote = '\'';
+		while (cmd_line[++(*i)] && cmd_line[*i] != quote)
+			;
+		if (cmd_line[*i] && cmd_line[*i] == quote)
+			*i += 1;
+	}
+}
+
+//This function creates a token and adds it to the linked list of tokens.
 bool	ft_create_one_token(t_data *data, char *line_read, int len)
 {
 	char		*token;
@@ -66,7 +84,14 @@ bool	ft_create_one_token(t_data *data, char *line_read, int len)
 	return (true);
 }
 
-//split up the command into tokens
+void ft_skip_to_next_non_delim(char *line_read, int *i)
+{
+	while (line_read[*i] && (line_read[*i] == ' '
+		|| line_read[*i] == '\t' || line_read[*i] == '\n'))
+		*i += 1;
+}
+
+//split up the command into tokens.
 //|, <, >, space, tab, newline.
 // when to check for = sign? or when to interpret this?
 bool	ft_create_tokens(t_data *data, char *line_read)
@@ -75,41 +100,51 @@ bool	ft_create_tokens(t_data *data, char *line_read)
 	int	end;
 
 	end = 0;
+	printf(BOLD_PINK "token ceation start\n\n" STYLE_DEF);
 	//check for syntax errors in the command line
 	if (ft_check_equal_quote_amt(line_read) == false)
 		return (false);
 	while (line_read[end])
 	{
+		ft_skip_to_next_non_delim(line_read, &end);
 		start = end;
 		while (line_read[end])
 		{
-			if (line_read[start] == '\'' || line_read[start] == '\"')
+			if (line_read[end] == '\'' || line_read[end] == '\"')
 			{
-				printf("quote\n");
+				printf("quote start %d\n", end);
+				ft_skip_quote_block(line_read, &end);
+				printf("quote end %d\n", end);
 			}
-			else if (line_read[start] == '<'|| line_read[start] == '>' || line_read[start] == '|' 
-				|| line_read[start] == '=')
+			else if (line_read[end] == '<' || line_read[end] == '>' || line_read[end] == '|' 
+				|| line_read[end] == '=')
 			{
 				printf("special char\n");
 			}
-			else if (line_read[start] == ' ' || line_read[start] == '\t' || line_read[start] == '\n')
+			else if (line_read[end] == ' ' || line_read[end] == '\t' || line_read[end] == '\n')
 			{
 				printf("space\n");
+				if (ft_create_one_token(data, line_read + start, end - start) == false)
+					return (false);
+				ft_skip_to_next_non_delim(line_read, &end);
+				start = end;
+				continue;
 			}
 			else
 			{
 				printf("normal char\n");
+				end++;
 			}
-			end++;
 		}
 		if (ft_create_one_token(data, line_read + start, end - start) == false)
 			return (false);
 	}
-	printf("%s\n", "tokens created");
+	printf(BOLD_PINK "tokens created\n\n" STYLE_DEF);
 	t_tokens *temp;
+	int i = 0;
 	while (data->tokens)
 	{
-		printf("content of tokens: %s\n", data->tokens->token);
+		printf("token %d: %s##\n", i++, data->tokens->token);
 		temp = data->tokens;
 		data->tokens = data->tokens->next;
 		free(temp);

@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/16 22:35:23 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/16 23:18:16 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,12 @@ typedef struct s_cmd_in_child
 	struct s_cmd_in_child	*next;
 }							t_child_cmd;
 
+/// @brief The data structure for the tokens of a command line.
+/// @details The node stores the information for one token.
+/// @param token_index The index of the token in the command line.
+/// @param token_type The type of the token.
+/// @param token The token itself.
+/// @param next The next token in the command line.
 typedef struct s_tokens
 {
 	int					token_index;

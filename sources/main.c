@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42wolfsburg.de >    +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/16 01:03:47 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/17 00:16:16 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line_read = readline(PROMPT);
-		if (line_read && *line_read && *line_read != ' ')
+		if (line_read && *line_read)
 		{
 			add_history(line_read);
 			//work with the line read
