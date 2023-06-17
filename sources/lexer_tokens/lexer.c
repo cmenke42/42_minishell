@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:26:23 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/17 00:22:52 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/18 01:43:24 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,23 @@ void	ft_skip_quote_block(char *cmd_line, int *i)
 }
 
 //This function creates a token and adds it to the linked list of tokens.
-bool	ft_create_one_token(t_data *data, char *line_read, int len)
+bool	ft_create_one_token(t_data *data, char *line_read, int len, int *start)
 {
 	char		*token;
 	t_tokens	*new_token;
 	t_tokens	*last_token;
 
+	int i = 0;
+	printf(BOLD_GREEN "substr:\n" STYLE_DEF);
+	while (i < len)
+		printf("%c", line_read[i++]);
+	printf(BOLD_GREEN "\nEND\n" STYLE_DEF);
 	token = ft_substr(line_read, 0, len);
 	if (!token)
-		return (false);
+		return (perror("malloc token substr creation"), false);
 	new_token = ft_calloc(1, sizeof(t_tokens));
 	if (!new_token)
-		return (free(token), false);
+		return (perror("malloc token node creation"), free(token), false);
 	new_token->token = token;
 	new_token->token_index = data->token_index++;
 	last_token = data->tokens;
@@ -81,14 +86,15 @@ bool	ft_create_one_token(t_data *data, char *line_read, int len)
 		last_token->next = new_token;
 	else
 		data->tokens = new_token;
+	*start = *start + len;
 	return (true);
 }
 
-void ft_skip_to_next_non_delim(char *line_read, int *i)
+void ft_skip_to_next_non_delim(char *line_read, int *i, int *start)
 {
 	while (line_read[*i] && (line_read[*i] == ' '
 		|| line_read[*i] == '\t' || line_read[*i] == '\n'))
-		*i += 1;
+		*start = ++(*i);
 }
 
 //split up the command into tokens.
@@ -96,58 +102,66 @@ void ft_skip_to_next_non_delim(char *line_read, int *i)
 // when to check for = sign? or when to interpret this?
 bool	ft_create_tokens(t_data *data, char *line_read)
 {
-	int	start;
-	int	end;
+	int		start;
+	int		end;
+	char	sign;
 
-	end = 0;
 	printf(BOLD_PINK "token ceation start\n\n" STYLE_DEF);
 	//check for syntax errors in the command line
 	if (ft_check_equal_quote_amt(line_read) == false)
 		return (false);
+	end = 0;
+	start = 0;
+	ft_skip_to_next_non_delim(line_read, &end, &start);
 	while (line_read[end])
 	{
-		ft_skip_to_next_non_delim(line_read, &end);
-		start = end;
-		while (line_read[end])
+		if (line_read[end] == '\'' || line_read[end] == '\"')
+			ft_skip_quote_block(line_read, &end);
+		else if (line_read[end] == '<' || line_read[end] == '>'
+			|| line_read[end] == '|')
 		{
-			if (line_read[end] == '\'' || line_read[end] == '\"')
-			{
-				printf("quote start %d\n", end);
-				ft_skip_quote_block(line_read, &end);
-				printf("quote end %d\n", end);
-			}
-			else if (line_read[end] == '<' || line_read[end] == '>' || line_read[end] == '|' 
-				|| line_read[end] == '=')
-			{
-				printf("special char\n");
-			}
-			else if (line_read[end] == ' ' || line_read[end] == '\t' || line_read[end] == '\n')
-			{
-				printf("space\n");
-				if (ft_create_one_token(data, line_read + start, end - start) == false)
+			if (end - start > 0)
+				if (ft_create_one_token(data, &line_read[start], end - start, &start) == false)
 					return (false);
-				ft_skip_to_next_non_delim(line_read, &end);
-				start = end;
-				continue;
-			}
-			else
+			printf("current char: %c\n", line_read[end]);
+			sign = line_read[end++];
+			if (line_read[end] == sign)
 			{
-				printf("normal char\n");
-				end++;
+				while (line_read[end] == sign)
+					end++;
+				printf("start: %d end: %d len: %d\n", start, end, end - start);
+				printf("current char: %c\n", line_read[end]);
+				if (end - start > 0)
+				{
+					if (ft_create_one_token(data, &line_read[start], end - start, &start) == false)
+						return (false);
+				}
+				ft_skip_to_next_non_delim(line_read, &end, &start);
 			}
 		}
-		if (ft_create_one_token(data, line_read + start, end - start) == false)
-			return (false);
+		else if (line_read[end] == ' ' || line_read[end] == '\t'
+			|| line_read[end] == '\n')
+		{
+			if (ft_create_one_token(data, &line_read[start], end - start, &start) == false)
+				return (false);
+			ft_skip_to_next_non_delim(line_read, &end, &start);
+		}
+		else
+			end++;
 	}
+	if (end - start > 0)
+		if (ft_create_one_token(data, &line_read[start], end - start, &start) == false)
+			return (false);
 	printf(BOLD_PINK "tokens created\n\n" STYLE_DEF);
 	t_tokens *temp;
 	int i = 0;
 	while (data->tokens)
 	{
-		printf("token %d: %s##\n", i++, data->tokens->token);
+		printf("token %d: ##%s##\n", i++, data->tokens->token);
 		temp = data->tokens;
 		data->tokens = data->tokens->next;
 		free(temp);
 	}
 	return (true);
 }
+
