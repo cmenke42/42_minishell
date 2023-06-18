@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:26:23 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/18 01:43:24 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/18 02:32:00 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ bool	ft_create_tokens(t_data *data, char *line_read)
 	int		start;
 	int		end;
 	char	sign;
+	bool	newline;
 
 	printf(BOLD_PINK "token ceation start\n\n" STYLE_DEF);
 	//check for syntax errors in the command line
@@ -112,8 +113,9 @@ bool	ft_create_tokens(t_data *data, char *line_read)
 		return (false);
 	end = 0;
 	start = 0;
+	newline = false;
 	ft_skip_to_next_non_delim(line_read, &end, &start);
-	while (line_read[end])
+	while (line_read[end] && newline == false)
 	{
 		if (line_read[end] == '\'' || line_read[end] == '\"')
 			ft_skip_quote_block(line_read, &end);
@@ -127,6 +129,7 @@ bool	ft_create_tokens(t_data *data, char *line_read)
 			sign = line_read[end++];
 			if (line_read[end] == sign)
 			{
+				//how to handel the here_doc? especially when there is already input in the nex line.
 				while (line_read[end] == sign)
 					end++;
 				printf("start: %d end: %d len: %d\n", start, end, end - start);
@@ -144,24 +147,38 @@ bool	ft_create_tokens(t_data *data, char *line_read)
 		{
 			if (ft_create_one_token(data, &line_read[start], end - start, &start) == false)
 				return (false);
+			if (line_read[end] == '\n')
+			{
+				newline = true;
+				break ;
+			}
 			ft_skip_to_next_non_delim(line_read, &end, &start);
 		}
 		else
 			end++;
 	}
-	if (end - start > 0)
+	if (newline == false && end - start > 0)
 		if (ft_create_one_token(data, &line_read[start], end - start, &start) == false)
 			return (false);
+	else if (newline == true)
+	{
+		//start executing this line.
+		//then go on with the next one
+		if (line_read[end + 1] != '\0')
+			data->line_read = line_read + end + 1;
+		else
+			data->finished_input = true;
+		//call the function that executes the command line.
+	}
 	printf(BOLD_PINK "tokens created\n\n" STYLE_DEF);
 	t_tokens *temp;
 	int i = 0;
 	while (data->tokens)
 	{
-		printf("token %d: ##%s##\n", i++, data->tokens->token);
+		printf("token %d:" BOLD_BLUE"##"STYLE_DEF"%s"BOLD_BLUE"##\n"STYLE_DEF, i++, data->tokens->token);
 		temp = data->tokens;
 		data->tokens = data->tokens->next;
 		free(temp);
 	}
 	return (true);
 }
-

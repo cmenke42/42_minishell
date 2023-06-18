@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/16 23:18:16 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/18 02:26:20 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ typedef struct s_tokens
 /// @param nbr_cmds The number of commands in the command sequence.
 typedef struct s_data
 {
+	char			*line_read;
+	bool			finished_input;
 	t_child_cmd		*command;
 	t_tokens		*tokens;
 	int				token_index;

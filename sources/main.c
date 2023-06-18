@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/18 00:55:32 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/18 02:31:18 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,11 @@ int	main(int argc, char **argv, char **envp)
 		{
 			add_history(line_read);
 			//work with the line read
-			if (ft_create_tokens(data, line_read) == false)
-				ft_putendl_fd("token creation error", STDERR_FILENO);
+			while (data->finished_input == false)
+			{
+				if (ft_create_tokens(data, line_read) == false)
+					ft_putendl_fd("token creation error", STDERR_FILENO);
+			}
 			free(line_read);
 		}
 		else if (!line_read)
