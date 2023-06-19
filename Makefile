@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
+#    By: user <user@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/06/16 22:51:45 by cmenke           ###   ########.fr        #
+#    Updated: 2023/06/19 21:38:10 by user             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ BUILTINS := $(addprefix builtins/,echo.c)
 CLEARING := $(addprefix clearing/,free_double_pointer.c \
 									clear_all.c)
 
-LEXER := $(addprefix lexer_tokens/, lexer.c)
+LEXER := $(addprefix lexer_tokens/, lexer.c \
+								token_analysis.c)
 
 EXECUTION := $(addprefix execution/,get_envp_cmd_paths.c \
 									fork_childs.c)

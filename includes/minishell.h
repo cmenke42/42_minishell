@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/18 02:26:20 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/19 22:32:47 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,26 @@ typedef struct s_data
 	bool			finished_input;
 	t_child_cmd		*command;
 	t_tokens		*tokens;
-	int				token_index;
 	char			**envp;
 	int				**pipes;
 	int				*pids;
 	int				nbr_cmds;
 }					t_data;
+
+
+enum	e_token_id
+{
+	word,
+	command,
+	single_quote,
+	double_quote,
+	op_input_redirection,
+	op_here_doc,
+	op_output_redirection_trunc,
+	op_output_redirection_append,
+	op_pipe,
+	op_variable_expansion
+};
 
 //sources
 //fork_childs.c

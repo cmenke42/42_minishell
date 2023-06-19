@@ -158,8 +158,11 @@ bool	ft_create_tokens(t_data *data, char *line_read)
 			end++;
 	}
 	if (newline == false && end - start > 0)
+	{
+		data->finished_input = true;
 		if (ft_create_one_token(data, &line_read[start], end - start, &start) == false)
 			return (false);
+	}
 	else if (newline == true)
 	{
 		//start executing this line.
@@ -169,7 +172,10 @@ bool	ft_create_tokens(t_data *data, char *line_read)
 		else
 			data->finished_input = true;
 		//call the function that executes the command line.
+		data->finished_input = true;
 	}
+	// When there is space at the end of the comand line
+	data->finished_input = true;
 	printf(BOLD_PINK "tokens created\n\n" STYLE_DEF);
 	t_tokens *temp;
 	int i = 0;

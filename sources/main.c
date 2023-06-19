@@ -101,6 +101,7 @@ int	main(int argc, char **argv, char **envp)
 		if (line_read && *line_read)
 		{
 			add_history(line_read);
+			data->finished_input = false;
 			//work with the line read
 			while (data->finished_input == false)
 			{
