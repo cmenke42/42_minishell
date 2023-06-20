@@ -1,40 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_analysis.c                                   :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/19 21:37:05 by user              #+#    #+#             */
-/*   Updated: 2023/06/20 19:18:11 by cmenke           ###   ########.fr       */
+/*   Created: 2023/06/20 19:10:31 by cmenke            #+#    #+#             */
+/*   Updated: 2023/06/20 19:10:32 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	ft_operator_in_token_unkown(t_tokens *token)
+
+void	print_env(char **envp)
 {
-	int		token_len;
+	int	i;
 
-	token_len = ft_strlen(token->token);
-
+	i = 0;
+	while (envp[i])
+		printf("%s\n", envp[i++]);
 }
 
-//When to print the error?
-//when to stop processing the commands?
-//when to continue processing the commands?
-bool	ft_syntax_error_in_tokens(t_data *data)
-{
-	t_tokens *token;
-
-	token = data->tokens;
-	while (token)
-	{
-		token = token->next;
-	}
-}
-
-bool	ft_analyze_tokens(t_data *data)
-{
-
-}

@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:26:23 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/18 02:32:00 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/20 19:33:16 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ bool	ft_create_tokens(t_data *data, char *line_read)
 				if (ft_create_one_token(data, &line_read[start], end - start, &start) == false)
 					return (false);
 			printf("current char: %c\n", line_read[end]);
-			sign = line_read[end++];
+			sign = line_read[end];
 			if (line_read[end] == sign)
 			{
 				//how to handel the here_doc? especially when there is already input in the nex line.
