@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/18 02:31:18 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/20 19:06:27 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,15 @@ int	main(int argc, char **argv, char **envp)
 	char	*line_read;
 	t_data	*data;
 
+	if (argc > 1)
+	{
+		if (!ft_strncmp(argv[1], "env", ft_strlen(argv[1])))
+			print_env(envp);
+		if ((!ft_strncmp(argv[1], "export", ft_strlen(argv[1]))) && !argv[2])
+		{
+			export(envp);
+		}
+	}
 	// ft_print_double_pointer(envp);
 	data = ft_calloc(1, sizeof(t_data));
 	if (!data)
