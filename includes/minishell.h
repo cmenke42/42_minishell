@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/21 19:36:01 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/21 19:56:41 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,5 +139,7 @@ bool	ft_create_tokens(t_data *data, char *line_read);
 // token_analysis.c
 bool	ft_put_id_to_token(t_data *data);
 bool	ft_syntax_in_tokens(t_data *data);
+// handle_operators.c
+bool	ft_handle_operators(t_data *data);
 
 #endif
