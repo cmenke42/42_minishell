@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:26:23 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/20 19:33:16 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/21 18:05:56 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ bool	ft_create_tokens(t_data *data, char *line_read)
 	{
 		if (line_read[end] == '\'' || line_read[end] == '\"')
 			ft_skip_quote_block(line_read, &end);
-		else if (line_read[end] == '<' || line_read[end] == '>'
+		else if (line_read[end] == '<' || line_read[end] == '>'	
 			|| line_read[end] == '|')
 		{
 			if (end - start > 0)
@@ -177,11 +177,32 @@ bool	ft_create_tokens(t_data *data, char *line_read)
 	// When there is space at the end of the comand line
 	data->finished_input = true;
 	printf(BOLD_PINK "tokens created\n\n" STYLE_DEF);
+
+
+	if (ft_put_id_to_token(data) == false)
+	{
+		printf("error in put id to token\n");
+		return (false);
+	}
+	const char* tokenNames[] = {
+    "word",
+    "command",
+    "single_quote",
+    "double_quote",
+    "op_input_red",
+    "op_here_doc",
+    "op_out_red_trunc",
+    "op_out_red_append",
+    "op_pipe",
+    "op_variable_expansion",
+    "token_error"
+};
+
 	t_tokens *temp;
 	int i = 0;
 	while (data->tokens)
 	{
-		printf("token %d:" BOLD_BLUE"##"STYLE_DEF"%s"BOLD_BLUE"##\n"STYLE_DEF, i++, data->tokens->token);
+		printf("token %d:" BOLD_BLUE"##"STYLE_DEF "Type:"BOLD_GREEN"%s	" STYLE_DEF BOLD_BLUE"##"STYLE_DEF"%s"BOLD_BLUE"##\n"STYLE_DEF, i++, tokenNames[data->tokens->token_type], data->tokens->token);
 		temp = data->tokens;
 		data->tokens = data->tokens->next;
 		free(temp);

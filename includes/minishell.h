@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/20 19:09:41 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/21 18:00:50 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,8 @@ enum	e_token_id
 	op_output_redirection_trunc,
 	op_output_redirection_append,
 	op_pipe,
-	op_variable_expansion
+	op_variable_expansion,
+	token_error
 };
 
 //sources
@@ -136,5 +137,7 @@ char	*ft_get_cmd_path(char **envp_paths, char *cmd);
 // lexer_tokens
 // lexer.c
 bool	ft_create_tokens(t_data *data, char *line_read);
+// token_analysis.c
+bool	ft_put_id_to_token(t_data *data);
 
 #endif
