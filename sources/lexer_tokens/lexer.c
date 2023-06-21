@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:26:23 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/21 18:05:56 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/21 18:30:25 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,11 @@ bool	ft_create_tokens(t_data *data, char *line_read)
 	printf(BOLD_PINK "token ceation start\n\n" STYLE_DEF);
 	//check for syntax errors in the command line
 	if (ft_check_equal_quote_amt(line_read) == false)
+	{
+		//check what needs to happen if there are multiple comman lines at once.
+		data->finished_input = true;
 		return (false);
+	}
 	end = 0;
 	start = 0;
 	newline = false;
@@ -199,13 +203,16 @@ bool	ft_create_tokens(t_data *data, char *line_read)
 };
 
 	t_tokens *temp;
+	t_tokens *temp2;
 	int i = 0;
+	temp2 = data->tokens;
 	while (data->tokens)
 	{
 		printf("token %d:" BOLD_BLUE"##"STYLE_DEF "Type:"BOLD_GREEN"%s	" STYLE_DEF BOLD_BLUE"##"STYLE_DEF"%s"BOLD_BLUE"##\n"STYLE_DEF, i++, tokenNames[data->tokens->token_type], data->tokens->token);
 		temp = data->tokens;
 		data->tokens = data->tokens->next;
-		free(temp);
+		// free(temp);
 	}
+	data->tokens = temp2;
 	return (true);
 }

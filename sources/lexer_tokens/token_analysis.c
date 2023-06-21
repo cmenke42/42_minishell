@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:37:05 by user              #+#    #+#             */
-/*   Updated: 2023/06/21 18:08:00 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/21 19:37:44 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	ft_is_operator(char c, int token_len)
 	else if (c == '>' && token_len > 2)
 		return (token_error);
 	if (token_len > 0)
-		return (word);
+		return (enum_word);
 	return (token_error);
 }
 
@@ -79,6 +79,75 @@ bool	ft_put_id_to_token(t_data *data)
 	while (token)
 	{
 		token->token_type = ft_get_id_type(token);	
+		token = token->next;
+	}
+	return (true);
+}
+
+//syntax error check for the tokens
+
+bool	ft_word_between_pipes(t_tokens *token)
+{
+	bool word;
+
+	word = false;
+	while (token)
+	{	if (token->token_type == word)
+			word = true;
+		if (token->token_type == op_pipe && word == false)
+			return (ft_putstr_fd(L_RED "Error near " STYLE_DEF, 2), ft_putendl_fd(token->token, 2), false);
+		else if (token->token_type == op_pipe && word == true)
+			word = false;
+		token = token->next;
+	}
+	return (true);
+}
+
+bool	ft_operator_word_order(t_tokens *token)
+{
+	bool word;
+
+	word = false;
+	while (token)
+	{	if (token->token_type == word)
+			word = true;
+		if (token->token_type == op_pipe && word == false)
+			return (ft_putstr_fd(L_RED "#1 - Error near " STYLE_DEF, 2), ft_putendl_fd(token->token, 2), false);
+		else if (token->token_type == op_pipe && word == true)
+			word = false;
+		if ((token->token_type >= 4 && token->token_type <= 7)
+			&& ((token->next && token->next->token_type != enum_word) || !token->next))
+			return (ft_putstr_fd(L_RED "#2 - Error near " STYLE_DEF, 2), ft_putendl_fd(token->token, 2), false);
+		token = token->next;
+	}
+	return (true);
+}
+
+bool	ft_syntax_in_tokens(t_data *data)
+{
+	t_tokens *token;
+
+	token = data->tokens;
+	while (token)
+	{
+		if (token->token_type == token_error)
+			return (ft_putstr_fd(L_RED "#3 - Error near " STYLE_DEF, 2), ft_putendl_fd(token->token, 2), false);
+
+		token = token->next;
+	}
+	if (ft_operator_word_order(data->tokens) == false)
+		return (false);
+	token = data->tokens;
+	while (token)
+	{
+		if (token->token_type == op_pipe && !token->next)
+		{
+			//add input to the existing comman line
+			printf(BOLD_YELLOW "start reading for inoput\n" STYLE_DEF);
+			return (false);
+		}
+		else if (token->token_type == op_pipe && token->next && token->next->token_type == op_pipe)
+			return (ft_putstr_fd(L_RED "#4 - Error near " STYLE_DEF, 2), ft_putendl_fd(token->token, 2), false);
 		token = token->next;
 	}
 	return (true);
