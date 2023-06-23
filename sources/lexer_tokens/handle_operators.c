@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 19:50:59 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/23 19:55:54 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/23 21:28:00 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	ft_skip_to_next_non_delimiter_and_skip_quotes(char *string, int *i, bool sk
 	if (string[*i] == '$')
 		*i += 1;
 	while (string[*i] && string[*i] != ' ' && string[*i] != '\t' && string[*i] != '\n' && string[*i] != '$'
-		&& (skip_quote == false && string[*i] != '\"'))
+		&& ((skip_quote == false && string[*i] != '\"') || skip_quote == true))
 	{
 		if (skip_quote && string[*i] == '\"' || string[*i] == '\'')
 			ft_skip_quote_block(string, i);
