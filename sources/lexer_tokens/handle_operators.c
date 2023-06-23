@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 19:50:59 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/23 15:57:01 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/23 19:55:54 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ char	*ft_trim_variable_value(char *string)
 		return (result);
 	i = 0;
 	j = 0;
-	printf("string: %s\n", string);
 	while (string[i])
 	{
 		start = i;
@@ -108,6 +107,103 @@ char	*ft_trim_variable_value(char *string)
 	return (result);
 }
 
+
+//searches for the next delimiter
+//and stops if it finds quotes or the end of the string.
+void	ft_skip_to_next_non_delimiter_and_skip_quotes(char *string, int *i, bool skip_quote)
+{
+	if (string[*i] == '$')
+		*i += 1;
+	while (string[*i] && string[*i] != ' ' && string[*i] != '\t' && string[*i] != '\n' && string[*i] != '$'
+		&& (skip_quote == false && string[*i] != '\"'))
+	{
+		if (skip_quote && string[*i] == '\"' || string[*i] == '\'')
+			ft_skip_quote_block(string, i);
+		*i += 1;
+	}
+}
+
+char	*ft_get_variable_name(char *string, int *start, bool skip_quote)
+{
+	char	*variable_name;
+	int		end;
+
+	end = *start;
+	if (string[end] == '$' && string[end + 1] == '?')
+		end += 2;
+	else if (string[end] == '$' && string[end + 1] == '\"')
+		end += 1;
+	else
+		ft_skip_to_next_non_delimiter_and_skip_quotes(string, &end, skip_quote);
+	variable_name = ft_substr(string, *start, end - *start);
+	return (variable_name);
+}
+
+char	*ft_get_variable_value(char *variable_name)
+{
+	int	name_len;
+	int	i;
+
+	name_len = ft_strlen(variable_name);
+	if (name_len == 1 && variable_name[0] == '$')
+		return ("");
+	else if (name_len == 2 && variable_name[0] == '$' && variable_name[1] == '?')
+		return ("-EXIT_CODE-");
+	return ("-ORIG_VALUE-");
+}
+
+char	*ft_handle_variable_replacement(char *string, int *i, bool trim, bool skip_quote)
+{
+	char	*variable_name;
+	char	*variable_value;
+	char	*before_variable;
+	char	*after_variable;
+	char	*result;
+	char	*tmp;
+
+	variable_name = ft_get_variable_name(string, i, skip_quote);
+	if (!variable_name)
+		return (NULL);
+	variable_value = ft_get_variable_value(variable_name);
+	if (!variable_value)
+	{
+		//cleanup
+		return (NULL);
+	}
+	if (trim)
+		variable_value = ft_trim_variable_value("-TRIM_VALUE-");
+	if (trim && !variable_value)
+	{
+		//cleanup
+		return (NULL);
+	}
+	before_variable = ft_substr(string, 0, *i);
+	if (!before_variable)
+	{
+		//cleanup
+		return (NULL);
+	}
+	after_variable = string + *i + ft_strlen(variable_name);
+	tmp = ft_strjoin(before_variable, variable_value);
+	if (!tmp)
+	{
+		//cleanup
+		return (NULL);
+	}
+	result = ft_strjoin(tmp, after_variable);
+	if (!result)
+	{
+		//cleanup
+		return (NULL);
+	}
+	//set i to a value where it can continue
+	//for now back to the start i = 0;
+	*i += ft_strlen(variable_value);
+	printf("reaplacing: %s -> %s\n", variable_name, variable_value);
+	printf("replaced string: %s\n\n", result);
+	return (result);
+}
+
 char	*ft_replace_variale_with_value(char *string)
 {
 	int		i;
@@ -119,28 +215,44 @@ char	*ft_replace_variale_with_value(char *string)
 	while (string[i])
 	{
 		if (string[i] == '\"' && double_quote == false)
+		{
 			double_quote = true;
+			i++;
+		}
 		else if (string[i] == '\"' && double_quote == true)
+		{
 			double_quote = false;
+			i++;
+		}
 		if (string[i] == '\'' && double_quote == false)
 			ft_skip_single_quotes(string, &i);
 		if (string[i] == '$' && string[i + 1] == '?')
-			printf("found $? - replace with last exit code\n");
-		else if (string[i] == '$' && string[i] == '\"')
-			printf("found $\" -- just remove the '$'\n");
+		{
+			printf("found $? - replace with last exit code\n"); // fucnction -> replace_in_place, no trim
+			string = ft_handle_variable_replacement(string, &i, false, true);
+		}
+		else if (string[i] == '$' && string[i + 1] == '\"' && double_quote == false)
+		{
+			printf("found $\" -- just remove the '$'\n"); // fucnction -> remove dollar sign
+			string = ft_handle_variable_replacement(string, &i, false, true);
+		}
 		else if (string[i] == '$' && !(string[i + 1] == ' '
 		|| string[i + 1] == '\t' || string[i + 1] == '\n') && double_quote == false)
 		{
 			//find the name of the variable
-			printf("found $ - replace with variable value - trim spaces\n");
+			printf("found $ - replace with variable value - trim spaces\n"); //ftunction -> replace_in_place, trim
+			string = ft_handle_variable_replacement(string, &i, true, true);
 		}
 		else if (string[i] == '$' && double_quote == true)
 		{
 			//find the name of the variable
-			printf("found $ - replace with variable value, preserve spaces\n");
+			printf("found $ - replace with variable value, preserve spaces\n"); // fucnction -> replace_in_place, no trim
+			string = ft_handle_variable_replacement(string, &i, false, false);
 		}
-		i++;
+		else
+			i++;
 	}
+	return (string);
 }
 
 // bool	ft_expand_variable(t_tokens *token)
@@ -208,10 +320,19 @@ bool	ft_handle_operators(t_data *data)
 int main(void)
 {
 	char *test_string = "echo $HOME $USER $PATH $PWD $OLDPWD $?";
-	char *test_string2 = "echo $HOME $USER \"$PATH $PWD $OLDPWD\"$? $"" $ ";
+	char *test_string2 = "echo $HOME \"$PATH\"$? $\"hello\" $ ";
+	char *test_string3 = "echo $HOME $USER $? $ $ ";
 	char *result;
 
-	result = ft_replace_variale_with_value(test_string);
-	printf("\n");
+	// result = ft_replace_variale_with_value(test_string);
+	// printf(BOLD_YELLOW "before value: %s\n" STYLE_DEF, test_string);
+	// printf(BOLD_PINK "final result: %s\n" STYLE_DEF, result);
+	// printf("\n");
 	result = ft_replace_variale_with_value(test_string2);
+	printf(BOLD_YELLOW "before value: %s\n" STYLE_DEF, test_string2);
+	printf(BOLD_PINK "final result: %s\n" STYLE_DEF, result);
+// 	printf("\n");
+// 	result = ft_replace_variale_with_value(test_string3);
+// 	printf(BOLD_YELLOW "before value: %s\n" STYLE_DEF, test_string3);
+// 	printf(BOLD_PINK "final result: %s\n" STYLE_DEF, result);
 }

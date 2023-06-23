@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/23 14:34:29 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/23 19:06:34 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,9 @@ char	*ft_get_cmd_path(char **envp_paths, char *cmd);
 // lexer_tokens
 // lexer.c
 bool	ft_create_tokens(t_data *data, char *line_read);
-void ft_skip_to_next_non_delim(char *line_read, int *i, int *start);
+void	ft_skip_to_next_non_delim(char *line_read, int *i, int *start);
+void	ft_skip_quote_block(char *cmd_line, int *i);
+
 // token_analysis.c
 bool	ft_put_id_to_token(t_data *data);
 bool	ft_syntax_in_tokens(t_data *data);
