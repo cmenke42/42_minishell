@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 19:50:59 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/23 21:28:00 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/23 21:44:24 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,7 +243,8 @@ char	*ft_replace_variale_with_value(char *string)
 			printf("found $ - replace with variable value - trim spaces\n"); //ftunction -> replace_in_place, trim
 			string = ft_handle_variable_replacement(string, &i, true, true);
 		}
-		else if (string[i] == '$' && double_quote == true)
+		else if (string[i] == '$' && string[i + 1] != '\"' && string[i + 1] != ' ' && string[i + 1] != '\t' && string[i + 1] != '\n'
+				&& double_quote == true)
 		{
 			//find the name of the variable
 			printf("found $ - replace with variable value, preserve spaces\n"); // fucnction -> replace_in_place, no trim
@@ -319,20 +320,25 @@ bool	ft_handle_operators(t_data *data)
 
 int main(void)
 {
-	char *test_string = "echo $HOME $USER $PATH $PWD $OLDPWD $?";
+	char *test_string = "echo $HOME $USER $?";
 	char *test_string2 = "echo $HOME \"$PATH\"$? $\"hello\" $ ";
 	char *test_string3 = "echo $HOME $USER $? $ $ ";
+	char *test_string4 = "echo no_space:\"$\" with_space:\"$ \"";
 	char *result;
 
-	// result = ft_replace_variale_with_value(test_string);
-	// printf(BOLD_YELLOW "before value: %s\n" STYLE_DEF, test_string);
-	// printf(BOLD_PINK "final result: %s\n" STYLE_DEF, result);
-	// printf("\n");
+	result = ft_replace_variale_with_value(test_string);
+	printf(BOLD_YELLOW "before value: %s\n" STYLE_DEF, test_string);
+	printf(BOLD_PINK "final result: %s\n" STYLE_DEF, result);
+	printf("\n");
 	result = ft_replace_variale_with_value(test_string2);
 	printf(BOLD_YELLOW "before value: %s\n" STYLE_DEF, test_string2);
 	printf(BOLD_PINK "final result: %s\n" STYLE_DEF, result);
-// 	printf("\n");
-// 	result = ft_replace_variale_with_value(test_string3);
-// 	printf(BOLD_YELLOW "before value: %s\n" STYLE_DEF, test_string3);
-// 	printf(BOLD_PINK "final result: %s\n" STYLE_DEF, result);
+	printf("\n");
+	result = ft_replace_variale_with_value(test_string3);
+	printf(BOLD_YELLOW "before value: %s\n" STYLE_DEF, test_string3);
+	printf(BOLD_PINK "final result: %s\n" STYLE_DEF, result);
+	printf("\n");
+	result = ft_replace_variale_with_value(test_string4);
+	printf(BOLD_YELLOW "before value: %s\n" STYLE_DEF, test_string4);
+	printf(BOLD_PINK "final result: %s\n" STYLE_DEF, result);
 }
