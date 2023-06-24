@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/23 19:06:34 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/24 19:55:12 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,5 +144,7 @@ bool	ft_put_id_to_token(t_data *data);
 bool	ft_syntax_in_tokens(t_data *data);
 // handle_operators.c
 bool	ft_handle_operators(t_data *data);
+// remove_quotes.c
+bool	ft_remove_quotes_from_elements(t_tokens *token);
 
 #endif

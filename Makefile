@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
+#    By: user <user@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/06/21 19:51:31 by cmenke           ###   ########.fr        #
+#    Updated: 2023/06/24 19:56:29 by user             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ CLEARING := $(addprefix clearing/,free_double_pointer.c \
 
 LEXER := $(addprefix lexer_tokens/, lexer.c \
 								token_analysis.c \
-								handle_operators.c)
+								handle_operators.c \
+								remove_quotes.c)
 
 EXECUTION := $(addprefix execution/,get_envp_cmd_paths.c \
 									fork_childs.c)

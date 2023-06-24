@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 17:26:23 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/23 21:46:09 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/24 19:24:33 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,13 +206,12 @@ bool	ft_create_tokens(t_data *data, char *line_read)
 	t_tokens *temp2;
 	int i = 0;
 	temp2 = data->tokens;
-	while (data->tokens)
+	while (temp2)
 	{
-		printf("token %d:" BOLD_BLUE"##"STYLE_DEF "Type:"BOLD_GREEN"%s	" STYLE_DEF BOLD_BLUE"##"STYLE_DEF"%s"BOLD_BLUE"##\n"STYLE_DEF, i++, tokenNames[data->tokens->token_type], data->tokens->token);
-		temp = data->tokens;
-		data->tokens = data->tokens->next;
+		printf("token %d:" BOLD_BLUE"##"STYLE_DEF "Type:"BOLD_GREEN"%s	" STYLE_DEF BOLD_BLUE"##"STYLE_DEF"%s"BOLD_BLUE"##\n"STYLE_DEF, i++, tokenNames[temp2->token_type], temp2->token);
+		temp = temp2;
+		temp2 = temp2->next;
 		// free(temp);
 	}
-	data->tokens = temp2;
 	return (true);
 }

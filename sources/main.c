@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/23 14:21:01 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/06/24 19:36:15 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,27 @@ bool	ft_initialize_command_struct(t_data *data, char **envp)
 	return (true);
 }
 
+void ft_print_tokens(t_data *data, bool last_print)
+{
+	t_tokens *temp;
+	t_tokens *temp2;
+
+	temp2 = data->tokens;
+	while (temp2)
+	{
+		temp = temp2;
+		printf(BOLD_BLUE"token:"STYLE_DEF"%s\n", temp2->token);
+		temp2 = temp2->next;
+		if (last_print == true)
+		{
+			free(temp->token);
+			free(temp);
+		}
+	}
+	if (last_print == true)
+		data->tokens = NULL;
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line_read;
@@ -116,18 +137,18 @@ int	main(int argc, char **argv, char **envp)
 			{
 				if (ft_create_tokens(data, line_read) == false)
 					ft_putendl_fd("token creation error", STDERR_FILENO);
+				// ft_print_tokens(data, false);
+				printf(BOLD_PINK "check for syntax errros\n\n" STYLE_DEF);
 				if (ft_syntax_in_tokens(data) == false)
 					data->finished_input = true;
+				printf("%s\n", data->tokens->token);
+				ft_print_tokens(data, false);
+				printf(BOLD_PINK "Finished syntax check\n\n" STYLE_DEF);
+				printf(BOLD_PINK "Handling operators\n\n" STYLE_DEF);
 				if (ft_handle_operators(data) == false)
 					data->finished_input = true;
-				t_tokens *temp;
-				while (data->tokens)
-				{
-					temp = data->tokens;
-					data->tokens = data->tokens->next;
-					free(temp->token);
-					free(temp);
-				}
+				printf(BOLD_PINK "Finished handling operators\n\n" STYLE_DEF);
+				ft_print_tokens(data, true);
 			}
 			free(line_read);
 		}
