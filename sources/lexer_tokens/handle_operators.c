@@ -3,44 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   handle_operators.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 19:50:59 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/24 20:02:13 by user             ###   ########.fr       */
+/*   Updated: 2023/06/26 20:00:38 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-
-void	ft_open_file_fds(char **argv, int files_fd[2])
-{
-	mode_t	mode;
-
-	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
-	files_fd[0] = open(argv[1], O_RDONLY);
-	if (files_fd[0] == -1)
-		perror("infile");
-	files_fd[1] = open(argv[4], O_WRONLY | O_TRUNC | O_CREAT, mode);
-	if (files_fd[1] == -1)
-		perror("outfile");
-}
-
-
-bool	ft_open_file_append_trunc(char *file_name)
-{
-	int	fd;
-	mode_t	mode;
-
-	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
-	fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, mode);
-	if (fd == -1)
-	{
-		perror("outfile");
-		return (false);
-	}
-	return (true);
-}
 
 void	ft_skip_single_quotes(char *cmd_line, int *i)
 {
@@ -344,14 +314,91 @@ bool	ft_variable_expansion(t_data *data)
 	return (true);
 }
 
+void	ft_open_file_fds(char **argv, int files_fd[2])
+{
+	mode_t	mode;
+
+	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+	files_fd[0] = open(argv[1], O_RDONLY);
+	if (files_fd[0] == -1)
+		perror("infile");
+	files_fd[1] = open(argv[4], O_WRONLY | O_TRUNC | O_CREAT, mode);
+	if (files_fd[1] == -1)
+		perror("outfile");
+}
+
+
+bool	ft_open_file_append_trunc(char *file_name)
+{
+	int	fd;
+	mode_t	mode;
+
+	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+	fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, mode);
+	if (fd == -1)
+	{
+		perror("outfile");
+		return (false);
+	}
+	return (true);
+}
+
+bool ft_handle_input_redirection(t_tokens *tokens)
+{
+	int	fd;
+
+	fd = open(tokens->next->token, O_RDONLY);
+	if (fd == -1)
+	{
+		perror("infile");
+		return (false);
+	}
+	return (true);
+}
+
+bool	ft_manage_redirections(t_data *data)
+{
+	t_tokens	*tokens;
+
+	tokens = data->tokens;
+	while (token)
+	{
+		if (tokens->token_type == op_input_redirection)
+		{
+			if (ft_handle_input_redirection(tokens) == false)
+				return (false);
+		}
+		else if (tokens->token_type == op_heredoc)
+		{
+			if (ft_handle_heredoc(tokens) == false)
+				return (false);
+		}
+		else if (tokens->token_type == op_output_redirection)
+		{
+			if (ft_handle_output_redirection(tokens) == false)
+				return (false);
+		}
+		else if (tokens->token_type == op_append_redirection)
+		{
+			if (ft_handle_append_redirection(tokens) == false)
+				return (false);
+		}
+		tokens = tokens->next;
+	}
+}
+
 bool	ft_handle_operators(t_data *data)
 {
 	if (ft_variable_expansion(data) == false)
 		return (false);
 	
-	//1. expand variables - assume like this -> variable in and value out
-	//2. here_doc
-	//3. redirection
+	//for each command sequence in loop (check for pipe to determine a sequence)
+		//1. expand variables - assume like this -> variable in and value out
+		//2. here_doc
+		//3. redirection
+		//4. get command path
+		//5. execute command - ?
+	//end of loop
 
 	return (true);
 }
