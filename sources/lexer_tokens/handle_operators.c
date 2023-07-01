@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 19:50:59 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/26 20:00:38 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/01 10:04:43 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -356,36 +356,36 @@ bool ft_handle_input_redirection(t_tokens *tokens)
 	return (true);
 }
 
-bool	ft_manage_redirections(t_data *data)
-{
-	t_tokens	*tokens;
+// bool	ft_manage_redirections(t_data *data)
+// {
+// 	t_tokens	*tokens;
 
-	tokens = data->tokens;
-	while (token)
-	{
-		if (tokens->token_type == op_input_redirection)
-		{
-			if (ft_handle_input_redirection(tokens) == false)
-				return (false);
-		}
-		else if (tokens->token_type == op_heredoc)
-		{
-			if (ft_handle_heredoc(tokens) == false)
-				return (false);
-		}
-		else if (tokens->token_type == op_output_redirection)
-		{
-			if (ft_handle_output_redirection(tokens) == false)
-				return (false);
-		}
-		else if (tokens->token_type == op_append_redirection)
-		{
-			if (ft_handle_append_redirection(tokens) == false)
-				return (false);
-		}
-		tokens = tokens->next;
-	}
-}
+// 	tokens = data->tokens;
+// 	while (token)
+// 	{
+// 		if (tokens->token_type == op_input_redirection)
+// 		{
+// 			if (ft_handle_input_redirection(tokens) == false)
+// 				return (false);
+// 		}
+// 		else if (tokens->token_type == op_here_doc)
+// 		{
+// 			if (ft_handle_heredoc(tokens) == false)
+// 				return (false);
+// 		}
+// 		else if (tokens->token_type == op_output_redirection)
+// 		{
+// 			if (ft_handle_output_redirection(tokens) == false)
+// 				return (false);
+// 		}
+// 		else if (tokens->token_type == op_append_redirection)
+// 		{
+// 			if (ft_handle_append_redirection(tokens) == false)
+// 				return (false);
+// 		}
+// 		tokens = tokens->next;
+// 	}
+// }
 
 bool	ft_handle_operators(t_data *data)
 {
