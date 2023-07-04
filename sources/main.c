@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/04 11:09:12 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:54:44 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,36 +125,37 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGQUIT, SIG_IGN);
 	// handles the ctrl-C key.
 	signal(SIGINT, ft_sig_sigint_handler);
+	
+	t_env *env = store_env(envp);
 	while (1)
 	{
-		t_env *env = store_env(envp);
 		line_read = readline(PROMPT);
 		if (line_read && *line_read)
 		{
 			add_history(line_read);
-			data->finished_input = false;
+			// data->finished_input = false;
 			if (!ft_strncmp(line_read, "env", ft_strlen("env")))
-				print_env(envp);
+				print_env(env);
 			if ((!ft_strncmp(line_read, "export", ft_strlen(line_read))))
-				export(envp);
+				export(env);
 			//work with the line read
-			while (data->finished_input == false)
-			{
-				if (ft_create_tokens(data, line_read) == false)
-					ft_putendl_fd("token creation error", STDERR_FILENO);
-				// ft_print_tokens(data, false);
-				printf(BOLD_PINK "check for syntax errros\n\n" STYLE_DEF);
-				if (ft_syntax_in_tokens(data) == false)
-					data->finished_input = true;
-				printf("%s\n", data->tokens->token);
-				ft_print_tokens(data, false);
-				printf(BOLD_PINK "Finished syntax check\n\n" STYLE_DEF);
-				printf(BOLD_PINK "Handling operators\n\n" STYLE_DEF);
-				if (ft_handle_operators(data) == false)
-					data->finished_input = true;
-				printf(BOLD_PINK "Finished handling operators\n\n" STYLE_DEF);
-				ft_print_tokens(data, true);
-			}
+			// while (data->finished_input == false)
+			// {
+			// 	if (ft_create_tokens(data, line_read) == false)
+			// 		ft_putendl_fd("token creation error", STDERR_FILENO);
+			// 	// ft_print_tokens(data, false);
+			// 	printf(BOLD_PINK "check for syntax errros\n\n" STYLE_DEF);
+			// 	if (ft_syntax_in_tokens(data) == false)
+			// 		data->finished_input = true;
+			// 	printf("%s\n", data->tokens->token);
+			// 	ft_print_tokens(data, false);
+			// 	printf(BOLD_PINK "Finished syntax check\n\n" STYLE_DEF);
+			// 	printf(BOLD_PINK "Handling operators\n\n" STYLE_DEF);
+			// 	if (ft_handle_operators(data) == false)
+			// 		data->finished_input = true;
+			// 	printf(BOLD_PINK "Finished handling operators\n\n" STYLE_DEF);
+			// 	ft_print_tokens(data, true);
+			// }
 			free(line_read);
 		}
 		else if (!line_read)
