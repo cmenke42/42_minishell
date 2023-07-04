@@ -3,63 +3,88 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:55:14 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/06/20 19:10:40 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/03 17:20:50 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../../includes/env.h"
+#include <string.h>
 
-int		ft_env_len(char **env)
+// void	ft_name_error(char c)
+// {
+// 	printf("'%c' : Not a valid identifier", c);
+// 	exit (1);
+// }
+
+// int	check_name(char *s)
+// {
+// 	if (ft_isalnum(s[0]) || s[0] == '_')
+// 		return (1);
+// 	else 
+// 	{
+// 		ft_name_error(s[0]);
+// 		return (0);
+// 	}
+// }
+
+t_env	*sort_env(t_env *envp)
 {
-	int	i;
-
-	i = 0;
-	while (env[i])
-		i++;
-	return (i);
-}
-
-char	**sort_env(char **env, int env_len)
-{
-	int		sorted;
-	int		i;
-	char	*tmp;
-
-	sorted = 0;
-	while (env && sorted == 0)
+	t_env	*sorted_list;
+	t_env	*current;
+	t_env	*temp;
+	sorted_list = NULL;
+	while (envp)
 	{
-		sorted = 1;
-		i = 0;
-		while (i < env_len - 1)
+		
+		current = envp;
+		envp = envp->next;
+		if (sorted_list == NULL || strcmp(current->name,
+			sorted_list->name) < 0)
 		{
-			if (strcmp(env[i], env[i + 1]) > 0)
-			{
-				tmp = env[i];
-				env[i] = env[i + 1];
-				env[i + 1] = tmp;
-				sorted = 0;
-			}
-			i++;
+			current->next = sorted_list;
+			sorted_list = current;
 		}
-		env_len--;
+		else
+		{
+			temp = sorted_list;
+			while (temp->next != NULL && strcmp(current->name,
+					temp->next->name) > 0)
+			{	
+				if (temp->next)
+					temp = temp->next;
+			}					
+			current->next = temp->next;
+			temp->next = current;
+		}
 	}
-	return (env);
+	return (sorted_list);
 }
 
-void	export(char **envp)
+void	export(t_env *env)
 {
-	int	i;
-	
-	i = 0;
-	sort_env(envp, ft_env_len(envp));
-			while (envp[i])
-		{
+	t_env	*sorted_env;
+	sorted_env = sort_env(env);
+	while (sorted_env)
+	{
+		if (ft_isalpha(sorted_env->name[0]) || sorted_env->name[0] == '_')
 			printf("declare -x ");
-			printf("%s\n", envp[i]);
-			i++;
+		if (sorted_env->name)
+			printf("%s", sorted_env->name);
+		if (sorted_env->value)
+		{
+			printf("=");
+			printf("\"");
+			if (sorted_env->value)
+				printf("%s", sorted_env->value);
+			printf("\"");
 		}
+		printf("\n");
+		if (sorted_env->next)
+			sorted_env = sorted_env->next;
+		else
+			break ;
+	}
 }
-

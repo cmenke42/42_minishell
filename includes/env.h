@@ -3,26 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 11:38:04 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/06/23 14:25:20 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/03 17:13:29 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
+#include "../libft/libft.h"
+#include <stdio.h>
 
 typedef struct	s_env
 {
+	char	*name;
 	char	*value;
 	struct s_env	*next;
 }	t_env;
 
-int		ft_env_len(char **env);
-char	**sort_env(char **env, int env_len);
-// int		main(int argc, char **argv, char **env);
-void	export(char **envp);
-void	print_env(char **envp);
+int 	main(int argc, char **argv, char **env);
+t_env	*ft_create_node(char *name, char *value);
+void	export(t_env *envp);
+void	print_env(t_env *envp);
+void	free_split(char **arr);
+t_env	*store_env(char **env);
+t_env	*sort_env(t_env *env);
+t_env	*add_var(t_env *envp, char *env);
+void	ft_name_error(char c);
+void	ft_check_name(t_env *env);
+t_env	*add_to_list(t_env *head, char *var);
+void	ft_check_name_start(char *s);
+t_env *remove_from_list(t_env* head, char* name);
+//void	ft_check_duplicate(t_env *env,char *name, char *value);
 
 #endif
