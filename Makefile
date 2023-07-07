@@ -6,7 +6,7 @@
 #    By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/07/04 13:56:41 by wmoughar         ###   ########.fr        #
+#    Updated: 2023/07/06 13:32:32 by wmoughar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ SRCDIR := sources
 BUILTINS := $(addprefix builtins/,echo.c \
 								 env.c \
 								 export.c \
-								 export_utils.c)
+								 export_utils.c \
+								 unset.c)
 
 CLEARING := $(addprefix clearing/,free_double_pointer.c \
 									clear_all.c)
