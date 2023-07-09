@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:55:14 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/03 17:20:50 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/09 13:46:56 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,46 +30,43 @@
 // 	}
 // }
 
-t_env	*sort_env(t_env *envp)
+
+t_env	*sort_env(t_env *env)
 {
-	t_env	*sorted_list;
-	t_env	*current;
-	t_env	*temp;
-	sorted_list = NULL;
-	while (envp)
+	char	*swap;
+	t_env	*tmp;
+
+	tmp = env;
+	if (!env && !env->next)
+		return (NULL);
+	while (env->next)
 	{
-		
-		current = envp;
-		envp = envp->next;
-		if (sorted_list == NULL || strcmp(current->name,
-			sorted_list->name) < 0)
+		if (env->name[0] > env->next->name[0])
 		{
-			current->next = sorted_list;
-			sorted_list = current;
+			swap = env->name;
+			env->name = env->next->name;
+			env->next->name = swap;
+			env = tmp;
 		}
 		else
-		{
-			temp = sorted_list;
-			while (temp->next != NULL && strcmp(current->name,
-					temp->next->name) > 0)
-			{	
-				if (temp->next)
-					temp = temp->next;
-			}					
-			current->next = temp->next;
-			temp->next = current;
-		}
+			env = env->next;
 	}
-	return (sorted_list);
+	env = tmp;
+	return (env);
 }
 
 void	export(t_env *env)
 {
 	t_env	*sorted_env;
 	sorted_env = sort_env(env);
+		if (!sorted_env)
+		{
+			printf("SORTED ENV IS NULL!\n");
+			exit(1);
+		}
 	while (sorted_env)
 	{
-		if (ft_isalpha(sorted_env->name[0]) || sorted_env->name[0] == '_')
+		if (sorted_env->name &&(ft_isalpha(sorted_env->name[0]) || sorted_env->name[0] == '_'))
 			printf("declare -x ");
 		if (sorted_env->name)
 			printf("%s", sorted_env->name);
@@ -83,7 +80,9 @@ void	export(t_env *env)
 		}
 		printf("\n");
 		if (sorted_env->next)
+		{
 			sorted_env = sorted_env->next;
+		}
 		else
 			break ;
 	}
