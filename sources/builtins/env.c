@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 21:06:49 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/04 16:53:36 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/09 17:10:58 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ t_env	*store_env(char **env)
 
 void	print_env(t_env *envp)
 {
-	//printf("%s=%s\n", envp->name, envp->value);
 	while (envp)
 	{
 		if (envp->name && envp->value)
