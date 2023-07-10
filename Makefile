@@ -6,7 +6,7 @@
 #    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/07/10 17:47:33 by cmenke           ###   ########.fr        #
+#    Updated: 2023/07/10 18:01:34 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ BUILTINS := $(addprefix builtins/,utils.c \
 CLEARING := $(addprefix clearing/,free_double_pointer.c \
 									clear_all.c)
 
-LEXER := $(addprefix lexer/, create_tokens.c)
+LEXER := $(addprefix lexer/, create_tokens.c \
+								syntax_error.c)
 
 # EXECUTION := $(addprefix execution/,get_envp_cmd_paths.c \
 # 									fork_childs.c)

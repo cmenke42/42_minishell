@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/10 17:54:58 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/10 18:03:15 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,12 @@ int	main(int argc, char **argv, char **envp)
 		line_read = readline(PROMPT);
 		if (line_read && *line_read)
 		{
-			add_history(line_read);
 			shell_data->command_line_read = line_read;
 			if (!ft_process_command_line(shell_data))
-				ft_exit_ctrl_d(); //perform the clearing up
+			{
+				continue ;
+				//perform the clearing up
+			}
 			if (!ft_strncmp(line_read, "env", ft_strlen("env")))
 				print_env(env);
 			if ((!ft_strncmp(line_read, "export", ft_strlen("export"))))
@@ -84,6 +86,7 @@ int	main(int argc, char **argv, char **envp)
 			// 	add_to_list(env, line_read);
 			// else
 			// 	remove_from_list(env, line_read);
+			add_history(line_read);
 			free(line_read);
 		}
 		else if (!line_read)
