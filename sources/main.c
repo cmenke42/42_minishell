@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/10 11:20:23 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/10 11:41:53 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,8 +136,10 @@ int	main(int argc, char **argv, char **envp)
 			// data->finished_input = false;
 			if (!ft_strncmp(line_read, "env", ft_strlen("env")))
 				print_env(env);
-			if ((!ft_strncmp(line_read, "export", ft_strlen(line_read))))
+			if ((!ft_strncmp(line_read, "export", ft_strlen("export"))))
 				export(env);
+			if ((!ft_strncmp(line_read, "pwd", ft_strlen("pwd"))))
+				ft_pwd();
 			// else
 			// 	add_to_list(env, line_read);
 			// else
