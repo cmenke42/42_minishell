@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:55:14 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/09 16:45:36 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/10 15:44:34 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_env	*add_to_list(t_env *env, char *var)
 		if (split[1])
 			new->value = ft_strdup(split[1]);
 		else
-			new->value = "";
+			new->value = ft_strdup("\"\"");
 	}
 	new->next = NULL;
 	ft_check_name(new);
@@ -44,6 +44,7 @@ t_env	*add_to_list(t_env *env, char *var)
 		find_and_replace(tmp, new);
 	else
 		tmp->next = new;
+	//free_split(split);
 	return tmp;
 }
 

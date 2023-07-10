@@ -6,37 +6,47 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 11:38:04 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/10 11:39:49 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/10 16:29:37 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
-#include "../libft/libft.h"
-#include <stdio.h>
+# include "../libft/libft.h"
+# include <stdio.h>
 
-typedef struct	s_env
+typedef struct s_env
 {
-	char	*name;
-	char	*value;
+	char			*name;
+	char			*value;
 	struct s_env	*next;
 }	t_env;
 
-int 	main(int argc, char **argv, char **env);
+//env
 t_env	*ft_create_node(char *name, char *value);
-void	export(t_env *envp);
 void	print_env(t_env *envp);
-void	free_split(char **arr);
 t_env	*store_env(char **env);
+
+//export
+void	export(t_env *envp);
 t_env	*sort_env(t_env *env);
-t_env	*add_var(t_env *envp, char *env);
-void	ft_name_error(char c);
 void	ft_check_name(t_env *env);
-t_env	*add_to_list(t_env *head, char *var);
 void	ft_check_name_start(char *s);
-t_env *remove_from_list(t_env* head, char* name);
-int	ft_check_duplicate(t_env *env, char *name, char *new_name);
+int		ft_check_duplicate(t_env *env, char *name, char *new_name);
+t_env	*add_to_list(t_env *head, char *var);
 t_env	*find_and_replace(t_env *env, t_env *new);
-int	ft_pwd();
+
+//unset
+t_env	*remove_from_list(t_env *head, char *name);
+
+//free
+void	free_split(char **arr);
+void	free_env(t_env *env);
+
+//pwd
+int		ft_pwd(void);
+
+//exit
+void	ft_exit(void);
 
 #endif

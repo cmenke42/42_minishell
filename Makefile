@@ -6,7 +6,7 @@
 #    By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/07/10 11:33:19 by wmoughar         ###   ########.fr        #
+#    Updated: 2023/07/10 16:29:17 by wmoughar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,12 +14,14 @@ NAME := minishell
 
 SRCDIR := sources
 
-BUILTINS := $(addprefix builtins/,echo.c \
+BUILTINS := $(addprefix builtins/,utils.c \
+								 echo.c \
 								 env.c \
 								 export.c \
 								 export_utils.c \
 								 unset.c \
-								 pwd.c)
+								 pwd.c \
+								 exit.c)
 
 CLEARING := $(addprefix clearing/,free_double_pointer.c \
 									clear_all.c)

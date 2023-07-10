@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/10 11:30:23 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/10 13:31:46 by wmoughar         ###   ########.fr       */
+/*   Created: 2023/07/10 13:15:06 by wmoughar          #+#    #+#             */
+/*   Updated: 2023/07/10 16:41:25 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/env.h"
 
-int	ft_pwd(void)
+void	ft_exit(void)
 {
-	printf("%s\n", getcwd(NULL, sizeof(NULL)));
-	return (0);
+	printf("exit\n");
+	exit(0);
 }
