@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   create_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/10 13:28:05 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/10 17:57:01 by cmenke           ###   ########.fr       */
+/*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
+/*   Updated: 2023/07/10 17:50:43 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/env.h"
+#include "../../includes/minishell.h"
 
-void	free_env(t_env *env)
+bool	ft_process_command_line(t_shell_data *shell_data)
 {
-	t_env *tmp;
-
-	while (env)
-	{
-		free(env->name);
-		free(env->value);
-		tmp = env;
-		free(tmp);
-		env = env->next;
-	}
+	//printing the line read
+	printf("command_line_read: %s\n", shell_data->command_line_read);
+	return (true);
 }

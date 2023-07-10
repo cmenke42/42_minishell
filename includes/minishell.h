@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/10 17:29:59 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/10 17:55:47 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,9 @@ typedef struct s_tokens
 // };
 
 //main
-	//main.c
-// bool	ft_process_command_line(t_shell_data *shell_data);
-
 //lexer
-	//token_creation.c
-bool	ft_extract_command_sequences(t_shell_data *shell_data);
-bool	ft_create_command_sequence(char *command_line_read, t_list **command_sequences);
+	//create_tokens.c
+bool	ft_process_command_line(t_shell_data *shell_data);
 	// syntax_error.c
 bool	ft_check_equal_quote_amt(char *s);
 // clearing

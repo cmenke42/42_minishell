@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/10 17:36:37 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/10 17:54:58 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,14 @@ void ft_sig_sigint_handler(int sig_num)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*line_read;
-	t_data	*data;
+	char			*line_read;
+	t_shell_data	*shell_data;
+
+	//what to do when we get arguments for the minishell?
 
 	// ft_print_double_pointer(envp);
-	data = ft_calloc(1, sizeof(t_data));
-	if (!data)
+	shell_data = ft_calloc(1, sizeof(t_shell_data));
+	if (!shell_data)
 		perror("struct allocation error");
 	//to ignore the SIG_QUIT signal from ctrl- Backslash
 	signal(SIGQUIT, SIG_IGN);
@@ -67,7 +69,9 @@ int	main(int argc, char **argv, char **envp)
 		if (line_read && *line_read)
 		{
 			add_history(line_read);
-			// data->finished_input = false;
+			shell_data->command_line_read = line_read;
+			if (!ft_process_command_line(shell_data))
+				ft_exit_ctrl_d(); //perform the clearing up
 			if (!ft_strncmp(line_read, "env", ft_strlen("env")))
 				print_env(env);
 			if ((!ft_strncmp(line_read, "export", ft_strlen("export"))))
