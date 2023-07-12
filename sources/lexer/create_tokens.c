@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/11 20:15:38 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/12 10:51:03 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,40 @@ bool	ft_process_command_line(t_shell_data *shell_data)
 }
 
 
+
+//printg the token list
+void	ft_print_token_list(t_list *tokens)
+{
+	t_tokens	*token;
+
+	while (tokens)
+	{
+		token = (t_tokens *)tokens->content;
+		printf("token->token: %s\n", token->token);
+		tokens = tokens->next;
+	}
+}
+
+
+
+
 bool	ft_create_tokens_for_sequence(char *command_line_read, t_list **command_sequences)
 {
-	char	*start;
+	char				*start;
+	t_list				*tokens;
+	t_command_sequences	*one_sequence;
 
+	//refresh  with each pipe - >use bool?
+	//two whiles?
 	while (*command_line_read)
 	{
 		ft_skip_to_next_non_delimiter(&command_line_read);
 		start = command_line_read;
 		printf("Starting: %c\n", *command_line_read);
-		ft_find_next_token(&command_line_read);
+		ft_find_next_token(&command_line_read, start);
+		if (!ft_create_one_token(start, command_line_read, &tokens))
+			return (false); //check what needs to be cleared
+		ft_print_token_list(tokens);
 		printf("END: %c\n", *command_line_read);
 		if (*command_line_read)
 			command_line_read += 1;
@@ -87,7 +111,7 @@ void	ft_skip_to_next_non_delimiter(char **command_line)
 		*command_line += 1;
 }
 
-bool	ft_find_next_token(char **string)
+bool	ft_find_next_token(char **string, char *start)
 {
 	int len;
 
@@ -101,8 +125,11 @@ bool	ft_find_next_token(char **string)
 		}
 		if (**string == '<' || **string == '>')
 		{
+			if (*string - 1 != start)
+				break ;
 			printf("found redirection\n");
-			ft_move_while_same_char(string, &len, **string);
+			ft_move_while_same_char(string, **string);
+			break ;
 		}
 		if (**string)
 		{
@@ -132,33 +159,41 @@ void	ft_skip_quote_block(char **string)
 }
 
 
-void	ft_move_while_same_char(char **command_line, int *len, char c)
+void	ft_move_while_same_char(char **command_line, char c)
 {
-	int	count;
-
-	count = 0;
 	while (**command_line == c)
-	{
-		count++;
 		*command_line += 1;
-	}
-	if (len)
-		*len = count; 
 }
 
 bool	ft_create_one_token(char *start, char *end, t_list **tokens)
 {
 	t_tokens	*token;
+	t_list		*new_node;
 	int			len;
 	char		*string;
 
+	token = ft_calloc(1, sizeof(t_tokens));
+	if (!token)
+	{
+		ft_lstclear(tokens, ft_clear_token);
+	}
 	len = end - start;
 	string = ft_substr(start, 0, len);
 	if (!string)
 	{
 		//think about where to clear the things
+		ft_lstclear(tokens, ft_clear_token);
 		return (perror("error creatin string for token"), false);
 	}
+	token->token = string;
+	new_node = ft_lstnew((void *)token);
+	if (!new_node)
+	{
+		ft_lstclear(tokens, ft_clear_token);
+		free(string);
+		return (false);
+	}
+	ft_lstadd_back(tokens, new_node);
 	return (true);
 }
 
