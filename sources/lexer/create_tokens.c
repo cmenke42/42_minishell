@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/12 12:14:13 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/12 12:18:16 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,12 @@ bool	ft_create_tokens_for_sequence(char *command_line_read, t_list **command_seq
 		{
 			ft_skip_to_next_non_delimiter(&command_line_read);
 			start = command_line_read;
-			printf("Starting: %c\n", *command_line_read);
+			// printf("Starting: %c\n", *command_line_read);
 			ft_find_next_token(&command_line_read, &start, &tokens);
+			//creates one token if the string would be at least 1
 			if (start != command_line_read && !ft_create_one_token(start, command_line_read, &tokens))
 				return (false); //check what needs to be cleared
-			printf("END: %c\n", *command_line_read);
+			// printf("END: %c\n", *command_line_read);
 			if (*command_line_read && *command_line_read != '\"' && *command_line_read != '\'')
 				command_line_read += 1;
 		}
@@ -136,6 +137,7 @@ void	ft_skip_to_next_non_delimiter(char **command_line)
 		*command_line += 1;
 }
 
+//seaparates the string by spaces and opeartors
 bool	ft_find_next_token(char **string, char **start, t_list **tokens)
 {
 	while (**string)
@@ -149,15 +151,15 @@ bool	ft_find_next_token(char **string, char **start, t_list **tokens)
 					return (false); //check what needs to be cleared#
 				*start = *string;
 			}
-			printf("found redirection\n");
+			// printf("found redirection\n");
 			ft_move_while_same_char(string, **string);
 			break ;
 		}
-		if (**string == ' ' || **string == '\t')
+		if (**string == ' ' || **string == '\t') //add newline???
 			break;
 		if (**string)
 		{
-			printf("Inbetween: %c\n", **string);
+			// printf("Inbetween: %c\n", **string);
 			*string += 1;
 		}
 	}
