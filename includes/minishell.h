@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/12 14:45:31 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/12 18:40:19 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ enum e_token_type
 {
 	syntax_error,
 	text,
-	pipe,
+	pipe_operator,
 	redirection_in,
 	redirection_in_heredoc,
 	redirection_out_trunc,
