@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/12 10:51:03 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/12 11:24:30 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,14 @@ bool	ft_create_tokens_for_sequence(char *command_line_read, t_list **command_seq
 		ft_skip_to_next_non_delimiter(&command_line_read);
 		start = command_line_read;
 		printf("Starting: %c\n", *command_line_read);
-		ft_find_next_token(&command_line_read, start);
+		ft_find_next_token(&command_line_read, &start, &tokens);
 		if (!ft_create_one_token(start, command_line_read, &tokens))
 			return (false); //check what needs to be cleared
-		ft_print_token_list(tokens);
 		printf("END: %c\n", *command_line_read);
 		if (*command_line_read)
 			command_line_read += 1;
 	}
+	ft_print_token_list(tokens);
 	return (true);
 }
 
@@ -111,10 +111,8 @@ void	ft_skip_to_next_non_delimiter(char **command_line)
 		*command_line += 1;
 }
 
-bool	ft_find_next_token(char **string, char *start)
+bool	ft_find_next_token(char **string, char **start, t_list **tokens)
 {
-	int len;
-
 	while (**string)
 	{
 		ft_skip_quote_block(string);
@@ -125,12 +123,18 @@ bool	ft_find_next_token(char **string, char *start)
 		}
 		if (**string == '<' || **string == '>')
 		{
-			if (*string - 1 != start)
-				break ;
+			if (*start != *string && *string - 1 != *start)
+			{
+				if (!ft_create_one_token(*start, *string, tokens))
+					return (false); //check what needs to be cleared#
+				*start = *string;
+			}
 			printf("found redirection\n");
 			ft_move_while_same_char(string, **string);
 			break ;
 		}
+		if (**string == ' ' || **string == '\t')
+			break;
 		if (**string)
 		{
 			printf("Inbetween: %c\n", **string);
@@ -151,7 +155,7 @@ void	ft_skip_quote_block(char **string)
 		quote = '\"';
 		if (**string == '\'')
 			quote = '\'';
-		while (++(**string) && **string != quote)
+		while (++(*string) && **string != quote)
 			;
 		if (**string && **string == quote)
 			*string += 1;
