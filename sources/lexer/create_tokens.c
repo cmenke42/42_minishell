@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/12 14:04:19 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/12 18:48:13 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ bool	ft_create_tokens_for_sequence(char *command_line_read, t_list **tokens)
 	// while (*command_line_read)
 	// {
 	// 	pipe = false;
+
+	//what need to happen when there is a newline in the command line read?
 		while (*command_line_read)
 		{
 			ft_skip_to_next_non_delimiter(&command_line_read);

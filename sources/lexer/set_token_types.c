@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:25:41 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/12 18:44:23 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/12 18:54:06 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ bool	ft_is_syntax_error(t_shell_data *shell_data)
 	tokens = shell_data->all_tokens;
 	// ft_print_token_list(shell_data->all_tokens);
 	ft_lstiter(tokens, ft_set_token_types);
+	
 	ft_print_tokens_and_type(shell_data->all_tokens);
 	ft_lstclear(&shell_data->all_tokens, ft_clear_token);
 	return (false);

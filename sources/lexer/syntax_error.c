@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:59:19 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/10 17:59:39 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/12 19:06:40 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,10 @@ bool	ft_check_equal_quote_amt(char *s)
 			i++;
 	}
 	return (true);
+}
+
+bool	ft_search_and_print_syntax_error(t_shell_data *shell_data)
+{
+
+
 }
