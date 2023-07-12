@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/12 12:18:16 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/12 12:24:26 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ bool	ft_process_command_line(t_shell_data *shell_data)
 	if (!ft_check_equal_quote_amt(shell_data->command_line_read))
 		return (false);
 	//create tokens for one command sequence
-	if (!ft_create_tokens_for_sequence(shell_data->command_line_read, &shell_data->command_sequences))
+	if (!ft_create_tokens_for_sequence(shell_data->command_line_read, &shell_data->all_tokens))
 	{
 		printf("ft_create_tokens_for_sequence failed\n");
 		return (false);
 	}
-	ft_lstclear(&shell_data->command_sequences, ft_clear_command_sequence);
+	// ft_lstclear(&shell_data->command_sequences, ft_clear_command_sequence);
 
 
 
@@ -69,10 +69,9 @@ void	ft_print_command_sequences(t_list *command_sequences)
 	}
 }
 
-bool	ft_create_tokens_for_sequence(char *command_line_read, t_list **command_sequences)
+bool	ft_create_tokens_for_sequence(char *command_line_read, t_list **tokens)
 {
 	char				*start;
-	t_list				*tokens;
 	// t_command_sequences	*one_sequence;
 	// t_list				*new_sequence_node;
 	// bool				pipe;
@@ -87,15 +86,15 @@ bool	ft_create_tokens_for_sequence(char *command_line_read, t_list **command_seq
 			ft_skip_to_next_non_delimiter(&command_line_read);
 			start = command_line_read;
 			// printf("Starting: %c\n", *command_line_read);
-			ft_find_next_token(&command_line_read, &start, &tokens);
+			ft_find_next_token(&command_line_read, &start, tokens);
 			//creates one token if the string would be at least 1
-			if (start != command_line_read && !ft_create_one_token(start, command_line_read, &tokens))
+			if (start != command_line_read && !ft_create_one_token(start, command_line_read, tokens))
 				return (false); //check what needs to be cleared
 			// printf("END: %c\n", *command_line_read);
 			if (*command_line_read && *command_line_read != '\"' && *command_line_read != '\'')
 				command_line_read += 1;
 		}
-		ft_print_token_list(tokens);
+		ft_print_token_list(*tokens);
 	// 	one_sequence = ft_calloc(1, sizeof(t_command_sequences));
 	// 	if (!one_sequence)
 	// 	{

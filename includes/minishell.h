@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/12 12:13:43 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/12 12:24:11 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_shell_data
 	bool	add_line_to_history;
 	char	**envp;
 	t_list	*command_sequences;
+	t_list	*all_tokens;
 }				t_shell_data;
 
 typedef struct s_command_sequences
