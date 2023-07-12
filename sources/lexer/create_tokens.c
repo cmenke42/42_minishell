@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/12 11:58:34 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/12 12:14:13 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,59 +73,60 @@ bool	ft_create_tokens_for_sequence(char *command_line_read, t_list **command_seq
 {
 	char				*start;
 	t_list				*tokens;
-	t_command_sequences	*one_sequence;
-	t_list				*new_sequence_node;
-	bool				pipe;
+	// t_command_sequences	*one_sequence;
+	// t_list				*new_sequence_node;
+	// bool				pipe;
 
-	//refresh  with each pipe - >use bool?
-	//two whiles?
-	while (*command_line_read)
-	{
-		pipe = false;
-		while (*command_line_read && pipe == false)
+	// //refresh  with each pipe - >use bool?
+	// //two whiles?
+	// while (*command_line_read)
+	// {
+	// 	pipe = false;
+		while (*command_line_read)
 		{
 			ft_skip_to_next_non_delimiter(&command_line_read);
 			start = command_line_read;
 			printf("Starting: %c\n", *command_line_read);
-			ft_find_next_token(&command_line_read, &start, &tokens, &pipe);
+			ft_find_next_token(&command_line_read, &start, &tokens);
 			if (start != command_line_read && !ft_create_one_token(start, command_line_read, &tokens))
 				return (false); //check what needs to be cleared
 			printf("END: %c\n", *command_line_read);
 			if (*command_line_read && *command_line_read != '\"' && *command_line_read != '\'')
 				command_line_read += 1;
 		}
-		one_sequence = ft_calloc(1, sizeof(t_command_sequences));
-		if (!one_sequence)
-		{
-			if (!*command_sequences)
-				ft_lstclear(&tokens, ft_clear_token);
-			else
-				printf("clear command sequence");
-			return (perror("error creating node one sequence,"), false);
-		}
-		one_sequence->tokens = tokens;
-		tokens = NULL;
-		new_sequence_node = ft_lstnew((void *)one_sequence);
-		if (!new_sequence_node)
-		{
-			if (!*command_sequences)
-			{
-				ft_lstclear(&tokens, ft_clear_token);
-				free(one_sequence);
-			}
-			else
-			{
-				free(one_sequence);
-				printf("clear command sequence");
-			}
-			return (perror("error creating node one sequence,"), false);
-		}
-		ft_lstadd_back(command_sequences, new_sequence_node);
-		new_sequence_node = NULL;
-		one_sequence = NULL;
-		printf("created one sequence\n");
-	}
-	ft_print_command_sequences(*command_sequences);
+		ft_print_token_list(tokens);
+	// 	one_sequence = ft_calloc(1, sizeof(t_command_sequences));
+	// 	if (!one_sequence)
+	// 	{
+	// 		if (!*command_sequences)
+	// 			ft_lstclear(&tokens, ft_clear_token);
+	// 		else
+	// 			printf("clear command sequence");
+	// 		return (perror("error creating node one sequence,"), false);
+	// 	}
+	// 	one_sequence->tokens = tokens;
+	// 	tokens = NULL;
+	// 	new_sequence_node = ft_lstnew((void *)one_sequence);
+	// 	if (!new_sequence_node)
+	// 	{
+	// 		if (!*command_sequences)
+	// 		{
+	// 			ft_lstclear(&tokens, ft_clear_token);
+	// 			free(one_sequence);
+	// 		}
+	// 		else
+	// 		{
+	// 			free(one_sequence);
+	// 			printf("clear command sequence");
+	// 		}
+	// 		return (perror("error creating node one sequence,"), false);
+	// 	}
+	// 	ft_lstadd_back(command_sequences, new_sequence_node);
+	// 	new_sequence_node = NULL;
+	// 	one_sequence = NULL;
+	// 	printf("created one sequence\n");
+	// }
+	// ft_print_command_sequences(*command_sequences);
 	return (true);
 }
 
@@ -135,19 +136,12 @@ void	ft_skip_to_next_non_delimiter(char **command_line)
 		*command_line += 1;
 }
 
-bool	ft_find_next_token(char **string, char **start, t_list **tokens, bool *pipe)
+bool	ft_find_next_token(char **string, char **start, t_list **tokens)
 {
 	while (**string)
 	{
 		ft_skip_quote_block(string);
-		if (**string == '|')
-		{
-			//finish this process and start reading for input and the continue with the new input
-			printf("finishd one sequence\n");
-			*pipe = true;
-			break;
-		}
-		if (**string == '<' || **string == '>')
+		if (**string == '<' || **string == '>' || **string == '|')
 		{
 			if (*start != *string && *string - 1 != *start)
 			{

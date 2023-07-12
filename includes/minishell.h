@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/12 11:52:54 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/12 12:13:43 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ bool	ft_process_command_line(t_shell_data *shell_data);
 bool	ft_create_command_sequence(char *command_line_read, t_list **command_sequences);
 bool	ft_create_tokens_for_sequence(char *command_line_read, t_list **command_sequences);
 void	ft_skip_to_next_non_delimiter(char **command_line);
-bool	ft_find_next_token(char **string, char **start, t_list **tokens, bool *pipe);
+bool	ft_find_next_token(char **string, char **start, t_list **tokens);
 void	ft_skip_quote_block(char **string);
 void	ft_move_while_same_char(char **command_line, char c);
 bool	ft_create_one_token(char *start, char *end, t_list **token);
