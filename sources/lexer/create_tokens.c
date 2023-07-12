@@ -6,36 +6,11 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/12 11:24:30 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/12 11:58:34 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	ft_clear_contents_command_sequences(void *content)
-{
-	t_command_sequences	*command_sequences;
-
-	command_sequences = (t_command_sequences *)content;
-	if (command_sequences->sequence)
-	{
-		free(command_sequences->sequence);
-		command_sequences->sequence = NULL;
-	}
-}
-
-void 	ft_print_command_sequences(t_list *command_sequences)
-{
-	t_command_sequences	*one_sequence;
-
-	while (command_sequences)
-	{
-		one_sequence = (t_command_sequences *)command_sequences->content;
-		printf("one_sequence->command_sequence: %s\n", one_sequence->sequence);
-		command_sequences = command_sequences->next;
-	}
-}
-
 
 bool	ft_process_command_line(t_shell_data *shell_data)
 {
@@ -49,7 +24,8 @@ bool	ft_process_command_line(t_shell_data *shell_data)
 	{
 		printf("ft_create_tokens_for_sequence failed\n");
 		return (false);
-	}	
+	}
+	ft_lstclear(&shell_data->command_sequences, ft_clear_command_sequence);
 
 
 
@@ -78,30 +54,78 @@ void	ft_print_token_list(t_list *tokens)
 	}
 }
 
+void	ft_print_command_sequences(t_list *command_sequences)
+{
+	t_command_sequences	*one_sequence;
+	int i;
 
-
+	i = 0;
+	while (command_sequences)
+	{
+		printf("\nSequence %d\n", i++);
+		one_sequence = (t_command_sequences *)command_sequences->content;
+		ft_print_token_list(one_sequence->tokens);
+		command_sequences = command_sequences->next;
+	}
+}
 
 bool	ft_create_tokens_for_sequence(char *command_line_read, t_list **command_sequences)
 {
 	char				*start;
 	t_list				*tokens;
 	t_command_sequences	*one_sequence;
+	t_list				*new_sequence_node;
+	bool				pipe;
 
 	//refresh  with each pipe - >use bool?
 	//two whiles?
 	while (*command_line_read)
 	{
-		ft_skip_to_next_non_delimiter(&command_line_read);
-		start = command_line_read;
-		printf("Starting: %c\n", *command_line_read);
-		ft_find_next_token(&command_line_read, &start, &tokens);
-		if (!ft_create_one_token(start, command_line_read, &tokens))
-			return (false); //check what needs to be cleared
-		printf("END: %c\n", *command_line_read);
-		if (*command_line_read)
-			command_line_read += 1;
+		pipe = false;
+		while (*command_line_read && pipe == false)
+		{
+			ft_skip_to_next_non_delimiter(&command_line_read);
+			start = command_line_read;
+			printf("Starting: %c\n", *command_line_read);
+			ft_find_next_token(&command_line_read, &start, &tokens, &pipe);
+			if (start != command_line_read && !ft_create_one_token(start, command_line_read, &tokens))
+				return (false); //check what needs to be cleared
+			printf("END: %c\n", *command_line_read);
+			if (*command_line_read && *command_line_read != '\"' && *command_line_read != '\'')
+				command_line_read += 1;
+		}
+		one_sequence = ft_calloc(1, sizeof(t_command_sequences));
+		if (!one_sequence)
+		{
+			if (!*command_sequences)
+				ft_lstclear(&tokens, ft_clear_token);
+			else
+				printf("clear command sequence");
+			return (perror("error creating node one sequence,"), false);
+		}
+		one_sequence->tokens = tokens;
+		tokens = NULL;
+		new_sequence_node = ft_lstnew((void *)one_sequence);
+		if (!new_sequence_node)
+		{
+			if (!*command_sequences)
+			{
+				ft_lstclear(&tokens, ft_clear_token);
+				free(one_sequence);
+			}
+			else
+			{
+				free(one_sequence);
+				printf("clear command sequence");
+			}
+			return (perror("error creating node one sequence,"), false);
+		}
+		ft_lstadd_back(command_sequences, new_sequence_node);
+		new_sequence_node = NULL;
+		one_sequence = NULL;
+		printf("created one sequence\n");
 	}
-	ft_print_token_list(tokens);
+	ft_print_command_sequences(*command_sequences);
 	return (true);
 }
 
@@ -111,7 +135,7 @@ void	ft_skip_to_next_non_delimiter(char **command_line)
 		*command_line += 1;
 }
 
-bool	ft_find_next_token(char **string, char **start, t_list **tokens)
+bool	ft_find_next_token(char **string, char **start, t_list **tokens, bool *pipe)
 {
 	while (**string)
 	{
@@ -120,6 +144,8 @@ bool	ft_find_next_token(char **string, char **start, t_list **tokens)
 		{
 			//finish this process and start reading for input and the continue with the new input
 			printf("finishd one sequence\n");
+			*pipe = true;
+			break;
 		}
 		if (**string == '<' || **string == '>')
 		{
@@ -145,7 +171,6 @@ bool	ft_find_next_token(char **string, char **start, t_list **tokens)
 }
 
 
-//skips a block of chars which is inbetween two quotes of the same type.
 void	ft_skip_quote_block(char **string)
 {
 	char	quote;
@@ -161,7 +186,6 @@ void	ft_skip_quote_block(char **string)
 			*string += 1;
 	}
 }
-
 
 void	ft_move_while_same_char(char **command_line, char c)
 {
@@ -198,50 +222,5 @@ bool	ft_create_one_token(char *start, char *end, t_list **tokens)
 		return (false);
 	}
 	ft_lstadd_back(tokens, new_node);
-	return (true);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-bool	ft_create_command_sequence(char *command_line_read, t_list **command_sequences)
-{
-	t_command_sequences	*one_sequence;
-	t_list				*new_sequence;
-	char				**splitted_by_pipe;
-	int					i;
-
-	i = 0;
-	splitted_by_pipe = ft_split(command_line_read, '|');
-	if(!splitted_by_pipe)
-		return (perror("splitted_by_pipe - malloc error"), false);
-	while (splitted_by_pipe[i])
-	{
-		one_sequence = ft_calloc(1, sizeof(t_command_sequences));
-		if (!one_sequence)
-		{
-			ft_free_double_pointer_char(&splitted_by_pipe);
-			return (perror("one_sequence - malloc error"), false);
-		}
-		one_sequence->sequence = splitted_by_pipe[i];
-		new_sequence = ft_lstnew((void *)one_sequence);
-		//free the everthing in the main function
-		if (!new_sequence)
-		{
-			ft_free_double_pointer_char(&splitted_by_pipe);
-			return (perror("new_sequence - malloc error"), false);
-		}
-		ft_lstadd_back(command_sequences, new_sequence);
-		i++;
-	}
 	return (true);
 }
