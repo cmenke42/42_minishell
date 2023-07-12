@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/12 12:24:11 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/12 14:45:31 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,16 @@ typedef struct s_tokens
 	char	type;
 }				t_tokens;
 
-// enum e_token_type
-// {
-// 	/* data */
-// };
+enum e_token_type
+{
+	syntax_error,
+	text,
+	pipe,
+	redirection_in,
+	redirection_in_heredoc,
+	redirection_out_trunc,
+	redirection_out_append
+};
 
 //main
 //lexer
@@ -85,6 +91,10 @@ bool	ft_find_next_token(char **string, char **start, t_list **tokens);
 void	ft_skip_quote_block(char **string);
 void	ft_move_while_same_char(char **command_line, char c);
 bool	ft_create_one_token(char *start, char *end, t_list **token);
+	//set_token_types.c
+bool	ft_is_syntax_error(t_shell_data *shell_data);
+void	ft_set_token_types(void *node);
+char	ft_get_token_type(char *string);
 	// syntax_error.c
 bool	ft_check_equal_quote_amt(char *s);
 // clearing
@@ -97,5 +107,6 @@ void	ft_clear_command_sequence(void *sequence);
 // void	ft_free_command_sequences(void *command_sequences);
 //helpers.c
 	// void ft_print_list(t_list *list);
+void	ft_print_token_list(t_list *tokens);
 
 #endif

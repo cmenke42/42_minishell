@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/12 12:24:26 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/12 14:04:19 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,13 @@ bool	ft_process_command_line(t_shell_data *shell_data)
 		printf("ft_create_tokens_for_sequence failed\n");
 		return (false);
 	}
-	// ft_lstclear(&shell_data->command_sequences, ft_clear_command_sequence);
+	// ft_print_token_list(shell_data->all_tokens);
+	if (ft_is_syntax_error(shell_data))
+	{
+		printf("having a syntax error");
+		return (false);
+	}
+	// ft_lstclear(&shell_data->all_tokens, ft_clear_token);
 
 
 
@@ -94,7 +100,7 @@ bool	ft_create_tokens_for_sequence(char *command_line_read, t_list **tokens)
 			if (*command_line_read && *command_line_read != '\"' && *command_line_read != '\'')
 				command_line_read += 1;
 		}
-		ft_print_token_list(*tokens);
+		// ft_print_token_list(*tokens);
 	// 	one_sequence = ft_calloc(1, sizeof(t_command_sequences));
 	// 	if (!one_sequence)
 	// 	{
