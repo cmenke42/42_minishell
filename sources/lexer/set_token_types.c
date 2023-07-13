@@ -6,31 +6,34 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:25:41 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/12 18:54:06 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/13 14:38:12 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+const char* token_enum_to_string[][2] =
+{
+{"text", "0"},
+{"syntax_error", "1"},
+{"pipe_operator", "2"},
+{"redirection_in", "3"},
+{"redirection_in_heredoc", "4"},
+{"redirection_out_trunc", "5"},
+{"redirection_out_append", "6"} //remove this while thing
+};
+
 void ft_print_tokens_and_type(t_list *tokens)
 {
 	t_list		*temp;
 	t_tokens	*token;
-	const char* tokenTypeStrings[][2] = {
-    {"syntax_error", "0"},
-    {"text", "1"},
-    {"pipe_operator", "2"},
-    {"redirection_in", "3"},
-    {"redirection_in_heredoc", "4"},
-    {"redirection_out_trunc", "5"},
-    {"redirection_out_append", "6"}
-	};
+
 
 	temp = tokens;
 	while (temp)
 	{
 		token = (t_tokens *)temp->content;
-		ft_printf("token: %s, type: %s\n", token->token, tokenTypeStrings[token->type][0]);
+		ft_printf(BOLD_YELLOW"token:"STYLE_DEF"%s,		"BOLD_PINK"type:"STYLE_DEF"%s\n", token->token, token_enum_to_string[(int)token->type][0]);
 		temp = temp->next;
 	}
 	return ;
@@ -44,8 +47,8 @@ bool	ft_is_syntax_error(t_shell_data *shell_data)
 	tokens = shell_data->all_tokens;
 	// ft_print_token_list(shell_data->all_tokens);
 	ft_lstiter(tokens, ft_set_token_types);
-	
 	ft_print_tokens_and_type(shell_data->all_tokens);
+	ft_search_and_print_syntax_error(shell_data);
 	ft_lstclear(&shell_data->all_tokens, ft_clear_token);
 	return (false);
 }

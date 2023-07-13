@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/12 18:40:19 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/13 14:28:29 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ typedef struct s_tokens
 
 enum e_token_type
 {
-	syntax_error,
 	text,
+	syntax_error,
 	pipe_operator,
 	redirection_in,
 	redirection_in_heredoc,
@@ -80,11 +80,12 @@ enum e_token_type
 	redirection_out_append
 };
 
+extern const char* token_enum_to_string[][2]; //remove this
+
 //main
 //lexer
 	//create_tokens.c
 bool	ft_process_command_line(t_shell_data *shell_data);
-bool	ft_create_command_sequence(char *command_line_read, t_list **command_sequences);
 bool	ft_create_tokens_for_sequence(char *command_line_read, t_list **command_sequences);
 void	ft_skip_to_next_non_delimiter(char **command_line);
 bool	ft_find_next_token(char **string, char **start, t_list **tokens);
@@ -97,6 +98,9 @@ void	ft_set_token_types(void *node);
 char	ft_get_token_type(char *string);
 	// syntax_error.c
 bool	ft_check_equal_quote_amt(char *s);
+bool	ft_search_and_print_syntax_error(t_shell_data *shell_data);
+bool	ft_check_for_syntax_error(t_tokens *token, t_tokens *next_token);
+bool	ft_is_operator(char token_type);
 // clearing
 	//ft_free_double_pointer.c
 void	ft_free_double_pointer_char(char ***ptr);
