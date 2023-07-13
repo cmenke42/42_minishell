@@ -6,7 +6,7 @@
 #    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/07/12 12:25:37 by cmenke           ###   ########.fr        #
+#    Updated: 2023/07/13 14:59:04 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ CLEARING := $(addprefix clearing/,free_double_pointer.c \
 
 LEXER := $(addprefix lexer/, create_tokens.c \
 								syntax_error.c \
-								set_token_types.c)
+								set_token_types.c \
+								split_in_sequences.c)
 
 # EXECUTION := $(addprefix execution/,get_envp_cmd_paths.c \
 # 									fork_childs.c)

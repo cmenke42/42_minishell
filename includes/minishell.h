@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/13 14:28:29 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/13 15:02:07 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@
 typedef struct s_shell_data
 {
 	char	*command_line_read;
-	bool	add_line_to_history;
 	char	**envp;
 	t_list	*command_sequences;
 	t_list	*all_tokens;
