@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 14:08:54 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/09 16:45:57 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/13 15:50:03 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,3 +77,48 @@ t_env	*find_and_replace(t_env *env, t_env *new)
 }
 
 
+// char *reverse_split(char *name, const char *value)
+// {
+//     int i = 0;
+//     int j = 0;
+
+//     while (name[i])
+//         i++;
+// 	name[i] = '=';
+// 	i++;
+//     while (value[j])
+//     {
+//         name[i] = value[j];
+//         i++;
+//         j++;
+//     }
+//     name[i] = '\0';
+//     return name;
+// }
+
+char *reverse_split(const char *name, const char *value)
+{
+    int i = 0;
+    int j = 0;
+    size_t name_len = ft_strlen(name);
+    size_t value_len = ft_strlen(value);
+
+    char *result = malloc(name_len + value_len + 2);  // +2 for '=' and '\0'
+    if (result == NULL) {
+        // Handle memory allocation failure
+        return NULL;
+    }
+
+    ft_strlcpy(result, name, ft_strlen(name) + 1);
+    result[name_len] = '=';
+    i = name_len + 1;
+
+    while (value[j]) {
+        result[i] = value[j];
+        i++;
+        j++;
+    }
+    result[i] = '\0';
+
+    return result;
+}

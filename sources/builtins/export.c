@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:55:14 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/10 15:44:34 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/12 18:52:14 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_env	*add_to_list(t_env *env, char *var)
 		if (split[1])
 			new->value = ft_strdup(split[1]);
 		else
-			new->value = ft_strdup("\"\"");
+			new->value = ft_strdup("");
 	}
 	new->next = NULL;
 	ft_check_name(new);
@@ -44,13 +44,13 @@ t_env	*add_to_list(t_env *env, char *var)
 		find_and_replace(tmp, new);
 	else
 		tmp->next = new;
-	//free_split(split);
 	return tmp;
 }
 
 t_env	*sort_env(t_env *env)
 {
 	char	*swap;
+	char	*swap_value;
 	t_env	*tmp;
 
 	tmp = env;
@@ -61,8 +61,11 @@ t_env	*sort_env(t_env *env)
 		if (env->name[0] > env->next->name[0])
 		{
 			swap = env->name;
+			swap_value = env->value;
 			env->name = env->next->name;
+			env->value = env->next->value;
 			env->next->name = swap;
+			env->next->value = swap_value;
 			env = tmp;
 		}
 		else
@@ -76,11 +79,6 @@ void	export(t_env *env)
 {
 	t_env	*sorted_env;
 	sorted_env = sort_env(env);
-		if (!sorted_env)
-		{
-			printf("SORTED ENV IS NULL!\n");
-			exit(1);
-		}
 	while (sorted_env)
 	{
 		if (sorted_env->name &&(ft_isalpha(sorted_env->name[0]) || sorted_env->name[0] == '_'))
