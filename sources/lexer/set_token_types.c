@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:25:41 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/13 14:47:38 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/14 12:01:13 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void ft_print_tokens_and_type(t_list *tokens)
 	while (temp)
 	{
 		token = (t_tokens *)temp->content;
-		ft_printf(BOLD_YELLOW"token:"STYLE_DEF"%s,		"BOLD_PINK"type:"STYLE_DEF"%s\n", token->token, token_enum_to_string[(int)token->type][0]);
+		ft_printf(BOLD_YELLOW"token:"STYLE_DEF"%s		"BOLD_PINK"type:"STYLE_DEF"%s\n", token->token, token_enum_to_string[(int)token->type][0]);
 		temp = temp->next;
 	}
 	return ;
@@ -50,7 +50,7 @@ bool	ft_is_syntax_error(t_shell_data *shell_data)
 	ft_print_tokens_and_type(shell_data->all_tokens);
 	printf("\nChecking for Errors\n\n");
 	ft_search_and_print_syntax_error(shell_data);
-	ft_lstclear(&shell_data->all_tokens, ft_clear_token);
+	// ft_lstclear(&shell_data->all_tokens, ft_clear_token);
 	return (false);
 }
 

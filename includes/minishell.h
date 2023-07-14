@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/13 15:02:07 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/14 11:42:19 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,9 @@ bool	ft_check_equal_quote_amt(char *s);
 bool	ft_search_and_print_syntax_error(t_shell_data *shell_data);
 bool	ft_check_for_syntax_error(t_tokens *token, t_tokens *next_token);
 bool	ft_is_operator(char token_type);
+	//split_in_sequences.c
+bool	ft_split_tokens_in_sequences(t_shell_data *shell_data);
+bool	ft_assing_tokens_to_sequence(t_list *start_of_sequence);
 // clearing
 	//ft_free_double_pointer.c
 void	ft_free_double_pointer_char(char ***ptr);

@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/13 15:00:57 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/14 12:04:58 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ bool	ft_process_command_line(t_shell_data *shell_data)
 		printf("having a syntax error");
 		return (false);
 	}
-	// ft_lstclear(&shell_data->all_tokens, ft_clear_token);
+	// ft_split_tokens_in_sequences(shell_data);
+	ft_lstclear(&shell_data->all_tokens, ft_clear_token);
 
 
 
@@ -78,63 +79,21 @@ void	ft_print_command_sequences(t_list *command_sequences)
 bool	ft_create_tokens_for_sequence(char *command_line_read, t_list **tokens)
 {
 	char				*start;
-	// t_command_sequences	*one_sequence;
-	// t_list				*new_sequence_node;
-	// bool				pipe;
-
-	// //refresh  with each pipe - >use bool?
-	// //two whiles?
-	// while (*command_line_read)
-	// {
-	// 	pipe = false;
-
 	//what need to happen when there is a newline in the command line read?
-		while (*command_line_read)
-		{
-			ft_skip_to_next_non_delimiter(&command_line_read);
-			start = command_line_read;
-			// printf("Starting: %c\n", *command_line_read);
-			ft_find_next_token(&command_line_read, &start, tokens);
-			//creates one token if the string would be at least 1
-			if (start != command_line_read && !ft_create_one_token(start, command_line_read, tokens))
-				return (false); //check what needs to be cleared
-			// printf("END: %c\n", *command_line_read);
-			if (*command_line_read && *command_line_read != '\"' && *command_line_read != '\'')
-				command_line_read += 1;
-		}
-		// ft_print_token_list(*tokens);
-	// 	one_sequence = ft_calloc(1, sizeof(t_command_sequences));
-	// 	if (!one_sequence)
-	// 	{
-	// 		if (!*command_sequences)
-	// 			ft_lstclear(&tokens, ft_clear_token);
-	// 		else
-	// 			printf("clear command sequence");
-	// 		return (perror("error creating node one sequence,"), false);
-	// 	}
-	// 	one_sequence->tokens = tokens;
-	// 	tokens = NULL;
-	// 	new_sequence_node = ft_lstnew((void *)one_sequence);
-	// 	if (!new_sequence_node)
-	// 	{
-	// 		if (!*command_sequences)
-	// 		{
-	// 			ft_lstclear(&tokens, ft_clear_token);
-	// 			free(one_sequence);
-	// 		}
-	// 		else
-	// 		{
-	// 			free(one_sequence);
-	// 			printf("clear command sequence");
-	// 		}
-	// 		return (perror("error creating node one sequence,"), false);
-	// 	}
-	// 	ft_lstadd_back(command_sequences, new_sequence_node);
-	// 	new_sequence_node = NULL;
-	// 	one_sequence = NULL;
-	// 	printf("created one sequence\n");
-	// }
-	// ft_print_command_sequences(*command_sequences);
+	while (*command_line_read)
+	{
+		ft_skip_to_next_non_delimiter(&command_line_read);
+		start = command_line_read;
+		// printf("Starting: %c\n", *command_line_read);
+		ft_find_next_token(&command_line_read, &start, tokens);
+		//creates one token if the string would be at least 1
+		if (start != command_line_read && !ft_create_one_token(start, command_line_read, tokens))
+			return (false); //check what needs to be cleared
+		// printf("END: %c\n", *command_line_read);
+		// if (*command_line_read && *command_line_read != '\"' && *command_line_read != '\'')
+		// 	command_line_read += 1;
+	}
+	ft_print_token_list(*tokens);
 	return (true);
 }
 
@@ -152,10 +111,11 @@ bool	ft_find_next_token(char **string, char **start, t_list **tokens)
 		ft_skip_quote_block(string);
 		if (**string == '<' || **string == '>' || **string == '|')
 		{
-			if (*start != *string && *string - 1 != *start)
+			if (*start != *string)
 			{
 				if (!ft_create_one_token(*start, *string, tokens))
 					return (false); //check what needs to be cleared#
+				printf("char: %c\n", **string);
 				*start = *string;
 			}
 			// printf("found redirection\n");
@@ -210,6 +170,7 @@ bool	ft_create_one_token(char *start, char *end, t_list **tokens)
 	}
 	len = end - start;
 	string = ft_substr(start, 0, len);
+	printf("string: %s\n", string);
 	if (!string)
 	{
 		//think about where to clear the things
