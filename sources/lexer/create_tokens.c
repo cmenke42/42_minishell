@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/14 12:04:58 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/14 13:16:54 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ bool	ft_process_command_line(t_shell_data *shell_data)
 		printf("having a syntax error");
 		return (false);
 	}
-	// ft_split_tokens_in_sequences(shell_data);
-	ft_lstclear(&shell_data->all_tokens, ft_clear_token);
+	printf("\nstarting to split tokens in sequences\n\n");
+	ft_split_tokens_in_sequences(shell_data);
+	ft_print_command_sequences(shell_data->command_sequences);
+	// ft_lstclear(&shell_data->all_tokens, ft_clear_token);
 
 
 
@@ -42,7 +44,7 @@ bool	ft_process_command_line(t_shell_data *shell_data)
 	// //printing the command sequences
 	// ft_print_command_sequences(shell_data->command_sequences);
 	// //freeing the list of command sequences
-	// ft_lstclear(&shell_data->command_sequences, ft_clear_contents_command_sequences);
+	// ft_lstclear(&shell_data->command_sequences, ft_clear_command_sequence);
 	return (true);
 }
 
