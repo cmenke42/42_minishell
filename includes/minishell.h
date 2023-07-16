@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/14 13:15:53 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/16 19:47:17 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,9 @@ extern const char* token_enum_to_string[][2]; //remove this
 bool	ft_process_command_line(t_shell_data *shell_data);
 bool	ft_create_tokens_for_sequence(char *command_line_read, t_list **command_sequences);
 void	ft_skip_to_next_non_delimiter(char **command_line);
+bool	ft_is_whitespace(char c);
 bool	ft_find_next_token(char **string, char **start, t_list **tokens);
-void	ft_skip_quote_block(char **string);
+void	ft_skip_quote_block(char **string, bool	only_single_quotes);
 void	ft_move_while_same_char(char **command_line, char c);
 bool	ft_create_one_token(char *start, char *end, t_list **token);
 	//set_token_types.c
@@ -105,6 +106,13 @@ bool	ft_split_tokens_in_sequences(t_shell_data *shell_data);
 bool	ft_find_pipe_operator(t_list **tokens);
 void	ft_cut_out_pipe_node(t_list **tokens, t_list *next_token_node);
 bool	ft_assing_tokens_to_sequence(t_list *start_of_sequence, t_list **command_sequences);
+	// expand_variables.c
+bool	ft_search_for_variable_expansion(t_shell_data *shell_data);
+bool	ft_expand_variable(t_list *tokens);
+bool	ft_do_variable_expansion(t_tokens *token);
+char	*ft_get_variable_name(char	*string);
+bool	ft_execute_specific_case_of_variable_expansion(char	**string, bool in_single_quotes, bool in_double_quotes);
+bool	ft_is_next_char_quote(char c);
 // clearing
 	//ft_free_double_pointer.c
 void	ft_free_double_pointer_char(char ***ptr);

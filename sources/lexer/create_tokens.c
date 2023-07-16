@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/16 17:20:59 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/16 19:54:44 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ bool	ft_process_command_line(t_shell_data *shell_data)
 	printf("\nstarting to split tokens in sequences\n\n");
 	ft_split_tokens_in_sequences(shell_data);
 	ft_print_command_sequences(shell_data->command_sequences);
+	ft_search_for_variable_expansion(shell_data);
 	// ft_lstclear(&shell_data->all_tokens, ft_clear_token);
 
 
@@ -60,7 +61,7 @@ void	ft_print_token_list(t_list *tokens)
 	while (tokens)
 	{
 		token = (t_tokens *)tokens->content;
-		printf("token->token: %s\n", token->token);
+		printf("token->token:%s\n", token->token);
 		tokens = tokens->next;
 	}
 }
@@ -101,10 +102,16 @@ bool	ft_create_tokens_for_sequence(char *command_line_read, t_list **tokens)
 	return (true);
 }
 
+
 void	ft_skip_to_next_non_delimiter(char **command_line)
 {
-	while (**command_line == '\t' || **command_line == ' ')
+	while (ft_is_whitespace(**command_line))
 		*command_line += 1;
+}
+
+bool	ft_is_whitespace(char c)
+{
+	return (c == '\t' || c == ' ');
 }
 
 //seaparates the string by spaces and opeartors
@@ -112,7 +119,7 @@ bool	ft_find_next_token(char **string, char **start, t_list **tokens)
 {
 	while (**string)
 	{
-		ft_skip_quote_block(string);
+		ft_skip_quote_block(string, false);
 		if (**string == '<' || **string == '>' || **string == '|')
 		{
 			if (*start != *string)
@@ -138,15 +145,15 @@ bool	ft_find_next_token(char **string, char **start, t_list **tokens)
 }
 
 
-void	ft_skip_quote_block(char **string)
+void	ft_skip_quote_block(char **string, bool	only_single_quotes)
 {
 	char	quote;
 
-	while (**string == '\'' || **string == '\"')
+	while (**string == '\'' || (!only_single_quotes && **string == '\"'))
 	{
-		quote = '\"';
-		if (**string == '\'')
-			quote = '\'';
+		quote = '\'';
+		if (**string == '\"' && !only_single_quotes)
+			quote = '\"';
 		while (++(*string) && **string != quote)
 			;
 		if (**string && **string == quote)
