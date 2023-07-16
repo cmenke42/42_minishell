@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:32:40 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/16 21:38:43 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/16 21:56:21 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,5 +126,36 @@ char	*ft_get_variable_value(char	*variable_name)
 
 bool	ft_replace_variable_name_with_value(char **string, char *start, char *name, char *value)
 {
+	//dont free the value
+	char	*result;
+	int		value_len;
+	int		result_len;
 
+	value_len = 0;
+	if (value)
+		value_len = ft_strlen(value);
+	result_len = ft_strlen(name) + (ft_strlen(start) - ft_strlen(*string)) - ft_strlen(name);
+	result = malloc((result_len + 1) * sizeof(char));
+	if (!result)
+		return(perror("error creating new string with variable value"), false);
+	while (*start)
+	{
+		if (start == *string)
+		{
+			start += ft_strlen(name) + 1; //for the $ + 1
+			while (*value)
+			{
+				ft_assign_char_to_new_string(&result, *value);
+				value += 1;
+			}
+		}
+		else
+			ft_assign_char_to_new_string(&result, *start);
+		start += 1;
+	}
+}
+
+void	ft_assign_char_to_new_string(char **new_string, char c)
+{
+	**new_string = c;
 }

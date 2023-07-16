@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/16 21:38:46 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/16 21:54:33 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ bool	ft_execute_specific_case_of_variable_expansion(char	**string, char *start, 
 bool	ft_is_char_quote(char c);
 bool	ft_get_variable_name(char *string, char **variable_name);
 bool	ft_replace_variable_name_with_value(char **string, char *start, char *name, char *value);
+void	ft_assign_char_to_new_string(char **new_string, char c);
 // clearing
 	//ft_free_double_pointer.c
 void	ft_free_double_pointer_char(char ***ptr);
