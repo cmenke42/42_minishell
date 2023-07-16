@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/14 13:16:54 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/16 17:20:59 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ bool	ft_process_command_line(t_shell_data *shell_data)
 	// ft_print_command_sequences(shell_data->command_sequences);
 	// //freeing the list of command sequences
 	// ft_lstclear(&shell_data->command_sequences, ft_clear_command_sequence);
+	shell_data->all_tokens = NULL;
+	shell_data->command_sequences = NULL;
 	return (true);
 }
 
@@ -169,6 +171,7 @@ bool	ft_create_one_token(char *start, char *end, t_list **tokens)
 	if (!token)
 	{
 		ft_lstclear(tokens, ft_clear_token);
+		return (false);
 	}
 	len = end - start;
 	string = ft_substr(start, 0, len);

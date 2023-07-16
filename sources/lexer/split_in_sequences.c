@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:59:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/14 13:37:43 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/16 17:33:12 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,25 @@ bool	ft_split_tokens_in_sequences(t_shell_data *shell_data)
 {
 	t_list				*tokens;
 	t_list				*start_of_sequence;
+	bool				pipe_inside;
 
 	tokens = shell_data->all_tokens;
 	start_of_sequence = shell_data->all_tokens;
+	pipe_inside = true;
 	while (tokens)
 	{
-		if (!tokens->next || ft_find_pipe_operator(&tokens))
+		if (pipe_inside)
+			pipe_inside = ft_find_pipe_operator(&tokens);
+		if (pipe_inside || !tokens)
 		{
 			if (!ft_assing_tokens_to_sequence(start_of_sequence, &shell_data->command_sequences))
 			{
 				//maybe free something
 				return (false);
 			}
-			if (!tokens)
-				break;
 			start_of_sequence = tokens;
-			printf("\nstart of  sequeneve after cutting\n\n");
-			ft_print_token_list(start_of_sequence);
-			printf("\n\n");
 		}
-		else
+		else if (tokens)
 			tokens = tokens->next;
 	}
 	return (true);
@@ -44,29 +43,33 @@ bool	ft_split_tokens_in_sequences(t_shell_data *shell_data)
 bool	ft_find_pipe_operator(t_list **tokens)
 {
 	t_tokens	*token;
-	t_tokens	*next_token;
-	t_list		*next_token_node;
+	t_list		*previous_token_node;
 
-	while ((*tokens)->next)
+	previous_token_node = NULL;
+	while (*tokens)
 	{
 		token = (t_tokens *)((*tokens)->content);
-		next_token_node = (*tokens)->next;
-		next_token = (t_tokens *)next_token_node->content;
-		if (next_token->type == pipe_operator)
+		if (token->type == pipe_operator)
 		{
-			ft_cut_out_pipe_node(tokens, next_token_node);
+			ft_cut_out_pipe_node(tokens, previous_token_node);
 			return (true);
 		}
-		*tokens = (*tokens)->next;
+		previous_token_node = *tokens;
+		if (*tokens)
+			*tokens = (*tokens)->next;
 	}
 	return (false);
 }
 
-void	ft_cut_out_pipe_node(t_list **tokens, t_list *next_token_node)
+void	ft_cut_out_pipe_node(t_list **tokens, t_list *previous_token_node)
 {
-	(*tokens)->next = NULL;
-	(*tokens) = next_token_node->next;
-	ft_lstdelone(next_token_node, ft_clear_token);
+	t_list	*temp;
+
+	temp = *tokens;
+	if (previous_token_node)
+		previous_token_node->next = NULL;
+	*tokens = (*tokens)->next;
+	ft_lstdelone(temp, ft_clear_token);
 }
 
 bool	ft_assing_tokens_to_sequence(t_list *start_of_sequence, t_list **command_sequences)
