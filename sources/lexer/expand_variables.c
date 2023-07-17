@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:32:40 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/16 21:56:21 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/17 13:53:13 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ bool	ft_do_variable_expansion(t_tokens *token)
 	while (**string)
 	{
 		if (**string == '$')
+		{
 			ft_execute_specific_case_of_variable_expansion(string, token->token, false, false);
+			printf("new_String:%s\n", *string);
+		}
 		*string += 1;
 	}
 	return (true);
@@ -92,6 +95,9 @@ bool	ft_execute_specific_case_of_variable_expansion(char	**string, char *start, 
 		printf("replace with trimmed value\n");
 		if (!ft_get_variable_name(*string, &variable_name))
 			return (false);
+		printf("variable_name:%s\n", variable_name);
+		if (!ft_replace_variable_name_with_value(string, start, variable_name, ft_get_variable_value(variable_name)))
+			return (false);
 	}
 	return (true);
 }
@@ -128,14 +134,16 @@ bool	ft_replace_variable_name_with_value(char **string, char *start, char *name,
 {
 	//dont free the value
 	char	*result;
+	char	*result_start;
 	int		value_len;
 	int		result_len;
 
 	value_len = 0;
 	if (value)
 		value_len = ft_strlen(value);
-	result_len = ft_strlen(name) + (ft_strlen(start) - ft_strlen(*string)) - ft_strlen(name);
+	result_len = (ft_strlen(start) - ft_strlen(*string)) - ft_strlen(name) - 1 + ft_strlen(value);
 	result = malloc((result_len + 1) * sizeof(char));
+	result_start = result;
 	if (!result)
 		return(perror("error creating new string with variable value"), false);
 	while (*start)
@@ -150,12 +158,20 @@ bool	ft_replace_variable_name_with_value(char **string, char *start, char *name,
 			}
 		}
 		else
+		{
 			ft_assign_char_to_new_string(&result, *start);
-		start += 1;
+			start += 1;
+		}
+	
 	}
+	// free(start);
+	*result = '\0';
+	*string = result_start;
+	return (true);
 }
 
 void	ft_assign_char_to_new_string(char **new_string, char c)
 {
 	**new_string = c;
+	*new_string += 1;
 }
