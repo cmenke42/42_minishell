@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variables.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:32:40 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/17 15:52:33 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/17 18:05:21 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token,
 {
 	char	*variable_name;
 	char	*process_id;
+	char	*trimmed;
 
 	variable_name = NULL;
 	process_id = NULL;
@@ -129,7 +130,8 @@ bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token,
 			return (false);
 		printf("variable_name:%s\n", variable_name);
 		// Trim the value if needed in the get value funciton
-		if (!ft_replace_variable_name_with_value(string, token, variable_name, ft_get_variable_value(env_list, variable_name)))
+		trimmed = ft_trim_variable_value(env_list->value);
+		if (!ft_replace_variable_name_with_value(string, token, variable_name, trimmed))
 			return (false);
 	}
 	return (true);
@@ -217,7 +219,7 @@ bool	ft_replace_variable_name_with_value(char **string, char **token, char *name
 	if (value)
 	{
 		result = ft_strjoin(first_part_and_value, last_part);
-		free(first_part_and_value);
+		//free(first_part_and_value);
 		free(last_part);
 	}
 	else if (!first_part)
@@ -233,7 +235,7 @@ bool	ft_replace_variable_name_with_value(char **string, char **token, char *name
 	}
 	if (!result)
 		return (false);
-	printf("result:%s\n", result);
+	printf("result: %s\n", result);
 	free(*token);
 	*token = result;
 	*string = *token;

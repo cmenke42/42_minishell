@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/17 15:03:58 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/17 17:26:24 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ bool	ft_is_char_quote(char c);
 bool	ft_get_variable_name(char *string, char **variable_name);
 char	*ft_get_variable_value(t_env *env, char	*variable_name);
 bool	ft_replace_variable_name_with_value(char **string, char **token, char *name, char *value);
+char	*ft_trim_variable_value(char *string);
 // clearing
 	//ft_free_double_pointer.c
 void	ft_free_double_pointer_char(char ***ptr);
@@ -128,5 +129,6 @@ void	ft_clear_command_sequence(void *sequence);
 	// void ft_print_list(t_list *list);
 void	ft_print_token_list(t_list *tokens);
 void	ft_print_command_sequences(t_list *command_sequences);
+
 
 #endif
