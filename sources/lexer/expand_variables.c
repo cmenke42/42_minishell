@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variables.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:32:40 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/17 13:57:29 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/17 15:05:35 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	ft_search_for_variable_expansion(t_shell_data *shell_data)
 	command_sequences = shell_data->command_sequences;
 	while (command_sequences)
 	{
-		if (!ft_expand_variable(((t_command_sequences *)command_sequences->content)->tokens))
+		if (!ft_expand_variable(((t_command_sequences *)command_sequences->content)->tokens, shell_data->env_list))
 		{
 			printf("error expanding variables\n");
 			return (false);
@@ -29,11 +29,11 @@ bool	ft_search_for_variable_expansion(t_shell_data *shell_data)
 	return (true);
 }
 
-bool	ft_expand_variable(t_list *tokens)
+bool	ft_expand_variable(t_list *tokens, t_env *env_list)
 {
 	while (tokens)
 	{
-		if (!ft_do_variable_expansion((t_tokens *)tokens->content))
+		if (!ft_do_variable_expansion((t_tokens *)tokens->content, env_list))
 		{
 			printf("some error with the expansion\n");
 			return (false);
@@ -43,41 +43,43 @@ bool	ft_expand_variable(t_list *tokens)
 	return (true);
 }
 
-bool	ft_do_variable_expansion(t_tokens *token)
+bool	ft_do_variable_expansion(t_tokens *token, t_env *env_list)
 {
-	char	**string;
+	char	*string;
 
-	string = &token->token;
+	string = token->token;
 	//determine wheter the $ is in single, double or no quotes
-	while (**string)
+	while (*string)
 	{
-		if (**string == '$')
+		if (*string == '$')
 		{
-			ft_execute_specific_case_of_variable_expansion(string, token->token, false, false);
-			printf("new_String:%s\n", *string);
+			if (!ft_execute_specific_case_of_variable_expansion(&string, &token->token, false, env_list))
+				return (false); //maybe clear something
 		}
-		*string += 1;
+		else
+			string += 1;
 	}
 	return (true);
 }
 
-bool	ft_execute_specific_case_of_variable_expansion(char	**string, char *start, bool in_single_quotes, bool in_double_quotes)
+//string starts at the $
+bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token, bool in_double_quotes, t_env *env_list)
 {
-
 	char *variable_name;
 
 	variable_name = NULL;
 	//keep the dollar sign
 	// $ \0     $\t  \0 || '$' || "$''" "$""" || $\0
-	if (ft_is_whitespace(*(*string + 1)) || in_single_quotes
+	if (ft_is_whitespace(*(*string + 1))
 		|| (in_double_quotes && ft_is_char_quote(*(*string + 1))) || !*(*string + 1))
 	{
 		printf("keep the dollar\n");
+		*string += 1;
 		return (true);
 	}
 	//remove the dollar sign
 	// $"abc"  $'abc'
-	else if (!in_single_quotes && !in_double_quotes && ft_is_char_quote(*(*string + 1)))
+	else if (!in_double_quotes && ft_is_char_quote(*(*string + 1)))
 		printf("remove the goddam $\n");
 	//PID speacial variable $$
 	else if ((*(*string + 1)) == '$')
@@ -96,7 +98,8 @@ bool	ft_execute_specific_case_of_variable_expansion(char	**string, char *start, 
 		if (!ft_get_variable_name(*string, &variable_name))
 			return (false);
 		printf("variable_name:%s\n", variable_name);
-		if (!ft_replace_variable_name_with_value(string, start, variable_name, ft_get_variable_value(variable_name)))
+		// Trim the value if needed in the get value funciton
+		if (!ft_replace_variable_name_with_value(string, token, variable_name, ft_get_variable_value(env_list, variable_name)))
 			return (false);
 	}
 	return (true);
@@ -129,6 +132,8 @@ char	*ft_get_variable_value(t_env *env, char	*variable_name)
 		//else retourn NULL
 	t_env *tmp;
     char *value;
+
+	value = NULL;
     tmp = ft_search(env, variable_name);
     if (!tmp)
         return (NULL);
@@ -136,48 +141,56 @@ char	*ft_get_variable_value(t_env *env, char	*variable_name)
     return (value);
 }
 
-bool	ft_replace_variable_name_with_value(char **string, char *start, char *name, char *value)
+bool	ft_replace_variable_name_with_value(char **string, char **token, char *name, char *value)
 {
-	//dont free the value
+	char	*first_part;
+	char	*first_part_and_value;
+	char	*last_part;
 	char	*result;
-	char	*result_start;
-	int		value_len;
-	int		result_len;
+	int		name_len;
 
-	value_len = 0;
+
+	// printf("len:")
+	if (name)
+		name_len = ft_strlen(name);
+	first_part = ft_substr(*token, 0, *string - *token);
+	if (!first_part)
+		return (false);
+	// printf("first_part:%s\n", first_part);
 	if (value)
-		value_len = ft_strlen(value);
-	result_len = (ft_strlen(start) - ft_strlen(*string)) - ft_strlen(name) - 1 + ft_strlen(value);
-	result = malloc((result_len + 1) * sizeof(char));
-	result_start = result;
-	if (!result)
-		return(perror("error creating new string with variable value"), false);
-	while (*start)
 	{
-		if (start == *string)
-		{
-			start += ft_strlen(name) + 1; //for the $ + 1
-			while (*value)
-			{
-				ft_assign_char_to_new_string(&result, *value);
-				value += 1;
-			}
-		}
-		else
-		{
-			ft_assign_char_to_new_string(&result, *start);
-			start += 1;
-		}
-	
+		first_part_and_value = ft_strjoin(first_part, value);
+		free(first_part);
+		if (!first_part_and_value)
+			return (false);
+		// printf("first_part_and_value:%s\n", first_part_and_value);
 	}
-	// free(start);
-	*result = '\0';
-	*string = result_start;
+	//+1 for the $;
+	last_part = ft_strdup(*string + name_len + 1);
+	if (!last_part)
+	{
+		if (first_part_and_value)
+			free(first_part_and_value);
+		free(first_part);
+	}
+	// printf("last_part:%s\n", last_part);
+	if (value)
+	{
+		result = ft_strjoin(first_part_and_value, last_part);
+		free(first_part_and_value);
+	}
+	else
+	{
+		result = ft_strjoin(first_part, last_part);
+		free(first_part);
+	}
+	free(last_part);
+	if (!result)
+		return (false);
+	printf("result:%s\n", result);
+	free(*token);
+	*token = result;
+	*string = *token;
 	return (true);
 }
 
-void	ft_assign_char_to_new_string(char **new_string, char c)
-{
-	**new_string = c;
-	*new_string += 1;
-}

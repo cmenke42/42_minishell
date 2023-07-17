@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/17 13:33:43 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/17 15:03:58 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,10 @@
 typedef struct s_shell_data
 {
 	char	*command_line_read;
-	char	**envp;
+	char	**envp_array;
 	t_list	*command_sequences;
 	t_list	*all_tokens;
+	t_env	*env_list;
 }				t_shell_data;
 
 typedef struct s_command_sequences
@@ -108,14 +109,13 @@ void	ft_cut_out_pipe_node(t_list **tokens, t_list *next_token_node);
 bool	ft_assing_tokens_to_sequence(t_list *start_of_sequence, t_list **command_sequences);
 	// expand_variables.c
 bool	ft_search_for_variable_expansion(t_shell_data *shell_data);
-bool	ft_expand_variable(t_list *tokens);
-bool	ft_do_variable_expansion(t_tokens *token);
-bool	ft_execute_specific_case_of_variable_expansion(char	**string, char *start, bool in_single_quotes, bool in_double_quotes);
+bool	ft_expand_variable(t_list *tokens, t_env *env_list);
+bool	ft_do_variable_expansion(t_tokens *token, t_env *env_list);
+bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token, bool in_double_quotes, t_env *env_list);
 bool	ft_is_char_quote(char c);
 bool	ft_get_variable_name(char *string, char **variable_name);
-char	*ft_get_variable_value(char	*variable_name);
-bool	ft_replace_variable_name_with_value(char **string, char *start, char *name, char *value);
-void	ft_assign_char_to_new_string(char **new_string, char c);
+char	*ft_get_variable_value(t_env *env, char	*variable_name);
+bool	ft_replace_variable_name_with_value(char **string, char **token, char *name, char *value);
 // clearing
 	//ft_free_double_pointer.c
 void	ft_free_double_pointer_char(char ***ptr);

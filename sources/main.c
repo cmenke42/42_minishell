@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/16 17:10:06 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/17 14:35:08 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	main(int argc, char **argv, char **envp)
 	// signal(SIGINT, ft_sig_sigint_handler);
 	
 	t_env *env = store_env(envp);
+	shell_data->env_list = env;
 	while (1)
 	{
 		line_read = readline(PROMPT);
