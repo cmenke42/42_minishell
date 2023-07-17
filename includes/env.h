@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 11:38:04 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/10 16:29:37 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/17 13:58:11 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define ENV_H
 # include "../libft/libft.h"
 # include <stdio.h>
+# include <limits.h>
+# include <string.h>
 
 typedef struct s_env
 {
@@ -48,5 +50,23 @@ int		ft_pwd(void);
 
 //exit
 void	ft_exit(void);
+void	exit_code(char *str);
+
+//echo
+int	ft_echo(char **command);
+void	ft_echo_n(char *s);
+
+
+//cd
+int	ft_cd(char **command, t_env *env);
+void	ft_add_to_list(t_env *head, t_env *newnode);
+int	cd_error_handler(char *dir);
+
+//utils
+t_env	*ft_search(t_env *env, char *name);
+t_env	*update_value(t_env *env, char *name, char *new_val);
+char 	*reverse_split(const char *name, const char *value);
+int		ft_put_err(char *input, char *message, int code);
+
 
 #endif
