@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/18 18:57:29 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/18 21:17:08 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ bool	ft_process_command_line(t_shell_data *shell_data)
 	// loop_in_command_seq(shell_data);
 	printf("\nhandling redirection\n\n");
 	ft_handle_redirection_in_sequences(shell_data->command_sequences);
+	ft_print_tokens_and_type(shell_data->all_tokens);
 
 	// //create one command sequence (sepatated by pipes)
 	// if (!ft_create_command_sequence(shell_data->command_line_read, &shell_data->command_sequences))

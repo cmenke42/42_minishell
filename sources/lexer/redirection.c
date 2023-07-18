@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:29:42 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/18 20:32:34 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/18 21:21:02 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ bool	ft_handle_redirection_in_tokens(t_command_sequences *one_sequence, t_list *
 	{
 		one_token = (t_tokens *)tokens->content;
 		next_token = (t_tokens *)tokens->next->content;
-		if(!ft_do_redirection(one_sequence, one_token->type, next_token->token))
+		if(!ft_do_redirection(&one_sequence->input_fd, &one_sequence->output_fd, one_token->type, next_token))
 			return (false);
 
 		tokens = tokens->next;
@@ -106,58 +106,47 @@ bool	ft_handle_redirection_in_tokens(t_command_sequences *one_sequence, t_list *
 	return (true);	
 }
 
-bool	ft_do_redirection(t_command_sequences *one_sequence, char operator, char *file)
+bool	ft_do_redirection(int *input_fd, int *output_fd, char operator, t_tokens *file_token)
 {
-
-	int fd;
-	//what to do with multiple redirection in one sequene?
-		//Keep the last one and close the rest
-	if (operator == text)
-		return (true);
-	if (!ft_get_filedescriptor(&one_sequence->input_fd, &one_sequence->output_fd, operator, file))
-		return (false);
-
-		//check if there is already a fd in the node stored
-			// if so then close it and place the new one there.
+	if (operator == redirection_in || operator == redirection_in_heredoc)
+		return(ft_input_redirection(input_fd, operator, file_token));
+	else if (operator == redirection_out_trunc || operator == redirection_out_append)
+		return (ft_output_redirection(output_fd, operator, file_token));
 	return (true);
 }
 
-bool	ft_get_filedescriptor(int *input_fd, int *output_fd, char operator, char *file)
-{
-	if (operator == redirection_in || operator == redirection_in_heredoc)
-		printf("input redirection\n");
-	else if (operator == redirection_out_trunc || operator == redirection_out_append)
-		return (ft_output_redirection(output_fd, operator, file));
-}
-
-bool	ft_output_redirection(int *output_fd, char operator, char *file)
+bool	ft_output_redirection(int *output_fd, char operator, t_tokens *file_token)
 {
 	int		fd;
 
+	fd = 1;
 	if (operator == redirection_out_trunc)
-		fd = open(file, O_WRONLY | O_TRUNC | O_CREAT, RW_R__R__);
+		fd = open(file_token->token, O_WRONLY | O_TRUNC | O_CREAT, RW_R__R__);
 	else if (operator == redirection_out_append)
-		fd = open(file, O_WRONLY | O_APPEND | O_CREAT, RW_R__R__);
+		fd = open(file_token->token, O_WRONLY | O_APPEND | O_CREAT, RW_R__R__);
 	if (*output_fd != 1)
 		close(*output_fd);
+	file_token->type = redirection_filename;
 	if (fd == -1)
-		return (perror(file), false);
+		return (perror(file_token->token), false);
 	*output_fd = fd;
 	return (true);
 }
 
-bool	ft_input_redirection(int *input_fd, char operator, char *file)
+bool	ft_input_redirection(int *input_fd, char operator, t_tokens *file_token)
 {
 	int fd;
 
+	fd = 0;
 	if (operator == redirection_in)
-		fd = open(file, O_RDONLY);
+		fd = open(file_token->token, O_RDONLY);
 	else if (operator == redirection_in_heredoc)
-		prinf("do herdeco\n");
+		printf("do herdeco\n");
 	if (*input_fd != 0)
-		close(input_fd);
+		close(*input_fd);
 	if (fd == -1)
-		return (perror(file), false);
+		return (perror(file_token->token), false);
+	file_token->type = redirection_filename;
 	*input_fd = fd;
 	return (true);
 }

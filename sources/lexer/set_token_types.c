@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:25:41 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/14 12:01:13 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/18 21:18:38 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ const char* token_enum_to_string[][2] =
 {"redirection_in", "3"},
 {"redirection_in_heredoc", "4"},
 {"redirection_out_trunc", "5"},
-{"redirection_out_append", "6"} //remove this while thing
+{"redirection_out_append", "6"},
+{"redirection_filename", "7"} //remove this while thing
 };
 
 void ft_print_tokens_and_type(t_list *tokens)

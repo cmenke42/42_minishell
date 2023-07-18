@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/18 20:23:07 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/18 21:21:14 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ enum e_token_type
 	redirection_in,
 	redirection_in_heredoc,
 	redirection_out_trunc,
-	redirection_out_append
+	redirection_out_append,
+	redirection_filename
 };
 
 extern const char* token_enum_to_string[][2]; //remove this
@@ -126,10 +127,7 @@ void	ft_free_double_pointer_int(int ***ptr);
 void	ft_clear_token(void *token);
 void	ft_clear_command_sequence(void *sequence);
 // void	ft_free_command_sequences(void *command_sequences);
-//helpers.c
-	// void ft_print_list(t_list *list);
-void	ft_print_token_list(t_list *tokens);
-void	ft_print_command_sequences(t_list *command_sequences);
+
 
 //redirections
 void	loop_in_command_seq(t_shell_data *shell_data);
@@ -137,8 +135,18 @@ void	loop_in_command_seq(t_shell_data *shell_data);
 // ---
 bool	ft_handle_redirection_in_sequences(t_list *command_sequences);
 bool	ft_handle_redirection_in_tokens(t_command_sequences *one_sequence, t_list *tokens);
-bool	ft_do_redirection(t_command_sequences *one_sequence, char operator, char *file);
-bool	ft_get_filedescriptor(int *input_fd, int *output_fd, char operator, char *file);
-bool	ft_output_redirection(int *output_fd, char operator, char *file);
+bool	ft_do_redirection(int *input_fd, int *output_fd, char operator, t_tokens *file_token);
+bool	ft_output_redirection(int *output_fd, char operator, t_tokens *file_token);
+bool	ft_input_redirection(int *input_fd, char operator, t_tokens *file_token);
+
+
+
+
+
+//helpers.c
+	// void ft_print_list(t_list *list);
+void	ft_print_token_list(t_list *tokens);
+void	ft_print_command_sequences(t_list *command_sequences);
+void ft_print_tokens_and_type(t_list *tokens);
 
 #endif
