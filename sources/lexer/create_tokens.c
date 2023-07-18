@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/16 19:54:44 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/18 17:55:28 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ bool	ft_process_command_line(t_shell_data *shell_data)
 	ft_search_for_variable_expansion(shell_data);
 	// ft_lstclear(&shell_data->all_tokens, ft_clear_token);
 
-
+	loop_in_command_seq(shell_data);
 
 	// //create one command sequence (sepatated by pipes)
 	// if (!ft_create_command_sequence(shell_data->command_line_read, &shell_data->command_sequences))

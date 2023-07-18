@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/17 17:26:24 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/18 17:57:21 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,5 +130,7 @@ void	ft_clear_command_sequence(void *sequence);
 void	ft_print_token_list(t_list *tokens);
 void	ft_print_command_sequences(t_list *command_sequences);
 
+//redirections
+void	loop_in_command_seq(t_shell_data *shell_data);
 
 #endif

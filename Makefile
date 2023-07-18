@@ -6,7 +6,7 @@
 #    By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/07/17 18:21:16 by wmoughar         ###   ########.fr        #
+#    Updated: 2023/07/18 17:56:49 by wmoughar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,8 @@ LEXER := $(addprefix lexer/, create_tokens.c \
 								set_token_types.c \
 								split_in_sequences.c \
 								expand_variables.c \
-								expand_utils.c)
+								expand_utils.c \
+								redirection.c)
 
 # EXECUTION := $(addprefix execution/,get_envp_cmd_paths.c \
 # 									fork_childs.c)
