@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:32:40 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/17 18:05:21 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/18 11:15:44 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,10 @@ bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token,
 	char	*variable_name;
 	char	*process_id;
 	char	*trimmed;
+	char	*value;
 
 	variable_name = NULL;
+	value = NULL;
 	process_id = NULL;
 	//keep the dollar sign
 	// $ \0     $\t  \0 || '$' || "$''" "$""" || $\0
@@ -123,16 +125,19 @@ bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token,
 			return (false);
 	}
 	//replace with trimmed value
-	else
+	else //if !in_double quotes
 	{
 		printf("replace with trimmed value\n");
 		if (!ft_get_variable_name(*string, &variable_name))
 			return (false);
 		printf("variable_name:%s\n", variable_name);
 		// Trim the value if needed in the get value funciton
-		trimmed = ft_trim_variable_value(env_list->value);
+		value = ft_get_variable_value(env_list, variable_name);
+		trimmed = ft_trim_variable_value(value);
+		printf("TRIMMED VALUE: %s\n", trimmed);
 		if (!ft_replace_variable_name_with_value(string, token, variable_name, trimmed))
 			return (false);
+		
 	}
 	return (true);
 }
@@ -205,7 +210,9 @@ bool	ft_replace_variable_name_with_value(char **string, char **token, char *name
 			return (false);
 		printf("first_part_and_value:%s\n", first_part_and_value);
 	}
-	printf("hello\n");
+	else if(!first_part)
+		first_part_and_value = value;
+	//printf("hello\n");
 	// +1 for the $;
 	last_part = ft_strdup(*string + name_len);
 	if (!last_part)
