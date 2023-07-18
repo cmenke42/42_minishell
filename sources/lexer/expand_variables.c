@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variables.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:32:40 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/18 11:15:44 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/18 15:10:49 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,7 @@ bool	ft_replace_variable_name_with_value(char **string, char **token, char *name
 			return (false);
 		printf("first_part_and_value:%s\n", first_part_and_value);
 	}
+	//there are leaks!!!!!!!!1
 	else if(!first_part)
 		first_part_and_value = value;
 	//printf("hello\n");

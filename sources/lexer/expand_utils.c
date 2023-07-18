@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:25:07 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/18 10:40:06 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/18 15:11:33 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void ft_skip_whitespace(char *string, int *i)
 {
 	while (string[*i] && (string[*i] == ' '
-		|| string[*i] == '\t' || string[*i] == '\n'))
+		|| string[*i] == '\t' || string[*i] == '\n')) //what about the new line???
 		*i += 1;
 }
 
