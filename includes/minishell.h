@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/18 17:57:21 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/18 20:23:07 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 # define SQUOTE_ERROR "minishell: syntax error while looking for matching `''"
 # define DQUOTE_ERROR "minishell: syntax error while looking for matching `\"'"
 
+# define RW_R__R__ 0644
 typedef struct s_shell_data
 {
 	char	*command_line_read;
@@ -132,5 +133,12 @@ void	ft_print_command_sequences(t_list *command_sequences);
 
 //redirections
 void	loop_in_command_seq(t_shell_data *shell_data);
+
+// ---
+bool	ft_handle_redirection_in_sequences(t_list *command_sequences);
+bool	ft_handle_redirection_in_tokens(t_command_sequences *one_sequence, t_list *tokens);
+bool	ft_do_redirection(t_command_sequences *one_sequence, char operator, char *file);
+bool	ft_get_filedescriptor(int *input_fd, int *output_fd, char operator, char *file);
+bool	ft_output_redirection(int *output_fd, char operator, char *file);
 
 #endif
