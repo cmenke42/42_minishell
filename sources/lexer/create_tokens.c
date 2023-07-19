@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/18 21:17:08 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/19 14:13:15 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,11 @@ bool	ft_process_command_line(t_shell_data *shell_data)
 
 	// loop_in_command_seq(shell_data);
 	printf("\nhandling redirection\n\n");
+	//syntax error for ambibous redirect????
 	ft_handle_redirection_in_sequences(shell_data->command_sequences);
+	ft_tokens_lists_to_char_array(shell_data->command_sequences);
 	ft_print_tokens_and_type(shell_data->all_tokens);
+	ft_print_command_sequences_args(shell_data->command_sequences);
 
 	// //create one command sequence (sepatated by pipes)
 	// if (!ft_create_command_sequence(shell_data->command_line_read, &shell_data->command_sequences))
@@ -54,6 +57,34 @@ bool	ft_process_command_line(t_shell_data *shell_data)
 	return (true);
 }
 
+
+void	ft_print_command_sequences_args(t_list *command_sequences)
+{
+	t_command_sequences	*one_sequence;
+	int i;
+
+	i = 0;
+	while (command_sequences)
+	{
+		printf("\nSequence %d\n", i++);
+		one_sequence = (t_command_sequences *)command_sequences->content;
+		ft_print_double_array(one_sequence->args);
+		command_sequences = command_sequences->next;
+	}
+}
+
+
+void	ft_print_double_array(char **array)
+{
+	int i;
+
+	i = 0;
+	while (array[i])
+	{
+		printf("array[%d]: %s\n", i, array[i]);
+		i++;
+	}
+}
 
 
 //printg the token list

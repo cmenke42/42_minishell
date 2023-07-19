@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:29:42 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/18 21:21:02 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/19 13:23:18 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ bool	ft_handle_redirection_in_tokens(t_command_sequences *one_sequence, t_list *
 
 		tokens = tokens->next;
 	}
-	return (true);	
+	return (true);
 }
 
 bool	ft_do_redirection(int *input_fd, int *output_fd, char operator, t_tokens *file_token)

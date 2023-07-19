@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/18 21:21:14 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/19 14:13:02 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,20 @@ bool	ft_get_variable_name(char *string, char **variable_name);
 char	*ft_get_variable_value(t_env *env, char	*variable_name);
 bool	ft_replace_variable_name_with_value(char **string, char **token, char *name, char *value);
 char	*ft_trim_variable_value(char *string);
+	//redirections
+void	loop_in_command_seq(t_shell_data *shell_data);
+
+// ---
+bool	ft_handle_redirection_in_sequences(t_list *command_sequences);
+bool	ft_handle_redirection_in_tokens(t_command_sequences *one_sequence, t_list *tokens);
+bool	ft_do_redirection(int *input_fd, int *output_fd, char operator, t_tokens *file_token);
+bool	ft_output_redirection(int *output_fd, char operator, t_tokens *file_token);
+bool	ft_input_redirection(int *input_fd, char operator, t_tokens *file_token);
+	//token_list_to_char_array
+bool	ft_tokens_lists_to_char_array(t_list *command_sequences);
+bool	ft_convert_one_token_list(t_command_sequences *one_sequence);
+int		ft_count_arguments(t_list *tokens);
+void	ft_copy_token_from_list_to_array(char **arguments, int *i, char *token);
 // clearing
 	//ft_free_double_pointer.c
 void	ft_free_double_pointer_char(char ***ptr);
@@ -129,15 +143,6 @@ void	ft_clear_command_sequence(void *sequence);
 // void	ft_free_command_sequences(void *command_sequences);
 
 
-//redirections
-void	loop_in_command_seq(t_shell_data *shell_data);
-
-// ---
-bool	ft_handle_redirection_in_sequences(t_list *command_sequences);
-bool	ft_handle_redirection_in_tokens(t_command_sequences *one_sequence, t_list *tokens);
-bool	ft_do_redirection(int *input_fd, int *output_fd, char operator, t_tokens *file_token);
-bool	ft_output_redirection(int *output_fd, char operator, t_tokens *file_token);
-bool	ft_input_redirection(int *input_fd, char operator, t_tokens *file_token);
 
 
 
@@ -147,6 +152,8 @@ bool	ft_input_redirection(int *input_fd, char operator, t_tokens *file_token);
 	// void ft_print_list(t_list *list);
 void	ft_print_token_list(t_list *tokens);
 void	ft_print_command_sequences(t_list *command_sequences);
-void ft_print_tokens_and_type(t_list *tokens);
+void ft_print_tokens_and_type(t_list *tokens);//
+void	ft_print_command_sequences_args(t_list *command_sequences);
+void	ft_print_double_array(char **array);
 
 #endif

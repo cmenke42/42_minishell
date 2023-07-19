@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+         #
+#    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/07/18 17:56:49 by wmoughar         ###   ########.fr        #
+#    Updated: 2023/07/19 13:24:28 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,8 @@ LEXER := $(addprefix lexer/, create_tokens.c \
 								split_in_sequences.c \
 								expand_variables.c \
 								expand_utils.c \
-								redirection.c)
+								redirection.c \
+								token_list_to_char_array.c)
 
 # EXECUTION := $(addprefix execution/,get_envp_cmd_paths.c \
 # 									fork_childs.c)
