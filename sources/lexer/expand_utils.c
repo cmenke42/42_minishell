@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:25:07 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/18 15:11:33 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/19 15:59:09 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ char	*ft_trim_variable_value(char *string)
 
 	i = 0;
 	count = 0;
+	if (!string)
+		return (NULL);
 	while (string[i])
 	{
 		start = i;
