@@ -6,25 +6,11 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 13:23:48 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/19 15:50:42 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/19 16:17:20 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-//go through the tokens and then put the token contents as arguments for the execution part.
-	//delete the token list after finishing this process.
-	//if something goes wrong in that process stop the execution of that process??
-//after that go on with finding the command path
-	//check the 4 different options
-		//builtin
-		//path
-		//comannd
-		//executabel
-//then exccute the command
-	//if execution fails free all the content that was brought into the child process which is allocated
-	//save the exit status of that command
-
 
 bool	ft_tokens_lists_to_char_array(t_list *command_sequences)
 {

@@ -6,7 +6,7 @@
 #    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/07/19 15:37:58 by cmenke           ###   ########.fr        #
+#    Updated: 2023/07/19 16:16:45 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,8 +36,7 @@ LEXER := $(addprefix lexer/, create_tokens.c \
 								token_list_to_char_array.c \
 								remove_quotes.c)
 
-# EXECUTION := $(addprefix execution/,get_envp_cmd_paths.c \
-# 									fork_childs.c)
+EXECUTION := $(addprefix execution/,create_processes.c)
 
 SIGNALS := $(addprefix signals/, )
 

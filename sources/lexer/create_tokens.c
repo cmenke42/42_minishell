@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/19 14:13:15 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/19 16:15:17 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ bool	ft_process_command_line(t_shell_data *shell_data)
 
 	// loop_in_command_seq(shell_data);
 	printf("\nhandling redirection\n\n");
+
+	//-------------------- At this point move to child process? -------------------------------
+
 	//syntax error for ambibous redirect????
 	ft_handle_redirection_in_sequences(shell_data->command_sequences);
 	ft_tokens_lists_to_char_array(shell_data->command_sequences);
