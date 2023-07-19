@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
+#    By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/07/19 16:16:45 by cmenke           ###   ########.fr        #
+#    Updated: 2023/07/19 18:02:30 by wmoughar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,8 @@ LEXER := $(addprefix lexer/, create_tokens.c \
 								expand_utils.c \
 								redirection.c \
 								token_list_to_char_array.c \
-								remove_quotes.c)
+								remove_quotes.c \
+								heredoc.c)
 
 EXECUTION := $(addprefix execution/,create_processes.c)
 
