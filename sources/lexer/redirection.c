@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:29:42 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/19 18:04:35 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/20 09:52:32 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ bool	ft_input_redirection(int *input_fd, char operator, t_tokens *file_token)
 	if (operator == redirection_in)
 		fd = open(file_token->token, O_RDONLY);
 	else if (operator == redirection_in_heredoc)
-		create_heredoc(file_token, fd);
+		create_heredoc(file_token);
 	if (*input_fd != 0)
 		close(*input_fd);
 	if (fd == -1)

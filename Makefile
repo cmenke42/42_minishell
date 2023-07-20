@@ -6,7 +6,7 @@
 #    By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/07/19 18:02:30 by wmoughar         ###   ########.fr        #
+#    Updated: 2023/07/20 10:01:21 by wmoughar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,8 @@ LIBFT := libft.a
 
 HOME := /Users/cmenke
 
+HEREDOC = .heredoc_
+
 #including libft and the readline library
 INCLUDE := ${LIBFTDIR}/${LIBFT} -lreadline \
 -I ${HOME}/goinfre/.brew/opt/readline/include/ \
@@ -82,6 +84,7 @@ ${OBJS}: ${HEADER}
 
 clean:
 	${RM} ${OBJS}
+	${RM} ${HEREDOC}
 	make clean -C ${LIBFTDIR}
 
 fclean: clean

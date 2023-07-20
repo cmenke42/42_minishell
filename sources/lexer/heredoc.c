@@ -6,23 +6,25 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:07:55 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/19 18:05:56 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/20 10:04:06 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	check_quotes(char *delimiter)
+int	check_quotes(t_tokens *delimiter)
 {
-	while (*delimiter)
+	int	i;
+
+	i = 0;
+	while (delimiter->token[i])
 	{
-		if (*delimiter == "\'" || *delimiter == "\"")
+		if (delimiter->token[i] == "'" || delimiter->token[i] == '"')
 			return (1);
-		delimiter++;
+		i++;
 	}
 	return (0);
 }
-
 
 char	*expand_line(char *line, t_env *env_list)
 {
@@ -39,27 +41,25 @@ char	*expand_line(char *line, t_env *env_list)
 	return (str);
 }
 
-void	create_heredoc(t_tokens *command, int fd)
+void	create_heredoc(t_tokens *command)
 {
 	char	*line;
-	char	*test_fd = open(".heredoc_", O_CREAT | O_RDWR | O_TRUNC , RW_R__R__);
-	int		heredoc_num = 1;
+	char	*tmp_fd;
+
+	tmp_fd = open(".heredoc_", O_CREAT | O_RDWR | O_TRUNC, RW_R__R__);
+	if (check_quotes(command))
+		command->token = ft_remove_quotes_from_token(command->token);
 	while (1)
 	{
 		line = readline("> ");
 		if (!line)
-			break;
+			break ;
 		if (!ft_strncmp(line, command->token, ft_strlen(command->token)))
-			break;
-		if (check_quotes(command->token) == 1)
-			ft_remove_quotes_from_token(command->token);
-		printf("%s\n", command->token);
-		ft_putendl_fd(line, test_fd);
-		//ft_putendl_fd(line, fd);
-		
+			break ;
+		ft_putendl_fd(line, tmp_fd);
 		free(line);
 	}
 	if (line)
 		free(line);
-	close(test_fd);
+	close(tmp_fd);
 }
