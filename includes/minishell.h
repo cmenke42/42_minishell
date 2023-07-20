@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/20 09:53:22 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/20 21:27:21 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_shell_data
 {
 	char	*command_line_read;
 	char	**envp_array;
+	int		**pipe_fds;
 	t_list	*command_sequences;
 	t_list	*all_tokens;
 	t_env	*env_list;
@@ -146,6 +147,10 @@ void	ft_clear_token(void *token);
 void	ft_clear_command_sequence(void *sequence);
 // void	ft_free_command_sequences(void *command_sequences);
 
+//execution
+	//create_processes
+bool	ft_execute_commands(t_shell_data *shell_data);
+bool	ft_create_pipes(int ***pipe_fds, int number_of_pipes);
 
 
 //heredoc

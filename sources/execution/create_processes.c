@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 16:16:48 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/19 17:36:58 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/20 21:27:56 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,48 @@
 
 //close unneeded file descriptors
 
-// bool	ft_execute_commands(t_shell_data *shell_data)
-// {
-// 	int	number_of_commands;
+void ft_print_pipe_fds(int **pipe_fds, int number_of_pipes)
+{
+	int	i;
 
-// 	number_of_commands = ft_get_number_of_commands()
-// }
+	i = 0;
+	while (i < number_of_pipes)
+	{
+		printf("pipe_fds[%d][0] = %d\n", i, pipe_fds[i][0]);
+		printf("pipe_fds[%d][1] = %d\n", i, pipe_fds[i][1]);
+		i++;
+	}
+}
+
+bool	ft_execute_commands(t_shell_data *shell_data)
+{
+	int	number_of_commands;
+
+	number_of_commands = ft_lstsize(shell_data->command_sequences);
+	printf("number_of_commands: %d\n", number_of_commands);
+	if (!ft_create_pipes(&shell_data->pipe_fds, number_of_commands - 1))
+		return (false);
+	ft_print_pipe_fds(shell_data->pipe_fds, number_of_commands - 1);
+	return (true);
+}
+
+bool	ft_create_pipes(int ***pipe_fds, int number_of_pipes)
+{
+	int	i;
+
+	if (number_of_pipes == 0)
+		return (true);
+	*pipe_fds = ft_calloc(number_of_pipes, sizeof(int *));
+	if (!*pipe_fds)
+		return (perror("error creating pipe_fds array"), false);
+	i = 0;
+	while (i < number_of_pipes)
+	{
+		pipe_fds[0][i] = ft_calloc(2, sizeof(int));
+		if (!*pipe_fds)
+			return (perror("error creating pipe_fds array"), false); //free and close later in clear function
+		if (pipe(pipe_fds[0][i]) == -1)
+			return(perror("error creating pipe"), false);
+	}
+	return (true);
+}
