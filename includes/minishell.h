@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/20 21:27:21 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/20 23:10:58 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_shell_data
 	char	*command_line_read;
 	char	**envp_array;
 	int		**pipe_fds;
+	pid_t	*process_ids;
 	t_list	*command_sequences;
 	t_list	*all_tokens;
 	t_env	*env_list;
@@ -151,6 +152,11 @@ void	ft_clear_command_sequence(void *sequence);
 	//create_processes
 bool	ft_execute_commands(t_shell_data *shell_data);
 bool	ft_create_pipes(int ***pipe_fds, int number_of_pipes);
+bool	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_commands);
+void	ft_command_execution_in_child_process(t_shell_data *shell_data, t_list *sequence_to_execute, int command_index, int number_of_commands);
+bool	ft_manage_redirection_in_child(t_command_sequences *sequence_to_execute, int command_index, int **pipe_fds, int number_of_commands);
+bool	ft_mange_input_redirection_in_child(int input_fd, int command_index, int **pipe_fds);
+bool	ft_manage_output_redirecion_in_child(int output_fd, int command_index, int **pipe_fds, int number_of_commands);
 
 
 //heredoc

@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/20 21:25:40 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/20 23:15:44 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,17 @@ bool	ft_process_command_line(t_shell_data *shell_data)
 
 	//-------------------- At this point move to child process? -------------------------------
 	printf("\nstarting with process execution\n\n");
+
+	//change!!!
+	ft_handle_redirection_in_sequences(shell_data->command_sequences);
+	ft_tokens_lists_to_char_array(shell_data->command_sequences);
+	ft_print_tokens_and_type(shell_data->all_tokens);
+	ft_print_command_sequences_args(shell_data->command_sequences);
+
 	ft_execute_commands(shell_data);
 
 	//syntax error for ambibous redirect????
 	// printf("\nhandling redirection\n\n");
-	// ft_handle_redirection_in_sequences(shell_data->command_sequences);
-	// ft_tokens_lists_to_char_array(shell_data->command_sequences);
-	// ft_print_tokens_and_type(shell_data->all_tokens);
-	// ft_print_command_sequences_args(shell_data->command_sequences);
 
 	// //create one command sequence (sepatated by pipes)
 	// if (!ft_create_command_sequence(shell_data->command_line_read, &shell_data->command_sequences))
