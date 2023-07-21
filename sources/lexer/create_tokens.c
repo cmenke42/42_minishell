@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/21 15:59:41 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/21 17:16:15 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ bool	ft_find_next_token(char **string, char **start, t_list **tokens)
 			{
 				if (!ft_create_one_token(*start, *string, tokens))
 					return (false); //check what needs to be cleared#
-				printf("char: %c\n", **string);
+				// printf("char: %c\n", **string);
 				*start = *string;
 			}
 			// printf("found redirection\n");
@@ -223,7 +223,7 @@ bool	ft_create_one_token(char *start, char *end, t_list **tokens)
 	}
 	len = end - start;
 	string = ft_substr(start, 0, len);
-	printf("string: %s\n", string);
+	// printf("string: %s\n", string);
 	if (!string)
 	{
 		//think about where to clear the things

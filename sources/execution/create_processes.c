@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_processes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 16:16:48 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/21 15:57:23 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/21 17:18:24 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,11 +125,12 @@ bool	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_command
 			ft_command_execution_in_child_process(shell_data, command_sequences, i, number_of_commands);
 			exit(22);
 		}
-		ft_putnbr_fd(shell_data->process_ids[i], 2);
+		// ft_putnbr_fd(shell_data->process_ids[i], 2);
 		// ft_putstr_fd("\n", 2);
 		i++;
 		command_sequences = command_sequences->next;
 	}
+	waitpid(shell_data->process_ids[number_of_commands - 1], NULL, NULL);
 	return (true);
 }
 
@@ -142,9 +143,13 @@ void	ft_command_execution_in_child_process(t_shell_data *shell_data, t_list *seq
 	
 	// manage redirection
 	if (!ft_handle_redirection_in_sequences(shell_data->command_sequences))
+	{
 		;
+	}
 	if (!ft_tokens_lists_to_char_array(shell_data->command_sequences))
+	{
 		;
+	}
 	if(!ft_manage_redirection_in_child((t_command_sequences *)sequence_to_execute->content, command_index, shell_data->pipe_fds, number_of_commands))
 		ft_close_all_pipe_fds(shell_data->pipe_fds, number_of_commands - 1);
 	else if (!ft_env_list_to_char_array(shell_data))

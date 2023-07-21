@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variables.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:32:40 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/18 15:10:49 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/21 17:15:23 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token,
 	if (ft_is_whitespace(*(*string + 1))
 		|| (in_double_quotes && ft_is_char_quote(*(*string + 1))) || !*(*string + 1))
 	{
-		printf("keep the dollar\n");
+		// printf("keep the dollar\n");
 		*string += 1;
 		return (true);
 	}
@@ -99,26 +99,26 @@ bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token,
 	// $"abc"  $'abc'
 	else if (!in_double_quotes && ft_is_char_quote(*(*string + 1)))
 	{
-		printf("remove the goddam $\n");
+		// printf("remove the goddam $\n");
 		if (!ft_replace_variable_name_with_value(string, token, NULL, NULL))
 			return (false);
 	}
 	//PID speacial variable $$
 	else if ((*(*string + 1)) == '$')
 	{
-		printf("replace with PID of the current shell or script.\n"); //or what else to with it
+		// printf("replace with PID of the current shell or script.\n"); //or what else to with it
 		// free the process_id
 		process_id = ft_itoa((int)getpid());
 		if (!process_id)
 			return (false);
-		printf("PID:%s", process_id);
+		// printf("PID:%s", process_id);
 		if (!ft_replace_variable_name_with_value(string, token, NULL, process_id))
 			return (false);
 	}
 	//replace with value
 	else if (in_double_quotes)
 	{
-		printf("replace with value\n");
+		// printf("replace with value\n");
 		if (!ft_get_variable_name(*string, &variable_name))
 			return (false);
 		if (!ft_replace_variable_name_with_value(string, token, variable_name, ft_get_variable_value(env_list, variable_name)))
@@ -127,14 +127,14 @@ bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token,
 	//replace with trimmed value
 	else //if !in_double quotes
 	{
-		printf("replace with trimmed value\n");
+		// printf("replace with trimmed value\n");
 		if (!ft_get_variable_name(*string, &variable_name))
 			return (false);
-		printf("variable_name:%s\n", variable_name);
+		// printf("variable_name:%s\n", variable_name);
 		// Trim the value if needed in the get value funciton
 		value = ft_get_variable_value(env_list, variable_name);
 		trimmed = ft_trim_variable_value(value);
-		printf("TRIMMED VALUE: %s\n", trimmed);
+		// printf("TRIMMED VALUE: %s\n", trimmed);
 		if (!ft_replace_variable_name_with_value(string, token, variable_name, trimmed))
 			return (false);
 		
@@ -201,14 +201,14 @@ bool	ft_replace_variable_name_with_value(char **string, char **token, char *name
 		first_part = ft_substr(*token, 0, *string - *token);
 		if (!first_part)
 			return (false);
-		printf("first_part:%s\n", first_part);
+		// printf("first_part:%s\n", first_part);
 	}
 	if (first_part)
 	{
 		first_part_and_value = ft_strjoin(first_part, value);
 		if (!first_part_and_value)
 			return (false);
-		printf("first_part_and_value:%s\n", first_part_and_value);
+		// printf("first_part_and_value:%s\n", first_part_and_value);
 	}
 	//there are leaks!!!!!!!!1
 	else if(!first_part)
@@ -223,7 +223,7 @@ bool	ft_replace_variable_name_with_value(char **string, char **token, char *name
 		if (first_part)
 			free(first_part);
 	}
-	printf("last_part:%s\n", last_part);
+	// printf("last_part:%s\n", last_part);
 	if (value)
 	{
 		result = ft_strjoin(first_part_and_value, last_part);
@@ -243,7 +243,7 @@ bool	ft_replace_variable_name_with_value(char **string, char **token, char *name
 	}
 	if (!result)
 		return (false);
-	printf("result: %s\n", result);
+	// printf("result: %s\n", result);
 	free(*token);
 	*token = result;
 	*string = *token;

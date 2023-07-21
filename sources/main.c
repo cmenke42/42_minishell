@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/20 21:37:55 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/21 17:21:37 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void ft_sig_sigint_handler(int sig_num)
 {
 	if (sig_num == SIGINT)
 	{
-		//rl_replace_line("", 1);
+		// rl_replace_line("", 1);
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_redisplay();
@@ -60,7 +60,7 @@ int	main(int argc, char **argv, char **envp)
 	//to ignore the SIG_QUIT signal from ctrl- Backslash
 	signal(SIGQUIT, SIG_IGN);
 	// handles the ctrl-C key.
-	// signal(SIGINT, ft_sig_sigint_handler);
+	signal(SIGINT, ft_sig_sigint_handler);
 	
 	t_env *env = store_env(envp);
 	shell_data->env_list = env;
@@ -89,6 +89,7 @@ int	main(int argc, char **argv, char **envp)
 			// 	remove_from_list(env, line_read);
 			add_history(line_read);
 			free(line_read);
+			rl_on_new_line();
 		}
 		else if (!line_read)
 			ft_exit_ctrl_d();
