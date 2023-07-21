@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+         #
+#    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/07/20 10:01:21 by wmoughar         ###   ########.fr        #
+#    Updated: 2023/07/21 14:52:32 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,8 @@ LEXER := $(addprefix lexer/, create_tokens.c \
 								remove_quotes.c \
 								heredoc.c)
 
-EXECUTION := $(addprefix execution/,create_processes.c)
+EXECUTION := $(addprefix execution/,create_processes.c \
+									get_envp_cmd_paths.c)
 
 SIGNALS := $(addprefix signals/, )
 

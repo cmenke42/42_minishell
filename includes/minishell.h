@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/20 23:10:58 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/21 15:26:43 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_shell_data
 typedef struct s_command_sequences
 {
 	t_list	*tokens;
+	char	**envp_command_paths;
 	char	*command_path;
 	char	**args;
 	int		input_fd;
@@ -136,7 +137,7 @@ bool	ft_convert_one_token_list(t_command_sequences *one_sequence);
 int		ft_count_arguments(t_list *tokens);
 void	ft_copy_token_from_list_to_array(char **arguments, int *i, char *token);
 	//remove_quotes
-char	*ft_remove_quotes_from_token(char *token);
+char	*ft_remove_quotes_from_token(char **token);
 int		ft_strlen_without_quotes(char *cmd_line);
 void	ft_copy_element_without_quotes(char *cmd_line, char *new_line);
 // clearing
@@ -157,7 +158,14 @@ void	ft_command_execution_in_child_process(t_shell_data *shell_data, t_list *seq
 bool	ft_manage_redirection_in_child(t_command_sequences *sequence_to_execute, int command_index, int **pipe_fds, int number_of_commands);
 bool	ft_mange_input_redirection_in_child(int input_fd, int command_index, int **pipe_fds);
 bool	ft_manage_output_redirecion_in_child(int output_fd, int command_index, int **pipe_fds, int number_of_commands);
-
+bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences *one_sequence);
+bool	ft_check_if_builtin(t_command_sequences *one_sequence);
+char	*ft_get_cmd_path(char **envp_paths, char *cmd);
+char	**ft_get_envp_paths(char **envp);
+bool	ft_env_list_to_char_array(t_shell_data *shell_data);
+int		ft_get_number_of_env_variables(t_env *env_list);
+bool	ft_copy_env_from_list_to_array(t_shell_data *shell_data);
+char	*ft_create_one_variable(t_env *one_variable);
 
 //heredoc
 void	create_heredoc(t_tokens *command);
@@ -170,5 +178,6 @@ void	ft_print_command_sequences(t_list *command_sequences);
 void	ft_print_tokens_and_type(t_list *tokens);//
 void	ft_print_command_sequences_args(t_list *command_sequences);
 void	ft_print_double_array(char **array);
+void	ft_print_envp_array(char **envp_array);
 
 #endif

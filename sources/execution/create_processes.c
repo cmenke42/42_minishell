@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 16:16:48 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/20 23:16:39 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/21 15:32:18 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,20 @@ void ft_print_pipe_fds(int **pipe_fds, int number_of_pipes)
 	{
 		printf("pipe_fds[%d][0] = %d\n", i, pipe_fds[i][0]);
 		printf("pipe_fds[%d][1] = %d\n", i, pipe_fds[i][1]);
+		i++;
+	}
+}
+
+void	ft_print_envp_array(char **envp_array)
+{
+	int	i;
+
+	i = 0;
+	while (envp_array[i])
+	{
+		ft_putstr_fd("envp_array: ", 2);
+		ft_putstr_fd(envp_array[i], 2);
+		ft_putendl_fd("", 2);
 		i++;
 	}
 }
@@ -129,8 +143,15 @@ void	ft_command_execution_in_child_process(t_shell_data *shell_data, t_list *seq
 	// manage redirection
 	if(!ft_manage_redirection_in_child((t_command_sequences *)sequence_to_execute->content, command_index, shell_data->pipe_fds, number_of_commands))
 		;
+	else if (!ft_env_list_to_char_array(shell_data))
+		; //add the right exit code
+	else if (!ft_check_if_cmd_path_is_valid(shell_data, (t_command_sequences *)sequence_to_execute->content))
+	{
+		perror("command not found"); //start with clearing procedure
+		exit(127); //add the right exit code
+	}
 	//find the correct path
-	else if (execve(((t_command_sequences *)sequence_to_execute->content)->args[0], ((t_command_sequences *)sequence_to_execute->content)->args, shell_data->envp_array) == -1)
+	else if (execve(((t_command_sequences *)sequence_to_execute->content)->command_path, ((t_command_sequences *)sequence_to_execute->content)->args, shell_data->envp_array) == -1)
 		perror("execve error"); //start with clearing procedure
 	//if execve failed
 		//cleanup
@@ -190,4 +211,133 @@ bool	ft_manage_output_redirecion_in_child(int output_fd, int command_index, int 
 			return (perror("error dup2 pipe_fd_[1]"), false);
 	}
 	return (true);
+}
+
+bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences *one_sequence)
+{
+	//do we need to chek if cmd_args is NULL?
+	//check if the command is a builtin
+	if (ft_check_if_builtin(one_sequence) == true)
+	{
+		return (true);
+	}
+	//check if the command is a relative path or an absolute path
+	if (access(one_sequence->args[0], X_OK) == 0)
+	{
+		ft_putstr_fd("relative path or absolute path found\n", 2);
+		ft_putstr_fd(one_sequence->args[0], 2);
+		return (true);
+	}
+	//check if the command is in the PATH from envp
+	if (!ft_env_list_to_char_array(shell_data))
+		return (false);
+	one_sequence->envp_command_paths = ft_get_envp_paths(shell_data->envp_array);
+	one_sequence->command_path = ft_get_cmd_path(one_sequence->envp_command_paths, one_sequence->args[0]);
+	if (one_sequence->command_path)
+	{
+		ft_putstr_fd("command found in PATH: ", 2);
+		ft_putstr_fd(one_sequence->command_path, 2);
+		return (true);
+	}
+	//check if the command path is valid
+	//if not, print error message and return false
+	//if valid, return true
+	return (false);
+}
+
+bool	ft_check_if_builtin(t_command_sequences *one_sequence)
+{
+	int		cmd_length;
+	char	*command;
+
+	command = one_sequence->args[0];
+	cmd_length = 0;
+	cmd_length = ft_strlen(command);
+	//how to manage the calling of the builtin and the correct closing of the pipes, redirection and freeing?
+	if (cmd_length < 2 || cmd_length > 6)
+		return (false);
+	if (ft_strncmp("echo", command, cmd_length) == 0)
+		ft_putstr_fd("builtin echo\n", 2);
+	else if (ft_strncmp("cd", command, cmd_length) == 0)
+		ft_putstr_fd("builtin cd\n", 2);
+	else if (ft_strncmp("pwd", command, cmd_length) == 0)
+		ft_putstr_fd("builtin pwd\n", 2);
+	else if (ft_strncmp("export", command, cmd_length) == 0)
+		ft_putstr_fd("builtin export\n", 2);
+	else if (ft_strncmp("unset", command, cmd_length) == 0)
+		ft_putstr_fd("builtin unset\n", 2);
+	else if (ft_strncmp("env", command, cmd_length) == 0)
+		ft_putstr_fd("builtin env\n", 2);
+	else if (ft_strncmp("exit", command, cmd_length) == 0)
+		ft_putstr_fd("builtin exit\n", 2);
+	else
+		return (false);
+	exit(42); //remove later
+}
+
+bool	ft_env_list_to_char_array(t_shell_data *shell_data)
+{
+	t_env	*env_list;
+	int		number_of_env_variables;
+
+	env_list = shell_data->env_list;
+	number_of_env_variables = ft_get_number_of_env_variables(env_list);
+	shell_data->envp_array = ft_calloc(number_of_env_variables + 1, sizeof(char *));
+	if (!shell_data->envp_array)
+		return (perror("error allocating envp array"), false);
+	if (!ft_copy_env_from_list_to_array(shell_data))
+		return (false);
+	return (true);
+}
+
+int	ft_get_number_of_env_variables(t_env *env_list)
+{
+	int	number_of_env_variables;
+
+	number_of_env_variables = 0;
+	while (env_list)
+	{
+		number_of_env_variables++;
+		env_list = env_list->next;
+	}
+	return (number_of_env_variables);
+}
+
+bool	ft_copy_env_from_list_to_array(t_shell_data *shell_data)
+{
+	t_env	*env_list;
+	int		i;
+
+	env_list = shell_data->env_list;
+	i = 0;
+	while (env_list)
+	{
+		shell_data->envp_array[i] = ft_create_one_variable(env_list);
+		if (!shell_data->envp_array[i])
+			return (false);
+		i++;
+		env_list = env_list->next;
+	}
+	return (true);
+}
+
+char	*ft_create_one_variable(t_env *one_variable)
+{
+	char	*env_variable;
+	char	*name_and_equal_sign;
+
+	name_and_equal_sign = NULL;
+	env_variable = NULL;
+	name_and_equal_sign = ft_strjoin(one_variable->name, "=");
+	if (!name_and_equal_sign)
+		return (perror("error creating env name_and_equal_sign"), NULL);
+	if (one_variable->value)
+	{
+		env_variable = ft_strjoin(name_and_equal_sign, one_variable->value);
+		free(name_and_equal_sign);
+		if (!env_variable)
+			return (perror("error creating env_variable"), NULL);
+		return (env_variable);
+	}
+	return (name_and_equal_sign);
 }
