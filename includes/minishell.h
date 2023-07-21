@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/21 15:26:43 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/21 15:49:45 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,9 @@ bool	ft_env_list_to_char_array(t_shell_data *shell_data);
 int		ft_get_number_of_env_variables(t_env *env_list);
 bool	ft_copy_env_from_list_to_array(t_shell_data *shell_data);
 char	*ft_create_one_variable(t_env *one_variable);
+void	ft_close_all_pipe_fds(int **pipe_fds, int number_of_pipes);
+void	ft_close_one_pipe(int *one_pipe);
+
 
 //heredoc
 void	create_heredoc(t_tokens *command);

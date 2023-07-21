@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/21 15:29:37 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/21 15:59:41 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 bool	ft_process_command_line(t_shell_data *shell_data)
 {
 	//printing the line read
-	printf("command_line_read: %s\n\n", shell_data->command_line_read);
+	// printf("command_line_read: %s\n\n", shell_data->command_line_read);
 	//check for equal amount of quotes
 	if (!ft_check_equal_quote_amt(shell_data->command_line_read))
 		return (false);
@@ -31,22 +31,21 @@ bool	ft_process_command_line(t_shell_data *shell_data)
 		printf("having a syntax error");
 		return (false);
 	}
-	printf("\nstarting to split tokens in sequences\n\n");
+	// printf("\nstarting to split tokens in sequences\n\n");
 	ft_split_tokens_in_sequences(shell_data);
-	ft_print_command_sequences(shell_data->command_sequences);
+	// ft_print_command_sequences(shell_data->command_sequences);
 	ft_search_for_variable_expansion(shell_data);
 	// ft_lstclear(&shell_data->all_tokens, ft_clear_token);
 
 	// loop_in_command_seq(shell_data);
 
 	//-------------------- At this point move to child process? -------------------------------
-	printf("\nstarting with process execution\n\n");
+	// printf("\nstarting with process execution\n\n");
 
 	//change!!!
-	ft_handle_redirection_in_sequences(shell_data->command_sequences);
-	ft_tokens_lists_to_char_array(shell_data->command_sequences);
-	ft_print_tokens_and_type(shell_data->all_tokens);
-	ft_print_command_sequences_args(shell_data->command_sequences);
+
+	// ft_print_tokens_and_type(shell_data->all_tokens);
+	// ft_print_command_sequences_args(shell_data->command_sequences);
 
 	ft_execute_commands(shell_data);
 
@@ -118,7 +117,7 @@ void	ft_print_command_sequences(t_list *command_sequences)
 	{
 		printf("\nSequence %d\n", i++);
 		one_sequence = (t_command_sequences *)command_sequences->content;
-		ft_print_token_list(one_sequence->tokens);
+		// ft_print_token_list(one_sequence->tokens);
 		command_sequences = command_sequences->next;
 	}
 }
@@ -140,7 +139,7 @@ bool	ft_create_tokens_for_sequence(char *command_line_read, t_list **tokens)
 		// if (*command_line_read && *command_line_read != '\"' && *command_line_read != '\'')
 		// 	command_line_read += 1;
 	}
-	ft_print_token_list(*tokens);
+	// ft_print_token_list(*tokens);
 	return (true);
 }
 

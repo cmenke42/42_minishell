@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 16:16:48 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/21 15:32:18 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/21 15:57:23 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,8 +141,12 @@ void	ft_command_execution_in_child_process(t_shell_data *shell_data, t_list *seq
 		//part of the envp PATH
 	
 	// manage redirection
-	if(!ft_manage_redirection_in_child((t_command_sequences *)sequence_to_execute->content, command_index, shell_data->pipe_fds, number_of_commands))
+	if (!ft_handle_redirection_in_sequences(shell_data->command_sequences))
 		;
+	if (!ft_tokens_lists_to_char_array(shell_data->command_sequences))
+		;
+	if(!ft_manage_redirection_in_child((t_command_sequences *)sequence_to_execute->content, command_index, shell_data->pipe_fds, number_of_commands))
+		ft_close_all_pipe_fds(shell_data->pipe_fds, number_of_commands - 1);
 	else if (!ft_env_list_to_char_array(shell_data))
 		; //add the right exit code
 	else if (!ft_check_if_cmd_path_is_valid(shell_data, (t_command_sequences *)sequence_to_execute->content))
@@ -151,6 +155,7 @@ void	ft_command_execution_in_child_process(t_shell_data *shell_data, t_list *seq
 		exit(127); //add the right exit code
 	}
 	//find the correct path
+
 	else if (execve(((t_command_sequences *)sequence_to_execute->content)->command_path, ((t_command_sequences *)sequence_to_execute->content)->args, shell_data->envp_array) == -1)
 		perror("execve error"); //start with clearing procedure
 	//if execve failed
@@ -176,6 +181,7 @@ bool	ft_manage_redirection_in_child(t_command_sequences *sequence_to_execute, in
 		return (false);
 	if (!ft_manage_output_redirecion_in_child(sequence_to_execute->output_fd, command_index, pipe_fds, number_of_commands))
 		return (false);
+	ft_close_all_pipe_fds(pipe_fds, number_of_commands - 1);
 	return (true);
 }
 
@@ -186,7 +192,10 @@ bool	ft_mange_input_redirection_in_child(int input_fd, int command_index, int **
 	if (input_fd > 0)
 	{
 		if (dup2(input_fd, STDIN_FILENO) == -1)
+		{
+			close(input_fd);
 			return (perror("error dup2 input_fd"), false);
+		}
 	}
 	else if (command_index > 0)
 	{
@@ -203,7 +212,11 @@ bool	ft_manage_output_redirecion_in_child(int output_fd, int command_index, int 
 	if (output_fd > 0)
 	{
 		if (dup2(output_fd, STDOUT_FILENO) == -1)
+		{
+			close(output_fd);
 			return (perror("error dup2 output_fd"), false);
+		}
+		
 	}
 	else if (command_index < number_of_commands - 1)
 	{
@@ -235,8 +248,8 @@ bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences
 	one_sequence->command_path = ft_get_cmd_path(one_sequence->envp_command_paths, one_sequence->args[0]);
 	if (one_sequence->command_path)
 	{
-		ft_putstr_fd("command found in PATH: ", 2);
-		ft_putstr_fd(one_sequence->command_path, 2);
+		// ft_putstr_fd("command found in PATH: ", 2);
+		// ft_putstr_fd(one_sequence->command_path, 2);
 		return (true);
 	}
 	//check if the command path is valid
@@ -340,4 +353,22 @@ char	*ft_create_one_variable(t_env *one_variable)
 		return (env_variable);
 	}
 	return (name_and_equal_sign);
+}
+
+void	ft_close_all_pipe_fds(int **pipe_fds, int number_of_pipes)
+{
+	int	i;
+
+	i = 0;
+	while (i < number_of_pipes)
+	{
+		ft_close_one_pipe(pipe_fds[i]);
+		i++;
+	}
+}
+
+void	ft_close_one_pipe(int *one_pipe)
+{
+	close(one_pipe[0]);
+	close(one_pipe[1]);
 }
