@@ -6,7 +6,7 @@
 #    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/07/22 17:44:23 by cmenke           ###   ########.fr        #
+#    Updated: 2023/07/22 19:30:55 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,8 @@ LEXER := $(addprefix lexer/, create_tokens.c \
 EXECUTION := $(addprefix execution/,create_processes.c \
 									get_envp_cmd_paths.c \
 									execute_coammand_in_child.c \
-									env_list_to_char_array.c)
+									env_list_to_char_array.c \
+									duplication_of_fds_in_child.c)
 
 SIGNALS := $(addprefix signals/, )
 
