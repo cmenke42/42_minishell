@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 16:16:48 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/22 17:31:55 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/22 17:40:03 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@
 
 //close unneeded file descriptors
 
-// 1 | 2 | 3 | 4 | 5 | 6
 
 bool	ft_execute_commands(t_shell_data *shell_data)
 {
@@ -100,14 +99,6 @@ bool	ft_fork_child_processes(t_shell_data *shell_data, int number_of_commands)
 		command_sequences = command_sequences->next;
 	}
 	return (true);
-}
-
-void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_commands, t_command_sequences *sequence_to_execute, int command_index)
-{
-	ft_putstr_fd("child process:", 1);
-	ft_putnbr_fd(command_index, 1);
-	ft_putstr_fd("\n", 1);
-	exit(22);
 }
 
 int	ft_wait_for_child_processes_and_get_exit_code(t_shell_data *shell_data, int number_of_commands)

@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/22 17:29:37 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/22 17:57:53 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,12 +126,12 @@ char	*ft_trim_variable_value(char *string);
 void	loop_in_command_seq(t_shell_data *shell_data);
 
 // ---
-bool	ft_handle_redirection_in_one_sequence(t_command_sequences *one_sequence, t_list *tokens);
+bool	ft_handle_redirection_operators(t_command_sequences *one_sequence, t_list *tokens);
 bool	ft_do_redirection(int *input_fd, int *output_fd, char operator, t_tokens *file_token);
 bool	ft_output_redirection(int *output_fd, char operator, t_tokens *file_token);
 bool	ft_input_redirection(int *input_fd, char operator, t_tokens *file_token);
 	//token_list_to_char_array
-bool	ft_tokens_lists_to_char_array(t_command_sequences *one_sequence);
+bool	ft_token_list_to_char_array(t_command_sequences *one_sequence);
 int		ft_count_arguments(t_list *tokens);
 void	ft_copy_token_from_list_to_array(char **arguments, int *i, char *token);
 	//remove_quotes
@@ -152,10 +152,15 @@ void	ft_clear_command_sequence(void *sequence);
 bool	ft_execute_commands(t_shell_data *shell_data);
 bool	ft_create_pipes(t_shell_data *shell_data, int number_of_pipes);
 bool	ft_fork_child_processes(t_shell_data *shell_data, int number_of_commands);
-void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_commands, t_command_sequences *sequence_to_execute, int command_index);
 int		ft_wait_for_child_processes_and_get_exit_code(t_shell_data *shell_data, int number_of_commands);
 void	ft_get_exit_code(int *exit_code, int exit_status, int i, int number_of_commands);
-
+	//execute_coammand_in_child
+void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_commands, t_command_sequences *sequence_to_execute, int command_index);
+	//env_list_to_char_array
+bool	ft_env_list_to_char_array(t_shell_data *shell_data);
+int		ft_get_number_of_env_variables(t_env *env_list);
+bool	ft_copy_env_from_list_to_array(t_shell_data *shell_data);
+char	*ft_create_one_variable(t_env *one_variable);
 
 
 // bool	ft_create_pipes(int ***pipe_fds, int number_of_pipes);

@@ -6,13 +6,13 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:29:42 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/22 16:45:14 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/22 17:52:25 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	ft_handle_redirection_in_one_sequence(t_command_sequences *one_sequence, t_list *tokens)
+bool	ft_handle_redirection_operators(t_command_sequences *one_sequence, t_list *tokens)
 {
 	t_tokens	*one_token;
 	t_tokens	*next_token;

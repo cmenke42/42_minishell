@@ -6,13 +6,13 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 13:23:48 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/22 16:43:14 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/22 17:57:46 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	ft_tokens_lists_to_char_array(t_command_sequences *one_sequence)
+bool	ft_token_list_to_char_array(t_command_sequences *one_sequence)
 {
 	t_tokens	*one_token;
 	t_list		*tokens;
