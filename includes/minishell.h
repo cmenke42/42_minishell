@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/22 20:11:38 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/22 20:58:40 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,6 @@ bool	ft_get_variable_name(char *string, char **variable_name);
 char	*ft_get_variable_value(t_env *env, char	*variable_name);
 bool	ft_replace_variable_name_with_value(char **string, char **token, char *name, char *value);
 char	*ft_trim_variable_value(char *string);
-	//redirections
-void	loop_in_command_seq(t_shell_data *shell_data);
 
 // ---
 bool	ft_handle_redirection_operators(t_command_sequences *one_sequence, t_list *tokens);
@@ -131,7 +129,7 @@ bool	ft_do_redirection(int *input_fd, int *output_fd, char operator, t_tokens *f
 bool	ft_output_redirection(int *output_fd, char operator, t_tokens *file_token);
 bool	ft_input_redirection(int *input_fd, char operator, t_tokens *file_token);
 	//token_list_to_char_array
-bool	ft_token_list_to_char_array(t_command_sequences *one_sequence);
+bool	ft_token_list_to_args_array(t_command_sequences *one_sequence);
 int		ft_count_arguments(t_list *tokens);
 void	ft_copy_token_from_list_to_array(char **arguments, int *i, char *token);
 	//remove_quotes
@@ -158,7 +156,8 @@ void	ft_get_exit_code(int *exit_code, int exit_status, int i, int number_of_comm
 void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_commands, t_command_sequences *sequence_to_execute, int command_index);
 bool	ft_execution_of_command(t_shell_data *shell_data, t_command_sequences *sequence_to_execute);
 bool	ft_execute_builtin_if_builtin(t_shell_data *shell_data, t_command_sequences *sequence_to_execute);
-bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences *one_sequence);
+bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences *sequence_to_execute);
+void	ft_error_command_not_found(char *command);
 	//duplication_of_fds_in_child
 bool	ft_duplication_of_fds(int **pipe_fds, t_command_sequences *sequence_to_execute, int number_of_commands, int command_index);
 bool	ft_input_redirection_in_child(int **pipe_fds, int input_fd, int command_index);
@@ -168,7 +167,7 @@ void	ft_close_all_pipes(int **pipe_fds, int number_of_pipes);
 char	*ft_get_cmd_path(char **envp_paths, char *cmd);
 char	**ft_get_envp_paths(char **envp);
 	//env_list_to_char_array
-bool	ft_env_list_to_char_array(t_shell_data *shell_data);
+bool	ft_env_list_to_envp_array(t_shell_data *shell_data);
 int		ft_get_number_of_env_variables(t_env *env_list);
 bool	ft_copy_env_from_list_to_array(t_shell_data *shell_data);
 char	*ft_create_one_variable(t_env *one_variable);

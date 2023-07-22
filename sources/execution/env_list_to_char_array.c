@@ -6,13 +6,13 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:43:42 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/22 17:44:03 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/22 20:58:29 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	ft_env_list_to_char_array(t_shell_data *shell_data)
+bool	ft_env_list_to_envp_array(t_shell_data *shell_data)
 {
 	t_env	*env_list;
 	int		number_of_env_variables;

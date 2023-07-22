@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 16:16:48 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/22 19:32:26 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/22 21:03:47 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	ft_wait_for_child_processes_and_get_exit_code(t_shell_data *shell_data, int 
 
 	exit_code = 0;
 	i = number_of_commands;
-	while (i >= 0)
+	while (i > 0)
 	{
 		i--;
 		waitpid(shell_data->process_ids[i], &stat_loc, 0);
