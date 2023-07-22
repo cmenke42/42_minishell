@@ -3,23 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/21 17:21:37 by user             ###   ########.fr       */
+/*   Updated: 2023/07/22 16:46:42 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_print_double_pointer(char **string)
-{
-	int i;
-	
-	i = 0;
-	while (string && string[i])
-		printf("%s\n", string[i++]);
-}
+
 
 
 //take care that it frees all neccessary things

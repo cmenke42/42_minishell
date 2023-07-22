@@ -6,27 +6,13 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 13:23:48 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/19 16:17:20 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/22 16:43:14 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	ft_tokens_lists_to_char_array(t_list *command_sequences)
-{
-	t_command_sequences	*one_sequence;
-
-	while (command_sequences)
-	{
-		one_sequence = (t_command_sequences *)command_sequences->content;
-		if (!ft_convert_one_token_list(one_sequence))
-			return (false);
-		command_sequences = command_sequences->next;
-	}
-	return (true);
-}
-
-bool	ft_convert_one_token_list(t_command_sequences *one_sequence)
+bool	ft_tokens_lists_to_char_array(t_command_sequences *one_sequence)
 {
 	t_tokens	*one_token;
 	t_list		*tokens;

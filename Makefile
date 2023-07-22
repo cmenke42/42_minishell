@@ -6,7 +6,7 @@
 #    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/07/21 14:52:32 by cmenke           ###   ########.fr        #
+#    Updated: 2023/07/22 16:48:59 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,8 @@ SRCS := $(addprefix ${SRCDIR}/,main.c \
 								${LEXER} \
 								${EXECUTION} \
 								${SIGNALS} \
-								${CLEARING})
+								${CLEARING} \
+								helpers.c)
 
 OBJS := ${SRCS:.c=.o}
 
