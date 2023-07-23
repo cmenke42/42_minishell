@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 17:08:25 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/23 18:35:09 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/23 19:12:00 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,12 @@ void	ft_clear_command_sequence(void *node)
 	free(node);
 }
 
-void	ft_clear_token(void *token)
+void	ft_clear_token(void *node)
 {
-	t_tokens	*node;
+	t_tokens	*token;
 
-	node = (t_tokens *)token;
-	if (node)
-	{
-		if (node->token)
-			free(node->token);
-		free(node);
-	}
+	token = (t_tokens *)node;
+	if (token->token)
+		free(token->token);
+	free(node);
 }

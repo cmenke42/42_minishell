@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_coammand_in_child.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/23 17:28:39 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/23 19:09:38 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_command
 	else if (!ft_execution_of_command(shell_data, sequence_to_execute))
 		;
 	//clear up
+	ft_free_shell_data_for_next_command(shell_data); // for testing, needs to free everything
 	exit(1);
 }
 

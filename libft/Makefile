@@ -6,7 +6,7 @@
 #    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/13 09:41:00 by cmenke            #+#    #+#              #
-#    Updated: 2023/03/28 14:26:39 by cmenke           ###   ########.fr        #
+#    Updated: 2023/07/23 19:02:46 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,7 +68,7 @@ HEADER := libft.h
 
 CC := cc
 
-CFLAGS := -Wall -Werror -Wextra
+# CFLAGS := -Wall -Werror -Wextra -g -O0 #-fsanitize=address
 
 all :	${NAME}
 
