@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/23 15:10:38 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/23 17:11:00 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-
-
 
 //take care that it frees all neccessary things
 void	ft_exit_ctrl_d()
@@ -35,9 +32,7 @@ void ft_sig_sigint_handler(int sig_num)
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	//add functionality to send signal to child process
 }
-
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -45,8 +40,6 @@ int	main(int argc, char **argv, char **envp)
 	t_shell_data	*shell_data;
 
 	//what to do when we get arguments for the minishell?
-
-	// ft_print_double_pointer(envp);
 	shell_data = ft_calloc(1, sizeof(t_shell_data));
 	if (!shell_data)
 		perror("struct allocation error");
@@ -68,21 +61,9 @@ int	main(int argc, char **argv, char **envp)
 				continue ;
 				//perform the clearing up
 			}
-			// if (!ft_strncmp(line_read, "env", ft_strlen("env")))
-			// 	print_env(env);
-			// if ((!ft_strncmp(line_read, "export", ft_strlen("export"))))
-			// 	export(env);
-			// if ((!ft_strncmp(line_read, "pwd", ft_strlen("pwd"))))
-			// 	ft_pwd();
-			// if ((!ft_strncmp(line_read, "exit", ft_strlen("exit"))))
-			// 	ft_exit();	
-			// else
-			// 	add_to_list(env, line_read);
-			// else
-			// 	remove_from_list(env, line_read);
 			add_history(line_read);
 			free(line_read);
-			rl_on_new_line();
+			// rl_on_new_line();
 		}
 		else if (!line_read)
 			ft_exit_ctrl_d();
