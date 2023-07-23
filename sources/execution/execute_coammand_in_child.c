@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/23 16:19:19 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/23 17:03:45 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_command
 	if (!ft_handle_redirection_operators(sequence_to_execute, sequence_to_execute->tokens))
 		;
 	else if (!ft_token_list_to_args_array(sequence_to_execute))
+		;
+	else if (!ft_env_list_to_envp_array(shell_data))
 		;
 	else if (!ft_duplication_of_fds(shell_data->pipe_fds, sequence_to_execute, number_of_commands, command_index))
 		;
@@ -79,8 +81,6 @@ bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences
 		sequence_to_execute->command_path = sequence_to_execute->args[0];
 		return (true);
 	}
-	if (!ft_env_list_to_envp_array(shell_data))
-		return (false);
 	sequence_to_execute->envp_command_paths = ft_get_envp_paths(shell_data->envp_array);
 	sequence_to_execute->command_path = ft_get_cmd_path(sequence_to_execute->envp_command_paths, sequence_to_execute->args[0]);
 	if (sequence_to_execute->command_path)
