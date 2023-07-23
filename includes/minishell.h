@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/23 17:16:52 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/23 18:33:59 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,23 @@
 # define DQUOTE_ERROR "minishell: syntax error while looking for matching `\"'"
 
 # define RW_R__R__ 0644
+
 typedef struct s_shell_data
 {
-	char	*command_line_read;
+	char	*command_line_read; //in main shell it gets free in the main function
 	char	**envp_array;
-	int		**pipe_fds;
+	int		**pipe_fds;	//gets freed in execution
 	pid_t	*process_ids;
 	t_list	*command_sequences;
-	t_list	*all_tokens;
+	t_list	*all_tokens;	//same as command_sequences->tokens
 	t_env	*env_list;
 }				t_shell_data;
 
 typedef struct s_command_sequences
 {
-	t_list	*tokens;
-	char	**envp_command_paths;
-	char	*command_path;
+	t_list	*tokens;	//are the same as in args
+	char	**envp_command_paths; //free directly after use in execution
+	char	*command_path;			//free in case of error in execution
 	char	**args;
 	int		input_fd;
 	int		output_fd;
@@ -136,15 +137,20 @@ void	ft_copy_token_from_list_to_array(char **arguments, int *i, char *token);
 char	*ft_remove_quotes_from_token(char **token);
 int		ft_strlen_without_quotes(char *cmd_line);
 void	ft_copy_element_without_quotes(char *cmd_line, char *new_line);
+	//heredoc
+int	create_heredoc(t_tokens *command);
 // clearing
 	//ft_free_double_pointer.c
 void	ft_free_double_pointer_char(char ***ptr);
-void	ft_free_double_pointer_int(int ***ptr);
+void	ft_free_double_pointer_int(int ***ptr, int size);
+void	ft_free_pointer_and_set_to_null(void **ptr);
 	// clear_all.c
 void	ft_clear_token(void *token);
 void	ft_clear_command_sequence(void *sequence);
-	//heredoc
-int	create_heredoc(t_tokens *command);
+	//clear_structs
+void	ft_free_shell_data_for_next_command(t_shell_data *shell_data);
+void	ft_clear_command_sequence(void *node);
+void	ft_clear_token(void *token);
 // void	ft_free_command_sequences(void *command_sequences);
 
 //execution

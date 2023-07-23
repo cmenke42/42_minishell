@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:25:39 by cmenke            #+#    #+#             */
-/*   Updated: 2023/06/15 16:30:28 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/23 18:22:41 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,9 @@ void	ft_free_double_pointer_char(char ***ptr)
 		free(temp);
 		temp = NULL;
 	}
-	return ;
 }
 
-void	ft_free_double_pointer_int(int ***ptr)
+void	ft_free_double_pointer_int(int ***ptr, int size)
 {
 	int	i;
 	int	**temp;
@@ -42,11 +41,17 @@ void	ft_free_double_pointer_int(int ***ptr)
 	temp = *ptr;
 	if (temp)
 	{
-		while (temp[i])
+		while (i < size)
 			free(temp[i++]);
 		free(temp);
 		temp = NULL;
 	}
-	return ;
 }
 
+void	ft_free_pointer_and_set_to_null(void **ptr)
+{
+	if (!ptr)
+		return ;
+	free(*ptr);
+	*ptr = NULL;
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/23 17:40:28 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/23 18:35:50 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,11 @@ int	main(int argc, char **argv, char **envp)
 				//perform the clearing up
 			}
 			add_history(line_read);
-			free(line_read);
 			// rl_on_new_line();
 		}
 		else if (!line_read)
 			ft_exit_ctrl_d();
+		ft_free_shell_data_for_next_command(shell_data);
 	}
 }
 

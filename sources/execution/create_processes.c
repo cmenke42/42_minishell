@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 16:16:48 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/22 21:03:47 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/23 18:11:18 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ bool	ft_execute_commands(t_shell_data *shell_data)
 	if (!ft_fork_child_processes(shell_data, number_of_commands))
 		return (false);
 	ft_close_all_pipes(shell_data->pipe_fds, number_of_commands);
+	ft_free_double_pointer_int(&shell_data->pipe_fds, number_of_commands - 1);
 	ft_wait_for_child_processes_and_get_exit_code(shell_data, number_of_commands); // store the exit_code
 	return (true);
 }

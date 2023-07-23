@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+         #
+#    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/07/23 17:44:54 by wmoughar         ###   ########.fr        #
+#    Updated: 2023/07/23 18:34:20 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ BUILTINS := $(addprefix builtins/,utils.c \
 								 cd.c)
 
 CLEARING := $(addprefix clearing/,free_double_pointer.c \
-									clear_all.c)
+									clear_structs.c)
 
 LEXER := $(addprefix lexer/, create_tokens.c \
 								syntax_error.c \
