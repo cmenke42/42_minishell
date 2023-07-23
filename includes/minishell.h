@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/23 15:57:37 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/23 16:05:44 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,8 @@ void	ft_free_double_pointer_int(int ***ptr);
 	// clear_all.c
 void	ft_clear_token(void *token);
 void	ft_clear_command_sequence(void *sequence);
+	//heredoc
+int	create_heredoc(t_tokens *command);
 // void	ft_free_command_sequences(void *command_sequences);
 
 //execution
@@ -173,33 +175,13 @@ bool	ft_copy_env_from_list_to_array(t_shell_data *shell_data);
 char	*ft_create_one_variable(t_env *one_variable);
 
 
-// bool	ft_create_pipes(int ***pipe_fds, int number_of_pipes);
-// bool	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_commands);
-// void	ft_command_execution_in_child_process(t_shell_data *shell_data, t_list *sequence_to_execute, int command_index, int number_of_commands);
-// bool	ft_manage_redirection_in_child(t_command_sequences *sequence_to_execute, int command_index, int **pipe_fds, int number_of_commands);
-// bool	ft_mange_input_redirection_in_child(int input_fd, int command_index, int **pipe_fds);
-// bool	ft_manage_output_redirecion_in_child(int output_fd, int command_index, int **pipe_fds, int number_of_commands);
-// bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences *one_sequence);
-// bool	ft_check_if_builtin(t_command_sequences *one_sequence);
-
-// bool	ft_env_list_to_char_array(t_shell_data *shell_data);
-// int		ft_get_number_of_env_variables(t_env *env_list);
-// bool	ft_copy_env_from_list_to_array(t_shell_data *shell_data);
-// char	*ft_create_one_variable(t_env *one_variable);
-// void	ft_close_all_pipe_fds(int **pipe_fds, int number_of_pipes, int command_index);
-// void	ft_close_one_pipe(int *one_pipe, int command_index, int i);
-
-
-//heredoc
-int	create_heredoc(t_tokens *command);
-
-
+//delete!!!!
 //helpers.c
 	// void ft_print_list(t_list *list);
 void	ft_print_token_list(t_list *tokens);
 void	ft_print_command_sequences(t_list *command_sequences);
 void	ft_print_tokens_and_type(t_list *tokens);//
-void	ft_print_command_sequences_args(t_list *command_sequences);
+void	ft_print_command_sequences_args(t_list *command_sequences);/////////////
 void	ft_print_double_array(char **array);
 void	ft_print_envp_array(char **envp_array);
 void	ft_print_pipe_fds(int **pipe_fds, int number_of_pipes);

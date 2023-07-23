@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/23 15:59:39 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/23 16:19:19 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,31 @@ bool	ft_execution_of_command(t_shell_data *shell_data, t_command_sequences *sequ
 
 bool	ft_execute_builtin_if_builtin(t_shell_data *shell_data, t_command_sequences *sequence_to_execute)
 {
-	return (false);
+	int		cmd_length;
+	char	*command;
+
+	command = sequence_to_execute->args[0];
+	cmd_length = ft_strlen(command);
+	//how to manage the calling of the builtin and the correct closing of the pipes, redirection and freeing?
+	if (cmd_length < 2 || cmd_length > 6)
+		return (false);
+	if (!ft_strncmp("echo", command, cmd_length))
+		ft_putstr_fd("builtin echo\n", 2);
+	else if (!ft_strncmp("cd", command, cmd_length))
+		ft_putstr_fd("builtin cd\n", 2);
+	else if (!ft_strncmp("pwd", command, cmd_length))
+		ft_putstr_fd("builtin pwd\n", 2);
+	else if (!ft_strncmp("export", command, cmd_length))
+		ft_putstr_fd("builtin export\n", 2);
+	else if (!ft_strncmp("unset", command, cmd_length))
+		ft_putstr_fd("builtin unset\n", 2);
+	else if (!ft_strncmp("env", command, cmd_length))
+		ft_putstr_fd("builtin env\n", 2);
+	else if (!ft_strncmp("exit", command, cmd_length))
+		ft_putstr_fd("builtin exit\n", 2);
+	else
+		return (false);
+	exit(42); //remove later
 }
 
 
