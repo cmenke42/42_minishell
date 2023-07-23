@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/23 17:11:00 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/23 17:15:34 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,24 @@ int	main(int argc, char **argv, char **envp)
 		else if (!line_read)
 			ft_exit_ctrl_d();
 	}
+}
+
+bool	ft_process_command_line(t_shell_data *shell_data)
+{
+	if (!ft_check_equal_quote_amt(shell_data->command_line_read))
+		return (false);
+	if (!ft_create_tokens_for_sequence(shell_data->command_line_read, &shell_data->all_tokens))
+		return (false);
+	if (ft_is_syntax_error(shell_data))
+		return (false);
+	ft_split_tokens_in_sequences(shell_data);
+	ft_search_for_variable_expansion(shell_data);
+	// ft_lstclear(&shell_data->all_tokens, ft_clear_token);
+	ft_execute_commands(shell_data);
+	//syntax error for ambibous redirect????
+	// //freeing the list of command sequences
+	// ft_lstclear(&shell_data->command_sequences, ft_clear_command_sequence);
+	shell_data->all_tokens = NULL;
+	shell_data->command_sequences = NULL;
+	return (true);
 }

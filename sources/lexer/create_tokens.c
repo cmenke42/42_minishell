@@ -3,124 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   create_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/21 17:16:15 by user             ###   ########.fr       */
+/*   Updated: 2023/07/23 17:16:00 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-bool	ft_process_command_line(t_shell_data *shell_data)
-{
-	//printing the line read
-	// printf("command_line_read: %s\n\n", shell_data->command_line_read);
-	//check for equal amount of quotes
-	if (!ft_check_equal_quote_amt(shell_data->command_line_read))
-		return (false);
-	//create tokens for one command sequence
-	if (!ft_create_tokens_for_sequence(shell_data->command_line_read, &shell_data->all_tokens))
-	{
-		printf("ft_create_tokens_for_sequence failed\n");
-		return (false);
-	}
-	// ft_print_token_list(shell_data->all_tokens);
-	if (ft_is_syntax_error(shell_data))
-	{
-		printf("having a syntax error");
-		return (false);
-	}
-	// printf("\nstarting to split tokens in sequences\n\n");
-	ft_split_tokens_in_sequences(shell_data);
-	// ft_print_command_sequences(shell_data->command_sequences);
-	ft_search_for_variable_expansion(shell_data);
-	// ft_lstclear(&shell_data->all_tokens, ft_clear_token);
-
-	// loop_in_command_seq(shell_data);
-
-	//-------------------- At this point move to child process? -------------------------------
-	// printf("\nstarting with process execution\n\n");
-
-	//change!!!
-
-	// ft_print_tokens_and_type(shell_data->all_tokens);
-	// ft_print_command_sequences_args(shell_data->command_sequences);
-
-	ft_execute_commands(shell_data);
-
-	//syntax error for ambibous redirect????
-	// printf("\nhandling redirection\n\n");
-
-	// //create one command sequence (sepatated by pipes)
-	// if (!ft_create_command_sequence(shell_data->command_line_read, &shell_data->command_sequences))
-	// 	return (false);
-	// //printing the command sequences
-	// ft_print_command_sequences(shell_data->command_sequences);
-	// //freeing the list of command sequences
-	// ft_lstclear(&shell_data->command_sequences, ft_clear_command_sequence);
-	shell_data->all_tokens = NULL;
-	shell_data->command_sequences = NULL;
-	return (true);
-}
-
-
-void	ft_print_command_sequences_args(t_list *command_sequences)
-{
-	t_command_sequences	*one_sequence;
-	int i;
-
-	i = 0;
-	while (command_sequences)
-	{
-		printf("\nSequence %d\n", i++);
-		one_sequence = (t_command_sequences *)command_sequences->content;
-		ft_print_double_array(one_sequence->args);
-		command_sequences = command_sequences->next;
-	}
-}
-
-
-void	ft_print_double_array(char **array)
-{
-	int i;
-
-	i = 0;
-	while (array[i])
-	{
-		printf("array[%d]: %s\n", i, array[i]);
-		i++;
-	}
-}
-
-
-//printg the token list
-void	ft_print_token_list(t_list *tokens)
-{
-	t_tokens	*token;
-
-	while (tokens)
-	{
-		token = (t_tokens *)tokens->content;
-		printf("token->token:%s\n", token->token);
-		tokens = tokens->next;
-	}
-}
-
-void	ft_print_command_sequences(t_list *command_sequences)
-{
-	t_command_sequences	*one_sequence;
-	int i;
-
-	i = 0;
-	while (command_sequences)
-	{
-		printf("\nSequence %d\n", i++);
-		one_sequence = (t_command_sequences *)command_sequences->content;
-		// ft_print_token_list(one_sequence->tokens);
-		command_sequences = command_sequences->next;
-	}
-}
 
 bool	ft_create_tokens_for_sequence(char *command_line_read, t_list **tokens)
 {
@@ -130,19 +20,15 @@ bool	ft_create_tokens_for_sequence(char *command_line_read, t_list **tokens)
 	{
 		ft_skip_to_next_non_delimiter(&command_line_read);
 		start = command_line_read;
-		// printf("Starting: %c\n", *command_line_read);
 		ft_find_next_token(&command_line_read, &start, tokens);
 		//creates one token if the string would be at least 1
 		if (start != command_line_read && !ft_create_one_token(start, command_line_read, tokens))
 			return (false); //check what needs to be cleared
-		// printf("END: %c\n", *command_line_read);
 		// if (*command_line_read && *command_line_read != '\"' && *command_line_read != '\'')
 		// 	command_line_read += 1;
 	}
-	// ft_print_token_list(*tokens);
 	return (true);
 }
-
 
 void	ft_skip_to_next_non_delimiter(char **command_line)
 {
@@ -167,20 +53,15 @@ bool	ft_find_next_token(char **string, char **start, t_list **tokens)
 			{
 				if (!ft_create_one_token(*start, *string, tokens))
 					return (false); //check what needs to be cleared#
-				// printf("char: %c\n", **string);
 				*start = *string;
 			}
-			// printf("found redirection\n");
 			ft_move_while_same_char(string, **string);
 			break ;
 		}
 		if (**string == ' ' || **string == '\t') //add newline???
 			break;
 		if (**string)
-		{
-			// printf("Inbetween: %c\n", **string);
 			*string += 1;
-		}
 	}
 	return (true);
 }
@@ -223,7 +104,6 @@ bool	ft_create_one_token(char *start, char *end, t_list **tokens)
 	}
 	len = end - start;
 	string = ft_substr(start, 0, len);
-	// printf("string: %s\n", string);
 	if (!string)
 	{
 		//think about where to clear the things

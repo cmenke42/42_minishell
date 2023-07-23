@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/23 16:05:44 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/23 17:16:52 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,9 @@ enum e_token_type
 extern const char* token_enum_to_string[][2]; //remove this
 
 //main
+bool	ft_process_command_line(t_shell_data *shell_data);
 //lexer
 	//create_tokens.c
-bool	ft_process_command_line(t_shell_data *shell_data);
 bool	ft_create_tokens_for_sequence(char *command_line_read, t_list **command_sequences);
 void	ft_skip_to_next_non_delimiter(char **command_line);
 bool	ft_is_whitespace(char c);
@@ -185,5 +185,10 @@ void	ft_print_command_sequences_args(t_list *command_sequences);/////////////
 void	ft_print_double_array(char **array);
 void	ft_print_envp_array(char **envp_array);
 void	ft_print_pipe_fds(int **pipe_fds, int number_of_pipes);
+void	ft_print_command_sequences(t_list *command_sequences);
+void	ft_print_token_list(t_list *tokens);
+void	ft_print_double_array(char **array);
+void	ft_print_command_sequences_args(t_list *command_sequences);
+void	ft_print_tokens_and_type(t_list *tokens);
 
 #endif
