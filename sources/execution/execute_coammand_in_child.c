@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_coammand_in_child.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/23 17:03:45 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/23 17:28:39 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,19 @@ bool	ft_execute_builtin_if_builtin(t_shell_data *shell_data, t_command_sequences
 	if (cmd_length < 2 || cmd_length > 6)
 		return (false);
 	if (!ft_strncmp("echo", command, cmd_length))
-		ft_putstr_fd("builtin echo\n", 2);
+		ft_echo(sequence_to_execute->args);
 	else if (!ft_strncmp("cd", command, cmd_length))
-		ft_putstr_fd("builtin cd\n", 2);
+		ft_cd(sequence_to_execute->args, shell_data->env_list);
 	else if (!ft_strncmp("pwd", command, cmd_length))
-		ft_putstr_fd("builtin pwd\n", 2);
+		ft_pwd();
 	else if (!ft_strncmp("export", command, cmd_length))
-		ft_putstr_fd("builtin export\n", 2);
+		ft_export(sequence_to_execute->args, shell_data->env_list);
 	else if (!ft_strncmp("unset", command, cmd_length))
-		ft_putstr_fd("builtin unset\n", 2);
+		ft_unset(sequence_to_execute->args, shell_data->env_list);
 	else if (!ft_strncmp("env", command, cmd_length))
-		ft_putstr_fd("builtin env\n", 2);
+		print_env(shell_data->env_list);
 	else if (!ft_strncmp("exit", command, cmd_length))
-		ft_putstr_fd("builtin exit\n", 2);
+		ft_exit(sequence_to_execute->args);
 	else
 		return (false);
 	exit(42); //remove later

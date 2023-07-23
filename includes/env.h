@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 11:38:04 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/23 15:15:41 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/23 17:08:49 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,10 @@ void	ft_check_name_start(char *s);
 int		ft_check_duplicate(t_env *env, char *name, char *new_name);
 t_env	*add_to_list(t_env *head, char *var);
 t_env	*find_and_replace(t_env *env, t_env *new);
+void	ft_export(char **command, t_env *env);
 
 //unset
-t_env	*remove_from_list(t_env *head, char *name);
+void    ft_unset(char **command, t_env *env);
 
 //free
 void	free_split(char **arr);
@@ -49,12 +50,10 @@ void	free_env(t_env *env);
 int		ft_pwd(void);
 
 //exit
-void	ft_exit(void);
-void	exit_code(char *str);
+void	ft_exit(char **args);
 
 //echo
 int	ft_echo(char **command);
-//void	ft_echo_n(char *s);
 
 
 //cd

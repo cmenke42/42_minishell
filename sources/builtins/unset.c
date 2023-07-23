@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 11:30:47 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/10 11:30:50 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/23 17:08:31 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,18 @@ t_env *remove_from_list(t_env* head, char* name) {
     free(current);
     printf("Node with name %s deleted.\n", name);
     return head;
+}
+
+void    ft_unset(char **command, t_env *env)
+{
+    int i;
+
+    i = 1;
+    if (command[1])
+    {
+        while (command[i])
+            remove_from_list(env, command[i++]);
+    }
+    else
+        return ;
 }

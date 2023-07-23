@@ -6,17 +6,11 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 13:15:06 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/10 21:24:41 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/23 16:49:04 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/env.h"
-
-void	ft_exit(void)
-{
-	printf("exit\n");
-	exit(0);
-}
 
 int	is_str_digit(char *str)
 {
@@ -48,4 +42,14 @@ void	exit_code(char *str)
 	printf("exit\n");
 	free(str);
 	exit(exit_code);
+}
+
+void	ft_exit(char **args)
+{
+	if (!args[1])
+	{
+		printf("exit\n");
+		exit(0);
+	}
+	exit_code(args[1]);
 }

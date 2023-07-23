@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:55:14 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/12 18:52:14 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/23 17:04:47 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_env	*sort_env(t_env *env)
 	return (env);
 }
 
-void	export(t_env *env)
+void	print_export(t_env *env)
 {
 	t_env	*sorted_env;
 	sorted_env = sort_env(env);
@@ -95,10 +95,20 @@ void	export(t_env *env)
 		}
 		printf("\n");
 		if (sorted_env->next)
-		{
 			sorted_env = sorted_env->next;
-		}
 		else
 			break ;
 	}
+}
+
+void	ft_export(char **command, t_env *env)
+{
+	int i;
+
+	i = 1;
+	if (command[1])
+		while (command[i])
+			add_to_list(env, command[i++]);
+	else
+		print_export(env);
 }
