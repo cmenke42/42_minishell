@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/23 18:35:50 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/23 18:52:24 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-	char			*line_read;
 	t_shell_data	*shell_data;
 
 	//what to do when we get arguments for the minishell?
@@ -52,21 +51,21 @@ int	main(int argc, char **argv, char **envp)
 	
 	t_env *env = store_env(envp);
 	shell_data->env_list = env;
+	increase_shlvl(shell_data);
 	while (1)
 	{
-		line_read = readline(PROMPT);
-		if (line_read && *line_read)
+		shell_data->command_line_read = readline(PROMPT);
+		if (shell_data->command_line_read && *shell_data->command_line_read)
 		{
-			shell_data->command_line_read = line_read;
-			if (!ft_process_command_line(shell_data))
+			if (ft_process_command_line(shell_data))
 			{
-				continue ;
+				add_history(shell_data->command_line_read);
+				// continue ;
 				//perform the clearing up
 			}
-			add_history(line_read);
 			// rl_on_new_line();
 		}
-		else if (!line_read)
+		else if (!shell_data->command_line_read)
 			ft_exit_ctrl_d();
 		ft_free_shell_data_for_next_command(shell_data);
 	}
@@ -87,7 +86,5 @@ bool	ft_process_command_line(t_shell_data *shell_data)
 	//syntax error for ambibous redirect????
 	// //freeing the list of command sequences
 	// ft_lstclear(&shell_data->command_sequences, ft_clear_command_sequence);
-	shell_data->all_tokens = NULL;
-	shell_data->command_sequences = NULL;
 	return (true);
 }

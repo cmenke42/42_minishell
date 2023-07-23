@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/23 18:33:59 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/23 18:41:04 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ extern const char* token_enum_to_string[][2]; //remove this
 
 //main
 bool	ft_process_command_line(t_shell_data *shell_data);
+//shlvl
+t_env *increase_shlvl(t_shell_data *shell_data);
 //lexer
 	//create_tokens.c
 bool	ft_create_tokens_for_sequence(char *command_line_read, t_list **command_sequences);
