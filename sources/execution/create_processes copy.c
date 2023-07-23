@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_processes copy.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 16:16:48 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/22 17:43:28 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/23 15:01:39 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,7 +223,7 @@ bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences
 {
 	//do we need to chek if cmd_args is NULL?
 	//check if the command is a builtin
-	if (ft_check_if_builtin(one_sequence) == true)
+	if (ft_check_if_builtin(one_sequence, shell_data->env_list) == true)
 	{
 		return (true);
 	}
@@ -251,7 +251,7 @@ bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences
 	return (false);
 }
 
-bool	ft_check_if_builtin(t_command_sequences *one_sequence)
+bool	ft_check_if_builtin(t_command_sequences *one_sequence, t_shell_data *env)
 {
 	int		cmd_length;
 	char	*command;
@@ -265,7 +265,7 @@ bool	ft_check_if_builtin(t_command_sequences *one_sequence)
 	if (ft_strncmp("echo", command, cmd_length) == 0)
 		ft_putstr_fd("builtin echo\n", 2);
 	else if (ft_strncmp("cd", command, cmd_length) == 0)
-		ft_putstr_fd("builtin cd\n", 2);
+		ft_cd(one_sequence->args, env->env_list);
 	else if (ft_strncmp("pwd", command, cmd_length) == 0)
 		ft_putstr_fd("builtin pwd\n", 2);
 	else if (ft_strncmp("export", command, cmd_length) == 0)

@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:07:55 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/20 10:04:06 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/23 15:27:28 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*expand_line(char *line, t_env *env_list)
 	return (str);
 }
 
-void	create_heredoc(t_tokens *command)
+int	create_heredoc(t_tokens *command)
 {
 	char	*line;
 	char	*tmp_fd;
@@ -54,7 +54,7 @@ void	create_heredoc(t_tokens *command)
 		line = readline("> ");
 		if (!line)
 			break ;
-		if (!ft_strncmp(line, command->token, ft_strlen(command->token)))
+		if (!ft_strncmp(line, command->token, ft_strlen(line)))
 			break ;
 		ft_putendl_fd(line, tmp_fd);
 		free(line);
@@ -62,4 +62,5 @@ void	create_heredoc(t_tokens *command)
 	if (line)
 		free(line);
 	close(tmp_fd);
+	return (open(".heredoc_", O_RDONLY));
 }

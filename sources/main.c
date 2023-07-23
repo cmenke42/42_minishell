@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/22 16:46:42 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/23 15:10:38 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,14 @@ int	main(int argc, char **argv, char **envp)
 				continue ;
 				//perform the clearing up
 			}
-			if (!ft_strncmp(line_read, "env", ft_strlen("env")))
-				print_env(env);
-			if ((!ft_strncmp(line_read, "export", ft_strlen("export"))))
-				export(env);
-			if ((!ft_strncmp(line_read, "pwd", ft_strlen("pwd"))))
-				ft_pwd();
-			if ((!ft_strncmp(line_read, "exit", ft_strlen("exit"))))
-				ft_exit();	
+			// if (!ft_strncmp(line_read, "env", ft_strlen("env")))
+			// 	print_env(env);
+			// if ((!ft_strncmp(line_read, "export", ft_strlen("export"))))
+			// 	export(env);
+			// if ((!ft_strncmp(line_read, "pwd", ft_strlen("pwd"))))
+			// 	ft_pwd();
+			// if ((!ft_strncmp(line_read, "exit", ft_strlen("exit"))))
+			// 	ft_exit();	
 			// else
 			// 	add_to_list(env, line_read);
 			// else

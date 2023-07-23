@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 11:38:04 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/17 13:58:11 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/23 15:15:41 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	exit_code(char *str);
 
 //echo
 int	ft_echo(char **command);
-void	ft_echo_n(char *s);
+//void	ft_echo_n(char *s);
 
 
 //cd
