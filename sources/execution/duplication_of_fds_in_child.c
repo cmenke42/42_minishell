@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:23:14 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/22 19:33:43 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/23 15:49:07 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ bool	ft_input_redirection_in_child(int **pipe_fds, int input_fd, int command_ind
 	if (input_fd != 0)
 	{
 		if (dup2(input_fd, STDIN_FILENO) == -1)
+		{
 			return (perror("error duplicating input fd"), false);
+		}
 	}
 	else if (command_index > 0)
 	{
@@ -45,7 +47,10 @@ bool	ft_output_redirection_in_child(int **pipe_fds, int output_fd, int number_of
 	if (output_fd != 1)
 	{
 		if (dup2(output_fd, STDOUT_FILENO) == -1)
+		{
+			close(output_fd);
 			return (perror("error duplicating output fd"), false);
+		}
 	}
 	if (command_index < number_of_commands - 1)
 	{

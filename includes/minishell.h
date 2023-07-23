@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/23 15:27:53 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/23 15:57:37 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_command
 bool	ft_execution_of_command(t_shell_data *shell_data, t_command_sequences *sequence_to_execute);
 bool	ft_execute_builtin_if_builtin(t_shell_data *shell_data, t_command_sequences *sequence_to_execute);
 bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences *sequence_to_execute);
-void	ft_error_command_not_found(char *command);
+void	ft_print_error_command_not_found(char *command);
 	//duplication_of_fds_in_child
 bool	ft_duplication_of_fds(int **pipe_fds, t_command_sequences *sequence_to_execute, int number_of_commands, int command_index);
 bool	ft_input_redirection_in_child(int **pipe_fds, int input_fd, int command_index);
