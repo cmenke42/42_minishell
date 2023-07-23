@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 13:28:05 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/17 14:34:41 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/23 17:38:24 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	free_env(t_env *env)
 	{
 		free(env->name);
 		free(env->value);
-		env->next;
+		env = env->next;
 	}
 	free(env);
 }
@@ -27,7 +27,6 @@ void	free_env(t_env *env)
 t_env	*ft_search(t_env *env, char *name)
 {
 	t_env	*target;
-	char	*value;
 
 	target = env;
 	if (!target)
@@ -52,8 +51,6 @@ t_env	*update_value(t_env *env, char *name, char *new_val)
 
 int	cd_error_handler(char *dir)
 {
-	char	*error = NULL;
-	char	*join = NULL;
 	char	*buffer = NULL;
 
 	if (chdir(dir) == -1)

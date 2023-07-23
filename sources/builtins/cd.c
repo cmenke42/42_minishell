@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 18:20:03 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/23 16:35:50 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/23 17:37:18 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	change_dir(t_env *env, char *dir)
 		return (1);
 	tmp = ft_search(env, "PWD");
 	update_value(env, "OLDPWD", tmp->value);
-	return (replace_pwd(env, tmp, dir));
+	return (*replace_pwd(env, tmp, dir));
 }
 
 int	ft_cd(char **command, t_env	*env)
