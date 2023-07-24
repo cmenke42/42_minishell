@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:55:14 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/23 17:04:47 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/24 14:50:57 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_env	*add_to_list(t_env *env, char *var)
 	else
 	{
 		split = ft_split(var, '=');
-		new->name = split[0];
+		new->name = ft_strdup(split[0]);
 		if (split[1])
 			new->value = ft_strdup(split[1]);
 		else
