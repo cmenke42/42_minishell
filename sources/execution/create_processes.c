@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_processes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 16:16:48 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 15:16:02 by user             ###   ########.fr       */
+/*   Updated: 2023/07/24 19:25:55 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,28 @@
 
 bool	ft_execute_commands(t_shell_data *shell_data)
 {
-	int	number_of_commands;
+	int		number_of_commands;
+	bool	status;
 
+	status = true;
 	number_of_commands = ft_lstsize(shell_data->command_sequences);
 	if (!ft_create_pipes(shell_data, number_of_commands - 1))
 		return (false);
+	
 	// ft_print_pipe_fds(shell_data->pipe_fds, number_of_commands - 1);
+	if (number_of_commands == 1 && ft_is_builtin((t_command_sequences *)shell_data->command_sequences->content))
+	{
+		if (!ft_execute_single_builtin(shell_data, number_of_commands, (t_command_sequences *)shell_data->command_sequences->content, 0))
+			status = false;
+		ft_set_minisell_signals();
+		return (status);
+	}	
 	if (!ft_fork_child_processes(shell_data, number_of_commands))
-		return (false);
+		status = false;
 	ft_close_all_pipes(shell_data->pipe_fds, number_of_commands);
 	ft_free_double_pointer_int(&shell_data->pipe_fds, number_of_commands - 1);
 	ft_wait_for_child_processes_and_get_exit_code(shell_data, number_of_commands); // store the exit_code
-	return (true);
+	return (status);
 }
 
 bool	ft_create_pipes(t_shell_data *shell_data, int number_of_pipes)

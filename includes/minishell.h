@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 15:32:48 by user             ###   ########.fr       */
+/*   Updated: 2023/07/24 19:24:27 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences
 void	ft_print_error_command_not_found(char *command);
 	//single_builtin_execution
 bool	ft_execute_single_builtin(t_shell_data *shell_data, int number_of_commands, t_command_sequences *sequence_to_execute, int command_index);
-bool	ft_is_builtin(t_shell_data *shell_data, t_command_sequences *sequence_to_execute);
+bool	ft_is_builtin(t_command_sequences *sequence_to_execute);
 bool	ft_save_standard_fds(t_shell_data *shell_data);
 bool	ft_restore_standard_fds(t_shell_data *shell_data);
 	//duplication_of_fds_in_child

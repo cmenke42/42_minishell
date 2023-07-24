@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_coammand_in_child.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 15:35:53 by user             ###   ########.fr       */
+/*   Updated: 2023/07/24 19:15:33 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_command
 bool	ft_execution_of_command(t_shell_data *shell_data, t_command_sequences *sequence_to_execute, bool single_builtin)
 {
 	if (ft_execute_builtin_if_builtin(shell_data, sequence_to_execute, single_builtin) && single_builtin) //exit after executing builtin
-		rteturn (true);
+		return (true);
 	else if (!ft_check_if_cmd_path_is_valid(shell_data, sequence_to_execute))
 		;
 	else if (execve(sequence_to_execute->command_path, sequence_to_execute->args, shell_data->envp_array) == -1)

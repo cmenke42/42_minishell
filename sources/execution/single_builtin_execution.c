@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single_builtin_execution.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 15:50:13 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 15:35:17 by user             ###   ########.fr       */
+/*   Updated: 2023/07/24 19:26:48 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ bool	ft_execute_single_builtin(t_shell_data *shell_data, int number_of_commands,
 		;
 	else if (!ft_token_list_to_args_array(sequence_to_execute))
 		;
-	else if (!ft_env_list_to_envp_array(shell_data))
-		;
 	else if (!ft_duplication_of_fds(shell_data->pipe_fds, sequence_to_execute, number_of_commands, command_index))
 		;
-	else if (!ft_execution_of_command(shell_data, sequence_to_execute, false))
+	else if (!ft_execution_of_command(shell_data, sequence_to_execute, true))
 		;
-	return (true);
+	else
+		return (true);
+	return (false);
 }
 
-bool	ft_is_builtin(t_shell_data *shell_data, t_command_sequences *sequence_to_execute)
+bool	ft_is_builtin(t_command_sequences *sequence_to_execute)
 {
 	int		cmd_length;
 	char	*command;
