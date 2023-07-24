@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 19:24:27 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/24 20:33:34 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@
 
 typedef struct s_shell_data
 {
+	int		exit_code;
 	int		default_stdin;
 	int		default_stdout;
 	char	*command_line_read; //in main shell it gets free in the main function
@@ -121,9 +122,9 @@ void	ft_cut_out_pipe_node(t_list **tokens, t_list *next_token_node);
 bool	ft_assing_tokens_to_sequence(t_list *start_of_sequence, t_list **command_sequences);
 	// expand_variables.c
 bool	ft_search_for_variable_expansion(t_shell_data *shell_data);
-bool	ft_expand_variable(t_list *tokens, t_env *env_list);
-bool	ft_do_variable_expansion(t_tokens *token, t_env *env_list);
-bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token, bool in_double_quotes, t_env *env_list);
+bool	ft_expand_variable(t_list *tokens, t_shell_data *shell_data);
+bool	ft_do_variable_expansion(t_tokens *token, t_shell_data *shell_data);
+bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token, bool in_double_quotes, t_shell_data *shell_data);
 bool	ft_is_char_quote(char c);
 bool	ft_get_variable_name(char *string, char **variable_name);
 char	*ft_get_variable_value(t_env *env, char	*variable_name);
@@ -164,8 +165,8 @@ void	ft_clear_token(void *node);
 bool	ft_execute_commands(t_shell_data *shell_data);
 bool	ft_create_pipes(t_shell_data *shell_data, int number_of_pipes);
 bool	ft_fork_child_processes(t_shell_data *shell_data, int number_of_commands);
-int		ft_wait_for_child_processes_and_get_exit_code(t_shell_data *shell_data, int number_of_commands);
-void	ft_get_exit_code(int *exit_code, int exit_status, int i, int number_of_commands);
+void	ft_wait_for_child_processes_and_get_exit_code(t_shell_data *shell_data, int number_of_commands);
+void	ft_get_exit_code(int *exit_code, int stat_loc, bool first_encounter);
 	//execute_coammand_in_child
 void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_commands, t_command_sequences *sequence_to_execute, int command_index);
 bool	ft_execution_of_command(t_shell_data *shell_data, t_command_sequences *sequence_to_execute, bool single_builtin);

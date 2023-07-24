@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:32:40 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 15:45:47 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/24 20:34:49 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	ft_search_for_variable_expansion(t_shell_data *shell_data)
 	command_sequences = shell_data->command_sequences;
 	while (command_sequences)
 	{
-		if (!ft_expand_variable(((t_command_sequences *)command_sequences->content)->tokens, shell_data->env_list))
+		if (!ft_expand_variable(((t_command_sequences *)command_sequences->content)->tokens, shell_data))
 		{
 			printf("error expanding variables\n");
 			return (false);
@@ -29,12 +29,12 @@ bool	ft_search_for_variable_expansion(t_shell_data *shell_data)
 	return (true);
 }
 
-bool	ft_expand_variable(t_list *tokens, t_env *env_list)
+bool	ft_expand_variable(t_list *tokens, t_shell_data *shell_data)
 {
 	while (tokens)
 	{
 		//free the variable name
-		if (!ft_do_variable_expansion((t_tokens *)tokens->content, env_list))
+		if (!ft_do_variable_expansion((t_tokens *)tokens->content, shell_data))
 		{
 			printf("some error with the expansion\n");
 			return (false);
@@ -44,7 +44,7 @@ bool	ft_expand_variable(t_list *tokens, t_env *env_list)
 	return (true);
 }
 
-bool	ft_do_variable_expansion(t_tokens *token, t_env *env_list)
+bool	ft_do_variable_expansion(t_tokens *token, t_shell_data *shell_data)
 {
 	char	*string;
 	bool	in_double_quotes;
@@ -66,7 +66,7 @@ bool	ft_do_variable_expansion(t_tokens *token, t_env *env_list)
 			in_double_quotes = false;
 		if (*string == '$' && !in_single_quotes)
 		{
-			if (!ft_execute_specific_case_of_variable_expansion(&string, &token->token, in_double_quotes, env_list))
+			if (!ft_execute_specific_case_of_variable_expansion(&string, &token->token, in_double_quotes, shell_data))
 				return (false); //maybe clear something
 		}
 		else
@@ -76,12 +76,13 @@ bool	ft_do_variable_expansion(t_tokens *token, t_env *env_list)
 }
 
 //string starts at the $
-bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token, bool in_double_quotes, t_env *env_list)
+bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token, bool in_double_quotes, t_shell_data *shell_data)
 {
 	char	*variable_name;
 	char	*process_id;
 	char	*trimmed;
 	char	*value;
+	char	*exit_code;
 
 	variable_name = NULL;
 	value = NULL;
@@ -115,13 +116,25 @@ bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token,
 		if (!ft_replace_variable_name_with_value(string, token, NULL, process_id))
 			return (false);
 	}
+	//exit code $?
+	else if ((*(*string + 1)) == '?')
+	{
+		// printf("replace with PID of the current shell or script.\n"); //or what else to with it
+		// free the process_id
+		exit_code = ft_itoa(shell_data->exit_code);
+		if (!exit_code)
+			return (false);
+		// printf("PID:%s", process_id);
+		if (!ft_replace_variable_name_with_value(string, token, NULL, exit_code))
+			return (false);
+	}
 	//replace with value
 	else if (in_double_quotes)
 	{
 		// printf("replace with value\n");
 		if (!ft_get_variable_name(*string, &variable_name))
 			return (false);
-		if (!ft_replace_variable_name_with_value(string, token, variable_name, ft_get_variable_value(env_list, variable_name)))
+		if (!ft_replace_variable_name_with_value(string, token, variable_name, ft_get_variable_value(shell_data->env_list, variable_name)))
 			return (false);
 	}
 	//replace with trimmed value
@@ -132,7 +145,7 @@ bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token,
 			return (false);
 		// printf("variable_name:%s\n", variable_name);
 		// Trim the value if needed in the get value funciton
-		value = ft_get_variable_value(env_list, variable_name);
+		value = ft_get_variable_value(shell_data->env_list, variable_name);
 		trimmed = ft_trim_variable_value(value);
 		// printf("TRIMMED VALUE: %s\n", trimmed);
 		if (!ft_replace_variable_name_with_value(string, token, variable_name, trimmed))
@@ -191,7 +204,7 @@ bool	ft_replace_variable_name_with_value(char **string, char **token, char *name
 
 	//for the $$ PID
 	name_len = 1;
-	if((*(*string + 1)) == '$')
+	if((*(*string + 1)) == '$' || (*(*string + 1)) == '?')
 		name_len = 2;
 	first_part = NULL;
 	if (name)

@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:59:19 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/13 14:36:55 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/24 20:10:35 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ bool	ft_check_for_syntax_error(t_tokens *token, t_tokens *next_token)
 	}
 	else if (ft_is_operator(token->type) && (!next_token || ft_is_operator(next_token->type)))
 	{
-		if (token->type == pipe_operator && !next_token)
+		if (token->type == pipe_operator && !next_token) // change this to be an error
 		{
 			printf("found a pipe at the end, start reading\n");
 		}

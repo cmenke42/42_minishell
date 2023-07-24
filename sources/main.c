@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 19:55:53 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/24 20:41:43 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void ft_sig_sigint_handler(int sig_num)
 {
 	if (sig_num == SIGINT)
 	{
-		// rl_replace_line("", 1);
+		rl_replace_line("", 1);
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_redisplay();
@@ -53,15 +53,16 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	t_shell_data	*shell_data;
+	int				exit_code;
 
+	exit_code = 0;
 	//what to do when we get arguments for the minishell?
 	shell_data = ft_calloc(1, sizeof(t_shell_data));
 	if (!shell_data)
-		perror("struct allocation error");
+		return (perror("struct allocation error"), 1);
 	ft_set_minisell_signals(); //what should happen in minishell when we get a signal?
 	//free something?
 	//what should happen when we get a signal during child process?
-
 	t_env *env = store_env(envp);
 	shell_data->env_list = env;
 	increase_shlvl(shell_data);
@@ -82,6 +83,7 @@ int	main(int argc, char **argv, char **envp)
 			ft_exit_ctrl_d();
 		ft_free_shell_data_for_next_command(shell_data);
 	}
+	exit (exit_code);
 }
 
 bool	ft_process_command_line(t_shell_data *shell_data)

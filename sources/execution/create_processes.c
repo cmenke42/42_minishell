@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 16:16:48 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 19:33:50 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/24 20:27:19 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,28 +113,39 @@ bool	ft_fork_child_processes(t_shell_data *shell_data, int number_of_commands)
 	return (true);
 }
 
-int	ft_wait_for_child_processes_and_get_exit_code(t_shell_data *shell_data, int number_of_commands)
+void	ft_wait_for_child_processes_and_get_exit_code(t_shell_data *shell_data, int number_of_commands)
 {
-	int	stat_loc;
-	int	exit_code;
-	int	i;
+	int		stat_loc;
+	int		exit_code;
+	int		i;
+	bool	first_encounter;
 
 	exit_code = 0;
 	i = number_of_commands;
+	first_encounter = true;
 	while (i > 0)
 	{
 		i--;
-		waitpid(shell_data->process_ids[i], &stat_loc, 0);
-		ft_get_exit_code(&exit_code, stat_loc, i, number_of_commands);
+		if (shell_data->process_ids[i] > 0)
+		{
+			waitpid(shell_data->process_ids[i], &stat_loc, 0);
+			ft_get_exit_code(&exit_code, stat_loc, first_encounter);
+			first_encounter = false;
+		}
 	}
-	return (exit_code);
+	shell_data->exit_code = exit_code;
 }
 
-void	ft_get_exit_code(int *exit_code, int stat_loc, int i, int number_of_commands)
+void	ft_get_exit_code(int *exit_code, int stat_loc, bool first_encounter)
 {
 	if (WIFEXITED(stat_loc))
 	{
-		if (i == number_of_commands && WEXITSTATUS(stat_loc))
+		if (first_encounter && WEXITSTATUS(stat_loc))
 			*exit_code = WEXITSTATUS(stat_loc);
+	}
+	else if (WIFSIGNALED(stat_loc))
+	{
+		if (first_encounter)
+			*exit_code = WTERMSIG(stat_loc) + 128;
 	}
 }

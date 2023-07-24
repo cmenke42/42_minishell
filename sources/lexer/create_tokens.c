@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/23 19:05:44 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/24 20:41:08 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ bool	ft_create_tokens_for_sequence(char *command_line_read, t_list **tokens)
 		// if (*command_line_read && *command_line_read != '\"' && *command_line_read != '\'')
 		// 	command_line_read += 1;
 	}
+	if (!tokens || !*tokens)
+		return (false); //change to success
 	return (true);
 }
 
