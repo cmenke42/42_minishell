@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 15:50:13 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 19:26:48 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/24 19:34:04 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 bool	ft_execute_single_builtin(t_shell_data *shell_data, int number_of_commands, t_command_sequences *sequence_to_execute, int command_index)
 {
+	if (!ft_save_standard_fds(shell_data))
+		return (false);
 	ft_restore_default_signals();
 	if (!ft_handle_redirection_operators(sequence_to_execute, sequence_to_execute->tokens))
 		;
@@ -22,6 +24,8 @@ bool	ft_execute_single_builtin(t_shell_data *shell_data, int number_of_commands,
 	else if (!ft_duplication_of_fds(shell_data->pipe_fds, sequence_to_execute, number_of_commands, command_index))
 		;
 	else if (!ft_execution_of_command(shell_data, sequence_to_execute, true))
+		;
+	else if (!ft_restore_standard_fds(shell_data))
 		;
 	else
 		return (true);
