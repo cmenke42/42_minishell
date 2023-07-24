@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 15:24:06 by user             ###   ########.fr       */
+/*   Updated: 2023/07/24 15:32:48 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@
 typedef struct s_shell_data
 {
 	int		default_stdin;
-	int		default_stdout:
+	int		default_stdout;
 	char	*command_line_read; //in main shell it gets free in the main function
 	char	**envp_array;
 	int		**pipe_fds;	//gets freed in execution
@@ -92,6 +92,8 @@ extern const char* token_enum_to_string[][2]; //remove this
 
 //main
 bool	ft_process_command_line(t_shell_data *shell_data);
+void	ft_set_minisell_signals(void);
+void	ft_restore_default_signals(void);
 //shlvl
 t_env *increase_shlvl(t_shell_data *shell_data);
 //lexer
@@ -166,10 +168,15 @@ int		ft_wait_for_child_processes_and_get_exit_code(t_shell_data *shell_data, int
 void	ft_get_exit_code(int *exit_code, int exit_status, int i, int number_of_commands);
 	//execute_coammand_in_child
 void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_commands, t_command_sequences *sequence_to_execute, int command_index);
-bool	ft_execution_of_command(t_shell_data *shell_data, t_command_sequences *sequence_to_execute);
-bool	ft_execute_builtin_if_builtin(t_shell_data *shell_data, t_command_sequences *sequence_to_execute);
+bool	ft_execution_of_command(t_shell_data *shell_data, t_command_sequences *sequence_to_execute, bool single_builtin);
+bool	ft_execute_builtin_if_builtin(t_shell_data *shell_data, t_command_sequences *sequence_to_execute, bool single_builtin);
 bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences *sequence_to_execute);
 void	ft_print_error_command_not_found(char *command);
+	//single_builtin_execution
+bool	ft_execute_single_builtin(t_shell_data *shell_data, int number_of_commands, t_command_sequences *sequence_to_execute, int command_index);
+bool	ft_is_builtin(t_shell_data *shell_data, t_command_sequences *sequence_to_execute);
+bool	ft_save_standard_fds(t_shell_data *shell_data);
+bool	ft_restore_standard_fds(t_shell_data *shell_data);
 	//duplication_of_fds_in_child
 bool	ft_duplication_of_fds(int **pipe_fds, t_command_sequences *sequence_to_execute, int number_of_commands, int command_index);
 bool	ft_input_redirection_in_child(int **pipe_fds, int input_fd, int command_index);
@@ -183,10 +190,6 @@ bool	ft_env_list_to_envp_array(t_shell_data *shell_data);
 int		ft_get_number_of_env_variables(t_env *env_list);
 bool	ft_copy_env_from_list_to_array(t_shell_data *shell_data);
 char	*ft_create_one_variable(t_env *one_variable);
-	//single_builtin_execution
-bool	ft_is_builtin(t_shell_data *shell_data, t_command_sequences *sequence_to_execute);
-bool	ft_save_standard_fds(t_shell_data *shell_data);
-bool	ft_restore_standard_fds(t_shell_data *shell_data);
 
 //delete!!!!
 //helpers.c

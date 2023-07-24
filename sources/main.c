@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/23 18:52:24 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/24 15:29:14 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,20 @@ void ft_sig_sigint_handler(int sig_num)
 	}
 }
 
+void	ft_set_minisell_signals(void)
+{
+	//to ignore the SIG_QUIT signal from ctrl- Backslash
+	signal(SIGQUIT, SIG_IGN);
+	// handles the ctrl-C key.
+	signal(SIGINT, ft_sig_sigint_handler);
+}
+
+void	ft_restore_default_signals(void)
+{
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
@@ -44,11 +58,8 @@ int	main(int argc, char **argv, char **envp)
 	shell_data = ft_calloc(1, sizeof(t_shell_data));
 	if (!shell_data)
 		perror("struct allocation error");
-	//to ignore the SIG_QUIT signal from ctrl- Backslash
-	signal(SIGQUIT, SIG_IGN);
-	// handles the ctrl-C key.
-	signal(SIGINT, ft_sig_sigint_handler);
-	
+	ft_set_minisell_signals();
+
 	t_env *env = store_env(envp);
 	shell_data->env_list = env;
 	increase_shlvl(shell_data);

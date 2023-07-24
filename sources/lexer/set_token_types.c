@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_token_types.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:25:41 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/23 17:17:17 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/24 15:33:01 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,9 @@ void	ft_set_token_types(void *node)
 char	ft_get_token_type(char *string)
 {
 	int		len;
-	int		i;
 	char	first_character;
 
 	len = ft_strlen(string);
-	i = 0;
 	first_character = string[0];
 	if (first_character == '<')
 	{
