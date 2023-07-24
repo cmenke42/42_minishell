@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:07:55 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/23 17:36:53 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/24 12:11:11 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ int	create_heredoc(t_tokens *command)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line)
-			break ;
+		if (!line[0])
+			continue ;
 		if (!ft_strncmp(line, command->token, ft_strlen(line)))
 			break ;
 		ft_putendl_fd(line, tmp_fd);

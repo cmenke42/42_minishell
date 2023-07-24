@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 13:15:06 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/23 16:49:04 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/24 12:00:02 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	exit_code(char *str)
 		exit_code = ft_atoi(str);
 	else
 	{
-		printf("bash: exit: %s: numeric argument required\n", str);
+		printf("minishell: exit: %s: numeric argument required\n", str);
 		exit_code = 255;
 	}
 	printf("exit\n");
