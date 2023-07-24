@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/23 19:07:10 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/24 15:24:06 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@
 
 typedef struct s_shell_data
 {
+	int		default_stdin;
+	int		default_stdout:
 	char	*command_line_read; //in main shell it gets free in the main function
 	char	**envp_array;
 	int		**pipe_fds;	//gets freed in execution
@@ -181,7 +183,10 @@ bool	ft_env_list_to_envp_array(t_shell_data *shell_data);
 int		ft_get_number_of_env_variables(t_env *env_list);
 bool	ft_copy_env_from_list_to_array(t_shell_data *shell_data);
 char	*ft_create_one_variable(t_env *one_variable);
-
+	//single_builtin_execution
+bool	ft_is_builtin(t_shell_data *shell_data, t_command_sequences *sequence_to_execute);
+bool	ft_save_standard_fds(t_shell_data *shell_data);
+bool	ft_restore_standard_fds(t_shell_data *shell_data);
 
 //delete!!!!
 //helpers.c

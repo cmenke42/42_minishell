@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single_builtin_execution.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 15:50:13 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 15:52:55 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/24 15:24:10 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,36 @@ bool	ft_is_builtin(t_shell_data *shell_data, t_command_sequences *sequence_to_ex
 		return (true);
 	else
 		return (false);
+}
+
+bool	ft_save_standard_fds(t_shell_data *shell_data)
+{
+	shell_data->default_stdin = dup(STDIN_FILENO);
+	if (shell_data->default_stdin == -1)
+		return (perror("error saving default stdin"), false);
+	shell_data->default_stdout = dup(STDOUT_FILENO);
+	if (shell_data->default_stdout == -1)
+	{
+		close(shell_data->default_stdin);
+		return (perror("error saving default stdout"), false);
+	}
+	return (true);
+}
+
+bool	ft_restore_standard_fds(t_shell_data *shell_data)
+{
+	bool	status;
+
+	status = true;
+	if (dup2(shell_data->default_stdin, STDIN_FILENO) == -1)
+	{
+		perror("error restoring default stdin");
+		status = false;
+	}
+	else if (dup2(shell_data->default_stdout, STDOUT_FILENO) == -1)
+	{
+		perror("error restoring default stdout");
+		status = false;
+	}
+	return (status);
 }
