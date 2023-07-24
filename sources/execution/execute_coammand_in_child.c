@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 15:48:52 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/24 15:55:04 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_command
 }
 
 
-bool	ft_execution_of_command(t_shell_data *shell_data, t_command_sequences *sequence_to_execute)
+bool	ft_execution_of_command(t_shell_data *shell_data, t_command_sequences *sequence_to_execute, bool single_builtin)
 {
-	if (ft_execute_builtin_if_builtin(shell_data, sequence_to_execute)) //exit after executing builtin
+	if (ft_execute_builtin_if_builtin(shell_data, sequence_to_execute, single_builtin)) //exit after executing builtin
 		;
 	else if (!ft_check_if_cmd_path_is_valid(shell_data, sequence_to_execute))
 		;
@@ -45,33 +45,36 @@ bool	ft_execution_of_command(t_shell_data *shell_data, t_command_sequences *sequ
 	return (false);
 }
 
-bool	ft_execute_builtin_if_builtin(t_shell_data *shell_data, t_command_sequences *sequence_to_execute)
+bool	ft_execute_builtin_if_builtin(t_shell_data *shell_data, t_command_sequences *sequence_to_execute, bool single_builtin)
 {
 	int		cmd_length;
 	char	*command;
 
 	command = sequence_to_execute->args[0];
-	cmd_length = ft_strlen(command);
-	//how to manage the calling of the builtin and the correct closing of the pipes, redirection and freeing?
-	if (cmd_length < 2 || cmd_length > 6)
+	if (!command)
 		return (false);
-	if (!ft_strncmp("echo", command, cmd_length))
+	cmd_length = ft_strlen(command);
+	if (cmd_length == 0)
+		return (false);
+	if (cmd_length == 4 && !ft_strncmp("echo", command, cmd_length))
 		ft_echo(sequence_to_execute->args);
-	else if (!ft_strncmp("cd", command, cmd_length))
+	else if (cmd_length == 2 && !ft_strncmp("cd", command, cmd_length))
 		ft_cd(sequence_to_execute->args, shell_data->env_list);
-	else if (!ft_strncmp("pwd", command, cmd_length))
+	else if (cmd_length == 3 && !ft_strncmp("pwd", command, cmd_length))
 		ft_pwd();
-	else if (!ft_strncmp("export", command, cmd_length))
+	else if (cmd_length == 6 && !ft_strncmp("export", command, cmd_length))
 		ft_export(sequence_to_execute->args, shell_data->env_list);
-	else if (!ft_strncmp("unset", command, cmd_length))
+	else if (cmd_length == 5 && !ft_strncmp("unset", command, cmd_length))
 		ft_unset(sequence_to_execute->args, shell_data->env_list);
-	else if (!ft_strncmp("env", command, cmd_length))
+	else if (cmd_length == 3 && !ft_strncmp("env", command, cmd_length))
 		print_env(shell_data->env_list);
-	else if (!ft_strncmp("exit", command, cmd_length))
+	else if (cmd_length == 4 && !ft_strncmp("exit", command, cmd_length))
 		ft_exit(sequence_to_execute->args);
 	else
 		return (false);
-	exit(42); //remove later
+	if (single_builtin == false)
+		exit(42); //remove later
+	return (true);
 }
 
 

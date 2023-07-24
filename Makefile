@@ -6,7 +6,7 @@
 #    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/07/23 19:03:48 by cmenke           ###   ########.fr        #
+#    Updated: 2023/07/24 15:50:11 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,8 @@ EXECUTION := $(addprefix execution/,create_processes.c \
 									get_envp_cmd_paths.c \
 									execute_coammand_in_child.c \
 									env_list_to_char_array.c \
-									duplication_of_fds_in_child.c)
+									duplication_of_fds_in_child.c \
+									single_builtin_execution.c)
 
 SIGNALS := $(addprefix signals/, )
 
