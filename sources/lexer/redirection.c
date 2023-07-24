@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:29:42 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/23 15:47:03 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/24 15:48:01 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ bool	ft_handle_redirection_operators(t_command_sequences *one_sequence, t_list *
 	t_tokens	*one_token;
 	t_tokens	*next_token;
 
-	one_sequence->input_fd = 0;
-	one_sequence->output_fd = 1;
+	if (one_sequence->output_fd == 0)
+		one_sequence->output_fd = 1;
+	if (ft_lstsize(tokens) == 1 && !ft_remove_quotes_from_token(&((t_tokens *)tokens->content)->token))
+		return (false);
 	while (tokens->next)
 	{
 		one_token = (t_tokens *)tokens->content;
