@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variables.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:32:40 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/21 17:15:23 by user             ###   ########.fr       */
+/*   Updated: 2023/07/24 15:45:47 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ bool	ft_do_variable_expansion(t_tokens *token, t_env *env_list)
 	//determine wheter the $ is in single, double or no quotes
 	while (*string)
 	{
-		if (!in_single_quotes && *string == '\'')
+		if (!in_single_quotes && !in_double_quotes && *string == '\'')
 			in_single_quotes = true;
 		else if (in_single_quotes && *string == '\'')
 			in_single_quotes = false;
