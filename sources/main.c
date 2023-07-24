@@ -3,20 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 20:41:43 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/24 21:16:28 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+int	g_signal_number;
+
 //take care that it frees all neccessary things
 void	ft_exit_ctrl_d()
 {
 	ft_putendl_fd("exit", STDOUT_FILENO);
-	//rl_clear_history();
+	rl_clear_history();
 	exit(0);
 }
 
@@ -25,13 +27,11 @@ void	ft_exit_ctrl_d()
 // of the current line (cmd z)
 void ft_sig_sigint_handler(int sig_num)
 {
-	if (sig_num == SIGINT)
-	{
-		rl_replace_line("", 1);
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_redisplay();
-	}
+	g_signal_number = sig_num;
+	rl_replace_line("", 1);
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_redisplay();
 }
 
 void	ft_set_minisell_signals(void)
@@ -56,6 +56,7 @@ int	main(int argc, char **argv, char **envp)
 	int				exit_code;
 
 	exit_code = 0;
+	g_signal_number = 0;
 	//what to do when we get arguments for the minishell?
 	shell_data = ft_calloc(1, sizeof(t_shell_data));
 	if (!shell_data)
@@ -68,6 +69,11 @@ int	main(int argc, char **argv, char **envp)
 	increase_shlvl(shell_data);
 	while (1)
 	{
+		// if (g_signal_number)
+		// {
+		// 	g_signal_number = 0;
+		// 	shell_data->exit_code = 130;
+		// }
 		shell_data->command_line_read = readline(PROMPT);
 		if (shell_data->command_line_read && *shell_data->command_line_read)
 		{

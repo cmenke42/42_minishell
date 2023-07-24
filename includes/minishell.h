@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 20:33:34 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/24 21:01:22 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ enum e_token_type
 	redirection_out_append,
 	redirection_filename
 };
+
+extern int g_signal_number;
 
 extern const char* token_enum_to_string[][2]; //remove this
 
