@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 15:29:14 by user             ###   ########.fr       */
+/*   Updated: 2023/07/24 19:55:53 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,9 @@ int	main(int argc, char **argv, char **envp)
 	shell_data = ft_calloc(1, sizeof(t_shell_data));
 	if (!shell_data)
 		perror("struct allocation error");
-	ft_set_minisell_signals();
+	ft_set_minisell_signals(); //what should happen in minishell when we get a signal?
+	//free something?
+	//what should happen when we get a signal during child process?
 
 	t_env *env = store_env(envp);
 	shell_data->env_list = env;
