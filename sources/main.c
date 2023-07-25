@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/25 14:35:38 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/25 14:39:32 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	ft_process_command_line(t_shell_data *shell_data)
 	if (!ft_search_for_variable_expansion(shell_data))
 		return (__system_call_error);
 	// // ft_lstclear(&shell_data->all_tokens, ft_clear_token);
-	if (!ft_execute_commands(shell_data))
+	if (!ft_execute_commands(shell_data))  //handle the syntax errors of builtin commands??? // is there a case where a syntax error comes back??
 		return (__system_call_error);
 	// //syntax error for ambibous redirect????
 	// // //freeing the list of command sequences
