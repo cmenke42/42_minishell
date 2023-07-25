@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 14:08:54 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/25 14:26:31 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/25 19:18:09 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ int	ft_check_name(char *name)
 {
 	if ((ft_isalpha(name[0]) == 0 && name[0] != '_')) 
 	{
-		printf("minishell: export: `%c': not a valid identifier\n", name[0]);
+		ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+		ft_putstr_fd(name, STDERR_FILENO);
+		ft_putendl_fd("':not a valid identifier", STDERR_FILENO);
+		//printf("minishell: export: `%c': not a valid identifier\n", name[0]);
 		return (0);
 	}
 	int i = 1;
@@ -38,7 +41,9 @@ int	ft_check_name(char *name)
 	{
 		if (!ft_isalnum(name[i]))
 		{
-			printf("minishell: export: `%s': not a valid identifier\n", name);
+			ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+			ft_putstr_fd(name, STDERR_FILENO);
+			ft_putendl_fd("':not a valid identifier", STDERR_FILENO);
 			return (0);
 		}
 		i++;
@@ -50,7 +55,7 @@ int	ft_check_name_start(char *s)
 {
 	if (s[0] == '=')
 	{
-		printf("minishell: export: `%c': not a valid identifier\n",s[0]);
+		ft_putendl_fd("minishell: export: `=':not a valid identifier", STDERR_FILENO);
 		return(0);
 	}
 	return (1);
