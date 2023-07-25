@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variables.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:32:40 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 21:16:24 by user             ###   ########.fr       */
+/*   Updated: 2023/07/25 14:49:04 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,23 +104,22 @@ bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token,
 		if (!ft_replace_variable_name_with_value(string, token, NULL, NULL))
 			return (false);
 	}
-	//PID speacial variable $$
+	//keep the $$ -> getpid is forbidden
 	else if ((*(*string + 1)) == '$')
 	{
-		// printf("replace with PID of the current shell or script.\n"); //or what else to with it
-		// free the process_id
-		process_id = ft_itoa((int)getpid());
-		if (!process_id)
-			return (false);
-		// printf("PID:%s", process_id);
-		if (!ft_replace_variable_name_with_value(string, token, NULL, process_id))
-			return (false);
+		*string += 1;
+		return (true); 
 	}
 	//exit code $?
 	else if ((*(*string + 1)) == '?')
 	{
 		// printf("replace with PID of the current shell or script.\n"); //or what else to with it
 		// free the process_id
+		if (g_signal_number != 0)
+		{
+			g_signal_number = 0;
+			shell_data->exit_code = 1;
+		}
 		exit_code = ft_itoa(shell_data->exit_code);
 		if (!exit_code)
 			return (false);

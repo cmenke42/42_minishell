@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_processes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 16:16:48 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 20:50:05 by user             ###   ########.fr       */
+/*   Updated: 2023/07/25 14:50:06 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ void	ft_wait_for_child_processes_and_get_exit_code(t_shell_data *shell_data, int
 
 void	ft_get_exit_code(int *exit_code, int stat_loc, bool first_encounter)
 {
+	g_signal_number = 0; //reset the signal number so we see the one from last executed command
 	if (WIFEXITED(stat_loc))
 	{
 		if (first_encounter && WEXITSTATUS(stat_loc))

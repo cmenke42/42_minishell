@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 19:15:33 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/25 14:52:18 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences
 	if (sequence_to_execute->command_path)
 		return (true);
 	ft_print_error_command_not_found(sequence_to_execute->args[0]);
+	shell_data->exit_code = 127;
 	return (false);
 }
 
