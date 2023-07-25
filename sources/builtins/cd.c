@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 18:20:03 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/24 11:55:02 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/25 14:38:15 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	ft_cd(char **command, t_env	*env)
 	}
 	else if(command[2])
 		return(ft_put_err("cd: ","Too many arguments", 2));
-	else if (!(ft_strncmp(command[1], "-", ft_strlen(command[1]))))
+	else if (!(ft_strcmp(command[1], "-")))
 	{
 		tmp = ft_search(env, "OLDPWD");
 		if (!tmp)

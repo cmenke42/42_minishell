@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 14:08:54 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/25 11:59:21 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/25 14:26:31 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	ft_check_duplicate(t_env *env, char *name, char *new_name)
 {
 	while (env)
 	{
-		if (ft_strncmp(name, new_name, ft_strlen(name)) == 0)
+		if (ft_strcmp(name, new_name) == 0)
 			return 1;
 		env = env->next;
 	}
@@ -71,7 +71,7 @@ t_env	*find_and_replace(t_env *env, t_env *new)
 {
 	while (env)
 	{
-		if (ft_strncmp(env->name, new->name, ft_strlen(env->name)) == 0)
+		if (ft_strcmp(env->name, new->name) == 0)
 			env->value = new->value;
 		env = env->next;
 	}

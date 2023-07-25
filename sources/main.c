@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/25 14:39:32 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/25 15:13:45 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	g_signal_number;
 void	ft_exit_ctrl_d()
 {
 	ft_putendl_fd("exit", STDOUT_FILENO);
-	rl_clear_history();
+	//rl_clear_history();
 	exit(0);
 }
 
@@ -28,7 +28,7 @@ void	ft_exit_ctrl_d()
 void ft_sig_sigint_handler(int sig_num)
 {
 	g_signal_number = sig_num;
-	rl_replace_line("", 1);
+	//rl_replace_line("", 1);
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_redisplay();

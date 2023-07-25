@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 13:28:05 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/23 17:38:24 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/25 14:39:22 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_env	*ft_search(t_env *env, char *name)
 	target = env;
 	if (!target)
 		return (NULL);
-	while (target && ft_strncmp(target->name, name, ft_strlen(target->name)))
+	while (target && ft_strcmp(target->name, name))
 		target = target->next;
 	return (target);
 }
