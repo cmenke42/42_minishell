@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 15:50:13 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 19:34:04 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/25 14:56:07 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ bool	ft_execute_single_builtin(t_shell_data *shell_data, int number_of_commands,
 	else if (!ft_restore_standard_fds(shell_data))
 		;
 	else
+	{
+		shell_data->exit_code = 0;
 		return (true);
+	}
 	return (false);
 }
 
