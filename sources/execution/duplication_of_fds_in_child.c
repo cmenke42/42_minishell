@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:23:14 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/23 15:49:07 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/25 16:58:25 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,14 @@ bool	ft_duplication_of_fds(int **pipe_fds, t_command_sequences *sequence_to_exec
 
 bool	ft_input_redirection_in_child(int **pipe_fds, int input_fd, int command_index)
 {
-	if (input_fd != 0)
+	if (input_fd > 0)
 	{
 		if (dup2(input_fd, STDIN_FILENO) == -1)
-		{
+		{	
+			close(input_fd);
 			return (perror("error duplicating input fd"), false);
 		}
+		close(input_fd);
 	}
 	else if (command_index > 0)
 	{
@@ -44,15 +46,16 @@ bool	ft_input_redirection_in_child(int **pipe_fds, int input_fd, int command_ind
 
 bool	ft_output_redirection_in_child(int **pipe_fds, int output_fd, int number_of_commands, int command_index)
 {
-	if (output_fd != 1)
+	if (output_fd > 1)
 	{
 		if (dup2(output_fd, STDOUT_FILENO) == -1)
 		{
 			close(output_fd);
 			return (perror("error duplicating output fd"), false);
 		}
+		close(output_fd);
 	}
-	if (command_index < number_of_commands - 1)
+	else if (command_index < number_of_commands - 1)
 	{
 		if (dup2(pipe_fds[command_index][1], STDOUT_FILENO) == -1)
 			return (perror("error duplicating pipe write end"), false);
@@ -75,12 +78,12 @@ bool	ft_output_redirection_in_child(int **pipe_fds, int output_fd, int number_of
 // 	}
 // }
 
-void	ft_close_all_pipes(int **pipe_fds, int number_of_pipes)
+void	ft_close_all_pipes(int **pipe_fds, int number_of_commands)
 {
 	int	i;
 
 	i = 0;
-	while (i < number_of_pipes - 1)
+	while (i < number_of_commands - 1)
 	{
 		close(pipe_fds[i][0]);
 		close(pipe_fds[i][1]);

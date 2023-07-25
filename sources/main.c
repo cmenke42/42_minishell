@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/25 15:13:45 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/25 16:25:00 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	g_signal_number;
 void	ft_exit_ctrl_d()
 {
 	ft_putendl_fd("exit", STDOUT_FILENO);
-	//rl_clear_history();
+	rl_clear_history();
 	exit(0);
 }
 
@@ -28,7 +28,7 @@ void	ft_exit_ctrl_d()
 void ft_sig_sigint_handler(int sig_num)
 {
 	g_signal_number = sig_num;
-	//rl_replace_line("", 1);
+	rl_replace_line("", 1);
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_redisplay();
@@ -108,8 +108,10 @@ int	ft_process_command_line(t_shell_data *shell_data)
 		return (__system_call_error);
 	if (!ft_search_for_variable_expansion(shell_data))
 		return (__system_call_error);
+	if (!ft_handle_here_doc_operator(shell_data->command_sequences))
+		return (__system_call_error);
 	// // ft_lstclear(&shell_data->all_tokens, ft_clear_token);
-	if (!ft_execute_commands(shell_data))  //handle the syntax errors of builtin commands??? // is there a case where a syntax error comes back??
+	if (!ft_execute_commands(shell_data))  //handle the syntax errors of builtin commands??? // is there a case where a syntax error comes back?? -> when open failed
 		return (__system_call_error);
 	// //syntax error for ambibous redirect????
 	// // //freeing the list of command sequences

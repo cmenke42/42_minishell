@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/25 14:51:54 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/25 16:44:29 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,8 @@ bool	ft_replace_variable_name_with_value(char **string, char **token, char *name
 char	*ft_trim_variable_value(char *string);
 
 // ---
-bool	ft_handle_redirection_operators(t_command_sequences *one_sequence, t_list *tokens);
+bool	ft_handle_here_doc_operator(t_list *command_sequences);
+bool	ft_handle_redirection_operators(t_command_sequences *one_sequence, t_list *tokens_of_sequence);
 bool	ft_do_redirection(int *input_fd, int *output_fd, char operator, t_tokens *file_token);
 bool	ft_output_redirection(int *output_fd, char operator, t_tokens *file_token);
 bool	ft_input_redirection(int *input_fd, char operator, t_tokens *file_token);
@@ -155,7 +156,9 @@ char	*ft_remove_quotes_from_token(char **token);
 int		ft_strlen_without_quotes(char *cmd_line);
 void	ft_copy_element_without_quotes(char *cmd_line, char *new_line);
 	//heredoc
-int	create_heredoc(t_tokens *command);
+bool	ft_create_and_save_heredocs(t_list *tokens_of_sequence, int *i);
+char	*create_heredoc(t_tokens *command, int *i);
+int		ft_create_heredoc_file(char **heredoc_filename, int *i);
 // clearing
 	//ft_free_double_pointer.c
 void	ft_free_double_pointer_char(char ***ptr);
@@ -192,7 +195,7 @@ bool	ft_restore_standard_fds(t_shell_data *shell_data);
 bool	ft_duplication_of_fds(int **pipe_fds, t_command_sequences *sequence_to_execute, int number_of_commands, int command_index);
 bool	ft_input_redirection_in_child(int **pipe_fds, int input_fd, int command_index);
 bool	ft_output_redirection_in_child(int **pipe_fds, int output_fd, int number_of_commands, int command_index);
-void	ft_close_all_pipes(int **pipe_fds, int number_of_pipes);
+void	ft_close_all_pipes(int **pipe_fds, int number_of_commands);
 	//get_envp_cmd_paths
 char	*ft_get_cmd_path(char **envp_paths, char *cmd);
 char	**ft_get_envp_paths(char **envp);
