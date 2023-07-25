@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:55:14 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/25 12:01:16 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/25 15:42:59 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_env	*add_to_list(t_env *env, char *var)
 	t_env	*new;
 	t_env	*tmp;
 	char	**split;
+	int	found = 0;
 
 	if (!ft_check_name_start(var))
 		return NULL;
@@ -37,14 +38,17 @@ t_env	*add_to_list(t_env *env, char *var)
 			new->value = ft_strdup("");
 	}
 	new->next = NULL;
+	if (ft_search(env, new->name))
+	{
+		found = 1;
+		find_and_replace(env, new);
+	}
 	if (!ft_check_name(new->name))
 		return (NULL);
 	tmp = env;
 	while (tmp->next)
 		tmp = tmp->next;
-	if (ft_check_duplicate(tmp, tmp->name, new->name) == 1)
-		find_and_replace(tmp, new);
-	else
+	if (!found)
 		tmp->next = new;
 	return tmp;
 }
