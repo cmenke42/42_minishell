@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/25 13:57:46 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/25 14:35:38 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,16 +96,21 @@ int	ft_process_command_line(t_shell_data *shell_data)
 	int	status;
 
 	status = ft_check_equal_quote_amt(shell_data->command_line_read);
-	if (!status)
+	if (status == __success)
 		status = ft_create_tokens_for_sequence(shell_data->command_line_read, &shell_data->all_tokens);
-	if (status == __success && (!shell_data->all_tokens))
+	else
+		return (status);
+	if (!shell_data->all_tokens)
 		return (__dont_add_to_history);
-	if (status == __success && ft_is_syntax_error(shell_data))
+	if (ft_is_syntax_error(shell_data))
 		return (__syntax_error);
-	// ft_split_tokens_in_sequences(shell_data);
-	// ft_search_for_variable_expansion(shell_data);
+	if (!ft_split_tokens_in_sequences(shell_data))
+		return (__system_call_error);
+	if (!ft_search_for_variable_expansion(shell_data))
+		return (__system_call_error);
 	// // ft_lstclear(&shell_data->all_tokens, ft_clear_token);
-	// ft_execute_commands(shell_data);
+	if (!ft_execute_commands(shell_data))
+		return (__system_call_error);
 	// //syntax error for ambibous redirect????
 	// // //freeing the list of command sequences
 	// // ft_lstclear(&shell_data->command_sequences, ft_clear_command_sequence);
