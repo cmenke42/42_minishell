@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:55:14 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/24 14:50:57 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/25 12:01:16 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ t_env	*add_to_list(t_env *env, char *var)
 	t_env	*tmp;
 	char	**split;
 
-	ft_check_name_start(var);
+	if (!ft_check_name_start(var))
+		return NULL;
 	new = malloc(sizeof(t_env));
 	if (!ft_strchr(var, '='))
 	{
@@ -36,7 +37,8 @@ t_env	*add_to_list(t_env *env, char *var)
 			new->value = ft_strdup("");
 	}
 	new->next = NULL;
-	ft_check_name(new);
+	if (!ft_check_name(new->name))
+		return (NULL);
 	tmp = env;
 	while (tmp->next)
 		tmp = tmp->next;

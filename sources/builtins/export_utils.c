@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 14:08:54 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/24 11:55:42 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/25 11:59:21 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,32 +26,34 @@ t_env	*ft_create_node(char *name, char *value)
 	return (new);
 }
 
-void	ft_check_name(t_env *env)
+int	ft_check_name(char *name)
 {
-	if ((ft_isalpha(env->name[0]) == 0 && env->name[0] != '_')) 
+	if ((ft_isalpha(name[0]) == 0 && name[0] != '_')) 
 	{
-		printf("bash: export: `%c': not a valid identifier\n",env->name[0]);
-		exit(1);
+		printf("minishell: export: `%c': not a valid identifier\n", name[0]);
+		return (0);
 	}
 	int i = 1;
-	while (env->name[i])
+	while (name[i])
 	{
-		if (!ft_isalnum(env->name[i]))
+		if (!ft_isalnum(name[i]))
 		{
-			printf("bash: export: `%s': not a valid identifier\n", env->name);
-			exit(1);
+			printf("minishell: export: `%s': not a valid identifier\n", name);
+			return (0);
 		}
 		i++;
 	}
+	return (1);
 }
 
-void	ft_check_name_start(char *s)
+int	ft_check_name_start(char *s)
 {
 	if (s[0] == '=')
 	{
-		printf("bash: export: `%c': not a valid identifier\n",s[0]);
-		exit(1);
+		printf("minishell: export: `%c': not a valid identifier\n",s[0]);
+		return(0);
 	}
+	return (1);
 }
 
 int	ft_check_duplicate(t_env *env, char *name, char *new_name)
