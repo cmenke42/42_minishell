@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:59:19 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 20:10:35 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/25 13:02:49 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 //If there is a quote it searches for the next quote of the same type.
 //If there is not a second quote of the same type this means the ammount of 
 //quotes is not equal.
-bool	ft_check_equal_quote_amt(char *s)
+int	ft_check_equal_quote_amt(char *s)
 {
 	int		i;
 
@@ -27,19 +27,19 @@ bool	ft_check_equal_quote_amt(char *s)
 			while (s[++i] && s[i] != '\'')
 				;
 			if (s[i] != '\'')
-				return (ft_putendl_fd(L_RED SQUOTE_ERROR STYLE_DEF, 2), false);
+				return (ft_putendl_fd(L_RED SQUOTE_ERROR STYLE_DEF, 2), __syntax_error);
 		}
 		else if (s[i] == '\"')
 		{
 			while (s[++i] && s[i] != '\"')
 				;
 			if (s[i] != '\"')
-				return (ft_putendl_fd(L_RED DQUOTE_ERROR STYLE_DEF, 2), false);
+				return (ft_putendl_fd(L_RED DQUOTE_ERROR STYLE_DEF, 2), __syntax_error);
 		}
 		if (s[i])
 			i++;
 	}
-	return (true);
+	return (__success);
 }
 
 bool	ft_search_and_print_syntax_error(t_shell_data *shell_data)

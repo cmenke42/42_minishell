@@ -6,13 +6,13 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 20:41:08 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/25 13:43:13 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	ft_create_tokens_for_sequence(char *command_line_read, t_list **tokens)
+int	ft_create_tokens_for_sequence(char *command_line_read, t_list **tokens)
 {
 	char				*start;
 	//what need to happen when there is a newline in the command line read?
@@ -23,13 +23,11 @@ bool	ft_create_tokens_for_sequence(char *command_line_read, t_list **tokens)
 		ft_find_next_token(&command_line_read, &start, tokens);
 		//creates one token if the string would be at least 1
 		if (start != command_line_read && !ft_create_one_token(start, command_line_read, tokens))
-			return (false); //check what needs to be cleared
+			return (__system_call_error); //check what needs to be cleared
 		// if (*command_line_read && *command_line_read != '\"' && *command_line_read != '\'')
 		// 	command_line_read += 1;
 	}
-	if (!tokens || !*tokens)
-		return (false); //change to success
-	return (true);
+	return (__success);
 }
 
 void	ft_skip_to_next_non_delimiter(char **command_line)
@@ -44,7 +42,7 @@ bool	ft_is_whitespace(char c)
 }
 
 //seaparates the string by spaces and opeartors
-bool	ft_find_next_token(char **string, char **start, t_list **tokens)
+int	ft_find_next_token(char **string, char **start, t_list **tokens)
 {
 	while (**string)
 	{
@@ -54,7 +52,7 @@ bool	ft_find_next_token(char **string, char **start, t_list **tokens)
 			if (*start != *string)
 			{
 				if (!ft_create_one_token(*start, *string, tokens))
-					return (false); //check what needs to be cleared#
+					return (__system_call_error); //check what needs to be cleared#
 				*start = *string;
 			}
 			ft_move_while_same_char(string, **string);
@@ -65,7 +63,7 @@ bool	ft_find_next_token(char **string, char **start, t_list **tokens)
 		if (**string)
 			*string += 1;
 	}
-	return (true);
+	return (__success);
 }
 
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 21:01:22 by user             ###   ########.fr       */
+/*   Updated: 2023/07/25 13:38:30 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,22 +89,30 @@ enum e_token_type
 	redirection_filename
 };
 
+enum	e_error_codes
+{
+	__success,
+	__dont_add_to_history,
+	__syntax_error,
+	__system_call_error,
+};
+
 extern int g_signal_number;
 
 extern const char* token_enum_to_string[][2]; //remove this
 
 //main
-bool	ft_process_command_line(t_shell_data *shell_data);
+int		ft_process_command_line(t_shell_data *shell_data);
 void	ft_set_minisell_signals(void);
 void	ft_restore_default_signals(void);
 //shlvl
 t_env *increase_shlvl(t_shell_data *shell_data);
 //lexer
 	//create_tokens.c
-bool	ft_create_tokens_for_sequence(char *command_line_read, t_list **command_sequences);
+int		ft_create_tokens_for_sequence(char *command_line_read, t_list **command_sequences);
 void	ft_skip_to_next_non_delimiter(char **command_line);
 bool	ft_is_whitespace(char c);
-bool	ft_find_next_token(char **string, char **start, t_list **tokens);
+int		ft_find_next_token(char **string, char **start, t_list **tokens);
 void	ft_skip_quote_block(char **string, bool	only_single_quotes);
 void	ft_move_while_same_char(char **command_line, char c);
 bool	ft_create_one_token(char *start, char *end, t_list **token);
@@ -113,7 +121,7 @@ bool	ft_is_syntax_error(t_shell_data *shell_data);
 void	ft_set_token_types(void *node);
 char	ft_get_token_type(char *string);
 	// syntax_error.c
-bool	ft_check_equal_quote_amt(char *s);
+int		ft_check_equal_quote_amt(char *s);
 bool	ft_search_and_print_syntax_error(t_shell_data *shell_data);
 bool	ft_check_for_syntax_error(t_tokens *token, t_tokens *next_token);
 bool	ft_is_operator(char token_type);

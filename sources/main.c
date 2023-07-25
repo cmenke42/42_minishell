@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:30:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 21:16:28 by user             ###   ########.fr       */
+/*   Updated: 2023/07/25 13:43:09 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,14 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	t_shell_data	*shell_data;
 	int				exit_code;
+	int				status;
 
 	exit_code = 0;
 	g_signal_number = 0;
-	//what to do when we get arguments for the minishell?
+	//what to do when we get arguments for the minishell? -> nothing
 	shell_data = ft_calloc(1, sizeof(t_shell_data));
 	if (!shell_data)
-		return (perror("struct allocation error"), 1);
+		return (perror("shell_data struct allocation error"), 1);
 	ft_set_minisell_signals(); //what should happen in minishell when we get a signal?
 	//free something?
 	//what should happen when we get a signal during child process?
@@ -69,20 +70,18 @@ int	main(int argc, char **argv, char **envp)
 	increase_shlvl(shell_data);
 	while (1)
 	{
-		// if (g_signal_number)
-		// {
-		// 	g_signal_number = 0;
-		// 	shell_data->exit_code = 130;
-		// }
 		shell_data->command_line_read = readline(PROMPT);
 		if (shell_data->command_line_read && *shell_data->command_line_read)
 		{
-			if (ft_process_command_line(shell_data))
+			status = ft_process_command_line(shell_data);
+			if (status != __system_call_error && status != __dont_add_to_history)
 			{
 				add_history(shell_data->command_line_read);
 				// continue ;
 				//perform the clearing up
 			}
+			else if (status == __system_call_error)
+				exit_code = 1; //exit the shell
 			// rl_on_new_line();
 		}
 		else if (!shell_data->command_line_read)
@@ -92,20 +91,23 @@ int	main(int argc, char **argv, char **envp)
 	exit (exit_code);
 }
 
-bool	ft_process_command_line(t_shell_data *shell_data)
+int	ft_process_command_line(t_shell_data *shell_data)
 {
-	if (!ft_check_equal_quote_amt(shell_data->command_line_read))
-		return (false);
-	if (!ft_create_tokens_for_sequence(shell_data->command_line_read, &shell_data->all_tokens))
-		return (false);
-	if (ft_is_syntax_error(shell_data))
-		return (false);
-	ft_split_tokens_in_sequences(shell_data);
-	ft_search_for_variable_expansion(shell_data);
-	// ft_lstclear(&shell_data->all_tokens, ft_clear_token);
-	ft_execute_commands(shell_data);
-	//syntax error for ambibous redirect????
-	// //freeing the list of command sequences
-	// ft_lstclear(&shell_data->command_sequences, ft_clear_command_sequence);
-	return (true);
+	int	status;
+
+	status = ft_check_equal_quote_amt(shell_data->command_line_read);
+	if (!status)
+		status = ft_create_tokens_for_sequence(shell_data->command_line_read, &shell_data->all_tokens);
+	if (status == __success && (!shell_data->all_tokens))
+		return (__dont_add_to_history);
+	// else if (ft_is_syntax_error(shell_data))
+	// 	return (false);
+	// ft_split_tokens_in_sequences(shell_data);
+	// ft_search_for_variable_expansion(shell_data);
+	// // ft_lstclear(&shell_data->all_tokens, ft_clear_token);
+	// ft_execute_commands(shell_data);
+	// //syntax error for ambibous redirect????
+	// // //freeing the list of command sequences
+	// // ft_lstclear(&shell_data->command_sequences, ft_clear_command_sequence);
+	return (status);
 }
