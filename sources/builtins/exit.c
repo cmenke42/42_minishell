@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 13:15:06 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/24 12:00:02 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/25 18:52:36 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,16 @@ void	exit_code(char *str)
 {
 	int	exit_code;
 
+	printf("exit\n");
 	if (is_str_digit(str))
 		exit_code = ft_atoi(str);
 	else
 	{
-		printf("minishell: exit: %s: numeric argument required\n", str);
+		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+		ft_putstr_fd(str, STDERR_FILENO);
+		ft_putstr_fd(" :numeric argument required\n", STDERR_FILENO);
 		exit_code = 255;
 	}
-	printf("exit\n");
 	free(str);
 	exit(exit_code);
 }
@@ -50,6 +52,11 @@ void	ft_exit(char **args)
 	{
 		printf("exit\n");
 		exit(0);
+	}
+	if (args[2])
+	{
+		ft_putstr_fd("too many arguments\n", STDERR_FILENO);
+		exit(1);
 	}
 	exit_code(args[1]);
 }

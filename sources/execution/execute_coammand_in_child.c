@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_coammand_in_child.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/25 14:52:18 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/25 17:23:57 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ bool	ft_execute_builtin_if_builtin(t_shell_data *shell_data, t_command_sequences
 	else
 		return (false);
 	if (single_builtin == false)
-		exit(42); //remove later
+		exit(0); //remove later
 	return (true);
 }
 

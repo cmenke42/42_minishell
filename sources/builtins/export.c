@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 11:55:14 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/25 15:42:59 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/25 18:05:56 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ t_env	*sort_env(t_env *env)
 void	print_export(t_env *env)
 {
 	t_env	*sorted_env;
+	if (!ft_search(env, "OLDPWD"))
+		add_to_list(env, "OLDPWD");
 	sorted_env = sort_env(env);
 	while (sorted_env)
 	{
