@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:46:20 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 18:36:33 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 21:10:23 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	ft_print_command_sequences(t_list *command_sequences)
 	{
 		printf("\nSequence %d\n", i++);
 		one_sequence = (t_command_sequences *)command_sequences->content;
-		// ft_print_token_list(one_sequence->tokens);
+		ft_print_token_list(one_sequence->tokens);
 		command_sequences = command_sequences->next;
 	}
 }

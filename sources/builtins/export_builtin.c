@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 18:56:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 21:44:24 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 21:31:37 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,16 @@ int	ft_update_or_add_env_variable(char *argument, t_list **env_list_new)
 int	ft_search_for_env_variable(char *argument, t_list *env_list_new, t_list **env_variable_to_update)
 {
 	t_env	*one_env_variable;
-	char 	*equal_sign;
 	int		name_length;
 
-	ft_variable_name_lenght(argument, &name_length);
 	*env_variable_to_update = NULL;
+	if (!argument || !env_list_new)
+		return (__success);
+	ft_get_variable_name_lenght(argument, &name_length);
 	while (env_list_new)
 	{
 		one_env_variable = (t_env *)env_list_new->content;
-		if (!ft_strcmp(one_env_variable->name, name)) //needs to be changed to name_length and use strncmp
+		if (!ft_strncmp(one_env_variable->name, argument, name_length))
 		{
 			*env_variable_to_update = env_list_new;
 			break;
@@ -96,16 +97,16 @@ int	ft_search_for_env_variable(char *argument, t_list *env_list_new, t_list **en
 	return (__success);
 }
 
-// ft_variable_name_lenght(char *argument, int *name_length)
-// {
-// 	char	*equal_sign;
+void	ft_get_variable_name_lenght(char *argument, int *name_length)
+{
+	char	*equal_sign;
 
-// 	equal_sign = ft_strchr(argument, '=');
-// 	if (equal_sign)
-// 		*name_length = equal_sign - argument;
-// 	else
-// 		*name_length = ft_strlen(argument);
-// }
+	equal_sign = ft_strchr(argument, '=');
+	if (equal_sign)
+		*name_length = equal_sign - argument;
+	else
+		*name_length = ft_strlen(argument);
+}
 
 t_list	*ft_sort_list_asci(t_list *lst)
 {

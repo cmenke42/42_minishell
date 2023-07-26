@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 11:38:04 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/26 21:31:31 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 21:08:10 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_env	*find_and_replace(t_env *env, t_env *new);
 
 int	ft_update_or_add_env_variable(char *argument, t_list **env_list_new);
 int	ft_search_for_env_variable(char *argument, t_list *env_list_new, t_list **env_variable_to_update);
+void	ft_get_variable_name_lenght(char *argument, int *name_length);
 
 t_list	*ft_sort_list_asci(t_list *lst);
 // void	ft_export(char **command, t_env *env);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variables.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:32:40 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/25 14:49:04 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 21:10:30 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,12 @@ bool	ft_do_variable_expansion(t_tokens *token, t_shell_data *shell_data)
 bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token, bool in_double_quotes, t_shell_data *shell_data)
 {
 	char	*variable_name;
-	char	*process_id;
 	char	*trimmed;
 	char	*value;
 	char	*exit_code;
 
 	variable_name = NULL;
 	value = NULL;
-	process_id = NULL;
 	//keep the dollar sign
 	// $ \0     $\t  \0 || '$' || "$''" "$""" || $\0
 	if (ft_is_whitespace(*(*string + 1))
