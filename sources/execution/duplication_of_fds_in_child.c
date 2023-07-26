@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:23:14 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/25 16:58:25 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 14:58:03 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ bool	ft_duplication_of_fds(int **pipe_fds, t_command_sequences *sequence_to_exec
 		status = false;
 	if(!ft_output_redirection_in_child(pipe_fds, sequence_to_execute->output_fd, number_of_commands, command_index))
 		status = false;
-	ft_close_all_pipes(pipe_fds, number_of_commands);
+	ft_close_all_pipes(pipe_fds, number_of_commands - 1);
 	return (status);
 }
 
@@ -78,12 +78,14 @@ bool	ft_output_redirection_in_child(int **pipe_fds, int output_fd, int number_of
 // 	}
 // }
 
-void	ft_close_all_pipes(int **pipe_fds, int number_of_commands)
+void	ft_close_all_pipes(int **pipe_fds, int number_of_pipes)
 {
 	int	i;
 
 	i = 0;
-	while (i < number_of_commands - 1)
+	if (!pipe_fds)
+		return ;
+	while (i < number_of_pipes)
 	{
 		close(pipe_fds[i][0]);
 		close(pipe_fds[i][1]);

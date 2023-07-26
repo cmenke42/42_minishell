@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 14:16:19 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 14:58:15 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,7 @@ bool	ft_restore_standard_fds(t_shell_data *shell_data);
 bool	ft_duplication_of_fds(int **pipe_fds, t_command_sequences *sequence_to_execute, int number_of_commands, int command_index);
 bool	ft_input_redirection_in_child(int **pipe_fds, int input_fd, int command_index);
 bool	ft_output_redirection_in_child(int **pipe_fds, int output_fd, int number_of_commands, int command_index);
-void	ft_close_all_pipes(int **pipe_fds, int number_of_commands);
+void	ft_close_all_pipes(int **pipe_fds, int number_of_pipes);
 	//get_envp_cmd_paths
 char	*ft_get_cmd_path(char **envp_paths, char *cmd);
 char	**ft_get_envp_paths(char **envp);

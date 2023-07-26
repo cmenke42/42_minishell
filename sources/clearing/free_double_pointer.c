@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:25:39 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 11:47:00 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 15:05:49 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_free_double_pointer_char(char ***ptr)
 		while (temp[i])
 			free(temp[i++]);
 		free(temp);
-		temp = NULL;
+		*ptr = NULL;
 	}
 }
 
@@ -44,7 +44,7 @@ void	ft_free_double_pointer_int(int ***ptr, int size)
 		while (i < size)
 			free(temp[i++]);
 		free(temp); //unnecessary free causing issues
-		temp = NULL;
+		*ptr = NULL;
 	}
 }
 
