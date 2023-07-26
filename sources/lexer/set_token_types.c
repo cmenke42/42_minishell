@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_token_types.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:25:41 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 15:33:01 by user             ###   ########.fr       */
+/*   Updated: 2023/07/26 12:02:01 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ bool	ft_is_syntax_error(t_shell_data *shell_data)
 
 	tokens = shell_data->all_tokens;
 	ft_lstiter(tokens, ft_set_token_types);
-	ft_search_and_print_syntax_error(shell_data);
+	if (ft_search_and_print_syntax_error(shell_data))
+		return (true);
 	// ft_lstclear(&shell_data->all_tokens, ft_clear_token);
 	return (false);
 }

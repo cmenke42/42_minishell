@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/25 13:43:13 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 12:12:29 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,15 @@ void	ft_skip_quote_block(char **string, bool	only_single_quotes)
 
 void	ft_move_while_same_char(char **command_line, char c)
 {
-	while (**command_line == c)
+	int	max_len;
+
+	if (c == '<' || c == '>')
+		max_len = 2;
+	else if (c == '|')
+		max_len = 1;
+	else
+		max_len = -1;
+	while ((max_len == -1 || max_len-- > 0) && **command_line == c)
 		*command_line += 1;
 }
 

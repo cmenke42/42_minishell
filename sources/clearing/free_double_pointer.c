@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_double_pointer.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:25:39 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 13:10:37 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/26 11:47:00 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	ft_free_double_pointer_char(char ***ptr)
 	int	i;
 	char	**temp;
 	
-	i = 0;
 	if (!ptr)
 		return ;
 	temp = *ptr;
+	i = 0;
 	if (temp)
 	{
 		while (temp[i])
@@ -50,7 +50,7 @@ void	ft_free_double_pointer_int(int ***ptr, int size)
 
 void	ft_free_pointer_and_set_to_null(void **ptr)
 {
-	if (!ptr)
+	if (!ptr || !*ptr)
 		return ;
 	free(*ptr);
 	*ptr = NULL;

@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:59:19 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/25 13:02:49 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 12:13:20 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,17 @@ bool	ft_search_and_print_syntax_error(t_shell_data *shell_data)
 		else
 			next_token = NULL;
 		if (ft_check_for_syntax_error(token, next_token))
-			return (false);
+			return (true);
 		temp = temp->next;
 	}
-	return (true);
+	return (false);
 }
 
 bool	ft_check_for_syntax_error(t_tokens *token, t_tokens *next_token)
 {
 	if (token->type == syntax_error)
-	{
-		printf("found syntax error in token: %s\n", token->token);
+	{	
+		ft_print_syntax_error(token, next_token);
 		return (true);
 	}
 	else if (ft_is_operator(token->type) && (!next_token || ft_is_operator(next_token->type)))
@@ -83,7 +83,7 @@ bool	ft_check_for_syntax_error(t_tokens *token, t_tokens *next_token)
 		}
 		else
 		{
-			printf("found syntax error in token: %s\n", token->token);
+			ft_print_syntax_error(token, next_token);
 			return (true);
 		}
 	}
@@ -95,4 +95,14 @@ bool	ft_is_operator(char token_type)
 	if (token_type >= 1 && token_type <= 6)
 		return (true);
 	return (false);
+}
+
+void	ft_print_syntax_error(t_tokens *token, t_tokens *next_token)
+{
+	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+	if (next_token)
+		ft_putstr_fd(next_token->token, 2);
+	else
+		ft_putstr_fd("newline", 2);
+	ft_putstr_fd("'\n", 2);
 }

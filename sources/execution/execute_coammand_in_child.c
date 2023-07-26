@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_coammand_in_child.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/25 17:23:57 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/26 11:49:09 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ bool	ft_execute_builtin_if_builtin(t_shell_data *shell_data, t_command_sequences
 
 bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences *sequence_to_execute)
 {
-	if (sequence_to_execute->args[0][0] == '\0')
+	if (sequence_to_execute->args[0][0] == '\0') //for emtpy quotes as input
 	{
 		ft_print_error_command_not_found(sequence_to_execute->args[0]);
 		return (false);

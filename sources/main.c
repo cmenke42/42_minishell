@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/25 16:25:00 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/25 19:02:39 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	ft_process_command_line(t_shell_data *shell_data)
 		return (__syntax_error);
 	if (!ft_split_tokens_in_sequences(shell_data))
 		return (__system_call_error);
-	if (!ft_search_for_variable_expansion(shell_data))
+	if (!ft_search_for_variable_expansion(shell_data)) //remove tokens that got empty after expansion
 		return (__system_call_error);
 	if (!ft_handle_here_doc_operator(shell_data->command_sequences))
 		return (__system_call_error);
