@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:32:40 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 21:10:30 by user             ###   ########.fr       */
+/*   Updated: 2023/07/26 22:02:59 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,16 +177,15 @@ char	*ft_get_variable_value(t_env *env, char	*variable_name)
 	//search in the env list for the variable
 		//if found retourn the string; -> do not free when using string_join later in replacement
 		//else retourn NULL
-	t_env *tmp;
+	t_list *variable_node;
     char *value;
 
 	if(!variable_name)
 		return (NULL);
 	value = NULL;
-    tmp = ft_search(env, variable_name);
-    if (!tmp)
-        return (NULL);
-    value = tmp->value;
+	variable_node = ft_search_for_env_variable(variable_name, env);
+    if (variable_node)
+   		value = ((t_env *)variable_node->content)->value;
     return (value);
 }
 

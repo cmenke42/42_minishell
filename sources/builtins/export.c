@@ -3,119 +3,129 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/19 11:55:14 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/26 19:27:07 by cmenke           ###   ########.fr       */
+/*   Created: 2023/07/26 18:56:03 by cmenke            #+#    #+#             */
+/*   Updated: 2023/07/26 22:10:24 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_env	*add_to_list(t_env *env, char *var)
+int	ft_export(char **arguemnts, t_list **env_list)
 {
-	t_env	*new;
-	t_env	*tmp;
-	char	**split;
-	int	found = 0;
+	int i;
 
-	if (!ft_check_name_start(var))
-		return NULL;
-	new = malloc(sizeof(t_env));
-	if (!ft_strchr(var, '='))
+	i = 1;
+	while (arguemnts[i])
 	{
-		new->name = ft_strdup(var);
-		new->value = NULL;
+		if (ft_strcmp(arguemnts[i], "_") == 0)
+			continue ;
+		if (ft_update_or_add_env_variable(arguemnts[i], env_list) == __system_call_error)
+			return (__system_call_error);
+		i++;
 	}
-	else
+	if (i == 1)
 	{
-		split = ft_split(var, '=');
-		new->name = ft_strdup(split[0]);
-		if (split[1])
-			new->value = ft_strdup(split[1]);
-		else
-			new->value = ft_strdup("");
+		if (print_export(env_list) == __system_call_error)
+			return (__system_call_error);
 	}
-	new->next = NULL;
-	if (ft_search(env, new->name))
-	{
-		found = 1;
-		find_and_replace(env, new);
-	}
-	if (!ft_check_name(new->name))
-		return (NULL);
-	tmp = env;
-	while (tmp->next)
-		tmp = tmp->next;
-	if (!found)
-		tmp->next = new;
-	return tmp;
+	return (__success);
 }
 
-t_env	*sort_env(t_env *env)
+int	print_export(t_list **env_list)
 {
-	char	*swap;
-	char	*swap_value;
-	t_env	*tmp;
+	t_list	*sorted_env_list;
+	t_env	*one_env_variable;
 
-	tmp = env;
-	if (!env && !env->next)
-		return (NULL);
-	while (env->next)
+	if (!ft_search_for_env_variable("OLDPWD", *env_list))
+		if (ft_store_one_variable_in_node(env_list, "OLDPWD", false) == __system_call_error)
+			return (__system_call_error);
+	sorted_env_list = ft_sort_list_asci(*env_list);
+	while (sorted_env_list)
 	{
-		if (env->name[0] > env->next->name[0])
+		one_env_variable = (t_env *)sorted_env_list->content;
+		printf("declare -x %s", one_env_variable->name);
+		if (one_env_variable->value)
+			printf("=\"%s\"\n", one_env_variable->value);
+		else if (one_env_variable->print_empty_quotes)
+			printf("=\"\"\n");
+		else
+			printf("\n");
+		sorted_env_list = sorted_env_list->next;
+	}
+	return (__success);
+}
+
+int	ft_update_or_add_env_variable(char *argument, t_list **env_list)
+{
+	t_list	*env_variable_to_update;
+	int		status;
+
+	status = __success;
+	env_variable_to_update = ft_search_for_env_variable(argument, *env_list);
+	if (env_variable_to_update)
+		status = ft_assign_values_to_env_variable_node((t_env *)env_variable_to_update->content, argument, false);
+	else if (!status)
+		status = ft_store_one_variable_in_node(env_list, argument, false);
+	return (status);
+}
+
+t_list	*ft_search_for_env_variable(char *argument, t_list *env_list)
+{
+	t_env	*one_env_variable;
+	int		name_length;
+
+	if (!argument || !env_list)
+		return (NULL);
+	ft_get_variable_name_lenght(argument, &name_length);
+	while (env_list)
+	{
+		one_env_variable = (t_env *)env_list->content;
+		if (!ft_strncmp(one_env_variable->name, argument, name_length))
+			return (env_list);
+		env_list = env_list->next;
+	}
+	return (NULL);
+}
+
+void	ft_get_variable_name_lenght(char *argument, int *name_length)
+{
+	char	*equal_sign;
+
+	equal_sign = ft_strchr(argument, '=');
+	if (equal_sign)
+		*name_length = equal_sign - argument;
+	else
+		*name_length = ft_strlen(argument);
+}
+
+t_list	*ft_sort_list_asci(t_list *lst)
+{
+	t_list	*tmp;
+
+	if (!lst)
+		return (NULL);
+	tmp = lst;
+	while(lst->next)
+	{
+		if (ft_strcmp(((t_env *)lst->content)->name, ((t_env *)lst->next->content)->name) > 0)
 		{
-			swap = env->name;
-			swap_value = env->value;
-			env->name = env->next->name;
-			env->value = env->next->value;
-			env->next->name = swap;
-			env->next->value = swap_value;
-			env = tmp;
+			ft_swap(&lst->content, &lst->next->content);
+			lst = tmp;
 		}
 		else
-			env = env->next;
+			lst = lst->next;
 	}
-	env = tmp;
-	return (env);
+	lst = tmp;
+	return (lst);
 }
 
-// void	print_export(t_env *env)
-// {
-// 	t_env	*sorted_env;
-// 	if (!ft_search(env, "OLDPWD"))
-// 		add_to_list(env, "OLDPWD");
-// 	sorted_env = sort_env(env);
-// 	while (sorted_env)
-// 	{
-// 		if (sorted_env->name &&(ft_isalpha(sorted_env->name[0]) || sorted_env->name[0] == '_'))
-// 			printf("declare -x ");
-// 		if (sorted_env->name)
-// 			printf("%s", sorted_env->name);
-// 		if (sorted_env->value)
-// 		{
-// 			printf("=");
-// 			printf("\"");
-// 			if (sorted_env->value)
-// 				printf("%s", sorted_env->value);
-// 			printf("\"");
-// 		}
-// 		printf("\n");
-// 		if (sorted_env->next)
-// 			sorted_env = sorted_env->next;
-// 		else
-// 			break ;
-// 	}
-// }
+void	ft_swap(void **var1, void **var2)
+{
+	void	*swap;
 
-// void	ft_export(char **command, t_env *env)
-// {
-// 	int i;
-
-// 	i = 1;
-// 	if (command[1])
-// 		while (command[i])
-// 			add_to_list(env, command[i++]);
-// 	else
-// 		print_export(env);
-// }
+	swap = *var1;
+	*var1 = *var2;
+	*var2 = swap;
+}

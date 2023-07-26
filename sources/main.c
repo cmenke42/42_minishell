@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 21:28:38 by user             ###   ########.fr       */
+/*   Updated: 2023/07/26 21:54:45 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	main(int argc, char **argv, char **envp)
 	ft_set_minisell_signals(); //what should happen in minishell when we get a signal?
 	//free something?
 	//what should happen when we get a signal during child process?
-	if (ft_store_env_in_list(envp, &shell_data->env_list_new) == __system_call_error)
+	if (ft_store_env_in_list(envp, &shell_data->env_list) == __system_call_error)
 	{
 		printf("error storing env in list\n");
 		free(shell_data);
@@ -88,9 +88,7 @@ int	main(int argc, char **argv, char **envp)
 	// ft_export(export_array, &shell_data->env_list_new);
 	// ft_print_env_list(shell_data->env_list_new);
 	// exit (22);
-	t_env *env = store_env(envp);
-	shell_data->env_list = env;
-	increase_shlvl(shell_data);
+	// // increase_shlvl(shell_data);
 	while (1)
 	{
 		shell_data->command_line_read = readline(PROMPT);

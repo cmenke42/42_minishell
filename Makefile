@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
+#    By: user <user@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/07/26 19:26:47 by cmenke           ###   ########.fr        #
+#    Updated: 2023/07/26 21:50:52 by user             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,16 +15,14 @@ NAME := minishell
 SRCDIR := sources
 
 BUILTINS := $(addprefix builtins/,utils.c \
-								 echo.c \
-								 env.c \
-								 export.c \
-								 export_utils.c \
-								 unset.c \
-								 pwd.c \
-								 exit.c\
-								 cd.c \
-								 new_export.c \
-								 export_builtin.c)
+								echo.c \
+								env.c \
+								export.c \
+								unset.c \
+								pwd.c \
+								exit.c\
+								cd.c \
+								export_utils.c)
 
 CLEARING := $(addprefix clearing/,free_double_pointer.c \
 									clear_structs.c)

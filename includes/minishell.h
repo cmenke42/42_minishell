@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 20:51:05 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 21:51:20 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,7 @@ typedef struct s_shell_data
 	pid_t	*process_ids;
 	t_list	*command_sequences;
 	t_list	*all_tokens;	//same as command_sequences->tokens
-	t_env	*env_list;
-	t_list	*env_list_new;
+	t_list	*env_list;
 }				t_shell_data;
 
 typedef struct s_command_sequences
@@ -228,6 +227,5 @@ void	ft_print_token_list(t_list *tokens);
 void	ft_print_double_array(char **array);
 void	ft_print_command_sequences_args(t_list *command_sequences);
 void	ft_print_tokens_and_type(t_list *tokens);
-void	ft_print_env_list(t_list *env_list);
 
 #endif

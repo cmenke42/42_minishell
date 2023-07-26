@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 21:31:10 by user             ###   ########.fr       */
+/*   Updated: 2023/07/26 22:26:48 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,16 @@ bool	ft_execute_builtin_if_builtin(t_shell_data *shell_data, t_command_sequences
 		return (false);
 	if (cmd_length == 4 && !ft_strncmp("echo", command, cmd_length))
 		ft_echo(sequence_to_execute->args);
-	else if (cmd_length == 2 && !ft_strncmp("cd", command, cmd_length))
-		ft_cd(sequence_to_execute->args, shell_data->env_list_new);
-	else if (cmd_length == 3 && !ft_strncmp("pwd", command, cmd_length))
-		ft_pwd();
+	// else if (cmd_length == 2 && !ft_strncmp("cd", command, cmd_length))
+	// 	ft_cd(sequence_to_execute->args, shell_data->env_list);
+	// else if (cmd_length == 3 && !ft_strncmp("pwd", command, cmd_length))
+	// 	ft_pwd();
 	else if (cmd_length == 6 && !ft_strncmp("export", command, cmd_length))
-		ft_export(sequence_to_execute->args, &shell_data->env_list_new);
+		ft_export(sequence_to_execute->args, &shell_data->env_list);
 	else if (cmd_length == 5 && !ft_strncmp("unset", command, cmd_length))
-		ft_unset(sequence_to_execute->args, &shell_data->env_list_new);
+		ft_unset(sequence_to_execute->args, &shell_data->env_list);
 	else if (cmd_length == 3 && !ft_strncmp("env", command, cmd_length))
-		print_env(shell_data->env_list_new);
+		ft_print_env_list(shell_data->env_list);
 	else if (cmd_length == 4 && !ft_strncmp("exit", command, cmd_length))
 		ft_exit(sequence_to_execute->args);
 	else

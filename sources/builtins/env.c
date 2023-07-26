@@ -3,74 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 21:06:49 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/26 18:28:35 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 22:18:11 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	free_split(char **arr)
+void	ft_print_env_list(t_list *env_list)
 {
-	int	i;
+	t_env	*env_variable;
 
-	i = 0;
-	while (arr[i])
-		free(arr[i++]);
-	free(arr);
-}
-
-t_env	*store_env(char **env)
-{
-	int		i;
-	t_env	*env_list;
-	t_env	*tail;
-	t_env	*new_node;
-	char	**split_result;
-	
-	env_list = NULL;
-	tail = NULL;
-	i = 0;
-	if (!env)
-		return (NULL);
-	while (env[i])
+	while (env_list)
 	{
-		split_result = ft_split(env[i], '=');
-		if (split_result && split_result[0] && split_result[1])
-		{
-			new_node = ft_create_node(split_result[0], split_result[1]);
-			if (!new_node)
-			{
-				free_split(split_result);
-				return (NULL);
-			}
-			if (!env_list)
-			{
-				env_list = new_node;
-				tail = new_node;
-			}
-			else
-			{
-				tail->next = new_node;
-				tail = tail->next;
-			}
-		}
-		free_split(split_result);
-		i++;
-	}
-	return (env_list);
-}
-
-
-void	print_env(t_env *envp)
-{
-	while (envp)
-	{
-		if (envp->name && envp->value)
-			printf("%s=%s\n", envp->name, envp->value);
-		envp = envp->next;
+		env_variable = (t_env *)env_list->content;
+		ft_print_one_env_variable(env_variable);
+		env_list = env_list->next;
 	}
 }
 
+void	ft_print_one_env_variable(t_env *env_variable)
+{
+	if (env_variable->name && env_variable->value)
+		printf("%s=%s\n", env_variable->name, env_variable->value);
+	else if (env_variable->name && env_variable->print_empty_quotes)
+		printf("%s=\n", env_variable->name);
+}

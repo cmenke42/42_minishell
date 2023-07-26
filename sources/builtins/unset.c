@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 11:30:47 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/26 21:31:41 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 22:13:25 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ int	ft_unset(char **arguments, t_list **env_list_new)
 	{
 		if (ft_is_syntax_error_in_env_name(arguments[i], false))
 			return (__syntax_error);
-		if (ft_search_for_env_variable(arguments[i], *env_list_new, &env_variable_to_remove) == __system_call_error)
-			return (__system_call_error);
+		env_variable_to_remove = ft_search_for_env_variable(arguments[i], *env_list_new);
 		if (env_variable_to_remove)
 			ft_lstremove(env_list_new, env_variable_to_remove);
 		i++;
@@ -50,50 +49,3 @@ void ft_lstremove(t_list **env_list_new, t_list *env_variable_to_remove)
 	}
 	ft_lstdelone(env_variable_to_remove, ft_clear_env_variable);
 }
-
-
-
-
-
-
-
-// t_env	*remove_from_list(t_env *env, char *name)
-// {
-// 	t_env	*current;
-// 	t_env	*prev;
-
-// 	if (!env)
-// 		return (NULL);
-// 	current = env;
-// 	prev = NULL;
-// 	if (current && !ft_strcmp(current->name, name))
-// 	{
-// 		env = current->next;
-// 		free_env(current);
-// 		return (env);
-// 	}
-// 	while (current && ft_strcmp(current->name, name))
-// 	{
-// 		prev = current;
-// 		current = current->next;
-// 	}
-// 	if (!current)
-// 		return (env);
-// 	prev->next = current->next;
-// 	free_env(current);
-// 	return (env);
-// }
-
-// void    ft_unset(char **command, t_env *env)
-// {
-//     int i;
-
-//     i = 1;
-//     if (command[1])
-//     {
-//         while (command[i])
-//             remove_from_list(env, command[i++]);
-//     }
-//     else
-//         return ;
-// }
