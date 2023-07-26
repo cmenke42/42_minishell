@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:38:02 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 21:01:43 by user             ###   ########.fr       */
+/*   Updated: 2023/07/26 13:13:24 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*ft_remove_quotes_from_token(char **token)
 	char	*new_line;
 
 	counter = ft_strlen_without_quotes(*token);
+	if (counter == (int)ft_strlen(*token))
+		return (*token);
 	new_line = malloc((counter + 1) * sizeof(char));
 	if (!new_line)
 	{

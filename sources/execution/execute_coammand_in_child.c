@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 12:50:23 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 13:29:02 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,9 @@ bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences
 	{
 		if (access(sequence_to_execute->args[0], X_OK) == 0)
 		{
-			sequence_to_execute->command_path = sequence_to_execute->args[0];
+			sequence_to_execute->command_path = ft_strdup(sequence_to_execute->args[0]);
+			if (!sequence_to_execute->command_path)
+				return (perror("error in ft_strdup sequence_to_execute->args[0]"), false);
 			return (true);
 		}
 		else
