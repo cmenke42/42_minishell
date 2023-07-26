@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 11:38:04 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/26 21:08:10 by user             ###   ########.fr       */
+/*   Updated: 2023/07/26 21:37:24 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_list	*ft_sort_list_asci(t_list *lst);
 
 //print export
 int	ft_export(char **arguemnts, t_list **env_list_new);
-int		print_export(t_list *env_list_new);
+int	print_export(t_list **env_list_new);
 
 //unset
 int		ft_unset(char **arguments, t_list **env_list_new);

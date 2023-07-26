@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 18:56:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 21:31:37 by user             ###   ########.fr       */
+/*   Updated: 2023/07/26 21:37:12 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,24 @@ int	ft_export(char **arguemnts, t_list **env_list_new)
 	}
 	if (i == 1)
 	{
-		if (print_export(*env_list_new) == __system_call_error)
+		if (print_export(env_list_new) == __system_call_error)
 			return (__system_call_error);
 	}
 	return (__success);
 }
 
-int	print_export(t_list *env_list_new)
+int	print_export(t_list **env_list_new)
 {
 	t_list	*sorted_env_list;
 	t_env	*one_env_variable;
 	t_list	*oldpwd;
 
-
-	if (ft_search_for_env_variable("OLDPWD", env_list_new, &oldpwd) == __system_call_error)
+	if (ft_search_for_env_variable("OLDPWD", *env_list_new, &oldpwd) == __system_call_error)
 		return (__system_call_error);
 	if (!oldpwd)
-		if (ft_store_one_variable_in_node(&env_list_new, "OLDPWD", false) == __system_call_error)
+		if (ft_store_one_variable_in_node(env_list_new, "OLDPWD", false) == __system_call_error)
 			return (__system_call_error);
-	sorted_env_list = ft_sort_list_asci(env_list_new);
+	sorted_env_list = ft_sort_list_asci(*env_list_new);
 	while (sorted_env_list)
 	{
 		one_env_variable = (t_env *)sorted_env_list->content;
