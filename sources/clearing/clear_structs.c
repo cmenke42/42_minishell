@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 17:08:25 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 18:04:34 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 20:59:23 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,7 @@ void	ft_clear_env_variable(void *node)
 	t_env	*env_variable;
 
 	env_variable = (t_env *)node;
-	if (env_variable->name)
-		free(env_variable->name);
-	if (env_variable->value)
-		free(env_variable->value);
+	ft_free_pointer_and_set_to_null((void **)&env_variable->name);
+	ft_free_pointer_and_set_to_null((void **)&env_variable->value);
 	free(node);
 }

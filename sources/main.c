@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 18:52:58 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 21:18:39 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,22 @@ int	main(int argc, char **argv, char **envp)
 		free(shell_data);
 		exit(1);
 	}
-	ft_print_env_list(shell_data->env_list_new);
+	char *export_array[3];
+	// export_array[0] = "export";
+	// export_array[1] = "TEST=55555";
+	// export_array[2] = NULL;
+	// ft_export(export_array, &shell_data->env_list_new);
+	export_array[0] = "export";
+	export_array[1] = NULL;
+	ft_export(export_array, &shell_data->env_list_new);
+	// export_array[0] = "export";
+	// export_array[1] = "TEST";
+	// export_array[2] = NULL;
+	// ft_unset(export_array, &shell_data->env_list_new);
+	// export_array[0] = "export";
+	// export_array[1] = NULL;
+	// ft_export(export_array, &shell_data->env_list_new);
+	// ft_print_env_list(shell_data->env_list_new);
 	exit (22);
 	t_env *env = store_env(envp);
 	shell_data->env_list = env;

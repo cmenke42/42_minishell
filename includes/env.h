@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 11:38:04 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/26 18:32:48 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 21:14:53 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ typedef struct s_env
 {
 	char			*name;
 	char			*value;
+	bool			print_empty_quotes;
 	struct s_env	*next;
 }	t_env;
 
@@ -34,10 +35,20 @@ int		ft_check_name_start(char *s);
 int		ft_check_duplicate(t_env *env, char *name, char *new_name);
 t_env	*add_to_list(t_env *head, char *var);
 t_env	*find_and_replace(t_env *env, t_env *new);
-void	ft_export(char **command, t_env *env);
+
+int	ft_update_or_add_env_variable(char *argument, t_list **env_list_new);
+int	ft_search_for_env_variable(char *argument, t_list *env_list_new, t_list **env_variable_to_update);
+
+t_list	*ft_sort_list_asci(t_list *lst);
+// void	ft_export(char **command, t_env *env);
+
+//print export
+int	ft_export(char **arguemnts, t_list **env_list_new);
+int		print_export(t_list *env_list_new);
 
 //unset
-void    ft_unset(char **command, t_env *env);
+int		ft_unset(char **arguments, t_list **env_list_new);
+void 	ft_lstremove(t_list **env_list_new, t_list *env_variable_to_remove);
 
 //free
 void	free_split(char **arr);
@@ -70,7 +81,7 @@ int		ft_store_one_variable_in_node(t_list **env_list, char *argument, bool first
 int		ft_assign_values_to_env_variable_node(t_env *env_variable, char *argument, bool first_import);
 int		ft_create_name_and_value(char *argument, char **name, char **value, char *equal_sign);
 bool	ft_is_syntax_error_in_env_name(char *string, char *equal_sign, bool first_import);
-void	ft_assig_name_and_value_to_env_variable(t_env *env_variable, char *name, char *value);
+void	ft_assig_name_and_value_to_env_variable(t_env *env_variable, char *name, char *value, char *equal_sign);
 void	ft_print_export_wrong_identifier(char *argument);
 
 #endif
