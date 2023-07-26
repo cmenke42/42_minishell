@@ -6,52 +6,37 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 11:30:47 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/26 18:28:56 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 18:54:50 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_env *remove_from_list(t_env* head, char* name) {
-    // Check if the list is empty
-    if (head == NULL) {
-        return NULL;
-    }
+t_env	*remove_from_list(t_env *env, char *name)
+{
+	t_env	*current;
+	t_env	*prev;
 
-    // Store the head node and a reference to the previous node
-    t_env* current = head;
-    t_env* previous = NULL;
-
-    // Check if the head node contains the name to be deleted
-    if (current != NULL && ft_strcmp(current->name, name) == 0) {
-        head = current->next; // Update the head to the next node
-        free(current->name); // Free the memory of the deleted name
-        free(current->value); // Free the memory of the deleted value
-		current->value = 0;
-        free(current); // Free the memory of the deleted node
-        return head;
-    }
-
-    // Search for the node with the given name
-    while (current != NULL && ft_strcmp(current->name, name) != 0) {
-        previous = current;
-        current = current->next;
-    }
-
-    // If the name was not found in the list
-    if (current == NULL) {
-        return head;
-    }
-
-    // Adjust the pointers to remove the node
-    previous->next = current->next;
-
-    // Free the memory of the deleted node
-
-    free(current->name);
-    free(current->value);
-    free(current);
-    return head;
+	if (!env)
+		return (NULL);
+	current = env;
+	prev = NULL;
+	if (current && !ft_strcmp(current->name, name))
+	{
+		env = current->next;
+		free_env(current);
+		return (env);
+	}
+	while (current && ft_strcmp(current->name, name))
+	{
+		prev = current;
+		current = current->next;
+	}
+	if (!current)
+		return (env);
+	prev->next = current->next;
+	free_env(current);
+	return (env);
 }
 
 void    ft_unset(char **command, t_env *env)
