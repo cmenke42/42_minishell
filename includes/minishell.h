@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 12:17:08 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 12:36:12 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@
 //Wait functions
 # include <sys/types.h>
 # include <sys/wait.h>
+
+//lstat
+#include <sys/stat.h>
 
 # define PROMPT "Minishell:$ "
 # define SQUOTE_ERROR "minishell: syntax error while looking for matching `''"

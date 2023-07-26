@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 11:49:09 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 12:50:23 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,24 @@ bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences
 		ft_print_error_command_not_found(sequence_to_execute->args[0]);
 		return (false);
 	}
-	if (access(sequence_to_execute->args[0], X_OK) == 0)
-	{
-		sequence_to_execute->command_path = sequence_to_execute->args[0];
-		return (true);
-	}
 	sequence_to_execute->envp_command_paths = ft_get_envp_paths(shell_data->envp_array);
 	sequence_to_execute->command_path = ft_get_cmd_path(sequence_to_execute->envp_command_paths, sequence_to_execute->args[0]);
 	if (sequence_to_execute->command_path)
 		return (true);
+	if (access(sequence_to_execute->args[0], F_OK) == 0) //if file exists
+	{
+		if (access(sequence_to_execute->args[0], X_OK) == 0)
+		{
+			sequence_to_execute->command_path = sequence_to_execute->args[0];
+			return (true);
+		}
+		else
+		{
+			ft_putstr_fd("minishell: ", 2);
+			perror(sequence_to_execute->args[0]);
+			return (false);
+		}
+	}
 	ft_print_error_command_not_found(sequence_to_execute->args[0]);
 	shell_data->exit_code = 127;
 	return (false);
