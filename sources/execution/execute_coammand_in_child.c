@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 13:29:02 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 13:39:40 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ bool	ft_execution_of_command(t_shell_data *shell_data, t_command_sequences *sequ
 	else if (!ft_check_if_cmd_path_is_valid(shell_data, sequence_to_execute))
 		;
 	else if (execve(sequence_to_execute->command_path, sequence_to_execute->args, shell_data->envp_array) == -1)
-		perror("error executing command");
+		perror("minishell: execve");
 	return (false);
 }
 
