@@ -3,20 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 11:38:04 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/25 11:58:57 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/26 18:32:48 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
-# include "../libft/libft.h"
-# include <stdio.h>
-# include <limits.h>
-# include <string.h>
 
+# include "minishell.h"
 typedef struct s_env
 {
 	char			*name;
@@ -67,5 +64,13 @@ t_env	*update_value(t_env *env, char *name, char *new_val);
 char 	*reverse_split(const char *name, const char *value);
 int		ft_put_err(char *input, char *message, int code);
 
+//new_export
+int		ft_store_env_in_list(char **env, t_list **env_list);
+int		ft_store_one_variable_in_node(t_list **env_list, char *argument, bool first_import);
+int		ft_assign_values_to_env_variable_node(t_env *env_variable, char *argument, bool first_import);
+int		ft_create_name_and_value(char *argument, char **name, char **value, char *equal_sign);
+bool	ft_is_syntax_error_in_env_name(char *string, char *equal_sign, bool first_import);
+void	ft_assig_name_and_value_to_env_variable(t_env *env_variable, char *name, char *value);
+void	ft_print_export_wrong_identifier(char *argument);
 
 #endif

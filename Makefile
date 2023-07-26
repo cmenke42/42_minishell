@@ -6,7 +6,7 @@
 #    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/07/26 13:44:54 by cmenke           ###   ########.fr        #
+#    Updated: 2023/07/26 18:30:28 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ BUILTINS := $(addprefix builtins/,utils.c \
 								 unset.c \
 								 pwd.c \
 								 exit.c\
-								 cd.c)
+								 cd.c \
+								 new_export.c)
 
 CLEARING := $(addprefix clearing/,free_double_pointer.c \
 									clear_structs.c)

@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:07:55 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/25 16:45:42 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 17:13:52 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ char	*create_heredoc(t_tokens *command, int *i)
 
 	heredoc_fd = ft_create_heredoc_file(&heredoc_filename, i);
 	if (heredoc_fd == -1)
-		return ( NULL);
+		return (NULL);
 	if (check_quotes(command))
-		command->token = ft_remove_quotes_from_token(&command->token); //check for error return and adjust the function
+		command->token = ft_remove_quotes_from_token(&command->token); //check for error return and adjust the function remove quotes
 	while (1)
 	{
 		line = readline("> ");

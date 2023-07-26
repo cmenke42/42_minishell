@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 13:28:05 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/25 14:39:22 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/26 18:28:59 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/env.h"
-#include <errno.h>
+#include "../../includes/minishell.h"
 
 void	free_env(t_env *env)
 {

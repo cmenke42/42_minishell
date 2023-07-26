@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:46:20 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/23 17:16:57 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 18:36:33 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,4 +131,16 @@ void ft_print_tokens_and_type(t_list *tokens)
 		temp = temp->next;
 	}
 	return ;
+}
+
+void	ft_print_env_list(t_list *env_list)
+{
+	t_env	*env_variable;
+
+	while (env_list)
+	{
+		env_variable = (t_env *)env_list->content;
+		printf("%s=%s\n", env_variable->name, env_variable->value);
+		env_list = env_list->next;
+	}
 }

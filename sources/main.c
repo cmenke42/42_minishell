@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 13:47:58 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 18:52:58 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void ft_sig_sigint_handler(int sig_num)
 	rl_replace_line("", 1);
 	write(1, "\n", 1);
 	rl_on_new_line();
-	rl_redisplay();
+	rl_redisplay(); //cat|ls case -> how to handle Minishell:$ Minishell:
 }
 
 void	ft_set_minisell_signals(void)
@@ -65,6 +65,14 @@ int	main(int argc, char **argv, char **envp)
 	ft_set_minisell_signals(); //what should happen in minishell when we get a signal?
 	//free something?
 	//what should happen when we get a signal during child process?
+	if (ft_store_env_in_list(envp, &shell_data->env_list_new) == __system_call_error)
+	{
+		printf("error storing env in list\n");
+		free(shell_data);
+		exit(1);
+	}
+	ft_print_env_list(shell_data->env_list_new);
+	exit (22);
 	t_env *env = store_env(envp);
 	shell_data->env_list = env;
 	increase_shlvl(shell_data);
