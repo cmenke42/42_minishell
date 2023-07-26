@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 21:18:39 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 21:38:41 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ int	main(int argc, char **argv, char **envp)
 		exit(1);
 	}
 	char *export_array[3];
-	// export_array[0] = "export";
-	// export_array[1] = "TEST=55555";
-	// export_array[2] = NULL;
-	// ft_export(export_array, &shell_data->env_list_new);
+	export_array[0] = "export";
+	export_array[1] = "=";
+	export_array[2] = NULL;
+	ft_export(export_array, &shell_data->env_list_new);
 	export_array[0] = "export";
 	export_array[1] = NULL;
 	ft_export(export_array, &shell_data->env_list_new);

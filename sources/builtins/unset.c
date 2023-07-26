@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 11:30:47 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/26 20:55:25 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 21:31:41 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int	ft_unset(char **arguments, t_list **env_list_new)
 		return (__success);
 	while (arguments[i])
 	{
-		//syntax check
+		if (ft_is_syntax_error_in_env_name(arguments[i], false))
+			return (__syntax_error);
 		if (ft_search_for_env_variable(arguments[i], *env_list_new, &env_variable_to_remove) == __system_call_error)
 			return (__system_call_error);
 		if (env_variable_to_remove)
@@ -34,7 +35,6 @@ int	ft_unset(char **arguments, t_list **env_list_new)
 
 void ft_lstremove(t_list **env_list_new, t_list *env_variable_to_remove)
 {
-	t_list *current;
 	t_list *prev;
 
 	if (!env_variable_to_remove)

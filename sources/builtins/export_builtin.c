@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 18:56:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 21:19:19 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 21:44:24 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	ft_export(char **arguemnts, t_list **env_list_new)
 	i = 1;
 	while (arguemnts[i])
 	{
+		if (ft_strcmp(arguemnts[i], "_") == 0)
+			continue ;
 		if (ft_update_or_add_env_variable(arguemnts[i], env_list_new) == __system_call_error)
 			return (__system_call_error);
 		i++;
@@ -76,30 +78,34 @@ int	ft_update_or_add_env_variable(char *argument, t_list **env_list_new)
 int	ft_search_for_env_variable(char *argument, t_list *env_list_new, t_list **env_variable_to_update)
 {
 	t_env	*one_env_variable;
-	char	*name;
-	char	*value;
 	char 	*equal_sign;
+	int		name_length;
 
-	name = NULL;
-	value = NULL;
-	equal_sign = ft_strchr(argument, '=');
+	ft_variable_name_lenght(argument, &name_length);
 	*env_variable_to_update = NULL;
-	if (ft_create_name_and_value(argument, &name, &value, equal_sign))
-		return (__system_call_error);
 	while (env_list_new)
 	{
 		one_env_variable = (t_env *)env_list_new->content;
-		if (!ft_strcmp(one_env_variable->name, name))
+		if (!ft_strcmp(one_env_variable->name, name)) //needs to be changed to name_length and use strncmp
 		{
 			*env_variable_to_update = env_list_new;
 			break;
 		}
 		env_list_new = env_list_new->next;
 	}
-	ft_free_pointer_and_set_to_null((void **)&name);
-	ft_free_pointer_and_set_to_null((void **)&value);
 	return (__success);
 }
+
+// ft_variable_name_lenght(char *argument, int *name_length)
+// {
+// 	char	*equal_sign;
+
+// 	equal_sign = ft_strchr(argument, '=');
+// 	if (equal_sign)
+// 		*name_length = equal_sign - argument;
+// 	else
+// 		*name_length = ft_strlen(argument);
+// }
 
 t_list	*ft_sort_list_asci(t_list *lst)
 {

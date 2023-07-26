@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 11:38:04 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/26 21:14:53 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 21:31:31 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int		ft_store_env_in_list(char **env, t_list **env_list);
 int		ft_store_one_variable_in_node(t_list **env_list, char *argument, bool first_import);
 int		ft_assign_values_to_env_variable_node(t_env *env_variable, char *argument, bool first_import);
 int		ft_create_name_and_value(char *argument, char **name, char **value, char *equal_sign);
-bool	ft_is_syntax_error_in_env_name(char *string, char *equal_sign, bool first_import);
+bool	ft_is_syntax_error_in_env_name(char *string, bool first_import);
 void	ft_assig_name_and_value_to_env_variable(t_env *env_variable, char *name, char *value, char *equal_sign);
 void	ft_print_export_wrong_identifier(char *argument);
 

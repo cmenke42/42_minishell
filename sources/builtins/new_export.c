@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 17:14:14 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 20:23:15 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 21:33:51 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	ft_assign_values_to_env_variable_node(t_env *env_variable, char *argument, b
 
 	value = NULL;
 	equal_sign = ft_strchr(argument, '=');
-	if (ft_is_syntax_error_in_env_name(argument, equal_sign, first_import))
+	if (ft_is_syntax_error_in_env_name(argument, first_import))
 		return (__syntax_error);
 	if (ft_create_name_and_value(argument, &name, &value, equal_sign) == __system_call_error)
 		return (__system_call_error);
@@ -90,12 +90,28 @@ int	ft_create_name_and_value(char *argument, char **name, char **value, char *eq
 	return (__success);
 }
 
-bool	ft_is_syntax_error_in_env_name(char *string, char *equal_sign, bool first_import)
+bool	ft_is_syntax_error_in_env_name(char *string, bool first_import)
 {
+	bool	syntax_error;
+	int		i;
+
+	syntax_error = false;
 	if (first_import)
 		return (false);
-	if (*string != '_')
-		ft_print_export_wrong_identifier(string);
+	i = 0;
+	if (!(ft_isalpha(string[i]) || string[i++] == '_'))
+		syntax_error = true;
+	else
+	{
+		while (!syntax_error && string[i] && string[i] != '=')
+		{
+			if (!(ft_isalnum(string[i]) || string[i] == '_'))
+				syntax_error = true;
+			i++;
+		}
+	}
+	if (syntax_error)
+		return (ft_print_export_wrong_identifier(string), true);
 	return (false);
 }
 
