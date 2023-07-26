@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:59:19 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 12:18:39 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 16:00:35 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,7 @@ bool	ft_check_for_syntax_error(t_tokens *token, t_tokens *next_token)
 	{
 		if (token->type == pipe_operator && !next_token) // change this to be an error
 		{
-			ft_print_syntax_error(next_token);
-
+			ft_print_syntax_error(token); //special case
 			return (true);
 		}
 		else if (token->type == pipe_operator && next_token)
@@ -96,11 +95,11 @@ bool	ft_is_operator(char token_type)
 	return (false);
 }
 
-void	ft_print_syntax_error(t_tokens *next_token)
+void	ft_print_syntax_error(t_tokens *token)
 {
 	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-	if (next_token)
-		ft_putstr_fd(next_token->token, 2);
+	if (token)
+		ft_putstr_fd(token->token, 2);
 	else
 		ft_putstr_fd("newline", 2);
 	ft_putstr_fd("'\n", 2);
