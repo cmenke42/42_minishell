@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 17:08:25 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/24 20:27:48 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 14:17:03 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ void	ft_clear_command_sequence(void *node)
 
 	sequence = (t_command_sequences *)node;
 	ft_free_pointer_and_set_to_null((void **)&sequence->command_path);
+	ft_free_double_pointer_char(&sequence->envp_command_paths);
 	if (sequence->args)
 		ft_free_double_pointer_char(&sequence->args);
-	else
-		ft_clear_token((void *)sequence->tokens);
+	ft_lstclear(&sequence->tokens, ft_clear_token);
 	free(node);
 }
 

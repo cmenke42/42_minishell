@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 12:12:29 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 14:04:29 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ bool	ft_create_one_token(char *start, char *end, t_list **tokens)
 	if (!new_node)
 	{
 		ft_lstclear(tokens, ft_clear_token);
-		free(string);
+		ft_clear_token(token);
 		return (false);
 	}
 	ft_lstadd_back(tokens, new_node);

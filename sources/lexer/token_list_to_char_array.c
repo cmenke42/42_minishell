@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 13:23:48 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/22 20:57:13 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/26 14:18:32 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ bool	ft_token_list_to_args_array(t_command_sequences *one_sequence)
 		one_token = (t_tokens *)tokens->content;
 		if (one_token->type == text)
 		{
-			ft_copy_token_from_list_to_array(one_sequence->args, &i, one_token->token);
+			ft_copy_token_from_list_to_array(one_sequence->args, &i, &one_token->token);
 			i++;
 		}
 		tokens = tokens->next;
@@ -52,61 +52,8 @@ int	ft_count_arguments(t_list *tokens)
 	return (number_of_arguments);
 }
 
-void	ft_copy_token_from_list_to_array(char **arguments, int *i, char *token)
+void	ft_copy_token_from_list_to_array(char **arguments, int *i, char **token)
 {
-	arguments[*i] = token;
+	arguments[*i] = *token;
+	*token = NULL;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// bool	ft_handle_redirection_in_sequences(t_list *command_sequences)
-// {
-// 	t_command_sequences	*one_sequence;
-
-// 	while (command_sequences)
-// 	{
-// 		one_sequence = (t_command_sequences *)command_sequences->content;
-// 		one_sequence->input_fd = 0;
-// 		one_sequence->output_fd = 1;
-// 		if(!ft_handle_redirection_in_tokens(one_sequence, one_sequence->tokens))
-// 			return (false);
-// 		command_sequences = command_sequences->next;
-// 	}
-// 	return (true);
-// }
-
-// bool	ft_handle_redirection_in_tokens(t_command_sequences *one_sequence, t_list *tokens)
-// {
-// 	t_tokens	*one_token;
-// 	t_tokens	*next_token;
-
-// 	while (tokens->next)
-// 	{
-// 		one_token = (t_tokens *)tokens->content;
-// 		next_token = (t_tokens *)tokens->next->content;
-// 		if(!ft_do_redirection(&one_sequence->input_fd, &one_sequence->output_fd, one_token->type, next_token))
-// 			return (false);
-
-// 		tokens = tokens->next;
-// 	}
-// 	return (true);
-// }
