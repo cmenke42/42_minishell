@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/27 19:22:47 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/27 19:41:05 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ extern const char* token_enum_to_string[][2]; //remove this
 int		ft_process_command_line(t_shell_data *shell_data);
 void	ft_set_minisell_signals(void);
 void	ft_restore_default_signals(void);
+void	ft_sig_sigint_handler_parent_execution(int sig_num);
 //shlvl
 t_env *increase_shlvl(t_shell_data *shell_data);
 //lexer

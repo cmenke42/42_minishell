@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 21:54:45 by user             ###   ########.fr       */
+/*   Updated: 2023/07/27 19:47:38 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,19 @@ void	ft_exit_ctrl_d()
 	exit(0);
 }
 
-//handles the ctrl-C key.
+//handles the ctrl-C key during execution of a command in the parent process
 // rl_replace_line(PROMPT, 1); -> 1 clears the undo list
 // of the current line (cmd z)
-void ft_sig_sigint_handler(int sig_num)
+void ft_sig_sigint_handler_parent_execution(int sig_num)
+{
+	g_signal_number = sig_num;
+	rl_replace_line("", 1);
+	write(1, "\n", 1);
+	rl_on_new_line();
+	// rl_redisplay(); //cat|ls case -> how to handle Minishell:$ Minishell:
+}
+
+void ft_sig_sigint_handler_prompt(int sig_num)
 {
 	g_signal_number = sig_num;
 	rl_replace_line("", 1);
@@ -39,7 +48,7 @@ void	ft_set_minisell_signals(void)
 	//to ignore the SIG_QUIT signal from ctrl- Backslash
 	signal(SIGQUIT, SIG_IGN);
 	// handles the ctrl-C key.
-	signal(SIGINT, ft_sig_sigint_handler);
+	signal(SIGINT, ft_sig_sigint_handler_prompt);
 }
 
 void	ft_restore_default_signals(void)
