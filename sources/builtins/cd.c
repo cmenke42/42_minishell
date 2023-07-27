@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 18:20:03 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/27 14:47:37 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/27 20:11:51 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_cd(char **command, t_list **env_list)
 	t_list	*env_variable_home;
 	t_list	*env_variable_oldpwd;
 
-	env_variable_oldpwd = NULL;
+	env_variable_oldpwd = ft_search_for_env_variable("OLDPWD", *env_list);
 	if (!command[1])
 	{
 		env_variable_home = ft_search_for_env_variable("HOME", *env_list);
@@ -27,26 +27,8 @@ int	ft_cd(char **command, t_list **env_list)
 		else
 			dir = ((t_env *)env_variable_home->content)->value;
 	}
-	else if(command[2])
-		return(ft_put_err("cd: ","Too many arguments", 2));
 	else if (!ft_strcmp(command[1], "-"))
-	{
-		env_variable_oldpwd = ft_search_for_env_variable("OLDPWD", *env_list);
-		if (!env_variable_oldpwd)
-			return(ft_put_err("cd: ","OLDPWD not set", 1));
-		else
-		{
-			if (((t_env *)env_variable_oldpwd->content)->value)
-			{
-				dir = ft_strdup(((t_env *)env_variable_oldpwd->content)->value);
-				if (!dir)
-					return (__system_call_error); //handle error in shell
-			}
-			else
-				dir = NULL;
-			printf("%s\n", dir);//why?
-		}
-	}
+		return (0);
 	else
 		dir = command[1];
 	return (change_dir(env_list, dir, env_variable_oldpwd));
@@ -70,12 +52,13 @@ int	change_dir(t_list **env_list, char *dir, t_list *env_variable_oldpwd)
 	if (!env_variable_pwd)
 		if (ft_store_one_variable_in_node(env_list, "PWD", true))
 			return (__system_call_error); //handle error in shell
+	ft_update_or_add_env_variable(ft_strjoin("OLDPWD=", getenv("PWD")), env_list);
 	if (!env_variable_oldpwd)
 		if (ft_store_one_variable_in_node(env_list, "OLDPWD", true))
 			return (__system_call_error); //handle error in shell
 	if (cd_error_handler(dir))
 		return (1);
-	ft_assign_name_and_value_to_env_variable((t_env *)env_variable_pwd->content, NULL, ((t_env *)env_variable_pwd->content)->value, ""); //cant do if value is needed in dir
+	ft_assign_name_and_value_to_env_variable((t_env *)env_variable_pwd->content, "PWD", ((t_env *)env_variable_pwd->content)->value, ""); //cant do if value is needed in dir
 	return (replace_pwd(env_variable_pwd, dir));
 }
 
