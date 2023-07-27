@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/27 14:28:33 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/27 19:22:47 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,9 +208,7 @@ char	*ft_get_cmd_path(char **envp_paths, char *cmd);
 char	**ft_get_envp_paths(char **envp);
 	//env_list_to_char_array
 bool	ft_env_list_to_envp_array(t_shell_data *shell_data);
-int		ft_get_number_of_env_variables(t_env *env_list);
-bool	ft_copy_env_from_list_to_array(t_shell_data *shell_data);
-char	*ft_create_one_variable(t_env *one_variable);
+char	*ft_create_one_env_variable(t_env *one_variable);
 
 //delete!!!!
 //helpers.c

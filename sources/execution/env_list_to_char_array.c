@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:43:42 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/22 20:58:29 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/27 19:23:32 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,42 +14,19 @@
 
 bool	ft_env_list_to_envp_array(t_shell_data *shell_data)
 {
-	t_env	*env_list;
-	int		number_of_env_variables;
+	t_list		*env_list;
+	t_env		*env_variable;
+	int			i;
 
-	env_list = shell_data->env_list;
-	number_of_env_variables = ft_get_number_of_env_variables(env_list);
-	shell_data->envp_array = ft_calloc(number_of_env_variables + 1, sizeof(char *));
-	if (!shell_data->envp_array)
-		return (perror("error allocating envp array"), false);
-	if (!ft_copy_env_from_list_to_array(shell_data))
-		return (false);
-	return (true);
-}
-
-int	ft_get_number_of_env_variables(t_env *env_list)
-{
-	int	number_of_env_variables;
-
-	number_of_env_variables = 0;
-	while (env_list)
-	{
-		number_of_env_variables++;
-		env_list = env_list->next;
-	}
-	return (number_of_env_variables);
-}
-
-bool	ft_copy_env_from_list_to_array(t_shell_data *shell_data)
-{
-	t_env	*env_list;
-	int		i;
-
-	env_list = shell_data->env_list;
 	i = 0;
+	env_list = shell_data->env_list;
+	shell_data->envp_array = ft_calloc(ft_lstsize(env_list) + 1, sizeof(char *));
+	if (!shell_data->envp_array)
+		return (perror("error creatin envp array"), false);
 	while (env_list)
 	{
-		shell_data->envp_array[i] = ft_create_one_variable(env_list);
+		env_variable = (t_env *)env_list->content;
+		shell_data->envp_array[i] = ft_create_one_env_variable(env_variable);
 		if (!shell_data->envp_array[i])
 			return (false);
 		i++;
@@ -58,7 +35,7 @@ bool	ft_copy_env_from_list_to_array(t_shell_data *shell_data)
 	return (true);
 }
 
-char	*ft_create_one_variable(t_env *one_variable)
+char	*ft_create_one_env_variable(t_env *one_variable)
 {
 	char	*env_variable;
 	char	*name_and_equal_sign;

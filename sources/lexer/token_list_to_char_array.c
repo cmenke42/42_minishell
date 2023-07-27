@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 13:23:48 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 14:18:32 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/27 19:11:31 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	ft_token_list_to_args_array(t_command_sequences *one_sequence)
 	tokens = one_sequence->tokens;
 	one_sequence->args = ft_calloc(ft_count_arguments(one_sequence->tokens) + 1, sizeof(char *));
 	if (!one_sequence->args)
-		return (false);
+		return (perror("error creatin one_sequence->args"), false);
 	while (tokens)
 	{
 		one_token = (t_tokens *)tokens->content;
