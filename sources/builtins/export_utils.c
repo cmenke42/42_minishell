@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 17:14:14 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 22:55:12 by user             ###   ########.fr       */
+/*   Updated: 2023/07/27 14:39:15 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_assign_values_to_env_variable_node(t_env *env_variable, char *argument, b
 		return (__syntax_error);
 	if (ft_create_name_and_value(argument, &name, &value, equal_sign) == __system_call_error)
 		return (__system_call_error);
-	ft_assig_name_and_value_to_env_variable(env_variable, name, value, equal_sign);
+	ft_assign_name_and_value_to_env_variable(env_variable, name, value, equal_sign);
 	return (__success);
 }
 
@@ -119,7 +119,7 @@ void	ft_assign_name_and_value_to_env_variable(t_env *env_variable, char *name, c
 {
 	if (name)
 		env_variable->name = name;
-	else
+	else if (env_variable->value)
 		ft_free_pointer_and_set_to_null((void **)&env_variable->value);
 	env_variable->value = value;
 	if (!env_variable->value && equal_sign)

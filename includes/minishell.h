@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 21:51:20 by user             ###   ########.fr       */
+/*   Updated: 2023/07/27 14:28:33 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ bool	ft_do_variable_expansion(t_tokens *token, t_shell_data *shell_data);
 bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token, bool in_double_quotes, t_shell_data *shell_data);
 bool	ft_is_char_quote(char c);
 bool	ft_get_variable_name(char *string, char **variable_name);
-char	*ft_get_variable_value(t_env *env, char	*variable_name);
+char	*ft_get_variable_value(t_list *env_list, char *variable_name);
 bool	ft_replace_variable_name_with_value(char **string, char **token, char *name, char *value);
 char	*ft_trim_variable_value(char *string);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 11:38:04 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/26 23:10:43 by user             ###   ########.fr       */
+/*   Updated: 2023/07/27 14:28:51 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void 	ft_lstremove(t_list **env_list, t_list *env_variable_to_remove);
 // void	free_env(t_env *env);
 
 // //pwd
-// int		ft_pwd(void);
+int	ft_pwd(void);
 
 //exit
 void	ft_exit(char **args);
@@ -59,7 +59,7 @@ int	ft_cd(char **command, t_list **env_list);
 int	ft_put_err(char *input, char *message, int code);
 int	change_dir(t_list **env_list, char *dir, t_list *env_variable_oldpwd);
 int	cd_error_handler(char *dir);
-int	replace_pwd(t_list **env_list, t_list *env_variable_pwd, char *dir);
+int	replace_pwd(t_list *env_variable_pwd, char *dir);
 
 // //utils
 // t_env	*ft_search(t_env *env, char *name);

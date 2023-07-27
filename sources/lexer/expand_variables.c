@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variables.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:32:40 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 22:02:59 by user             ###   ########.fr       */
+/*   Updated: 2023/07/27 14:28:09 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ bool	ft_get_variable_name(char *string, char **variable_name)
 	return (true);
 }
 
-char	*ft_get_variable_value(t_env *env, char	*variable_name)
+char	*ft_get_variable_value(t_list *env_list, char *variable_name)
 {
 	//search in the env list for the variable
 		//if found retourn the string; -> do not free when using string_join later in replacement
@@ -183,7 +183,7 @@ char	*ft_get_variable_value(t_env *env, char	*variable_name)
 	if(!variable_name)
 		return (NULL);
 	value = NULL;
-	variable_node = ft_search_for_env_variable(variable_name, env);
+	variable_node = ft_search_for_env_variable(variable_name, env_list);
     if (variable_node)
    		value = ((t_env *)variable_node->content)->value;
     return (value);
