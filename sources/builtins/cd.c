@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 18:20:03 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/27 20:11:51 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/28 12:31:39 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,14 @@ int	change_dir(t_list **env_list, char *dir, t_list *env_variable_oldpwd)
 {
 	t_list	*env_variable_pwd;
 
-	printf("dir variable:%s\n", dir);
 	env_variable_pwd = ft_search_for_env_variable("PWD", *env_list);
 	if (!env_variable_pwd)
 		if (ft_store_one_variable_in_node(env_list, "PWD", true))
 			return (__system_call_error); //handle error in shell
-	ft_update_or_add_env_variable(ft_strjoin("OLDPWD=", getenv("PWD")), env_list);
 	if (!env_variable_oldpwd)
 		if (ft_store_one_variable_in_node(env_list, "OLDPWD", true))
 			return (__system_call_error); //handle error in shell
+	ft_update_or_add_env_variable(ft_strjoin("OLDPWD=", getcwd(NULL, 0)), env_list);
 	if (cd_error_handler(dir))
 		return (1);
 	ft_assign_name_and_value_to_env_variable((t_env *)env_variable_pwd->content, "PWD", ((t_env *)env_variable_pwd->content)->value, ""); //cant do if value is needed in dir
