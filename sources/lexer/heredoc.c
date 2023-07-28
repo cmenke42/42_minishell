@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:07:55 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/28 21:01:46 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/28 21:08:12 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ bool	ft_open_reading_for_heredocs(t_list *tokens, char **heredocs)
 	t_tokens	*next_token;
 	int			i;
 
-	ft_restore_default_signals();
+	signal(SIGINT, SIG_DFL);
 	i = 0;
 	while (tokens->next)
 	{
