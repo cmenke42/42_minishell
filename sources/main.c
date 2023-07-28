@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/28 13:18:30 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/28 21:02:46 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,16 @@ void	ft_exit_ctrl_d()
 	rl_clear_history();
 	exit(0);
 }
+
+// void ft_sig_sigint_handler_heredoc_reading(int sig_num)
+// {
+// 	g_signal_number = sig_num;
+// 	rl_replace_line("", 1);
+// 	write(1, "\n", 1);
+// 	rl_on_new_line();
+// 	close(0);
+// 	// rl_redisplay(); //cat|ls case -> how to handle Minishell:$ Minishell:
+// }
 
 //handles the ctrl-C key during execution of a command in the parent process
 // rl_replace_line(PROMPT, 1); -> 1 clears the undo list
@@ -134,12 +144,15 @@ int	ft_process_command_line(t_shell_data *shell_data)
 		return (__dont_add_to_history);
 	if (ft_is_syntax_error(shell_data))
 		return (__syntax_error);
+	status = ft_handle_heredocs(shell_data);
+	if (status)
+		return (status);
 	if (!ft_split_tokens_in_sequences(shell_data))
 		return (__system_call_error);
 	if (!ft_search_for_variable_expansion(shell_data)) //remove tokens that got empty after expansion
 		return (__system_call_error);
-	if (!ft_handle_here_doc_operator(shell_data->command_sequences))
-		return (__system_call_error);
+	// if (!ft_handle_here_doc_operator(shell_data->command_sequences))
+	// 	return (__system_call_error);
 	// // ft_lstclear(&shell_data->all_tokens, ft_clear_token);
 	if (!ft_execute_commands(shell_data))  //handle the syntax errors of builtin commands??? // is there a case where a syntax error comes back?? -> when open failed
 		return (__system_call_error);

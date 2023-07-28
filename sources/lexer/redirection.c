@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:29:42 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/25 17:58:16 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/28 20:30:00 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ bool	ft_handle_here_doc_operator(t_list *command_sequences)
 	int i;
 
 	i = 0;
-	while (command_sequences)
-	{
-		one_sequence = (t_command_sequences *)command_sequences->content;
-		if (!ft_create_and_save_heredocs(one_sequence->tokens, &i))
-			return (false);
-		command_sequences = command_sequences->next;
-	}
+	// while (command_sequences)
+	// {
+	// 	one_sequence = (t_command_sequences *)command_sequences->content;
+	// 	if (!ft_create_and_save_heredocs(one_sequence->tokens, &i))
+	// 		return (false);
+	// 	command_sequences = command_sequences->next;
+	// }
 	return (true);
 }
 

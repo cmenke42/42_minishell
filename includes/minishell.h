@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/27 19:41:05 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/28 21:03:41 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_shell_data
 	char	**envp_array;
 	int		**pipe_fds;	//gets freed in execution
 	pid_t	*process_ids;
+	char	**heredocs;
 	t_list	*command_sequences;
 	t_list	*all_tokens;	//same as command_sequences->tokens
 	t_list	*env_list;
@@ -100,6 +101,7 @@ enum	e_error_codes
 	__dont_add_to_history,
 	__syntax_error,
 	__system_call_error,
+	__stop_execution,
 };
 
 extern int g_signal_number;
@@ -111,6 +113,7 @@ int		ft_process_command_line(t_shell_data *shell_data);
 void	ft_set_minisell_signals(void);
 void	ft_restore_default_signals(void);
 void	ft_sig_sigint_handler_parent_execution(int sig_num);
+void ft_sig_sigint_handler_heredoc_reading(int sig_num);
 //shlvl
 t_env *increase_shlvl(t_shell_data *shell_data);
 //lexer
@@ -163,9 +166,20 @@ char	*ft_remove_quotes_from_token(char **token);
 int		ft_strlen_without_quotes(char *cmd_line);
 void	ft_copy_element_without_quotes(char *cmd_line, char *new_line);
 	//heredoc
-bool	ft_create_and_save_heredocs(t_list *tokens_of_sequence, int *i);
-char	*create_heredoc(t_tokens *command, int *i);
-int		ft_create_heredoc_file(char **heredoc_filename, int *i);
+int		ft_handle_heredocs(t_shell_data *shell_data);
+int		ft_read_heredocs_in_child_process(t_shell_data *shell_data);
+bool	ft_open_reading_for_heredocs(t_list *tokens, char **heredocs);
+bool	ft_create_heredoc_names(t_shell_data *shell_data);
+int		ft_count_heredocs(t_list *tokens);
+char	*ft_create_here_doc_name(int i);
+bool	ft_fill_heredoc(char *heredoc_name, char *delimiter);
+bool	ft_is_quotes_in_delimiter(char *string);
+// bool	ft_create_heredoc_names(t_shell_data *shell_data);
+// int		ft_count_heredocs(t_list *tokens);
+// char	*ft_create_here_doc_name(int i);
+// bool	ft_create_and_save_heredocs(t_list *tokens_of_sequence, int *i);
+// char	*create_heredoc(t_tokens *command, int *i);
+// int		ft_create_heredoc_file(char **heredoc_filename, int *i);
 // clearing
 	//ft_free_double_pointer.c
 void	ft_free_double_pointer_char(char ***ptr);
