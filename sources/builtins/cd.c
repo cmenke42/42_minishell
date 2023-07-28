@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 18:20:03 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/28 12:31:39 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/28 15:29:43 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ int	ft_put_err(char *input, char *message, int code)
 int	change_dir(t_list **env_list, char *dir, t_list *env_variable_oldpwd)
 {
 	t_list	*env_variable_pwd;
-
+	char	*oldpwd;
+	char	cwd[1024];
+	
+	getcwd(cwd, sizeof(cwd));
 	env_variable_pwd = ft_search_for_env_variable("PWD", *env_list);
 	if (!env_variable_pwd)
 		if (ft_store_one_variable_in_node(env_list, "PWD", true))
@@ -54,10 +57,12 @@ int	change_dir(t_list **env_list, char *dir, t_list *env_variable_oldpwd)
 	if (!env_variable_oldpwd)
 		if (ft_store_one_variable_in_node(env_list, "OLDPWD", true))
 			return (__system_call_error); //handle error in shell
-	ft_update_or_add_env_variable(ft_strjoin("OLDPWD=", getcwd(NULL, 0)), env_list);
+	oldpwd = ft_strjoin("OLDPWD=", cwd);
+	ft_update_or_add_env_variable(oldpwd, env_list);
 	if (cd_error_handler(dir))
 		return (1);
 	ft_assign_name_and_value_to_env_variable((t_env *)env_variable_pwd->content, "PWD", ((t_env *)env_variable_pwd->content)->value, ""); //cant do if value is needed in dir
+	free(oldpwd);
 	return (replace_pwd(env_variable_pwd, dir));
 }
 

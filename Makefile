@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: user <user@student.42.fr>                  +#+  +:+       +#+         #
+#    By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/07/26 21:50:52 by user             ###   ########.fr        #
+#    Updated: 2023/07/28 15:01:22 by wmoughar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,6 +89,9 @@ ${NAME}: ${OBJS} ${LIBFTDIR}/${LIBFT}
 	${CC} ${CFLAGS} ${OBJS} ${INCLUDE} -o ${NAME}
 
 ${OBJS}: ${HEADER}
+
+val:
+	make && valgrind --leak-check=full ./minishell
 
 clean:
 	${RM} ${OBJS}
