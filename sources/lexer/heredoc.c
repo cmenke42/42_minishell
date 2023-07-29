@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:07:55 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/29 20:29:26 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/29 21:04:00 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_read_heredocs_in_child_process(t_shell_data *shell_data)
 	if (process_id == -1)
 		return (perror("error fork for heredoc"), false);
 	if (process_id == 0)
-		ft_open_reading_for_heredocs(shell_data->all_tokens, shell_data->heredocs);
+		ft_open_reading_for_heredocs(shell_data->all_tokens, shell_data->heredocs, shell_data);
 	signal(SIGINT, ft_sig_sigint_handler_parent_execution);
 	waitpid(process_id, &stat_loc, 0);
 	ft_get_exit_code(&exit_code, stat_loc, true);
@@ -46,7 +46,7 @@ int	ft_read_heredocs_in_child_process(t_shell_data *shell_data)
 	return (__success);
 }
 
-bool	ft_open_reading_for_heredocs(t_list *tokens, char **heredocs)
+bool	ft_open_reading_for_heredocs(t_list *tokens, char **heredocs, t_shell_data *shell_data)
 {
 	t_tokens	*one_token;
 	t_tokens	*next_token;
@@ -60,7 +60,7 @@ bool	ft_open_reading_for_heredocs(t_list *tokens, char **heredocs)
 		next_token = (t_tokens *)tokens->next->content;
 		if (one_token->type == redirection_in_heredoc)
 		{
-			if (!ft_fill_heredoc(heredocs[i], next_token->token))
+			if (!ft_fill_heredoc(heredocs[i], next_token->token, shell_data))
 				exit(1);//free_data
 			i++;
 		}
@@ -68,21 +68,6 @@ bool	ft_open_reading_for_heredocs(t_list *tokens, char **heredocs)
 	}
 	exit(0); //free_data
 }
-
-// char	*expand_line(char *line, t_env *env_list)
-// {
-// 	t_tokens	*token;
-// 	char		*str;
-
-// 	token = (t_tokens *)malloc(sizeof(t_tokens));
-// 	if (!token)
-// 		return (NULL);
-// 	token->token = line;
-// 	ft_expand_variable((t_tokens *)token, env_list);
-// 	str = token->token;
-// 	free(token);
-// 	return (str);
-// }
 
 bool	ft_create_heredoc_names(t_shell_data *shell_data)
 {
@@ -138,21 +123,25 @@ char	*ft_create_here_doc_name(int i)
 	return (heredoc_filename);
 }
 
-bool	ft_fill_heredoc(char *heredoc_name, char *delimiter)
+bool	ft_fill_heredoc(char *heredoc_name, char *delimiter, t_shell_data *shell_data)
 {
 	char	*line;
 	int		heredoc_fd;
+	bool	no_expansion;
 
+	no_expansion = ft_is_quotes_in_delimiter(delimiter);
 	heredoc_fd = open(heredoc_name, O_CREAT | O_RDWR | O_TRUNC, RW_R__R__);
 	if (heredoc_fd == -1)
 		return (perror("error opening heredoc file writing"), false);
-	if (ft_is_quotes_in_delimiter(delimiter) && !ft_remove_quotes_from_token(&delimiter))
+	if (no_expansion && !ft_remove_quotes_from_token(&delimiter))
 		return (false);//check for error return and adjust the function remove quotes
 	while (1)
 	{
 		line = readline("> ");
 		if (!line || !ft_strcmp(line, delimiter))
 			break ;
+		if (!no_expansion && !ft_expand_variables_in_heredoc_line(&line, shell_data))
+			return (free(line), false);
 		ft_putendl_fd(line, heredoc_fd);
 		free(line);
 	}
@@ -173,4 +162,22 @@ bool	ft_is_quotes_in_delimiter(char *string)
 		i++;
 	}
 	return (false);
+}
+
+bool	ft_expand_variables_in_heredoc_line(char **line, t_shell_data *shell_data)
+{
+	char	*string;
+	
+	string = *line;
+	while (*string)
+	{
+		if (*string == '$')
+		{
+			if (!ft_execute_specific_case_of_variable_expansion(&string, line, false, shell_data))
+				return (false); //maybe clear something
+		}
+		else
+			string += 1;
+	}
+	return (true);
 }

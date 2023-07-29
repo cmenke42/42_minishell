@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/29 20:35:29 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/29 21:01:19 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,12 +168,13 @@ void	ft_copy_element_without_quotes(char *cmd_line, char *new_line);
 	//heredoc
 int		ft_handle_heredocs(t_shell_data *shell_data);
 int		ft_read_heredocs_in_child_process(t_shell_data *shell_data);
-bool	ft_open_reading_for_heredocs(t_list *tokens, char **heredocs);
+bool	ft_open_reading_for_heredocs(t_list *tokens, char **heredocs, t_shell_data *shell_data);
 bool	ft_create_heredoc_names(t_shell_data *shell_data);
 int		ft_count_heredocs(t_list *tokens);
 char	*ft_create_here_doc_name(int i);
-bool	ft_fill_heredoc(char *heredoc_name, char *delimiter);
+bool	ft_fill_heredoc(char *heredoc_name, char *delimiter, t_shell_data *shell_data);
 bool	ft_is_quotes_in_delimiter(char *string);
+bool	ft_expand_variables_in_heredoc_line(char **line, t_shell_data *shell_data);
 // bool	ft_create_heredoc_names(t_shell_data *shell_data);
 // int		ft_count_heredocs(t_list *tokens);
 // char	*ft_create_here_doc_name(int i);
