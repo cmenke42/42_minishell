@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:07:55 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/29 21:04:00 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/29 23:13:12 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_read_heredocs_in_child_process(t_shell_data *shell_data)
 		ft_open_reading_for_heredocs(shell_data->all_tokens, shell_data->heredocs, shell_data);
 	signal(SIGINT, ft_sig_sigint_handler_parent_execution);
 	waitpid(process_id, &stat_loc, 0);
-	ft_get_exit_code(&exit_code, stat_loc, true);
+	ft_get_exit_code(&exit_code, stat_loc, true, false);
 	ft_set_minisell_signals();
 	if (exit_code == 1)
 		return (__system_call_error);

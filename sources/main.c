@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/29 20:21:55 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/29 23:18:22 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,15 @@ void ft_sig_sigint_handler_parent_execution(int sig_num)
 	// rl_redisplay(); //cat|ls case -> how to handle Minishell:$ Minishell:
 }
 
+void ft_sig_sigquit_handler_parent_execution(int sig_num)
+{
+	g_signal_number = sig_num;
+	rl_replace_line("", 1);
+	write(1, "\n", 1);
+	rl_on_new_line();
+	// rl_redisplay(); //cat|ls case -> how to handle Minishell:$ Minishell:
+}
+
 void ft_sig_sigint_handler_prompt(int sig_num)
 {
 	g_signal_number = sig_num;
@@ -59,6 +68,14 @@ void	ft_set_minisell_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 	// handles the ctrl-C key.
 	signal(SIGINT, ft_sig_sigint_handler_prompt);
+}
+
+void	ft_set_singals_handler_while_parent_execution(void)
+{
+	//to ignore the SIG_QUIT signal from ctrl- Backslash
+	signal(SIGQUIT, ft_sig_sigquit_handler_parent_execution);
+	// handles the ctrl-C key.
+	signal(SIGINT, ft_sig_sigint_handler_parent_execution);
 }
 
 void	ft_restore_default_signals(void)

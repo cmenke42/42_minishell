@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/29 21:01:19 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/29 23:19:04 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int		ft_process_command_line(t_shell_data *shell_data);
 void	ft_set_minisell_signals(void);
 void	ft_restore_default_signals(void);
 void	ft_sig_sigint_handler_parent_execution(int sig_num);
-void ft_sig_sigint_handler_heredoc_reading(int sig_num);
+void	ft_set_singals_handler_while_parent_execution(void);
 //shlvl
 t_env *increase_shlvl(t_shell_data *shell_data);
 //lexer
@@ -202,7 +202,7 @@ bool	ft_execute_commands(t_shell_data *shell_data);
 bool	ft_create_pipes(t_shell_data *shell_data, int number_of_pipes);
 bool	ft_fork_child_processes(t_shell_data *shell_data, int number_of_commands);
 void	ft_wait_for_child_processes_and_get_exit_code(t_shell_data *shell_data, int number_of_commands);
-void	ft_get_exit_code(int *exit_code, int stat_loc, bool first_encounter);
+void	ft_get_exit_code(int *exit_code, int stat_loc, bool first_encounter, bool reset_signal_number);
 	//execute_coammand_in_child
 void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_commands, t_command_sequences *sequence_to_execute, int command_index);
 bool	ft_execution_of_command(t_shell_data *shell_data, t_command_sequences *sequence_to_execute, bool single_builtin);

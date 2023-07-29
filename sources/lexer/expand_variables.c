@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variables.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:32:40 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/27 14:28:09 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/29 23:15:31 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,8 @@ bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token,
 		// free the process_id
 		if (g_signal_number != 0)
 		{
+			shell_data->exit_code = g_signal_number + 128;// check which value it should have
 			g_signal_number = 0;
-			shell_data->exit_code = 1;
 		}
 		exit_code = ft_itoa(shell_data->exit_code);
 		if (!exit_code)
