@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/28 21:03:41 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/29 20:35:29 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct s_tokens
 {
 	char	*token;
 	char	type;
+	int		heredoc_number;
 }				t_tokens;
 
 enum e_token_type
@@ -152,11 +153,10 @@ bool	ft_replace_variable_name_with_value(char **string, char **token, char *name
 char	*ft_trim_variable_value(char *string);
 
 // ---
-bool	ft_handle_here_doc_operator(t_list *command_sequences);
-bool	ft_handle_redirection_operators(t_command_sequences *one_sequence, t_list *tokens_of_sequence);
-bool	ft_do_redirection(int *input_fd, int *output_fd, char operator, t_tokens *file_token);
+bool	ft_handle_redirection_operators(t_command_sequences *one_sequence, t_list *tokens_of_sequence, t_shell_data *shell_data);
+bool	ft_do_redirection(t_command_sequences *one_sequence, t_tokens *operator_token, t_tokens *file_token, t_shell_data *shell_data);
 bool	ft_output_redirection(int *output_fd, char operator, t_tokens *file_token);
-bool	ft_input_redirection(int *input_fd, char operator, t_tokens *file_token);
+bool	ft_input_redirection(int *input_fd, t_tokens *operator_token, t_tokens *file_token, t_shell_data *shell_data);
 	//token_list_to_char_array
 bool	ft_token_list_to_args_array(t_command_sequences *one_sequence);
 int		ft_count_arguments(t_list *tokens);

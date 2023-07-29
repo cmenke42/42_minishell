@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 15:50:13 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/25 14:56:07 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/29 20:35:45 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool	ft_execute_single_builtin(t_shell_data *shell_data, int number_of_commands,
 	if (!ft_save_standard_fds(shell_data))
 		return (false);
 	ft_restore_default_signals();
-	if (!ft_handle_redirection_operators(sequence_to_execute, sequence_to_execute->tokens))
+	if (!ft_handle_redirection_operators(sequence_to_execute, sequence_to_execute->tokens, shell_data))
 		;
 	else if (!ft_token_list_to_args_array(sequence_to_execute))
 		;

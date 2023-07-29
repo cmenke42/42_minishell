@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/27 14:26:22 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/29 20:32:02 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_commands, t_command_sequences *sequence_to_execute, int command_index)
 {
 	ft_restore_default_signals();
-	if (!ft_handle_redirection_operators(sequence_to_execute, sequence_to_execute->tokens))
+	if (!ft_handle_redirection_operators(sequence_to_execute, sequence_to_execute->tokens, shell_data))
 		;
 	else if (!ft_token_list_to_args_array(sequence_to_execute))
 		;

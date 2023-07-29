@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:07:55 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/28 21:08:12 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/29 20:29:26 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	ft_count_heredocs(t_list *tokens)
 	{
 		one_token = (t_tokens *)tokens->content;
 		if (one_token->type == redirection_in_heredoc)
-			i++;
+			one_token->heredoc_number = i++;
 		tokens = tokens->next;
 	}
 	return (i);

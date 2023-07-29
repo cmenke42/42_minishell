@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/28 21:02:46 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/29 20:21:55 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,8 +151,6 @@ int	ft_process_command_line(t_shell_data *shell_data)
 		return (__system_call_error);
 	if (!ft_search_for_variable_expansion(shell_data)) //remove tokens that got empty after expansion
 		return (__system_call_error);
-	// if (!ft_handle_here_doc_operator(shell_data->command_sequences))
-	// 	return (__system_call_error);
 	// // ft_lstclear(&shell_data->all_tokens, ft_clear_token);
 	if (!ft_execute_commands(shell_data))  //handle the syntax errors of builtin commands??? // is there a case where a syntax error comes back?? -> when open failed
 		return (__system_call_error);
