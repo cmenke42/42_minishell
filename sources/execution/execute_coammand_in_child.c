@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_coammand_in_child.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/29 20:32:02 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/29 23:33:48 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_commands, t_command_sequences *sequence_to_execute, int command_index)
 {
 	ft_restore_default_signals();
+	shell_data->exit_code = 1;
 	if (!ft_handle_redirection_operators(sequence_to_execute, sequence_to_execute->tokens, shell_data))
 		;
 	else if (!ft_token_list_to_args_array(sequence_to_execute))
@@ -29,7 +30,7 @@ void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_command
 		;
 	//clear up
 	ft_free_shell_data_for_next_command(shell_data); // for testing, needs to free everything
-	exit(1);
+	exit(shell_data->exit_code);
 }
 
 
@@ -81,6 +82,7 @@ bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences
 {
 	if (sequence_to_execute->args[0][0] == '\0') //for emtpy quotes as input
 	{
+		shell_data->exit_code = 127;
 		ft_print_error_command_not_found(sequence_to_execute->args[0]);
 		return (false);
 	}
@@ -99,6 +101,7 @@ bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences
 		}
 		else
 		{
+			shell_data->exit_code = 126;
 			ft_putstr_fd("minishell: ", 2);
 			perror(sequence_to_execute->args[0]);
 			return (false);
