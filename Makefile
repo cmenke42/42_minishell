@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
+#    By: user <user@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/07/30 17:41:14 by cmenke           ###   ########.fr        #
+#    Updated: 2023/07/30 19:19:58 by user             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,8 +64,6 @@ LIBFTDIR := libft
 
 LIBFT := libft.a
 
-HEREDOC = .heredoc_
-
 #including libft and the readline library
 INCLUDE := ${LIBFTDIR}/${LIBFT} -lreadline \
 -I ${HOME}/goinfre/.brew/opt/readline/include/ \
@@ -84,6 +82,7 @@ all: library ${NAME}
 
 library:
 	make -C ${LIBFTDIR}
+	mkdir -p heredocs
 
 ${NAME}: ${OBJS} ${LIBFTDIR}/${LIBFT}
 	${CC} ${CFLAGS} ${OBJS} ${INCLUDE} -o ${NAME}
@@ -95,7 +94,6 @@ val:
 
 clean:
 	${RM} ${OBJS}
-	${RM} ${HEREDOC}
 	make clean -C ${LIBFTDIR}
 
 fclean: clean

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 18:56:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/30 20:17:45 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/30 19:41:26 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,17 @@ int	ft_export(char **arguemnts, t_list **env_list)
 int	print_export(t_list **env_list)
 {
 	t_list	*sorted_env_list;
+	t_list 	*start_of_sorted_list;
 	t_env	*one_env_variable;
 
 	// if (!ft_search_for_env_variable("OLDPWD", *env_list))
 	// 	if (ft_store_one_variable_in_node(env_list, "OLDPWD", false) == __system_call_error)
 	// 		return (__system_call_error); ->its not happening inside bash, only at launch
-	sorted_env_list = ft_sort_list_asci(*env_list);
+	sorted_env_list = ft_lstmap(*env_list, ft_duplicate_env_variable, ft_clear_env_variable);
+	if (!sorted_env_list)
+		return (__system_call_error);
+	sorted_env_list = ft_sort_list_asci(sorted_env_list);
+	start_of_sorted_list = sorted_env_list;
 	while (sorted_env_list)
 	{
 		one_env_variable = (t_env *)sorted_env_list->content;
@@ -53,6 +58,7 @@ int	print_export(t_list **env_list)
 			printf("\n");
 		sorted_env_list = sorted_env_list->next;
 	}
+	ft_lstclear(&start_of_sorted_list, ft_clear_env_variable);
 	return (__success);
 }
 
@@ -127,4 +133,24 @@ void	ft_swap(void **var1, void **var2)
 	swap = *var1;
 	*var1 = *var2;
 	*var2 = swap;
+}
+
+void *ft_duplicate_env_variable(void *env_variable)
+{
+	t_env	*one_env_variable;
+	t_env	*new_env_variable;
+
+	one_env_variable = (t_env *)env_variable;
+	new_env_variable = ft_calloc(1, sizeof(t_env));
+	if (!new_env_variable)
+		return (NULL);
+	new_env_variable->name = ft_strdup(one_env_variable->name);
+	if (one_env_variable->value)
+		new_env_variable->value = ft_strdup(one_env_variable->value);
+	else
+		new_env_variable->value = NULL;
+	new_env_variable->print_empty_quotes = one_env_variable->print_empty_quotes;
+	if (!new_env_variable->name || (one_env_variable->value && !new_env_variable->value))
+		return (ft_clear_env_variable((void *)new_env_variable), NULL);
+	return ((void *)new_env_variable);
 }
