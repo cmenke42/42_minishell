@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 11:38:04 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/30 20:36:11 by user             ###   ########.fr       */
+/*   Updated: 2023/07/30 21:07:49 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ int		ft_unset(char **arguments, t_list **env_list);
 void 	ft_lstremove(t_list **env_list, t_list *env_variable_to_remove);
 
 // //pwd
-int	ft_pwd(void);
-
+int	ft_pwd(char **pwd, bool print);
+void	ft_print_pwd_and_free(char *path);
 //exit
 void	ft_exit(char **args, t_shell_data *shell_data);
 int	ft_exit_code(char *str, bool *print_exit);

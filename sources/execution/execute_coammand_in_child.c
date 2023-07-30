@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_coammand_in_child.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/30 19:18:21 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/30 21:08:01 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	ft_execute_builtin_if_builtin(t_shell_data *shell_data, t_command_sequences 
 	else if (!ft_strcmp("cd", command))
 		status = ft_cd(sequence_to_execute->args, &shell_data->env_list); //error
 	else if (!ft_strcmp("pwd", command))
-		status = ft_pwd(); //error
+		status = ft_pwd(NULL, true); //error
 	else if (!ft_strcmp("export", command))
 		status = ft_export(sequence_to_execute->args, &shell_data->env_list); //system call error possible
 	else if (!ft_strcmp("unset", command))

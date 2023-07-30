@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/30 16:52:04 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/30 21:18:42 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,9 @@ void	ft_set_minisell_signals(void);
 void	ft_restore_default_signals(void);
 void	ft_sig_sigint_handler_parent_execution(int sig_num);
 void	ft_set_singals_handler_while_parent_execution(void);
+int		ft_prepare_env_variables(t_shell_data *shell_data);
 //shlvl
-t_env *increase_shlvl(t_shell_data *shell_data);
+int	increase_shlvl(t_list **env_list);
 //lexer
 	//create_tokens.c
 int		ft_create_tokens_for_sequence(char *command_line_read, t_list **command_sequences);

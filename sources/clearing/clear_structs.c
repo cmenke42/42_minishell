@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear_structs.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 17:08:25 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/30 17:30:06 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/30 21:30:14 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,13 @@ void	ft_free_shell_data(t_shell_data *shell_data, bool everything)
 		ft_lstclear(&shell_data->command_sequences, ft_clear_command_sequence);
 	else
 		ft_lstclear(&shell_data->all_tokens, ft_clear_token);
-	if (everything)
-		ft_lstclear(&shell_data->env_list, ft_clear_env_variable);
 	shell_data->command_sequences = NULL;
 	shell_data->all_tokens = NULL;
+	if (everything)
+	{
+		ft_lstclear(&shell_data->env_list, ft_clear_env_variable);
+		free(shell_data);
+	}
 }
 
 void	ft_clear_command_sequence(void *node)
