@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 18:56:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/28 13:14:08 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/30 20:17:45 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,13 @@ int	ft_export(char **arguemnts, t_list **env_list)
 {
 	int i;
 
-	i = 1;
-	while (arguemnts[i])
+	i = 0;
+	while (arguemnts[++i])
 	{
-		if (ft_strcmp(arguemnts[i], "_") == 0)
-			continue ;
+		if (!ft_strcmp(arguemnts[i], "_"))
+			continue;
 		if (ft_update_or_add_env_variable(arguemnts[i], env_list) == __system_call_error)
 			return (__system_call_error);
-		i++;
 	}
 	if (i == 1)
 	{
@@ -38,9 +37,9 @@ int	print_export(t_list **env_list)
 	t_list	*sorted_env_list;
 	t_env	*one_env_variable;
 
-	if (!ft_search_for_env_variable("OLDPWD", *env_list))
-		if (ft_store_one_variable_in_node(env_list, "OLDPWD", false) == __system_call_error)
-			return (__system_call_error);
+	// if (!ft_search_for_env_variable("OLDPWD", *env_list))
+	// 	if (ft_store_one_variable_in_node(env_list, "OLDPWD", false) == __system_call_error)
+	// 		return (__system_call_error); ->its not happening inside bash, only at launch
 	sorted_env_list = ft_sort_list_asci(*env_list);
 	while (sorted_env_list)
 	{
@@ -82,7 +81,7 @@ t_list	*ft_search_for_env_variable(char *argument, t_list *env_list)
 	while (env_list)
 	{
 		one_env_variable = (t_env *)env_list->content;
-		if (!ft_strncmp(one_env_variable->name, argument, name_length))
+		if ((int)ft_strlen(one_env_variable->name) == name_length && !ft_strncmp(one_env_variable->name, argument, name_length))
 			return (env_list);
 		env_list = env_list->next;
 	}

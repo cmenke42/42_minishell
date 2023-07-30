@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 11:38:04 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/30 17:33:18 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/30 19:18:55 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	replace_pwd(t_list *env_variable_pwd, char *dir);
 
 //new_export
 int		ft_store_env_in_list(char **env, t_list **env_list);
-int	ft_store_one_variable_in_node(t_list **env_list, char *argument, bool first_import);
+int		ft_store_one_variable_in_node(t_list **env_list, char *argument, bool first_import);
 int		ft_assign_values_to_env_variable_node(t_env *env_variable, char *argument, bool first_import);
 int		ft_create_name_and_value(char *argument, char **name, char **value, char *equal_sign);
 bool	ft_is_syntax_error_in_env_name(char *string, bool first_import);
