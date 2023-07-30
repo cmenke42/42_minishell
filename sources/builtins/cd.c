@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 18:20:03 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/30 17:13:28 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/30 20:39:23 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,13 @@ int	change_dir(t_list **env_list, char *dir, t_list *env_variable_oldpwd)
 	getcwd(cwd, sizeof(cwd));
 	env_variable_pwd = ft_search_for_env_variable("PWD", *env_list);
 	if (!env_variable_pwd)
-		if (ft_store_one_variable_in_node(env_list, "PWD", true))
+		if (ft_store_one_variable_in_node(env_list, "PWD", NULL, ""))
 			return (__system_call_error); //handle error in shell
 	if (!env_variable_oldpwd)
-		if (ft_store_one_variable_in_node(env_list, "OLDPWD", true))
+		if (ft_store_one_variable_in_node(env_list, "OLDPWD", NULL, ""))
 			return (__system_call_error); //handle error in shell
 	oldpwd = ft_strjoin("OLDPWD=", cwd);
-	ft_update_or_add_env_variable(oldpwd, env_list);
+	ft_update_or_add_env_variable(oldpwd, env_list, NULL, NULL);
 	if (cd_error_handler(dir))
 		return (1);
 	ft_assign_name_and_value_to_env_variable((t_env *)env_variable_pwd->content, "PWD", ((t_env *)env_variable_pwd->content)->value, ""); //cant do if value is needed in dir

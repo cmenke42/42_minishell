@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 18:56:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/30 19:41:26 by user             ###   ########.fr       */
+/*   Updated: 2023/07/30 20:38:05 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_export(char **arguemnts, t_list **env_list)
 	{
 		if (!ft_strcmp(arguemnts[i], "_"))
 			continue;
-		if (ft_update_or_add_env_variable(arguemnts[i], env_list) == __system_call_error)
+		if (ft_update_or_add_env_variable(arguemnts[i], env_list, NULL, NULL) == __system_call_error)
 			return (__system_call_error);
 	}
 	if (i == 1)
@@ -62,47 +62,54 @@ int	print_export(t_list **env_list)
 	return (__success);
 }
 
-int	ft_update_or_add_env_variable(char *argument, t_list **env_list)
+//only allocated memory for name and value
+int	ft_update_or_add_env_variable(char *argument, t_list **env_list, char *name, char *value)
 {
 	t_list	*env_variable_to_update;
 	int		status;
+	char	*equal_sign;
 
 	status = __success;
-	env_variable_to_update = ft_search_for_env_variable(argument, *env_list);
+	equal_sign = NULL;
+	//export add
+	if (!name && !value)
+	{
+		equal_sign = ft_strchr(argument, '=');
+		if (ft_is_syntax_error_in_env_name(argument))
+			return (__syntax_error);
+		if (ft_create_name_and_value(argument, &name, &value, equal_sign) == __system_call_error)
+			return (__system_call_error);
+	}
+	//custom add
+	else if (name && value)
+		equal_sign = "";
+	env_variable_to_update = ft_search_for_env_variable(name, *env_list);
 	if (env_variable_to_update)
-		status = ft_assign_values_to_env_variable_node((t_env *)env_variable_to_update->content, argument, false);
+		ft_assign_name_and_value_to_env_variable((t_env *)env_variable_to_update->content, name, value, equal_sign);
 	else if (!status)
-		status = ft_store_one_variable_in_node(env_list, argument, false);
+		status = ft_store_one_variable_in_node(env_list, name, value, equal_sign);
+	if (status)
+	{
+		ft_free_pointer_and_set_to_null((void **)&name);
+		ft_free_pointer_and_set_to_null((void **)&value);
+	}
 	return (status);
 }
 
-t_list	*ft_search_for_env_variable(char *argument, t_list *env_list)
+t_list	*ft_search_for_env_variable(char *variable_name, t_list *env_list)
 {
 	t_env	*one_env_variable;
-	int		name_length;
 
-	if (!argument || !env_list)
+	if (!variable_name || !env_list)
 		return (NULL);
-	ft_get_variable_name_lenght(argument, &name_length);
 	while (env_list)
 	{
 		one_env_variable = (t_env *)env_list->content;
-		if ((int)ft_strlen(one_env_variable->name) == name_length && !ft_strncmp(one_env_variable->name, argument, name_length))
+		if (!ft_strcmp(one_env_variable->name, variable_name))
 			return (env_list);
 		env_list = env_list->next;
 	}
 	return (NULL);
-}
-
-void	ft_get_variable_name_lenght(char *argument, int *name_length)
-{
-	char	*equal_sign;
-
-	equal_sign = ft_strchr(argument, '=');
-	if (equal_sign)
-		*name_length = equal_sign - argument;
-	else
-		*name_length = ft_strlen(argument);
 }
 
 t_list	*ft_sort_list_asci(t_list *lst)

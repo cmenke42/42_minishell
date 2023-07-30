@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 11:38:04 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/30 19:28:38 by user             ###   ########.fr       */
+/*   Updated: 2023/07/30 20:36:11 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,8 @@ void	ft_print_one_env_variable(t_env *env_variable);
 void	ft_print_env_list(t_list *env_list);
 
 //export
-int	ft_update_or_add_env_variable(char *argument, t_list **env_list);
+int	ft_update_or_add_env_variable(char *argument, t_list **env_list, char *name, char *value);
 t_list	*ft_search_for_env_variable(char *argument, t_list *env_list);
-void	ft_get_variable_name_lenght(char *argument, int *name_length);
 
 //print export
 int	ft_export(char **arguemnts, t_list **env_list);
@@ -69,10 +68,9 @@ int	replace_pwd(t_list *env_variable_pwd, char *dir);
 
 //new_export
 int		ft_store_env_in_list(char **env, t_list **env_list);
-int		ft_store_one_variable_in_node(t_list **env_list, char *argument, bool first_import);
-int		ft_assign_values_to_env_variable_node(t_env *env_variable, char *argument, bool first_import);
+int		ft_store_one_variable_in_node(t_list **env_list, char *name, char *value, char *equal_sign);
 int		ft_create_name_and_value(char *argument, char **name, char **value, char *equal_sign);
-bool	ft_is_syntax_error_in_env_name(char *string, bool first_import);
+bool	ft_is_syntax_error_in_env_name(char *string);
 void	ft_assign_name_and_value_to_env_variable(t_env *env_variable, char *name, char *value, char *equal_sign);
 void	ft_print_export_wrong_identifier(char *argument);
 
