@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/29 23:19:04 by user             ###   ########.fr       */
+/*   Updated: 2023/07/30 16:52:04 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@
 
 //custom
 # include "../libft/libft.h"
+# include "structs.h"
 # include "env.h"
 # include "colors.h"
 
@@ -51,59 +52,6 @@
 # define DQUOTE_ERROR "minishell: syntax error while looking for matching `\"'"
 
 # define RW_R__R__ 0644
-
-typedef struct s_shell_data
-{
-	int		exit_code;
-	int		default_stdin;
-	int		default_stdout;
-	char	*command_line_read; //in main shell it gets free in the main function
-	char	**envp_array;
-	int		**pipe_fds;	//gets freed in execution
-	pid_t	*process_ids;
-	char	**heredocs;
-	t_list	*command_sequences;
-	t_list	*all_tokens;	//same as command_sequences->tokens
-	t_list	*env_list;
-}				t_shell_data;
-
-typedef struct s_command_sequences
-{
-	t_list	*tokens;	//are the same as in args
-	char	**envp_command_paths; //free directly after use in execution
-	char	*command_path;			//free in case of error in execution
-	char	**args;
-	int		input_fd;
-	int		output_fd;
-}				t_command_sequences;
-
-typedef struct s_tokens
-{
-	char	*token;
-	char	type;
-	int		heredoc_number;
-}				t_tokens;
-
-enum e_token_type
-{
-	text,
-	syntax_error,
-	pipe_operator,
-	redirection_in,
-	redirection_in_heredoc,
-	redirection_out_trunc,
-	redirection_out_append,
-	redirection_filename
-};
-
-enum	e_error_codes
-{
-	__success,
-	__dont_add_to_history,
-	__syntax_error,
-	__system_call_error,
-	__stop_execution,
-};
 
 extern int g_signal_number;
 
@@ -190,7 +138,7 @@ void	ft_free_pointer_and_set_to_null(void **ptr);
 void	ft_clear_token(void *token);
 void	ft_clear_command_sequence(void *sequence);
 	//clear_structs
-void	ft_free_shell_data_for_next_command(t_shell_data *shell_data);
+void	ft_free_shell_data(t_shell_data *shell_data, bool everything);
 void	ft_clear_command_sequence(void *node);
 void	ft_clear_token(void *node);
 void	ft_clear_env_variable(void *node);
@@ -205,8 +153,8 @@ void	ft_wait_for_child_processes_and_get_exit_code(t_shell_data *shell_data, int
 void	ft_get_exit_code(int *exit_code, int stat_loc, bool first_encounter, bool reset_signal_number);
 	//execute_coammand_in_child
 void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_commands, t_command_sequences *sequence_to_execute, int command_index);
-bool	ft_execution_of_command(t_shell_data *shell_data, t_command_sequences *sequence_to_execute, bool single_builtin);
-bool	ft_execute_builtin_if_builtin(t_shell_data *shell_data, t_command_sequences *sequence_to_execute, bool single_builtin);
+int		ft_execution_of_command(t_shell_data *shell_data, t_command_sequences *sequence_to_execute, bool single_builtin);
+int		ft_execute_builtin_if_builtin(t_shell_data *shell_data, t_command_sequences *sequence_to_execute);
 bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences *sequence_to_execute);
 void	ft_print_error_command_not_found(char *command);
 	//single_builtin_execution

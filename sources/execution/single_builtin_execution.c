@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 15:50:13 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/29 20:35:45 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/30 17:10:39 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 bool	ft_execute_single_builtin(t_shell_data *shell_data, int number_of_commands, t_command_sequences *sequence_to_execute, int command_index)
 {
+	shell_data->exit_code = 1;
 	if (!ft_save_standard_fds(shell_data))
 		return (false);
 	ft_restore_default_signals();
@@ -23,44 +24,35 @@ bool	ft_execute_single_builtin(t_shell_data *shell_data, int number_of_commands,
 		;
 	else if (!ft_duplication_of_fds(shell_data->pipe_fds, sequence_to_execute, number_of_commands, command_index))
 		;
-	else if (!ft_execution_of_command(shell_data, sequence_to_execute, true))
+	else if (ft_execution_of_command(shell_data, sequence_to_execute, true))
 		;
 	else if (!ft_restore_standard_fds(shell_data))
 		;
 	else
-	{
-		shell_data->exit_code = 0;
 		return (true);
-	}
 	return (false);
 }
 
 bool	ft_is_builtin(t_command_sequences *sequence_to_execute)
 {
-	int		cmd_length;
 	char	*command;
 	t_tokens	*token;
 
 	token = (t_tokens *)sequence_to_execute->tokens->content;
 	command = token->token;
-	if (!command)
-		return (false);
-	cmd_length = ft_strlen(command);
-	if (cmd_length == 0)
-		return (false);
-	if (cmd_length == 4 && !ft_strncmp("echo", command, cmd_length))
+	if (!ft_strcmp("echo", command))
 		return (true);
-	else if (cmd_length == 2 && !ft_strncmp("cd", command, cmd_length))
+	else if (!ft_strcmp("cd", command))
 		return (true);
-	else if (cmd_length == 3 && !ft_strncmp("pwd", command, cmd_length))
+	else if (!ft_strcmp("pwd", command))
 		return (true);
-	else if (cmd_length == 6 && !ft_strncmp("export", command, cmd_length))
+	else if (!ft_strcmp("export", command))
 		return (true);
-	else if (cmd_length == 5 && !ft_strncmp("unset", command, cmd_length))
+	else if (!ft_strcmp("unset", command))
 		return (true);
-	else if (cmd_length == 3 && !ft_strncmp("env", command, cmd_length))
+	else if (!ft_strcmp("env", command))
 		return (true);
-	else if (cmd_length == 4 && !ft_strncmp("exit", command, cmd_length))
+	else if (!ft_strcmp("exit", command))
 		return (true);
 	else
 		return (false);

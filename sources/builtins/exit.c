@@ -6,13 +6,53 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 13:15:06 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/26 18:28:37 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/30 16:55:50 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	is_str_digit(char *str)
+void	ft_exit(char **args, t_shell_data *shell_data)
+{
+	int		exit_code;
+	bool	print_exit;
+
+	exit_code = 0;
+	print_exit = true;
+	if (!args[1])
+		;
+	else if (args[2])
+	{
+		ft_putstr_fd("too many arguments\n", STDERR_FILENO);
+		exit_code = 1;
+	}
+	else
+		exit_code = ft_exit_code(args[1], &print_exit);
+	ft_free_shell_data(shell_data, true);
+	if (print_exit)
+		printf("exit\n");
+	exit(exit_code);
+}
+
+int	ft_exit_code(char *str, bool *print_exit)
+{
+	int	exit_code;
+
+	if (ft_is_str_digit(str))
+		exit_code = ft_atoi(str);
+	else
+	{
+		*print_exit = false;
+		printf("exit\n");
+		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+		ft_putstr_fd(str, STDERR_FILENO);
+		ft_putstr_fd(" :numeric argument required\n", STDERR_FILENO);
+		exit_code = 255;
+	}
+	return (exit_code);
+}
+
+int	ft_is_str_digit(char *str)
 {
 	int	i;
 
@@ -26,37 +66,4 @@ int	is_str_digit(char *str)
 		i++;
 	}
 	return (1);
-}
-
-void	exit_code(char *str)
-{
-	int	exit_code;
-
-	printf("exit\n");
-	if (is_str_digit(str))
-		exit_code = ft_atoi(str);
-	else
-	{
-		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
-		ft_putstr_fd(str, STDERR_FILENO);
-		ft_putstr_fd(" :numeric argument required\n", STDERR_FILENO);
-		exit_code = 255;
-	}
-	free(str);
-	exit(exit_code);
-}
-
-void	ft_exit(char **args)
-{
-	if (!args[1])
-	{
-		printf("exit\n");
-		exit(0);
-	}
-	if (args[2])
-	{
-		ft_putstr_fd("too many arguments\n", STDERR_FILENO);
-		exit(1);
-	}
-	exit_code(args[1]);
 }

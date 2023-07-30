@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+         #
+#    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/07/28 15:01:22 by wmoughar         ###   ########.fr        #
+#    Updated: 2023/07/30 16:51:16 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,7 @@ SRCS := $(addprefix ${SRCDIR}/,main.c \
 
 OBJS := ${SRCS:.c=.o}
 
-HEADER := includes/minishell.h includes/colors.h
+HEADER := includes/minishell.h includes/colors.h includes/structs.h includes/env.h
 
 LIBFTDIR := libft
 

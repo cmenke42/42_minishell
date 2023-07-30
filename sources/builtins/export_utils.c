@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 17:14:14 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/28 15:12:30 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/30 17:34:17 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,3 @@ void	ft_print_export_wrong_identifier(char *argument)
 	ft_putstr_fd(argument, 2);
 	ft_putendl_fd("': not a valid identifier", 2);
 }
-
-
-// int	ft_export(char **args, )

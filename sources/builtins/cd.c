@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 18:20:03 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/28 15:29:43 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/07/30 17:13:28 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,10 @@ int	ft_cd(char **command, t_list **env_list)
 	{
 		env_variable_home = ft_search_for_env_variable("HOME", *env_list);
 		if (!env_variable_home)
-			return(ft_put_err("cd: ","HOME not set", 1));
+			return(ft_put_err("cd: ","HOME not set", 1), __error);
 		else
 			dir = ((t_env *)env_variable_home->content)->value;
 	}
-	else if (!ft_strcmp(command[1], "-"))
-		return (0);
 	else
 		dir = command[1];
 	return (change_dir(env_list, dir, env_variable_oldpwd));

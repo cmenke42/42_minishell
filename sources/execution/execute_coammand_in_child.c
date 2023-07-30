@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_coammand_in_child.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/29 23:33:48 by user             ###   ########.fr       */
+/*   Updated: 2023/07/30 17:10:24 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,55 +26,54 @@ void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_command
 		;
 	else if (!ft_duplication_of_fds(shell_data->pipe_fds, sequence_to_execute, number_of_commands, command_index))
 		;
-	else if (!ft_execution_of_command(shell_data, sequence_to_execute, false))
+	else if (ft_execution_of_command(shell_data, sequence_to_execute, false))
 		;
-	//clear up
-	ft_free_shell_data_for_next_command(shell_data); // for testing, needs to free everything
+	ft_free_shell_data(shell_data, true);
 	exit(shell_data->exit_code);
 }
 
-
-bool	ft_execution_of_command(t_shell_data *shell_data, t_command_sequences *sequence_to_execute, bool single_builtin)
+int	ft_execution_of_command(t_shell_data *shell_data, t_command_sequences *sequence_to_execute, bool single_builtin)
 {
-	if (ft_execute_builtin_if_builtin(shell_data, sequence_to_execute, single_builtin) && single_builtin) //exit after executing builtin
-		return (true);
+	int	status;
+
+	status = ft_execute_builtin_if_builtin(shell_data, sequence_to_execute);
+	if (single_builtin)
+		return (status);
+	else if (!single_builtin && status != __no_builtin_found)
+		return (status);
 	else if (!ft_check_if_cmd_path_is_valid(shell_data, sequence_to_execute))
 		;
 	else if (execve(sequence_to_execute->command_path, sequence_to_execute->args, shell_data->envp_array) == -1)
 		perror("minishell: execve");
-	return (false);
+	return (__error);
 }
 
-bool	ft_execute_builtin_if_builtin(t_shell_data *shell_data, t_command_sequences *sequence_to_execute, bool single_builtin)
+int	ft_execute_builtin_if_builtin(t_shell_data *shell_data, t_command_sequences *sequence_to_execute)
 {
-	int		cmd_length;
 	char	*command;
+	int		status;
 
+	status = __success;
 	command = sequence_to_execute->args[0];
-	if (!command)
-		return (false);
-	cmd_length = ft_strlen(command);
-	if (cmd_length == 0)
-		return (false);
-	if (cmd_length == 4 && !ft_strncmp("echo", command, cmd_length))
+	if (!ft_strcmp("echo", command))
 		ft_echo(sequence_to_execute->args);
-	else if (cmd_length == 2 && !ft_strncmp("cd", command, cmd_length))
-		ft_cd(sequence_to_execute->args, &shell_data->env_list);
-	else if (cmd_length == 3 && !ft_strncmp("pwd", command, cmd_length))
-		ft_pwd();
-	else if (cmd_length == 6 && !ft_strncmp("export", command, cmd_length))
-		ft_export(sequence_to_execute->args, &shell_data->env_list);
-	else if (cmd_length == 5 && !ft_strncmp("unset", command, cmd_length))
-		ft_unset(sequence_to_execute->args, &shell_data->env_list);
-	else if (cmd_length == 3 && !ft_strncmp("env", command, cmd_length))
+	else if (!ft_strcmp("cd", command))
+		status = ft_cd(sequence_to_execute->args, &shell_data->env_list); //error
+	else if (!ft_strcmp("pwd", command))
+		status = ft_pwd(); //error
+	else if (!ft_strcmp("export", command))
+		status = ft_export(sequence_to_execute->args, &shell_data->env_list); //system call error possible
+	else if (!ft_strcmp("unset", command))
+		status = ft_unset(sequence_to_execute->args, &shell_data->env_list); //syntax error possible
+	else if (!ft_strcmp("env", command))
 		ft_print_env_list(shell_data->env_list);
-	else if (cmd_length == 4 && !ft_strncmp("exit", command, cmd_length))
-		ft_exit(sequence_to_execute->args);
+	else if (!ft_strcmp("exit", command))
+		ft_exit(sequence_to_execute->args, shell_data);
 	else
-		return (false);
-	if (single_builtin == false)
-		exit(0); //remove later
-	return (true);
+		return (__no_builtin_found);
+	if (status == __success)
+		shell_data->exit_code = 0;
+	return (status);
 }
 
 

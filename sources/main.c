@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/29 23:18:22 by user             ###   ########.fr       */
+/*   Updated: 2023/07/30 17:28:25 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 int	g_signal_number;
 
 //take care that it frees all neccessary things
-void	ft_exit_ctrl_d()
+void	ft_exit_ctrl_d(t_shell_data *shell_data)
 {
 	ft_putendl_fd("exit", STDOUT_FILENO);
 	rl_clear_history();
+	ft_free_shell_data(shell_data, true);
 	exit(0);
 }
 
@@ -142,8 +143,8 @@ int	main(int argc, char **argv, char **envp)
 			// rl_on_new_line();
 		}
 		else if (!shell_data->command_line_read)
-			ft_exit_ctrl_d();
-		ft_free_shell_data_for_next_command(shell_data);
+			ft_exit_ctrl_d(shell_data);
+		ft_free_shell_data(shell_data, false);
 	}
 	exit (exit_code);
 }
