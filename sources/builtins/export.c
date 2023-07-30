@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 18:56:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/30 20:38:05 by user             ###   ########.fr       */
+/*   Updated: 2023/07/30 20:46:46 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	print_export(t_list **env_list)
 	return (__success);
 }
 
-//only allocated memory for name and value
+//only allocated memory for name && value
 int	ft_update_or_add_env_variable(char *argument, t_list **env_list, char *name, char *value)
 {
 	t_list	*env_variable_to_update;

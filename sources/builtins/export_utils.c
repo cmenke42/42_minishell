@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 17:14:14 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/30 20:39:38 by user             ###   ########.fr       */
+/*   Updated: 2023/07/30 20:48:06 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	ft_store_one_variable_in_node(t_list **env_list, char *name, char *value, ch
 {
 	t_list	*new_node;
 	t_env	*env_variable;
-	int		status;
 
 	env_variable = ft_calloc(1, sizeof(t_env));
 	if (!env_variable)
@@ -98,10 +97,9 @@ bool	ft_is_syntax_error_in_env_name(char *string)
 
 void	ft_assign_name_and_value_to_env_variable(t_env *env_variable, char *name, char *value, char *equal_sign)
 {
-	if (name)
-		env_variable->name = name;
-	else if (env_variable->value)
-		ft_free_pointer_and_set_to_null((void **)&env_variable->value);
+	ft_free_pointer_and_set_to_null((void **)&env_variable->name);
+	ft_free_pointer_and_set_to_null((void **)&env_variable->value);
+	env_variable->name = name;
 	env_variable->value = value;
 	if (!env_variable->value && equal_sign)
 		env_variable->print_empty_quotes = true;

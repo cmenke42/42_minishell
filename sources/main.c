@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/30 17:28:25 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/30 20:43:48 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,28 +103,7 @@ int	main(int argc, char **argv, char **envp)
 	//free something?
 	//what should happen when we get a signal during child process?
 	if (ft_store_env_in_list(envp, &shell_data->env_list) == __system_call_error)
-	{
-		printf("error storing env in list\n");
-		free(shell_data);
-		exit(1);
-	}
-	// char *export_array[3];
-	// export_array[0] = "export";
-	// export_array[1] = "=";
-	// export_array[2] = NULL;
-	// ft_export(export_array, &shell_data->env_list_new);
-	// export_array[0] = "export";
-	// export_array[1] = NULL;
-	// ft_export(export_array, &shell_data->env_list_new);
-	// export_array[0] = "export";
-	// export_array[1] = "TEST";
-	// export_array[2] = NULL;
-	// ft_unset(export_array, &shell_data->env_list_new);
-	// export_array[0] = "export";
-	// export_array[1] = NULL;
-	// ft_export(export_array, &shell_data->env_list_new);
-	// ft_print_env_list(shell_data->env_list_new);
-	// exit (22);
+		return (printf("error storing env in list\n"), free(shell_data), 1);
 	// // increase_shlvl(shell_data);
 	while (1)
 	{
