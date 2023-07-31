@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/31 17:15:44 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/31 17:42:25 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,13 +122,12 @@ int	ft_process_command_line(t_shell_data *shell_data)
 	status = ft_handle_heredocs(shell_data);
 	if (status)
 		return (status);
-	if (!ft_expand_variables(shell_data->all_tokens, shell_data)) //remove tokens that got empty after expansion
+	if (!ft_expand_variables(shell_data->all_tokens, shell_data))
 		return (__system_call_error);
 	status = ft_split_tokens_in_sequences(shell_data);
 	if (status)
 		return (status);
-	if (!ft_execute_commands(shell_data))  //handle the syntax errors of builtin commands??? // is there a case where a syntax error comes back?? -> when open failed
-		return (__system_call_error);
+	status = ft_execute_commands(shell_data);  //handle the syntax errors of builtin commands??? // is there a case where a syntax error comes back?? -> when open failed
 	// //syntax error for ambibous redirect????
 	return (status);
 }

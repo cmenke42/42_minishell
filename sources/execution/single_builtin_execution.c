@@ -6,20 +6,24 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 15:50:13 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/30 17:10:39 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/31 17:41:11 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	ft_execute_single_builtin(t_shell_data *shell_data, int number_of_commands, t_command_sequences *sequence_to_execute, int command_index)
+int	ft_execute_single_builtin(t_shell_data *shell_data, int number_of_commands, t_command_sequences *sequence_to_execute, int command_index)
 {
+	int status;
+
+	status = __success;
 	shell_data->exit_code = 1;
 	if (!ft_save_standard_fds(shell_data))
-		return (false);
+		return (__system_call_error);
 	ft_restore_default_signals();
-	if (!ft_handle_redirection_operators(sequence_to_execute, sequence_to_execute->tokens, shell_data))
-		;
+	status = ft_handle_redirection_operators(sequence_to_execute, sequence_to_execute->tokens, shell_data);
+	if(status)
+		return (status);
 	else if (!ft_token_list_to_args_array(sequence_to_execute))
 		;
 	else if (!ft_duplication_of_fds(shell_data->pipe_fds, sequence_to_execute, number_of_commands, command_index))
@@ -29,8 +33,8 @@ bool	ft_execute_single_builtin(t_shell_data *shell_data, int number_of_commands,
 	else if (!ft_restore_standard_fds(shell_data))
 		;
 	else
-		return (true);
-	return (false);
+		return (__success);
+	return (__system_call_error);
 }
 
 bool	ft_is_builtin(t_command_sequences *sequence_to_execute)

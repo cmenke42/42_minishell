@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/31 17:05:47 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/31 18:26:40 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,11 @@ char	*ft_trim_variable_value(char *string);
 void	ft_cut_out_empty_node(t_list **tokens, t_list *previous_token_node);
 
 // ---
-bool	ft_handle_redirection_operators(t_command_sequences *one_sequence, t_list *tokens_of_sequence, t_shell_data *shell_data);
-bool	ft_do_redirection(t_command_sequences *one_sequence, t_tokens *operator_token, t_tokens *file_token, t_shell_data *shell_data);
-bool	ft_output_redirection(int *output_fd, char operator, t_tokens *file_token);
-bool	ft_input_redirection(int *input_fd, t_tokens *operator_token, t_tokens *file_token, t_shell_data *shell_data);
+int		ft_handle_redirection_operators(t_command_sequences *one_sequence, t_list *tokens_of_sequence, t_shell_data *shell_data);
+int		ft_do_redirection(t_command_sequences *one_sequence, t_tokens *operator_token, t_tokens *file_token, t_shell_data *shell_data);
+int		ft_output_redirection(int *output_fd, char operator, t_tokens *file_token);
+int		ft_input_redirection(int *input_fd, t_tokens *operator_token, t_tokens *file_token, t_shell_data *shell_data);
+void	ft_put_redirection_error(char *file);
 	//token_list_to_char_array
 bool	ft_token_list_to_args_array(t_command_sequences *one_sequence);
 int		ft_count_arguments(t_list *tokens);
@@ -148,7 +149,7 @@ void	ft_clear_env_variable(void *node);
 
 //execution
 	//create_processes
-bool	ft_execute_commands(t_shell_data *shell_data);
+int		ft_execute_commands(t_shell_data *shell_data);
 bool	ft_create_pipes(t_shell_data *shell_data, int number_of_pipes);
 bool	ft_fork_child_processes(t_shell_data *shell_data, int number_of_commands);
 void	ft_wait_for_child_processes_and_get_exit_code(t_shell_data *shell_data, int number_of_commands);
@@ -158,9 +159,10 @@ void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_command
 int		ft_execution_of_command(t_shell_data *shell_data, t_command_sequences *sequence_to_execute, bool single_builtin);
 int		ft_execute_builtin_if_builtin(t_shell_data *shell_data, t_command_sequences *sequence_to_execute);
 bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences *sequence_to_execute);
-void	ft_print_error_command_not_found(char *command);
+void	ft_print_error(char *command, char *error_message);
+bool	ft_is_slash_in_command(char *command);
 	//single_builtin_execution
-bool	ft_execute_single_builtin(t_shell_data *shell_data, int number_of_commands, t_command_sequences *sequence_to_execute, int command_index);
+int		ft_execute_single_builtin(t_shell_data *shell_data, int number_of_commands, t_command_sequences *sequence_to_execute, int command_index);
 bool	ft_is_builtin(t_command_sequences *sequence_to_execute);
 bool	ft_save_standard_fds(t_shell_data *shell_data);
 bool	ft_restore_standard_fds(t_shell_data *shell_data);

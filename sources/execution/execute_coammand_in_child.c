@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/31 17:18:01 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/31 18:28:37 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,12 @@ int	ft_execute_builtin_if_builtin(t_shell_data *shell_data, t_command_sequences 
 
 bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences *sequence_to_execute)
 {
+	struct stat fileInfo;
+
 	if (sequence_to_execute->args[0][0] == '\0') //for emtpy quotes as input
 	{
 		shell_data->exit_code = 127;
-		ft_print_error_command_not_found(sequence_to_execute->args[0]);
+		ft_print_error(sequence_to_execute->args[0], ": command not found\n");
 		return (false);
 	}
 	sequence_to_execute->envp_command_paths = ft_get_envp_paths(shell_data->envp_array);
@@ -95,6 +97,15 @@ bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences
 		return (true);
 	if (access(sequence_to_execute->args[0], F_OK) == 0) //if file exists
 	{
+		if (stat(sequence_to_execute->args[0], &fileInfo) == 0) //is a directory
+		{
+			if (S_ISDIR(fileInfo.st_mode))
+			{
+				ft_print_error(sequence_to_execute->args[0], ": is a directory\n");
+				return (false);
+			}
+		}
+		printf("access ok\n");
 		if (access(sequence_to_execute->args[0], X_OK) == 0)
 		{
 			sequence_to_execute->command_path = ft_strdup(sequence_to_execute->args[0]);
@@ -102,22 +113,36 @@ bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences
 				return (perror("error in ft_strdup sequence_to_execute->args[0]"), false);
 			return (true);
 		}
-		else
-		{
-			shell_data->exit_code = 126;
-			ft_putstr_fd("minishell: ", 2);
-			perror(sequence_to_execute->args[0]);
-			return (false);
-		}
 	}
-	ft_print_error_command_not_found(sequence_to_execute->args[0]);
+	else if (ft_is_slash_in_command(sequence_to_execute->args[0])) //no such directory
+	{
+		shell_data->exit_code = 126;
+		ft_putstr_fd("minishell: ", 2);
+		perror(sequence_to_execute->args[0]);
+		return (false);
+	}
+	ft_print_error(sequence_to_execute->args[0], ": command not found\n");
 	shell_data->exit_code = 127;
 	return (false);
 }
 
-void	ft_print_error_command_not_found(char *command)
+void	ft_print_error(char *command, char *error_message)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(command, 2);
-	ft_putstr_fd(": command not found\n", 2);
+	ft_putstr_fd(error_message, 2);
+}
+
+bool	ft_is_slash_in_command(char *command)
+{
+	int	i;
+
+	i = 0;
+	while (command[i])
+	{
+		if (command[i] == '/')
+			return (true);
+		i++;
+	}
+	return (false);
 }

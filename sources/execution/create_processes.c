@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_processes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 16:16:48 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/29 23:18:49 by user             ###   ########.fr       */
+/*   Updated: 2023/07/31 17:56:04 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,27 +42,26 @@
 //close unneeded file descriptors
 
 
-bool	ft_execute_commands(t_shell_data *shell_data)
+int	ft_execute_commands(t_shell_data *shell_data)
 {
 	int		number_of_commands;
-	bool	status;
+	int		status;
 
-	status = true;
+	status = __success;
 	number_of_commands = ft_lstsize(shell_data->command_sequences);
 	if (!ft_create_pipes(shell_data, number_of_commands - 1))
-		return (false);
+		return (__system_call_error);
 	
 	// ft_print_pipe_fds(shell_data->pipe_fds, number_of_commands - 1);
 	if (number_of_commands == 1 && ft_is_builtin((t_command_sequences *)shell_data->command_sequences->content))
 	{
-		if (!ft_execute_single_builtin(shell_data, number_of_commands, (t_command_sequences *)shell_data->command_sequences->content, 0))
-			status = false;
+		status = ft_execute_single_builtin(shell_data, number_of_commands, (t_command_sequences *)shell_data->command_sequences->content, 0);
 		ft_set_minisell_signals();
 		return (status);
 	}	
 	if (!ft_fork_child_processes(shell_data, number_of_commands))
-		status = false;
-	if (status == true)
+		status = __system_call_error;
+	if (status == __success)
 		ft_set_singals_handler_while_parent_execution();
 	ft_close_all_pipes(shell_data->pipe_fds, number_of_commands - 1);
 	ft_free_double_pointer_int(&shell_data->pipe_fds, number_of_commands - 1);
