@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/31 17:42:25 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/31 19:43:20 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		else if (!shell_data->command_line_read)
 			ft_exit_ctrl_d(shell_data);
+		ft_delete_heredoc_files(shell_data->heredocs);
 		ft_free_shell_data(shell_data, false);
 	}
 	exit (exit_code);
@@ -178,4 +179,17 @@ int	increase_shlvl(t_list **env_list)
 		return (free(name), perror("error creating itoa value in increase_shlvl"), __system_call_error);
 	ft_assign_name_and_value_to_env_variable((t_env *)shlvl->content, name, value, "=");
 	return (__success);
+}
+
+void	ft_delete_heredoc_files(char **heredoc_files)
+{
+	int	i;
+
+	i = 0;
+	while (heredoc_files[i])
+	{
+		if (unlink(heredoc_files[i]) == -1)
+			perror("minishell: unlink");
+		i++;
+	}
 }

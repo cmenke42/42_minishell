@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/31 18:26:40 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/31 19:41:57 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	ft_restore_default_signals(void);
 void	ft_sig_sigint_handler_parent_execution(int sig_num);
 void	ft_set_singals_handler_while_parent_execution(void);
 int		ft_prepare_env_variables(t_shell_data *shell_data);
+void	ft_delete_heredoc_files(char **heredoc_files);
 //shlvl
 int	increase_shlvl(t_list **env_list);
 //lexer
