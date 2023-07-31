@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/31 12:38:05 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/31 12:50:49 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_command
 	else if (ft_execution_of_command(shell_data, sequence_to_execute, false))
 		;
 	exit_code = shell_data->exit_code;
+	rl_clear_history();
 	ft_free_double_pointer_int(&shell_data->pipe_fds, number_of_commands - 1);
 	ft_free_shell_data(shell_data, true);
 	exit(exit_code);
