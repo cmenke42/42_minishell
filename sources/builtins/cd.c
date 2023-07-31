@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 10:49:18 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/31 12:35:27 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/31 18:53:55 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,13 @@ int	ft_cd(char **command, t_list **env_list, t_shell_data *shell_data)
 	{
 		env_variable_home = ft_search_for_env_variable("HOME", *env_list);
 		if (!env_variable_home)
-			return(ft_put_err("cd: ","HOME not set", 1), __error);
+			return(ft_put_err("cd: ","HOME not set", __error));
 		else
 			target_path = ((t_env *)env_variable_home->content)->value;
 	}
 	else
 		target_path = command[1];
-	if (change_dir(env_list, target_path, shell_data) == __system_call_error)
-		return (__system_call_error);
-	return (__success);
+	return (change_dir(env_list, target_path, shell_data));
 }
 
 int	ft_put_err(char *input, char *message, int code)
@@ -68,10 +66,7 @@ int	change_dir(t_list **env_list, char *target_path, t_shell_data *shell_data)
 			return (free(cwd_buf), perror("error getting cwd for pwd"), __system_call_error);
 		ft_assign_name_and_value_to_env_variable((t_env *)env_variable_oldpwd->content, NULL, cwd_buf, "");
 	}
-	if (cd_error_handler(target_path, env_variable_pwd) == __system_call_error)
-		return (__system_call_error);
-	// return (replace_pwd(env_variable_pwd, target_path));
-	return (__success);
+	return (cd_error_handler(target_path, env_variable_pwd));
 }
 
 int	cd_error_handler(char *target_path, t_list *env_variable_pwd)

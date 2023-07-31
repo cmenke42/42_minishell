@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 18:56:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/31 10:49:38 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/31 18:43:13 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,17 @@
 int	ft_export(char **arguemnts, t_list **env_list)
 {
 	int i;
+	int status;
 
 	i = 0;
+	status = __success;
 	while (arguemnts[++i])
 	{
 		if (!ft_strcmp(arguemnts[i], "_"))
 			continue;
-		if (ft_update_or_add_env_variable(arguemnts[i], env_list, NULL, NULL) == __system_call_error)
-			return (__system_call_error);
+		status = ft_update_or_add_env_variable(arguemnts[i], env_list, NULL, NULL);
+		if (status)
+			return (status);
 	}
 	if (i == 1)
 	{
@@ -76,7 +79,7 @@ int	ft_update_or_add_env_variable(char *argument, t_list **env_list, char *name,
 	{
 		equal_sign = ft_strchr(argument, '=');
 		if (ft_is_syntax_error_in_env_name(argument))
-			return (__syntax_error);
+			return (__stop_execution);
 		if (ft_create_name_and_value(argument, &name, &value, equal_sign) == __system_call_error)
 			return (__system_call_error);
 	}

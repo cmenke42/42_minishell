@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/31 18:28:37 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/31 19:29:18 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@
 void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_commands, t_command_sequences *sequence_to_execute, int command_index)
 {
 	int	exit_code;
+
 	ft_restore_default_signals();
 	shell_data->exit_code = 1;
-	if (!ft_handle_redirection_operators(sequence_to_execute, sequence_to_execute->tokens, shell_data))
+	if (ft_handle_redirection_operators(sequence_to_execute, sequence_to_execute->tokens, shell_data))
 		;
-	if (!ft_token_list_to_args_array(sequence_to_execute))
+	else if (!ft_token_list_to_args_array(sequence_to_execute))
 		;
 	else if (!ft_env_list_to_envp_array(shell_data))
 		;
@@ -97,26 +98,34 @@ bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences
 		return (true);
 	if (access(sequence_to_execute->args[0], F_OK) == 0) //if file exists
 	{
-		if (stat(sequence_to_execute->args[0], &fileInfo) == 0) //is a directory
+		if (stat(sequence_to_execute->args[0], &fileInfo) == 0 && ft_is_slash_in_command(sequence_to_execute->args[0])) //is a directory
 		{
 			if (S_ISDIR(fileInfo.st_mode))
 			{
+				shell_data->exit_code = 126;
 				ft_print_error(sequence_to_execute->args[0], ": is a directory\n");
 				return (false);
 			}
 		}
-		printf("access ok\n");
-		if (access(sequence_to_execute->args[0], X_OK) == 0)
+		if (access(sequence_to_execute->args[0], X_OK) == 0 && !S_ISDIR(fileInfo.st_mode))
 		{
+			shell_data->exit_code = 126;
 			sequence_to_execute->command_path = ft_strdup(sequence_to_execute->args[0]);
 			if (!sequence_to_execute->command_path)
 				return (perror("error in ft_strdup sequence_to_execute->args[0]"), false);
 			return (true);
 		}
+		else if (!S_ISDIR(fileInfo.st_mode) && ft_is_slash_in_command(sequence_to_execute->args[0]))
+		{
+			shell_data->exit_code = 126;
+			ft_putstr_fd("minishell: ", 2);
+			perror(sequence_to_execute->args[0]);
+			return (false);
+		}
 	}
 	else if (ft_is_slash_in_command(sequence_to_execute->args[0])) //no such directory
 	{
-		shell_data->exit_code = 126;
+		shell_data->exit_code = 127;
 		ft_putstr_fd("minishell: ", 2);
 		perror(sequence_to_execute->args[0]);
 		return (false);

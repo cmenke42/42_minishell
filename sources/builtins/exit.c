@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 13:15:06 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/30 16:55:50 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/31 18:58:29 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ void	ft_exit(char **args, t_shell_data *shell_data)
 		;
 	else if (args[2])
 	{
-		ft_putstr_fd("too many arguments\n", STDERR_FILENO);
+		print_exit = false;
+		printf("exit\n");
+		ft_print_error("exit:", " too many arguments");
 		exit_code = 1;
 	}
 	else
@@ -46,7 +48,7 @@ int	ft_exit_code(char *str, bool *print_exit)
 		printf("exit\n");
 		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 		ft_putstr_fd(str, STDERR_FILENO);
-		ft_putstr_fd(" :numeric argument required\n", STDERR_FILENO);
+		ft_putstr_fd(" : numeric argument required\n", STDERR_FILENO);
 		exit_code = 255;
 	}
 	return (exit_code);
