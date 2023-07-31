@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 16:50:05 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/30 16:50:30 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/31 12:35:11 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ typedef struct s_shell_data
 	int		exit_code;
 	int		default_stdin;
 	int		default_stdout;
+	bool	print_quotes_for_oldpwd;
 	char	*command_line_read; //in main shell it gets free in the main function
 	char	**envp_array;
 	int		**pipe_fds;	//gets freed in execution

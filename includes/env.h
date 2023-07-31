@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 11:38:04 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/31 11:27:07 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/31 12:38:29 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ft_swap(void **var1, void **var2);
 void *ft_duplicate_env_variable(void *env_variable);
 
 //unset
-int		ft_unset(char **arguments, t_list **env_list);
+int	ft_unset(char **arguments, t_list **env_list_new, t_shell_data *shell_data);
 void 	ft_lstremove(t_list **env_list, t_list *env_variable_to_remove);
 
 // //pwd
@@ -55,11 +55,11 @@ void	print_lines(int i, char **str);
 
 
 //cd
-int	ft_cd(char **command, t_list **env_list);
+int	ft_cd(char **command, t_list **env_list, t_shell_data *shell_data);
 int	ft_put_err(char *input, char *message, int code);
-int	change_dir(t_list **env_list, char *dir, t_list *env_variable_oldpwd);
+int	change_dir(t_list **env_list, char *target_path, t_shell_data *shell_data);
 int	cd_error_handler(char *dir, t_list *env_variable_pwd);
-int	replace_pwd(t_list *env_variable_pwd, char *dir);
+// int	replace_pwd(t_list *env_variable_pwd, char *dir);
 
 // //utils
 // t_env	*ft_search(t_env *env, char *name);

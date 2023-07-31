@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/31 11:07:45 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/31 12:38:05 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_command
 	else if (ft_execution_of_command(shell_data, sequence_to_execute, false))
 		;
 	exit_code = shell_data->exit_code;
+	ft_free_double_pointer_int(&shell_data->pipe_fds, number_of_commands - 1);
 	ft_free_shell_data(shell_data, true);
 	exit(exit_code);
 }
@@ -60,13 +61,13 @@ int	ft_execute_builtin_if_builtin(t_shell_data *shell_data, t_command_sequences 
 	if (!ft_strcmp("echo", command))
 		ft_echo(sequence_to_execute->args);
 	else if (!ft_strcmp("cd", command))
-		status = ft_cd(sequence_to_execute->args, &shell_data->env_list); //error
+		status = ft_cd(sequence_to_execute->args, &shell_data->env_list, shell_data); //error
 	else if (!ft_strcmp("pwd", command))
 		status = ft_pwd(NULL, true); //error
 	else if (!ft_strcmp("export", command))
 		status = ft_export(sequence_to_execute->args, &shell_data->env_list); //system call error possible
 	else if (!ft_strcmp("unset", command))
-		status = ft_unset(sequence_to_execute->args, &shell_data->env_list); //syntax error possible
+		status = ft_unset(sequence_to_execute->args, &shell_data->env_list, shell_data); //syntax error possible
 	else if (!ft_strcmp("env", command))
 		ft_print_env_list(shell_data->env_list);
 	else if (!ft_strcmp("exit", command))

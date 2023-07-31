@@ -6,13 +6,13 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 11:30:47 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/31 10:49:45 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/31 12:39:41 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_unset(char **arguments, t_list **env_list_new)
+int	ft_unset(char **arguments, t_list **env_list_new, t_shell_data *shell_data)
 {
 	t_list	*env_variable_to_remove;
 	int		i;
@@ -25,6 +25,8 @@ int	ft_unset(char **arguments, t_list **env_list_new)
 		if (ft_is_syntax_error_in_env_name(arguments[i]))
 			return (__syntax_error);
 		env_variable_to_remove = ft_search_for_env_variable(arguments[i], *env_list_new);
+		if (env_variable_to_remove && !ft_strcmp(arguments[i], "PWD"))
+			shell_data->print_quotes_for_oldpwd = true;
 		if (env_variable_to_remove)
 			ft_lstremove(env_list_new, env_variable_to_remove);
 		i++;
