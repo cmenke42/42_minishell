@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 17:14:14 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/30 20:48:06 by user             ###   ########.fr       */
+/*   Updated: 2023/07/31 11:59:05 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,12 @@ bool	ft_is_syntax_error_in_env_name(char *string)
 
 void	ft_assign_name_and_value_to_env_variable(t_env *env_variable, char *name, char *value, char *equal_sign)
 {
-	ft_free_pointer_and_set_to_null((void **)&env_variable->name);
+	if (name)
+	{
+		ft_free_pointer_and_set_to_null((void **)&env_variable->name);
+		env_variable->name = name;
+	}
 	ft_free_pointer_and_set_to_null((void **)&env_variable->value);
-	env_variable->name = name;
 	env_variable->value = value;
 	if (!env_variable->value && equal_sign)
 		env_variable->print_empty_quotes = true;

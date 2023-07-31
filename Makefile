@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: user <user@student.42.fr>                  +#+  +:+       +#+         #
+#    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/07/30 19:19:58 by user             ###   ########.fr        #
+#    Updated: 2023/07/31 11:05:38 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,7 @@ NAME := minishell
 
 SRCDIR := sources
 
-BUILTINS := $(addprefix builtins/,utils.c \
-								echo.c \
+BUILTINS := $(addprefix builtins/,echo.c \
 								env.c \
 								export.c \
 								unset.c \

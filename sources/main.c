@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/30 21:28:20 by user             ###   ########.fr       */
+/*   Updated: 2023/07/31 11:04:09 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,11 +167,8 @@ int	ft_prepare_env_variables(t_shell_data *shell_data)
 	pwd_value = NULL;
 	if (increase_shlvl(&shell_data->env_list) == __system_call_error)
 		return (__system_call_error);
-	if (!ft_search_for_env_variable("OLDPWD", shell_data->env_list))
-	{
-		if (ft_update_or_add_env_variable("OLDPWD", &shell_data->env_list, NULL, NULL) == __system_call_error)
-			return (__system_call_error);
-	}
+	if (ft_update_or_add_env_variable("OLDPWD", &shell_data->env_list, NULL, NULL) == __system_call_error)
+		return (__system_call_error);
 	if (!ft_search_for_env_variable("PWD", shell_data->env_list))
 	{
 		pwd_name = ft_strdup("PWD");

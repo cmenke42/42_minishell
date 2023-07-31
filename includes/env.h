@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 11:38:04 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/30 21:07:49 by user             ###   ########.fr       */
+/*   Updated: 2023/07/31 11:27:07 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	print_lines(int i, char **str);
 int	ft_cd(char **command, t_list **env_list);
 int	ft_put_err(char *input, char *message, int code);
 int	change_dir(t_list **env_list, char *dir, t_list *env_variable_oldpwd);
-int	cd_error_handler(char *dir);
+int	cd_error_handler(char *dir, t_list *env_variable_pwd);
 int	replace_pwd(t_list *env_variable_pwd, char *dir);
 
 // //utils

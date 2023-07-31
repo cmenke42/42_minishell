@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_coammand_in_child.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/30 21:08:01 by user             ###   ########.fr       */
+/*   Updated: 2023/07/31 11:07:45 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_commands, t_command_sequences *sequence_to_execute, int command_index)
 {
+	int	exit_code;
 	ft_restore_default_signals();
 	shell_data->exit_code = 1;
 	if (!ft_handle_redirection_operators(sequence_to_execute, sequence_to_execute->tokens, shell_data))
@@ -28,8 +29,9 @@ void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_command
 		;
 	else if (ft_execution_of_command(shell_data, sequence_to_execute, false))
 		;
+	exit_code = shell_data->exit_code;
 	ft_free_shell_data(shell_data, true);
-	exit(shell_data->exit_code);
+	exit(exit_code);
 }
 
 int	ft_execution_of_command(t_shell_data *shell_data, t_command_sequences *sequence_to_execute, bool single_builtin)
