@@ -3,43 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variables.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:32:40 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/29 23:15:31 by user             ###   ########.fr       */
+/*   Updated: 2023/07/31 13:32:57 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	ft_search_for_variable_expansion(t_shell_data *shell_data)
-{
-	t_list	*command_sequences;
+// bool	ft_search_for_variable_expansion(t_shell_data *shell_data)
+// {
+// 	t_list	*command_sequences;
 
-	command_sequences = shell_data->command_sequences;
-	while (command_sequences)
-	{
-		if (!ft_expand_variable(((t_command_sequences *)command_sequences->content)->tokens, shell_data))
-		{
-			printf("error expanding variables\n");
-			return (false);
-		}
-		command_sequences = command_sequences->next;
-	}
-	return (true);
-}
+// 	command_sequences = shell_data->command_sequences;
+// 	while (command_sequences)
+// 	{
+// 		if (!ft_expand_variable(((t_command_sequences *)command_sequences->content)->tokens, shell_data))
+// 		{
+// 			printf("error expanding variables\n");
+// 			return (false);
+// 		}
+// 		command_sequences = command_sequences->next;
+// 	}
+// 	return (true);
+// }
 
-bool	ft_expand_variable(t_list *tokens, t_shell_data *shell_data)
+bool	ft_expand_variables(t_list *tokens, t_shell_data *shell_data)
 {
+	t_list		*previous_token_node;
+
+	previous_token_node = NULL;
 	while (tokens)
 	{
 		//free the variable name
-		if (!ft_do_variable_expansion((t_tokens *)tokens->content, shell_data))
+		if (!ft_strcmp(((t_tokens *)tokens->content)->token, ""))
+			tokens = tokens->next;
+		else
 		{
-			printf("some error with the expansion\n");
-			return (false);
+			if (!ft_do_variable_expansion((t_tokens *)tokens->content, shell_data))
+			{
+				ft_putendl_fd("some error with the expansion", 2);
+				return (false);
+			}
+			if (!ft_strcmp(((t_tokens *)tokens->content)->token, ""))
+			{
+				if (tokens == shell_data->all_tokens)
+					shell_data->all_tokens = tokens->next;
+				ft_cut_out_empty_node(&tokens, previous_token_node);
+			}
+			previous_token_node = tokens;
+			if (tokens)
+				tokens = tokens->next;
 		}
-		tokens = tokens->next;
 	}
 	return (true);
 }
@@ -259,4 +275,13 @@ bool	ft_replace_variable_name_with_value(char **string, char **token, char *name
 	return (true);
 }
 
-// $'HOME'
+void	ft_cut_out_empty_node(t_list **tokens, t_list *previous_token_node)
+{
+	t_list	*temp;
+
+	temp = *tokens;
+	if (previous_token_node)
+		previous_token_node->next = (*tokens)->next;
+	*tokens = (*tokens)->next;
+	ft_lstdelone(temp, ft_clear_token);
+}

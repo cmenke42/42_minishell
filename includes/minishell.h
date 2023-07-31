@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/31 11:10:58 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/31 13:32:48 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,13 @@ bool	ft_check_for_syntax_error(t_tokens *token, t_tokens *next_token);
 bool	ft_is_operator(char token_type);
 void	ft_print_syntax_error(t_tokens *token);
 	//split_in_sequences.c
-bool	ft_split_tokens_in_sequences(t_shell_data *shell_data);
+int		ft_split_tokens_in_sequences(t_shell_data *shell_data);
 bool	ft_find_pipe_operator(t_list **tokens);
 void	ft_cut_out_pipe_node(t_list **tokens, t_list *next_token_node);
 bool	ft_assing_tokens_to_sequence(t_list *start_of_sequence, t_list **command_sequences);
 	// expand_variables.c
-bool	ft_search_for_variable_expansion(t_shell_data *shell_data);
-bool	ft_expand_variable(t_list *tokens, t_shell_data *shell_data);
+// bool	ft_search_for_variable_expansion(t_shell_data *shell_data);
+bool	ft_expand_variables(t_list *tokens, t_shell_data *shell_data);
 bool	ft_do_variable_expansion(t_tokens *token, t_shell_data *shell_data);
 bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token, bool in_double_quotes, t_shell_data *shell_data);
 bool	ft_is_char_quote(char c);
@@ -100,6 +100,7 @@ bool	ft_get_variable_name(char *string, char **variable_name);
 char	*ft_get_variable_value(t_list *env_list, char *variable_name);
 bool	ft_replace_variable_name_with_value(char **string, char **token, char *name, char *value);
 char	*ft_trim_variable_value(char *string);
+void	ft_cut_out_empty_node(t_list **tokens, t_list *previous_token_node);
 
 // ---
 bool	ft_handle_redirection_operators(t_command_sequences *one_sequence, t_list *tokens_of_sequence, t_shell_data *shell_data);

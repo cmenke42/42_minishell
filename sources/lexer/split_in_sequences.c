@@ -6,13 +6,13 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:59:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 11:48:26 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/31 13:26:45 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	ft_split_tokens_in_sequences(t_shell_data *shell_data)
+int	ft_split_tokens_in_sequences(t_shell_data *shell_data)
 {
 	t_list				*tokens;
 	t_list				*start_of_sequence;
@@ -21,6 +21,8 @@ bool	ft_split_tokens_in_sequences(t_shell_data *shell_data)
 	tokens = shell_data->all_tokens;
 	start_of_sequence = shell_data->all_tokens;
 	pipe_inside = true;
+	if (!tokens)
+		return (__stop_execution);
 	while (tokens)
 	{
 		if (pipe_inside)
@@ -30,14 +32,14 @@ bool	ft_split_tokens_in_sequences(t_shell_data *shell_data)
 			if (!ft_assing_tokens_to_sequence(start_of_sequence, &shell_data->command_sequences))
 			{
 				//maybe free something
-				return (false);
+				return (__system_call_error);
 			}
 			start_of_sequence = tokens;
 		}
 		else if (tokens)
 			tokens = tokens->next;
 	}
-	return (true);
+	return (__success);
 }
 
 bool	ft_find_pipe_operator(t_list **tokens)
