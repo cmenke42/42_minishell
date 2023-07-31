@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 13:15:06 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/31 18:58:29 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/31 19:18:40 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ int	ft_exit_code(char *str, bool *print_exit)
 {
 	int	exit_code;
 
-	if (ft_is_str_digit(str))
-		exit_code = ft_atoi(str);
+	if (ft_get_number(str, &exit_code))
+		;
 	else
 	{
 		*print_exit = false;
@@ -54,18 +54,29 @@ int	ft_exit_code(char *str, bool *print_exit)
 	return (exit_code);
 }
 
-int	ft_is_str_digit(char *str)
+bool	ft_get_number(char *str, int *exit_code)
 {
-	int	i;
+	unsigned long int	temp;
+	unsigned long int	result;
+	int					minus;
 
-	i = 0;
-	if (str[0] == '-' || str[0] == '+')
-		i++;
-	while (str[i])
+	minus = 1;
+	result = 0;
+	while (*str != '\0' && (*str == ' ' || *str == '\f' || *str == '\n'
+			|| *str == '\r' || *str == '\t' || *str == '\v'))
+		str++;
+	if (*str == '-' || *str == '+')
+		if (*str++ == '-')
+			minus = -1;
+	while (*str)
 	{
-		if (!ft_isdigit(str[i]))
-			return (0);
-		i++;
+		if (!ft_isdigit(*str))
+			return (false);
+		temp = result * 10 + (*str++ - '0');
+		if ((minus == 1 && temp > 9223372036854775807) || (minus == -1 && temp > 9223372036854775808U))
+			return (false);
+		result = temp;
 	}
-	return (1);
+	*exit_code = (int)result * minus;
+	return (true);
 }

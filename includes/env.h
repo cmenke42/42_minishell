@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 11:38:04 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/31 12:38:29 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/31 19:03:26 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_print_pwd_and_free(char *path);
 //exit
 void	ft_exit(char **args, t_shell_data *shell_data);
 int	ft_exit_code(char *str, bool *print_exit);
-int		ft_is_str_digit(char *str);
+bool	ft_get_number(char *str, int *exit_code);
 
 //echo
 void	ft_echo(char **command);
