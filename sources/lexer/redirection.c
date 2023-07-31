@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:29:42 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/29 20:35:11 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/31 17:25:33 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,30 @@ bool	ft_handle_redirection_operators(t_command_sequences *one_sequence, t_list *
 
 	if (one_sequence->output_fd == 0)
 		one_sequence->output_fd = 1;
-	if (ft_lstsize(tokens_of_sequence) == 1 && !ft_remove_quotes_from_token(&((t_tokens *)tokens_of_sequence->content)->token))
+	if (!tokens_of_sequence->next && !ft_remove_quotes_from_token(&((t_tokens *)tokens_of_sequence->content)->token))
 		return (false);
 	while (tokens_of_sequence->next)
 	{
 		one_token = (t_tokens *)tokens_of_sequence->content;
 		next_token = (t_tokens *)tokens_of_sequence->next->content;
-		if (!ft_remove_quotes_from_token(&one_token->token) || !ft_remove_quotes_from_token(&next_token->token))
-				return (false);
+		if (!ft_remove_quotes_from_token(&one_token->token))
+			return (false);
 		if (one_token->type >= 3 && one_token->type <= 6)
 		{
+			if (!ft_remove_quotes_from_token(&next_token->token))
+				return (false);
 			if(!ft_do_redirection(one_sequence, one_token, next_token, shell_data))
 				return (false);
+			tokens_of_sequence = tokens_of_sequence->next->next;
 		}
-		tokens_of_sequence = tokens_of_sequence->next;
+		else
+			tokens_of_sequence = tokens_of_sequence->next;
+	}
+	if (tokens_of_sequence)
+	{
+		one_token = (t_tokens *)tokens_of_sequence->content;
+		if (!ft_remove_quotes_from_token(&one_token->token))
+			return (false);
 	}
 	return (true);
 }

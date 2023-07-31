@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/31 13:32:48 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/31 17:05:47 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ bool	ft_token_list_to_args_array(t_command_sequences *one_sequence);
 int		ft_count_arguments(t_list *tokens);
 void	ft_copy_token_from_list_to_array(char **arguments, int *i, char **token);
 	//remove_quotes
-char	*ft_remove_quotes_from_token(char **token);
+bool	ft_remove_quotes_from_token(char **token);
 int		ft_strlen_without_quotes(char *cmd_line);
 void	ft_copy_element_without_quotes(char *cmd_line, char *new_line);
 	//heredoc

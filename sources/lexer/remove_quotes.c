@@ -6,21 +6,21 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:38:02 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 13:13:24 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/31 17:05:42 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 //pass string as reference
-char	*ft_remove_quotes_from_token(char **token)
+bool	ft_remove_quotes_from_token(char **token)
 {
 	int		counter;
 	char	*new_line;
 
 	counter = ft_strlen_without_quotes(*token);
 	if (counter == (int)ft_strlen(*token))
-		return (*token);
+		return (true);
 	new_line = malloc((counter + 1) * sizeof(char));
 	if (!new_line)
 	{
@@ -30,7 +30,7 @@ char	*ft_remove_quotes_from_token(char **token)
 	ft_copy_element_without_quotes(*token, new_line);
 	free(*token);
 	*token = new_line;
-	return (*token);
+	return (true);
 }
 
 int	ft_strlen_without_quotes(char *cmd_line)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:07:55 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/29 23:13:12 by user             ###   ########.fr       */
+/*   Updated: 2023/07/31 17:13:52 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@ int	ft_handle_heredocs(t_shell_data *shell_data)
 {
 	int status;
 
+	status = __success;
 	if (!ft_create_heredoc_names(shell_data))
 		return (__system_call_error);
-	status = ft_read_heredocs_in_child_process(shell_data);
+	if (shell_data->heredocs)
+		status = ft_read_heredocs_in_child_process(shell_data);
 	return (status);
 }
 
