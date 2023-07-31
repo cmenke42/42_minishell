@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 13:15:06 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/31 19:19:37 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/07/31 19:31:53 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,6 @@ bool	ft_get_number(char *str, int *exit_code)
 			return (false);
 		result = temp;
 	}
-	*exit_code = (int)result * minus;
+	*exit_code = (int)(result * minus);
 	return (true);
 }
