@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 18:56:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 12:33:15 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 14:20:16 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_export(char **arguemnts, t_list **env_list)
 	while (arguemnts[++i])
 	{
 		if (!ft_strcmp(arguemnts[i], "_"))
-			continue;
+			continue ;
 		status = ft_update_or_add_env_variable(arguemnts[i], env_list, NULL, NULL);
 		if (status == __syntax_error)
 			syntax_error = true;
@@ -44,12 +44,9 @@ int	ft_export(char **arguemnts, t_list **env_list)
 int	print_export(t_list **env_list)
 {
 	t_list	*sorted_env_list;
-	t_list 	*start_of_sorted_list;
+	t_list	*start_of_sorted_list;
 	t_env	*one_env_variable;
 
-	// if (!ft_search_for_env_variable("OLDPWD", *env_list))
-	// 	if (ft_store_one_variable_in_node(env_list, "OLDPWD", false) == __system_call_error)
-	// 		return (__system_call_error); ->its not happening inside bash, only at launch
 	sorted_env_list = ft_lstmap(*env_list, ft_duplicate_env_variable, ft_clear_env_variable);
 	if (!sorted_env_list)
 		return (__system_call_error);
@@ -80,7 +77,6 @@ int	ft_update_or_add_env_variable(char *argument, t_list **env_list, char *name,
 
 	status = __success;
 	equal_sign = NULL;
-	//export add
 	if (!name && !value)
 	{
 		equal_sign = ft_strchr(argument, '=');
@@ -89,7 +85,7 @@ int	ft_update_or_add_env_variable(char *argument, t_list **env_list, char *name,
 		if (ft_create_name_and_value(argument, &name, &value, equal_sign) == __system_call_error)
 			return (__system_call_error);
 	}
-	//custom add
+
 	else if (name && value)
 		equal_sign = "";
 	env_variable_to_update = ft_search_for_env_variable(name, *env_list);
@@ -128,7 +124,7 @@ t_list	*ft_sort_list_asci(t_list *lst)
 	if (!lst)
 		return (NULL);
 	tmp = lst;
-	while(lst->next)
+	while (lst->next)
 	{
 		if (ft_strcmp(((t_env *)lst->content)->name, ((t_env *)lst->next->content)->name) > 0)
 		{
@@ -151,7 +147,7 @@ void	ft_swap(void **var1, void **var2)
 	*var2 = swap;
 }
 
-void *ft_duplicate_env_variable(void *env_variable)
+void	*ft_duplicate_env_variable(void *env_variable)
 {
 	t_env	*one_env_variable;
 	t_env	*new_env_variable;

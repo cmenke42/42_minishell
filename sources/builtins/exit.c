@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 13:15:06 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/31 19:31:53 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 14:20:36 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ bool	ft_get_number(char *str, int *exit_code)
 		if (!ft_isdigit(*str))
 			return (false);
 		temp = result * 10 + (*str++ - '0');
-		if ((minus == 1 && temp > 9223372036854775807) || (minus == -1 && temp > 9223372036854775808U))
+		if ((minus == 1 && temp > 9223372036854775807)
+			|| (minus == -1 && temp > 9223372036854775808U))
 			return (false);
 		result = temp;
 	}

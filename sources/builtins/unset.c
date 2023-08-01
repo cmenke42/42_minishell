@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 11:30:47 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/31 12:39:41 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 14:17:48 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	ft_unset(char **arguments, t_list **env_list_new, t_shell_data *shell_data)
 	{
 		if (ft_is_syntax_error_in_env_name(arguments[i]))
 			return (__syntax_error);
-		env_variable_to_remove = ft_search_for_env_variable(arguments[i], *env_list_new);
+		env_variable_to_remove = ft_search_for_env_variable(arguments[i],
+				*env_list_new);
 		if (env_variable_to_remove && !ft_strcmp(arguments[i], "PWD"))
 			shell_data->print_quotes_for_oldpwd = true;
 		if (env_variable_to_remove)
@@ -34,9 +35,9 @@ int	ft_unset(char **arguments, t_list **env_list_new, t_shell_data *shell_data)
 	return (__success);
 }
 
-void ft_lstremove(t_list **env_list_new, t_list *env_variable_to_remove)
+void	ft_lstremove(t_list **env_list_new, t_list *env_variable_to_remove)
 {
-	t_list *prev;
+	t_list	*prev;
 
 	if (!env_variable_to_remove)
 		return ;

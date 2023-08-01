@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 11:30:23 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/07/31 10:49:43 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 14:18:08 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_pwd(char **pwd, bool print)
 {
-	char *path;
+	char	*path;
 
 	path = getcwd(NULL, 0);
 	if (pwd)
@@ -22,7 +22,7 @@ int	ft_pwd(char **pwd, bool print)
 	if (!path)
 	{
 		ft_putstr_fd("minishell: path doesn't exist\n", 2);
-		return (__error);//catch rigt exit code in shell
+		return (__error);
 	}
 	if (print)
 		ft_print_pwd_and_free(path);
