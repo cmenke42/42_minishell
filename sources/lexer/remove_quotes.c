@@ -6,63 +6,39 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:38:02 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/31 17:05:42 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 17:27:35 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-//pass string as reference
-bool	ft_remove_quotes_from_token(char **token)
-{
-	int		counter;
-	char	*new_line;
+static void	ft_process_quote_string(char *string, char *new_string,
+				void (*copy_or_count)(char *, char *, int *), int *count);
+static void	ft_count_length(char *string, char *new_string, int *count);
+static void	ft_copy_char(char *string, char *new_string, int *count);
 
-	counter = ft_strlen_without_quotes(*token);
-	if (counter == (int)ft_strlen(*token))
+//pass string as reference
+bool	ft_remove_quotes_from_string(char **string)
+{
+	int		len;
+	char	*new_string;
+
+	len = 0;
+	ft_process_quote_string(*string, NULL, ft_count_length, &len);
+	if (len == (int)ft_strlen(*string))
 		return (true);
-	new_line = malloc((counter + 1) * sizeof(char));
-	if (!new_line)
-	{
-		perror("malloc - remove quotes from elements");
-		return (false);
-	}
-	ft_copy_element_without_quotes(*token, new_line);
-	free(*token);
-	*token = new_line;
+	new_string = malloc((len + 1) * sizeof(char));
+	if (!new_string)
+		return (perror("malloc - remove quotes from elements"), false);
+	new_string[len] = '\0';
+	ft_process_quote_string(*string, new_string, ft_copy_char, NULL);
+	free(*string);
+	*string = new_string;
 	return (true);
 }
 
-int	ft_strlen_without_quotes(char *cmd_line)
-{
-	char	quote;
-	int		count;
-	int		i;
-
-	count = 0;
-	i = 0;
-	while (cmd_line[i])
-	{
-		if (cmd_line[i] == '\'' || cmd_line[i] == '\"')
-		{
-			quote = '\"';
-			if (cmd_line[i] == '\'')
-				quote = '\'';
-			while (cmd_line[++i] && cmd_line[i] != quote)
-					count++;
-			if (cmd_line[i] && cmd_line[i] == quote)
-				i++;
-		}
-		if (cmd_line[i] && cmd_line[i] != '\'' && cmd_line[i] != '\"')
-		{
-			i++;
-			count++;
-		}
-	}
-	return (count);
-}
-
-void	ft_copy_element_without_quotes(char *cmd_line, char *new_line)
+static void	ft_process_quote_string(char *string, char *new_string,
+		void (*copy_or_count)(char *, char *, int *), int *count)
 {
 	char	quote;
 	int		i;
@@ -70,20 +46,31 @@ void	ft_copy_element_without_quotes(char *cmd_line, char *new_line)
 
 	i = 0;
 	j = 0;
-	while (cmd_line[i])
+	quote = '\0';
+	while (string[i])
 	{
-		if (cmd_line[i] == '\'' || cmd_line[i] == '\"')
+		if ((string[i] == '\'' || string[i] == '\"') && quote == '\0')
+			quote = string[i++];
+		else if (string[i] == quote)
 		{
-			quote = '\"';
-			if (cmd_line[i] == '\'')
-				quote = '\'';
-			while (cmd_line[++i] && cmd_line[i] != quote)
-					new_line[j++] = cmd_line[i];
-			if (cmd_line[i] && cmd_line[i] == quote)
-				i++;
+			quote = '\0';
+			i++;
+			continue ;
 		}
-		if (cmd_line[i] && cmd_line[i] != '\'' && cmd_line[i] != '\"')
-			new_line[j++] = cmd_line[i++];
+		if (string[i] != quote)
+			copy_or_count(string + i++, new_string + j++, count);
 	}
-	new_line[j] = '\0';
+}
+
+static void	ft_count_length(char *string, char *new_string, int *count)
+{
+	(void)string;
+	(void)new_string;
+	(*count)++;
+}
+
+static void	ft_copy_char(char *string, char *new_string, int *count)
+{
+	(void)count;
+	*new_string = *string;
 }

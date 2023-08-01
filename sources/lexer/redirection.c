@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:29:42 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/01 13:17:00 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 17:28:10 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ int	ft_handle_redirection_operators(t_command_sequences *one_sequence, t_list *t
 
 	if (one_sequence->output_fd == 0)
 		one_sequence->output_fd = 1;
-	if (!tokens_of_sequence->next && !ft_remove_quotes_from_token(&((t_tokens *)tokens_of_sequence->content)->token))
+	if (!tokens_of_sequence->next && !ft_remove_quotes_from_string(&((t_tokens *)tokens_of_sequence->content)->token))
 		return (__system_call_error);
 	while (tokens_of_sequence->next)
 	{
 		one_token = (t_tokens *)tokens_of_sequence->content;
 		next_token = (t_tokens *)tokens_of_sequence->next->content;
-		if (!ft_remove_quotes_from_token(&one_token->token))
+		if (!ft_remove_quotes_from_string(&one_token->token))
 			return (__system_call_error);
 		if (one_token->type >= 3 && one_token->type <= 6)
 		{
-			if (!ft_remove_quotes_from_token(&next_token->token))
+			if (!ft_remove_quotes_from_string(&next_token->token))
 				return (__system_call_error);
 			if(ft_do_redirection(one_sequence, one_token, next_token, shell_data) == __stop_execution)
 				return (__stop_execution);
@@ -43,7 +43,7 @@ int	ft_handle_redirection_operators(t_command_sequences *one_sequence, t_list *t
 	if (tokens_of_sequence)
 	{
 		one_token = (t_tokens *)tokens_of_sequence->content;
-		if (!ft_remove_quotes_from_token(&one_token->token))
+		if (!ft_remove_quotes_from_string(&one_token->token))
 			return (__system_call_error);
 	}
 	return (__success);

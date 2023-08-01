@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:07:55 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/01 16:05:13 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 17:28:21 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ bool	ft_fill_heredoc(char *heredoc_name, char *delimiter,
 	heredoc_fd = open(heredoc_name, O_CREAT | O_RDWR | O_TRUNC, RW_R__R__);
 	if (heredoc_fd == -1)
 		return (perror("error opening heredoc file writing"), false);
-	if (no_expansion && !ft_remove_quotes_from_token(&delimiter))
+	if (no_expansion && !ft_remove_quotes_from_string(&delimiter))
 		return (close(heredoc_fd), false);
 	while (1)
 	{
