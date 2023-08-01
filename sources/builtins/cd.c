@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 10:49:18 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/31 18:53:55 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 14:21:30 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_cd(char **command, t_list **env_list, t_shell_data *shell_data)
 	{
 		env_variable_home = ft_search_for_env_variable("HOME", *env_list);
 		if (!env_variable_home)
-			return(ft_put_err("cd: ","HOME not set", __error));
+			return (ft_put_err("cd: ", "HOME not set", __error));
 		else
 			target_path = ((t_env *)env_variable_home->content)->value;
 	}
@@ -78,7 +78,7 @@ int	cd_error_handler(char *target_path, t_list *env_variable_pwd)
 		ft_putstr_fd("minishell: cd: ", 1);
 		perror(target_path);
 		return (__error);
-	} //handle error in shell
+	}
 	if (env_variable_pwd)
 	{
 		cwd_buf = ft_calloc(MAXPATHLEN + 1, sizeof(char));

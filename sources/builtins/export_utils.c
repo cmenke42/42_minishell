@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 17:14:14 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/31 11:59:05 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 14:18:29 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ void	ft_assign_name_and_value_to_env_variable(t_env *env_variable, char *name, c
 
 void	ft_print_export_wrong_identifier(char *argument)
 {
-	// bash: export: `=': not a valid identifier
 	ft_putstr_fd("minishell: export: `", 2);
 	ft_putstr_fd(argument, 2);
 	ft_putendl_fd("': not a valid identifier", 2);
