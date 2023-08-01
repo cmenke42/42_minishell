@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 17:27:43 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 21:19:54 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 # include <sys/wait.h>
 
 //lstat
-#include <sys/stat.h>
+# include <sys/stat.h>
 
 //custom
 # include "../libft/libft.h"
@@ -54,9 +54,9 @@
 
 # define RW_R__R__ 0644
 
-extern int g_signal_number;
+extern int	g_signal_number;
 
-extern const char* token_enum_to_string[][2]; //remove this
+//extern const char* token_enum_to_string[][2]; //remove this
 
 //main
 int		ft_process_command_line(t_shell_data *shell_data);
@@ -78,7 +78,7 @@ void	ft_handle_sigquit_in_parent_during_execution(int sig_num);
 void	ft_handle_sigint_in_minishell(int sig_num);
 
 //shlvl
-int	increase_shlvl(t_list **env_list);
+int		increase_shlvl(t_list **env_list);
 //lexer
 	//tokenize_command_line.c
 int		ft_tokenize_command_line(char *command_line_read, t_list **tokens);
@@ -120,29 +120,38 @@ bool	ft_expand_variables_in_heredoc_line(char **line, t_shell_data *shell_data);
 int		ft_split_tokens_in_sequences(t_shell_data *shell_data);
 bool	ft_find_pipe_operator(t_list **tokens);
 void	ft_cut_out_pipe_node(t_list **tokens, t_list *next_token_node);
-bool	ft_assing_tokens_to_sequence(t_list *start_of_sequence, t_list **command_sequences);
+bool	ft_assing_tokens_to_sequence(t_list *start_of_sequence,
+			t_list **command_sequences);
 	// expand_variables.c
 // bool	ft_search_for_variable_expansion(t_shell_data *shell_data);
 bool	ft_expand_variables(t_list *tokens, t_shell_data *shell_data);
 bool	ft_do_variable_expansion(t_tokens *token, t_shell_data *shell_data);
-bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token, bool in_double_quotes, t_shell_data *shell_data);
+bool	ft_execute_specific_case_of_variable_expansion(char	**string,
+			char **token, bool in_double_quotes, t_shell_data *shell_data);
 bool	ft_is_char_quote(char c);
 bool	ft_get_variable_name(char *string, char **variable_name);
 char	*ft_get_variable_value(t_list *env_list, char *variable_name);
-bool	ft_replace_variable_name_with_value(char **string, char **token, char *name, char *value);
+bool	ft_replace_variable_name_with_value(char **string, char **token,
+			char *name, char *value);
 char	*ft_trim_variable_value(char *string);
 void	ft_cut_out_empty_node(t_list **tokens, t_list *previous_token_node);
 
 // ---
-int		ft_handle_redirection_operators(t_command_sequences *one_sequence, t_list *tokens_of_sequence, t_shell_data *shell_data);
-int		ft_do_redirection(t_command_sequences *one_sequence, t_tokens *operator_token, t_tokens *file_token, t_shell_data *shell_data);
-int		ft_output_redirection(int *output_fd, char operator, t_tokens *file_token);
-int		ft_input_redirection(int *input_fd, t_tokens *operator_token, t_tokens *file_token, t_shell_data *shell_data);
+int		ft_handle_redirection_operators(t_command_sequences *one_sequence,
+			t_list *tokens_of_sequence, t_shell_data *shell_data);
+int		ft_do_redirection(t_command_sequences *one_sequence,
+			t_tokens *operator_token, t_tokens *file_token,
+			t_shell_data *shell_data);
+int		ft_output_redirection(int *output_fd, char operator,
+			t_tokens *file_token);
+int		ft_input_redirection(int *input_fd, t_tokens *operator_token,
+			t_tokens *file_token, t_shell_data *shell_data);
 void	ft_put_redirection_error(char *file);
 	//token_list_to_char_array
 bool	ft_token_list_to_args_array(t_command_sequences *one_sequence);
 int		ft_count_arguments(t_list *tokens);
-void	ft_copy_token_from_list_to_array(char **arguments, int *i, char **token);
+void	ft_copy_token_from_list_to_array(char **arguments, int *i,
+			char **token);
 	//remove_quotes
 bool	ft_remove_quotes_from_string(char **string);
 // bool	ft_create_heredoc_names(t_shell_data *shell_data);
@@ -170,25 +179,39 @@ void	ft_clear_env_variable(void *node);
 	//create_processes
 int		ft_execute_commands(t_shell_data *shell_data);
 bool	ft_create_pipes(t_shell_data *shell_data, int number_of_pipes);
-bool	ft_fork_child_processes(t_shell_data *shell_data, int number_of_commands);
-void	ft_wait_for_child_processes_and_get_exit_code(t_shell_data *shell_data, int number_of_commands);
-void	ft_get_exit_code(int *exit_code, int stat_loc, bool first_encounter, bool reset_signal_number);
+bool	ft_fork_child_processes(t_shell_data *shell_data,
+			int number_of_commands);
+void	ft_wait_for_child_processes_and_get_exit_code(t_shell_data *shell_data,
+			int number_of_commands);
+void	ft_get_exit_code(int *exit_code, int stat_loc, bool first_encounter,
+			bool reset_signal_number);
 	//execute_coammand_in_child
-void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_commands, t_command_sequences *sequence_to_execute, int command_index);
-int		ft_execution_of_command(t_shell_data *shell_data, t_command_sequences *sequence_to_execute, bool single_builtin);
-int		ft_execute_builtin_if_builtin(t_shell_data *shell_data, t_command_sequences *sequence_to_execute);
-bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences *sequence_to_execute);
+void	ft_execute_command_in_child(t_shell_data *shell_data,
+			int number_of_commands, t_command_sequences *sequence_to_execute,
+			int command_index);
+int		ft_execution_of_command(t_shell_data *shell_data,
+			t_command_sequences *sequence_to_execute, bool single_builtin);
+int		ft_execute_builtin_if_builtin(t_shell_data *shell_data,
+			t_command_sequences *sequence_to_execute);
+bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data,
+			t_command_sequences *sequence_to_execute);
 void	ft_print_error(char *command, char *error_message);
 bool	ft_is_slash_in_command(char *command);
 	//single_builtin_execution
-int		ft_execute_single_builtin(t_shell_data *shell_data, int number_of_commands, t_command_sequences *sequence_to_execute, int command_index);
+int		ft_execute_single_builtin(t_shell_data *shell_data,
+			int number_of_commands, t_command_sequences *sequence_to_execute,
+			int command_index);
 bool	ft_is_builtin(t_command_sequences *sequence_to_execute);
 bool	ft_save_standard_fds(t_shell_data *shell_data);
 bool	ft_restore_standard_fds(t_shell_data *shell_data);
 	//duplication_of_fds_in_child
-bool	ft_duplication_of_fds(int **pipe_fds, t_command_sequences *sequence_to_execute, int number_of_commands, int command_index);
-bool	ft_input_redirection_in_child(int **pipe_fds, int input_fd, int command_index);
-bool	ft_output_redirection_in_child(int **pipe_fds, int output_fd, int number_of_commands, int command_index);
+bool	ft_duplication_of_fds(int **pipe_fds,
+			t_command_sequences *sequence_to_execute, int number_of_commands,
+			int command_index);
+bool	ft_input_redirection_in_child(int **pipe_fds, int input_fd,
+			int command_index);
+bool	ft_output_redirection_in_child(int **pipe_fds, int output_fd,
+			int number_of_commands, int command_index);
 void	ft_close_all_pipes(int **pipe_fds, int number_of_pipes);
 	//get_envp_cmd_paths
 char	*ft_get_cmd_path(char **envp_paths, char *cmd);

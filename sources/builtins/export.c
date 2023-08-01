@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 18:56:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 14:20:16 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/01 21:20:58 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,10 @@ int	ft_export(char **arguemnts, t_list **env_list)
 	{
 		if (!ft_strcmp(arguemnts[i], "_"))
 			continue ;
-		status = ft_update_or_add_env_variable(arguemnts[i], env_list, NULL, NULL);
-		if (status == __syntax_error)
-			syntax_error = true;
-		else if (status == __system_call_error)
-			return (__system_call_error);
+		status = ft_update_or_add_env_variable(arguemnts[i],
+				env_list, NULL, NULL);
+		if (status)
+			return (status);
 	}
 	if (i == 1)
 	{
@@ -47,7 +46,8 @@ int	print_export(t_list **env_list)
 	t_list	*start_of_sorted_list;
 	t_env	*one_env_variable;
 
-	sorted_env_list = ft_lstmap(*env_list, ft_duplicate_env_variable, ft_clear_env_variable);
+	sorted_env_list = ft_lstmap(*env_list,
+			ft_duplicate_env_variable, ft_clear_env_variable);
 	if (!sorted_env_list)
 		return (__system_call_error);
 	sorted_env_list = ft_sort_list_asci(sorted_env_list);
@@ -68,10 +68,26 @@ int	print_export(t_list **env_list)
 	return (__success);
 }
 
-//only allocated memory for name && value
-int	ft_update_or_add_env_variable(char *argument, t_list **env_list, char *name, char *value)
+int	name_value_status(char **name, char **value,
+	char *equal_sign, char *argument)
 {
-	t_list	*env_variable_to_update;
+	int	status;
+
+	status = __success;
+	equal_sign = ft_strchr(argument, '=');
+	if (ft_is_syntax_error_in_env_name(argument))
+		status = __stop_execution;
+	if (ft_create_name_and_value(argument,
+			name, value, equal_sign) == __system_call_error)
+		status = __system_call_error;
+	return (status);
+}
+
+//only allocated memory for name && value
+int	ft_update_or_add_env_variable(char *argument, t_list **env_list,
+		char *name, char *value)
+{
+	t_list	*env_update;
 	int		status;
 	char	*equal_sign;
 
@@ -79,72 +95,23 @@ int	ft_update_or_add_env_variable(char *argument, t_list **env_list, char *name,
 	equal_sign = NULL;
 	if (!name && !value)
 	{
-		equal_sign = ft_strchr(argument, '=');
-		if (ft_is_syntax_error_in_env_name(argument))
-			return (__syntax_error);
-		if (ft_create_name_and_value(argument, &name, &value, equal_sign) == __system_call_error)
-			return (__system_call_error);
+		status = name_value_status(&name, &value, equal_sign, argument);
+		if (status)
+			return (status);
 	}
-
 	else if (name && value)
 		equal_sign = "";
-	env_variable_to_update = ft_search_for_env_variable(name, *env_list);
-	if (env_variable_to_update)
-		ft_assign_name_and_value_to_env_variable((t_env *)env_variable_to_update->content, name, value, equal_sign);
+	env_update = ft_search_for_env_variable(name, *env_list);
+	if (env_update)
+		ft_assign((t_env *)env_update->content, name, value, equal_sign);
 	else if (!status)
-		status = ft_store_one_variable_in_node(env_list, name, value, equal_sign);
+		status = store_var_in_node(env_list, name, value, equal_sign);
 	if (status)
 	{
 		ft_free_pointer_and_set_to_null((void **)&name);
 		ft_free_pointer_and_set_to_null((void **)&value);
 	}
 	return (status);
-}
-
-t_list	*ft_search_for_env_variable(char *variable_name, t_list *env_list)
-{
-	t_env	*one_env_variable;
-
-	if (!variable_name || !env_list)
-		return (NULL);
-	while (env_list)
-	{
-		one_env_variable = (t_env *)env_list->content;
-		if (!ft_strcmp(one_env_variable->name, variable_name))
-			return (env_list);
-		env_list = env_list->next;
-	}
-	return (NULL);
-}
-
-t_list	*ft_sort_list_asci(t_list *lst)
-{
-	t_list	*tmp;
-
-	if (!lst)
-		return (NULL);
-	tmp = lst;
-	while (lst->next)
-	{
-		if (ft_strcmp(((t_env *)lst->content)->name, ((t_env *)lst->next->content)->name) > 0)
-		{
-			ft_swap(&lst->content, &lst->next->content);
-			lst = tmp;
-		}
-		else
-			lst = lst->next;
-	}
-	lst = tmp;
-	return (lst);
-}
-
-void	ft_swap(void **var1, void **var2)
-{
-	void	*swap;
-
-	swap = *var1;
-	*var1 = *var2;
-	*var2 = swap;
 }
 
 void	*ft_duplicate_env_variable(void *env_variable)
@@ -162,7 +129,8 @@ void	*ft_duplicate_env_variable(void *env_variable)
 	else
 		new_env_variable->value = NULL;
 	new_env_variable->print_empty_quotes = one_env_variable->print_empty_quotes;
-	if (!new_env_variable->name || (one_env_variable->value && !new_env_variable->value))
+	if (!new_env_variable->name
+		|| (one_env_variable->value && !new_env_variable->value))
 		return (ft_clear_env_variable((void *)new_env_variable), NULL);
 	return ((void *)new_env_variable);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
+#    By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/08/01 15:48:05 by cmenke           ###   ########.fr        #
+#    Updated: 2023/08/01 21:20:34 by wmoughar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ BUILTINS := $(addprefix builtins/,echo.c \
 								pwd.c \
 								exit.c\
 								cd.c \
-								export_utils.c)
+								export_utils.c\
+								export_utils2.c)
 
 CLEARING := $(addprefix clearing/,free_double_pointer.c \
 									clear_structs.c)

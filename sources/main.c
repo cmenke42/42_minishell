@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 16:11:45 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 21:20:29 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,14 +117,14 @@ int	increase_shlvl(t_list **env_list)
 		value = ft_strdup("1");
 		if (!value)
 			return (free(name), perror("error creating strudp value in increase_shlvl"), __system_call_error);
-		if (ft_store_one_variable_in_node(env_list, name, value, "=") == __system_call_error)
+		if (store_var_in_node(env_list, name, value, "=") == __system_call_error)
 			return (free(name), free(value), __system_call_error);
 		return (__success);
 	}
 	value = ft_itoa(ft_atoi(((t_env*)shlvl->content)->value) + 1);
 	if (!value)
 		return (free(name), perror("error creating itoa value in increase_shlvl"), __system_call_error);
-	ft_assign_name_and_value_to_env_variable((t_env *)shlvl->content, name, value, "=");
+	ft_assign((t_env *)shlvl->content, name, value, "=");
 	return (__success);
 }
 
