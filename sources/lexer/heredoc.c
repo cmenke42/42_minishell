@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:07:55 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/01 12:04:16 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 16:05:13 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	ft_handle_heredocs(t_shell_data *shell_data)
 {
-	int status;
+	int	status;
 
 	status = __success;
-	if (!ft_create_heredoc_names(shell_data))
+	if (!ft_create_heredoc_files(shell_data))
 		return (__system_call_error);
 	if (shell_data->heredocs)
 		status = ft_read_heredocs_in_child_process(shell_data);
@@ -27,7 +27,7 @@ int	ft_handle_heredocs(t_shell_data *shell_data)
 int	ft_read_heredocs_in_child_process(t_shell_data *shell_data)
 {
 	pid_t	process_id;
-	int 	stat_loc;
+	int		stat_loc;
 	int		exit_code;
 
 	stat_loc = 0;
@@ -36,7 +36,7 @@ int	ft_read_heredocs_in_child_process(t_shell_data *shell_data)
 	if (process_id == -1)
 		return (perror("error fork for heredoc"), false);
 	if (process_id == 0)
-		ft_open_reading_for_heredocs(shell_data->all_tokens, shell_data->heredocs, shell_data);
+		ft_process_heredoc_reading(shell_data);
 	signal(SIGINT, ft_handle_sigint_in_parent_during_execution);
 	waitpid(process_id, &stat_loc, 0);
 	ft_get_exit_code(&exit_code, stat_loc, true, false);
@@ -48,7 +48,18 @@ int	ft_read_heredocs_in_child_process(t_shell_data *shell_data)
 	return (__success);
 }
 
-bool	ft_open_reading_for_heredocs(t_list *tokens, char **heredocs, t_shell_data *shell_data)
+void	ft_process_heredoc_reading(t_shell_data *shell_data)
+{
+	int	exit_code;
+
+	exit_code = ft_open_reading_for_heredocs(shell_data->all_tokens,
+			shell_data->heredocs, shell_data);
+	ft_free_shell_data(shell_data, true);
+	exit(exit_code);
+}
+
+int	ft_open_reading_for_heredocs(t_list *tokens,
+			char **heredocs, t_shell_data *shell_data)
 {
 	t_tokens	*one_token;
 	t_tokens	*next_token;
@@ -63,69 +74,16 @@ bool	ft_open_reading_for_heredocs(t_list *tokens, char **heredocs, t_shell_data 
 		if (one_token->type == redirection_in_heredoc)
 		{
 			if (!ft_fill_heredoc(heredocs[i], next_token->token, shell_data))
-				exit(1);//free_data
+				return (1);
 			i++;
 		}
 		tokens = tokens->next;
 	}
-	exit(0); //free_data
+	return (0);
 }
 
-bool	ft_create_heredoc_names(t_shell_data *shell_data)
-{
-	int	number_of_heredocs;
-	int	i;
-
-	i = 0;
-	number_of_heredocs = ft_count_heredocs(shell_data->all_tokens);
-	if (number_of_heredocs == 0)
-		return (true);
-	shell_data->heredocs = ft_calloc(number_of_heredocs + 1, sizeof(char *));
-	if (!shell_data->heredocs)
-		return (perror("error creating shell_data->heredocs"), false);
-	while (i < number_of_heredocs)
-	{
-		shell_data->heredocs[i] = ft_create_here_doc_name(i);
-		if (!shell_data->heredocs[i])
-			return (false);
-		i++;
-	}
-	return (true);
-}
-
-int	ft_count_heredocs(t_list *tokens)
-{
-	t_tokens	*one_token;
-	int			i;
-
-	i = 0;
-	while (tokens)
-	{
-		one_token = (t_tokens *)tokens->content;
-		if (one_token->type == redirection_in_heredoc)
-			one_token->heredoc_number = i++;
-		tokens = tokens->next;
-	}
-	return (i);
-}
-
-char	*ft_create_here_doc_name(int i)
-{
-	char	*file_number;
-	char	*heredoc_filename;
-
-	heredoc_filename = NULL;
-	file_number = ft_itoa(i);
-	if (!file_number)
-		return (perror("error creating the file_number string"), NULL);
-	heredoc_filename = ft_strjoin("heredocs/.heredoc_", file_number);
-	free(file_number);
-	if (!heredoc_filename)
-		return (perror("error creating the herdoc_filename"), NULL);
-	return (heredoc_filename);
-}
-
-bool	ft_fill_heredoc(char *heredoc_name, char *delimiter, t_shell_data *shell_data)
+bool	ft_fill_heredoc(char *heredoc_name, char *delimiter,
+			t_shell_data *shell_data)
 {
 	char	*line;
 	int		heredoc_fd;
@@ -136,50 +94,19 @@ bool	ft_fill_heredoc(char *heredoc_name, char *delimiter, t_shell_data *shell_da
 	if (heredoc_fd == -1)
 		return (perror("error opening heredoc file writing"), false);
 	if (no_expansion && !ft_remove_quotes_from_token(&delimiter))
-		return (false);//check for error return and adjust the function remove quotes
+		return (close(heredoc_fd), false);
 	while (1)
 	{
 		line = readline("> ");
 		if (!line || !ft_strcmp(line, delimiter))
 			break ;
-		if (!no_expansion && !ft_expand_variables_in_heredoc_line(&line, shell_data))
-			return (free(line), false);
+		if (!no_expansion
+			&& !ft_expand_variables_in_heredoc_line(&line, shell_data))
+			return (free(line), close(heredoc_fd), false);
 		ft_putendl_fd(line, heredoc_fd);
 		free(line);
 	}
 	ft_free_pointer_and_set_to_null((void **)&line);
 	close(heredoc_fd);
-	return (true);
-}
-
-bool	ft_is_quotes_in_delimiter(char *string)
-{
-	int	i;
-
-	i = 0;
-	while (string[i])
-	{
-		if (ft_is_char_quote(string[i]))
-			return (true);
-		i++;
-	}
-	return (false);
-}
-
-bool	ft_expand_variables_in_heredoc_line(char **line, t_shell_data *shell_data)
-{
-	char	*string;
-	
-	string = *line;
-	while (*string)
-	{
-		if (*string == '$')
-		{
-			if (!ft_execute_specific_case_of_variable_expansion(&string, line, false, shell_data))
-				return (false); //maybe clear something
-		}
-		else
-			string += 1;
-	}
 	return (true);
 }

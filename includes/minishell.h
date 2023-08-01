@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 14:48:45 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 16:04:56 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ extern const char* token_enum_to_string[][2]; //remove this
 int		ft_process_command_line(t_shell_data *shell_data);
 int		ft_prepare_env_variables(t_shell_data *shell_data);
 int		increase_shlvl(t_list **env_list);
-void	ft_delete_heredoc_files(char **heredoc_files);
 void	ft_exit_ctrl_d(t_shell_data *shell_data);
 
 //print_error.c
@@ -102,6 +101,21 @@ int		ft_search_and_print_syntax_error(t_shell_data *shell_data);
 bool	ft_is_syntax_error_in_tokens(t_tokens *token, t_tokens *next_token);
 bool	ft_is_operator(char token_type);
 void	ft_print_token_syntax_error(t_tokens *token);
+	// heredoc_file_creation_deletion.c
+bool	ft_create_heredoc_files(t_shell_data *shell_data);
+int		ft_count_heredocs(t_list *tokens);
+char	*ft_create_here_doc_name(int i);
+void	ft_delete_heredoc_files(char **heredoc_files);
+	//heredoc
+int		ft_handle_heredocs(t_shell_data *shell_data);
+void	ft_process_heredoc_reading(t_shell_data *shell_data);
+int		ft_read_heredocs_in_child_process(t_shell_data *shell_data);
+int		ft_open_reading_for_heredocs(t_list *tokens, char **heredocs, t_shell_data *shell_data);
+bool	ft_fill_heredoc(char *heredoc_name, char *delimiter, t_shell_data *shell_data);
+	// heredoc_helpers.c
+bool	ft_is_quotes_in_delimiter(char *string);
+bool	ft_expand_variables_in_heredoc_line(char **line, t_shell_data *shell_data);
+
 	//split_in_sequences.c
 int		ft_split_tokens_in_sequences(t_shell_data *shell_data);
 bool	ft_find_pipe_operator(t_list **tokens);
@@ -133,16 +147,7 @@ void	ft_copy_token_from_list_to_array(char **arguments, int *i, char **token);
 bool	ft_remove_quotes_from_token(char **token);
 int		ft_strlen_without_quotes(char *cmd_line);
 void	ft_copy_element_without_quotes(char *cmd_line, char *new_line);
-	//heredoc
-int		ft_handle_heredocs(t_shell_data *shell_data);
-int		ft_read_heredocs_in_child_process(t_shell_data *shell_data);
-bool	ft_open_reading_for_heredocs(t_list *tokens, char **heredocs, t_shell_data *shell_data);
-bool	ft_create_heredoc_names(t_shell_data *shell_data);
-int		ft_count_heredocs(t_list *tokens);
-char	*ft_create_here_doc_name(int i);
-bool	ft_fill_heredoc(char *heredoc_name, char *delimiter, t_shell_data *shell_data);
-bool	ft_is_quotes_in_delimiter(char *string);
-bool	ft_expand_variables_in_heredoc_line(char **line, t_shell_data *shell_data);
+
 // bool	ft_create_heredoc_names(t_shell_data *shell_data);
 // int		ft_count_heredocs(t_list *tokens);
 // char	*ft_create_here_doc_name(int i);

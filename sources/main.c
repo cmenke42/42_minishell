@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 14:49:30 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 15:43:20 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,20 +128,7 @@ int	increase_shlvl(t_list **env_list)
 	return (__success);
 }
 
-void	ft_delete_heredoc_files(char **heredoc_files)
-{
-	int	i;
 
-	i = 0;
-	if (!heredoc_files)
-		return ;
-	while (heredoc_files[i])
-	{
-		if (unlink(heredoc_files[i]) == -1)
-			perror("minishell: unlink");
-		i++;
-	}
-}
 
 void	ft_exit_ctrl_d(t_shell_data *shell_data)
 {

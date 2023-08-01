@@ -6,7 +6,7 @@
 #    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/08/01 13:45:31 by cmenke           ###   ########.fr        #
+#    Updated: 2023/08/01 15:48:05 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,9 @@ LEXER := $(addprefix lexer/,tokenize_command_line.c \
 								redirection.c \
 								token_list_to_char_array.c \
 								remove_quotes.c \
-								heredoc.c)
+								heredoc.c \
+								heredoc_file_creation_deletion.c \
+								heredoc_helpers.c)
 
 EXECUTION := $(addprefix execution/,create_processes.c \
 									get_envp_cmd_paths.c \
