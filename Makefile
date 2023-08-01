@@ -6,7 +6,7 @@
 #    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/08/01 12:48:50 by cmenke           ###   ########.fr        #
+#    Updated: 2023/08/01 13:45:31 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ BUILTINS := $(addprefix builtins/,echo.c \
 CLEARING := $(addprefix clearing/,free_double_pointer.c \
 									clear_structs.c)
 
-LEXER := $(addprefix lexer/, create_tokens.c \
+LEXER := $(addprefix lexer/,tokenize_command_line.c \
+							tokenize_command_line_helpers.c \
 								syntax_error.c \
 								set_token_types.c \
 								split_in_sequences.c \

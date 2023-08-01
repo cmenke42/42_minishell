@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 13:04:08 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 13:43:37 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,16 @@ void	ft_handle_sigint_in_minishell(int sig_num);
 //shlvl
 int	increase_shlvl(t_list **env_list);
 //lexer
-	//create_tokens.c
-int		ft_create_tokens_for_sequence(char *command_line_read, t_list **command_sequences);
+	//tokenize_command_line.c
+int		ft_tokenize_command_line(char *command_line_read, t_list **tokens);
+int		ft_find_next_token(char **string, char **start, t_list **tokens);
+bool	ft_create_one_token(char *start, char *end, t_list **token);
+// tokenize_command_line_helpers.c
 void	ft_skip_to_next_non_delimiter(char **command_line);
 bool	ft_is_whitespace(char c);
-int		ft_find_next_token(char **string, char **start, t_list **tokens);
 void	ft_skip_quote_block(char **string, bool	only_single_quotes);
 void	ft_move_while_same_char(char **command_line, char c);
-bool	ft_create_one_token(char *start, char *end, t_list **token);
+
 	//set_token_types.c
 bool	ft_set_token_types_and_check_for_syntax_error(t_shell_data *shell_data);
 void	ft_set_token_types(void *node);

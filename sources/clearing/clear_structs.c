@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear_structs.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 17:08:25 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/30 21:30:14 by user             ###   ########.fr       */
+/*   Updated: 2023/08/01 13:37:32 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	ft_clear_command_sequence(void *node)
 {
 	t_command_sequences	*sequence;
 
+	if (!node)
+		return ;
 	sequence = (t_command_sequences *)node;
 	ft_free_pointer_and_set_to_null((void **)&sequence->command_path);
 	ft_free_double_pointer_char(&sequence->envp_command_paths);
@@ -48,6 +50,8 @@ void	ft_clear_token(void *node)
 {
 	t_tokens	*token;
 
+	if (!node)
+		return ;
 	token = (t_tokens *)node;
 	if (token->token)
 		free(token->token);
@@ -58,6 +62,8 @@ void	ft_clear_env_variable(void *node)
 {
 	t_env	*env_variable;
 
+	if (!node)
+		return ;
 	env_variable = (t_env *)node;
 	ft_free_pointer_and_set_to_null((void **)&env_variable->name);
 	ft_free_pointer_and_set_to_null((void **)&env_variable->value);
