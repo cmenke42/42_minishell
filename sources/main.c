@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 12:17:45 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 13:02:50 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,14 @@ int	ft_process_command_line(t_shell_data *shell_data)
 {
 	int	status;
 
-	status = ft_check_equal_quote_amt(shell_data->command_line_read);
-	if (status == __success)
-		status = ft_create_tokens_for_sequence(shell_data->command_line_read, &shell_data->all_tokens);
-	else
+	if (!ft_is_equal_quote_ammount(shell_data->command_line_read))
+		return (__syntax_error);
+	status = ft_create_tokens_for_sequence(shell_data->command_line_read, &shell_data->all_tokens);
+	if (status)
 		return (status);
 	if (!shell_data->all_tokens)
 		return (__dont_add_to_history);
-	if (ft_is_syntax_error(shell_data))
+	if (ft_set_token_types_and_check_for_syntax_error(shell_data))
 		return (__syntax_error);
 	status = ft_handle_heredocs(shell_data);
 	if (status)

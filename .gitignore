@@ -54,6 +54,7 @@ dkms.conf
 #other
 minishell
 testfiles
+minishell_tester/
 
 #do not push files wihtout extension but still include folders
 *

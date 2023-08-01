@@ -6,14 +6,14 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:25:41 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/29 20:26:52 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 13:02:37 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 //checking the oder -> operator - no operator
-bool	ft_is_syntax_error(t_shell_data *shell_data)
+bool	ft_set_token_types_and_check_for_syntax_error(t_shell_data *shell_data)
 {
 	t_list	*tokens;
 

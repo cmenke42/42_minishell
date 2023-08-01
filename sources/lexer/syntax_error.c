@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:59:19 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 16:00:35 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 13:04:04 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 //If there is a quote it searches for the next quote of the same type.
 //If there is not a second quote of the same type this means the ammount of 
 //quotes is not equal.
-int	ft_check_equal_quote_amt(char *s)
+bool	ft_is_equal_quote_ammount(char *s)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (s[i])
@@ -27,19 +27,19 @@ int	ft_check_equal_quote_amt(char *s)
 			while (s[++i] && s[i] != '\'')
 				;
 			if (s[i] != '\'')
-				return (ft_putendl_fd(L_RED SQUOTE_ERROR STYLE_DEF, 2), __syntax_error);
+				return (ft_putendl_fd(L_RED SQUOTE_ERROR STYLE_DEF, 2), false);
 		}
 		else if (s[i] == '\"')
 		{
 			while (s[++i] && s[i] != '\"')
 				;
 			if (s[i] != '\"')
-				return (ft_putendl_fd(L_RED DQUOTE_ERROR STYLE_DEF, 2), __syntax_error);
+				return (ft_putendl_fd(L_RED DQUOTE_ERROR STYLE_DEF, 2), false);
 		}
 		if (s[i])
 			i++;
 	}
-	return (__success);
+	return (true);
 }
 
 bool	ft_search_and_print_syntax_error(t_shell_data *shell_data)
@@ -56,32 +56,35 @@ bool	ft_search_and_print_syntax_error(t_shell_data *shell_data)
 			next_token = (t_tokens *)temp->next->content;
 		else
 			next_token = NULL;
-		if (ft_check_for_syntax_error(token, next_token))
+		if (ft_is_syntax_error_in_tokens(token, next_token))
 			return (true);
 		temp = temp->next;
 	}
 	return (false);
 }
 
-bool	ft_check_for_syntax_error(t_tokens *token, t_tokens *next_token)
+//checks for operator no operator order
+//only pipe && pipe at the end are considered an error
+bool	ft_is_syntax_error_in_tokens(t_tokens *token, t_tokens *next_token)
 {
 	if (token->type == syntax_error)
-	{	
-		ft_print_syntax_error(next_token);
+	{
+		ft_print_token_syntax_error(next_token);
 		return (true);
 	}
-	else if (ft_is_operator(token->type) && (!next_token || ft_is_operator(next_token->type)))
+	else if (ft_is_operator(token->type)
+		&& (!next_token || ft_is_operator(next_token->type)))
 	{
-		if (token->type == pipe_operator && !next_token) // change this to be an error
+		if (token->type == pipe_operator && !next_token)
 		{
-			ft_print_syntax_error(token); //special case
+			ft_print_token_syntax_error(token);
 			return (true);
 		}
 		else if (token->type == pipe_operator && next_token)
 			return (false);
 		else
 		{
-			ft_print_syntax_error(next_token);
+			ft_print_token_syntax_error(next_token);
 			return (true);
 		}
 	}
@@ -95,12 +98,16 @@ bool	ft_is_operator(char token_type)
 	return (false);
 }
 
-void	ft_print_syntax_error(t_tokens *token)
+void	ft_print_token_syntax_error(t_tokens *token)
 {
-	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 	if (token)
-		ft_putstr_fd(token->token, 2);
+	{
+		ft_print_error_message("syntax error near unexpected token `",
+			token->token, "'", NULL);
+	}
 	else
-		ft_putstr_fd("newline", 2);
-	ft_putstr_fd("'\n", 2);
+	{
+		ft_print_error_message("syntax error near unexpected token `newline'",
+			NULL, NULL, NULL);
+	}
 }

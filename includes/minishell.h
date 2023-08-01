@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 12:18:27 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 13:04:08 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@
 # include "env.h"
 # include "colors.h"
 
-# define PROMPT "Minishell:$ "
+# define SHELL_NAME "minishell"
+# define PROMPT "minishell:$ "
 # define SQUOTE_ERROR "minishell: syntax error while looking for matching `''"
 # define DQUOTE_ERROR "minishell: syntax error while looking for matching `\"'"
 
@@ -63,6 +64,9 @@ int		ft_prepare_env_variables(t_shell_data *shell_data);
 int		increase_shlvl(t_list **env_list);
 void	ft_delete_heredoc_files(char **heredoc_files);
 void	ft_exit_ctrl_d(t_shell_data *shell_data);
+
+//print_error.c
+void	ft_print_error_message(char *part1, char *part2, char *part3, char *part4);
 
 //signals
 	//set_signals_functions.c
@@ -86,15 +90,15 @@ void	ft_skip_quote_block(char **string, bool	only_single_quotes);
 void	ft_move_while_same_char(char **command_line, char c);
 bool	ft_create_one_token(char *start, char *end, t_list **token);
 	//set_token_types.c
-bool	ft_is_syntax_error(t_shell_data *shell_data);
+bool	ft_set_token_types_and_check_for_syntax_error(t_shell_data *shell_data);
 void	ft_set_token_types(void *node);
 char	ft_get_token_type(char *string);
 	// syntax_error.c
-int		ft_check_equal_quote_amt(char *s);
+bool	ft_is_equal_quote_ammount(char *s);
 bool	ft_search_and_print_syntax_error(t_shell_data *shell_data);
-bool	ft_check_for_syntax_error(t_tokens *token, t_tokens *next_token);
+bool	ft_is_syntax_error_in_tokens(t_tokens *token, t_tokens *next_token);
 bool	ft_is_operator(char token_type);
-void	ft_print_syntax_error(t_tokens *token);
+void	ft_print_token_syntax_error(t_tokens *token);
 	//split_in_sequences.c
 int		ft_split_tokens_in_sequences(t_shell_data *shell_data);
 bool	ft_find_pipe_operator(t_list **tokens);
