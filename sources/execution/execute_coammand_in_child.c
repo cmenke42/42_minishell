@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/31 19:29:18 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 11:42:21 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences
 			return (false);
 		}
 	}
-	else if (ft_is_slash_in_command(sequence_to_execute->args[0])) //no such directory
+	else if (ft_is_slash_in_command(sequence_to_execute->args[0]) || !ft_search_for_env_variable("PATH", shell_data->env_list)) //no such directory
 	{
 		shell_data->exit_code = 127;
 		ft_putstr_fd("minishell: ", 2);
