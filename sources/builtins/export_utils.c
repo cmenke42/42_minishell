@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 17:14:14 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 14:18:29 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/01 21:17:13 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,16 @@ int	ft_store_env_in_list(char **env, t_list **env_list)
 	i = 0;
 	while (env[i])
 	{
-		if (ft_update_or_add_env_variable(env[i], env_list, NULL, NULL) == __system_call_error)
+		if (ft_update_or_add_env_variable(env[i],
+				env_list, NULL, NULL) == __system_call_error)
 			return (__system_call_error);
 		i++;
 	}
 	return (__success);
 }
 
-int	ft_store_one_variable_in_node(t_list **env_list, char *name, char *value, char *equal_sign)
+int	store_var_in_node(t_list **env_list, char *name,
+	char *value, char *equal_sign)
 {
 	t_list	*new_node;
 	t_env	*env_variable;
@@ -38,13 +40,17 @@ int	ft_store_one_variable_in_node(t_list **env_list, char *name, char *value, ch
 		return (perror("error creating env_variable"), __system_call_error);
 	new_node = ft_lstnew((void *)env_variable);
 	if (!new_node)
-		return (free(env_variable), perror("error creating new_node for env_variable"), __system_call_error);
-	ft_assign_name_and_value_to_env_variable(env_variable, name, value, equal_sign);
+		return (free(env_variable),
+			perror("error creating new_node for env_variable"),
+			__system_call_error);
+	ft_assign(env_variable,
+		name, value, equal_sign);
 	ft_lstadd_front(env_list, new_node);
 	return (__success);
 }
 
-int	ft_create_name_and_value(char *argument, char **name, char **value, char *equal_sign)
+int	ft_create_name_and_value(char *argument, char **name,
+	char **value, char *equal_sign)
 {
 	int		value_len;
 
@@ -52,22 +58,20 @@ int	ft_create_name_and_value(char *argument, char **name, char **value, char *eq
 	{
 		*name = ft_strdup(argument);
 		if (!*name)
-			return (perror("error creating name in store_env"), __system_call_error);
+			return (perror("error creating name in store_env"),
+				__system_call_error);
 		return (__success);
 	}
 	else
 	{
 		*name = ft_substr(argument, 0, equal_sign - argument);
 		if (!*name)
-			return (perror("error creating name in store_env"), __system_call_error);
+			return (perror("error creating name in store_env"),
+				__system_call_error);
 	}
 	value_len = ft_strlen(equal_sign + 1);
 	if (value_len > 0)
-	{
-		*value = ft_substr(equal_sign, 1, value_len);
-		if (!*value)
-			return (free(*name), perror("error creating value in store_env"), __system_call_error);
-	}
+		ft_substr_value(value, name, equal_sign, value_len);
 	return (__success);
 }
 
@@ -79,7 +83,7 @@ bool	ft_is_syntax_error_in_env_name(char *string)
 
 	syntax_error = false;
 	i = 0;
-	if (!(ft_isalpha(string[i]) || string[i++] == '_'))
+	if (!(ft_isalpha(string[i]) || string[i++] == '_' || string[0] == '='))
 		syntax_error = true;
 	else
 	{
@@ -95,7 +99,8 @@ bool	ft_is_syntax_error_in_env_name(char *string)
 	return (false);
 }
 
-void	ft_assign_name_and_value_to_env_variable(t_env *env_variable, char *name, char *value, char *equal_sign)
+void	ft_assign(t_env *env_variable,
+	char *name, char *value, char *equal_sign)
 {
 	if (name)
 	{

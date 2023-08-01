@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/08/01 23:41:52 by cmenke           ###   ########.fr        #
+#    Created: 2023/08/01 23:48:03 by cmenke            #+#    #+#              #
+#    Updated: 2023/08/01 23:48:13 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ BUILTINS := $(addprefix builtins/,echo.c \
 								pwd.c \
 								exit.c\
 								cd.c \
-								export_utils.c)
+								export_utils.c\
+								export_utils2.c)
 
 CLEARING := $(addprefix clearing/,free_double_pointer.c \
 									clear_structs.c)

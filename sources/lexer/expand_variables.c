@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variables.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:32:40 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 12:08:20 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 21:20:12 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,6 +233,7 @@ bool	ft_replace_variable_name_with_value(char **string, char **token, char *name
 	}
 	if (first_part && value)
 	{
+		//WARNING SEGFAULT
 		first_part_and_value = ft_strjoin(first_part, value);
 		if (!first_part_and_value)
 			return (false);

@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 10:49:18 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 14:21:30 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/01 21:16:18 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,37 +39,48 @@ int	ft_put_err(char *input, char *message, int code)
 	return (code);
 }
 
-int	change_dir(t_list **env_list, char *target_path, t_shell_data *shell_data)
+int	assign_oldpwd(t_list *oldpwd, char *cwd_buf)
 {
-	t_list	*env_variable_pwd;
-	t_list	*env_variable_oldpwd;
-	char	*cwd_buf;
-	
-	env_variable_oldpwd = ft_search_for_env_variable("OLDPWD", *env_list);
-	env_variable_pwd = ft_search_for_env_variable("PWD", *env_list);
-	if (env_variable_pwd && env_variable_oldpwd)
-	{
-		ft_assign_name_and_value_to_env_variable((t_env *)env_variable_oldpwd->content, NULL, ((t_env *)env_variable_pwd->content)->value, "");
-		((t_env *)env_variable_pwd->content)->value = NULL;
-	}
-	else if (env_variable_oldpwd && !env_variable_pwd && shell_data->print_quotes_for_oldpwd)
-	{
-		ft_assign_name_and_value_to_env_variable((t_env *)env_variable_oldpwd->content, NULL, NULL, "");
-		shell_data->print_quotes_for_oldpwd = false;
-	}
-	else if (env_variable_oldpwd)
-	{
-		cwd_buf = ft_calloc(MAXPATHLEN + 1, sizeof(char));
-		if (!cwd_buf)
-			return (perror("error creating cwd_buf for OLDPWD"), __system_call_error);
-		if (!getcwd(cwd_buf, MAXPATHLEN))
-			return (free(cwd_buf), perror("error getting cwd for pwd"), __system_call_error);
-		ft_assign_name_and_value_to_env_variable((t_env *)env_variable_oldpwd->content, NULL, cwd_buf, "");
-	}
-	return (cd_error_handler(target_path, env_variable_pwd));
+	cwd_buf = ft_calloc(MAXPATHLEN + 1, sizeof(char));
+	if (!cwd_buf)
+		return (perror("error creating cwd_buf for OLDPWD"),
+			__system_call_error);
+	if (!getcwd(cwd_buf, MAXPATHLEN))
+		return (free(cwd_buf), perror("error getting cwd for pwd"),
+			__system_call_error);
+	ft_assign((t_env *)oldpwd->content, NULL, cwd_buf, "");
+	return (__success);
 }
 
-int	cd_error_handler(char *target_path, t_list *env_variable_pwd)
+int	change_dir(t_list **env_list, char *target_path, t_shell_data *shell_data)
+{
+	t_list	*pwd;
+	t_list	*oldpwd;
+	char	*cwd_buf;
+
+	cwd_buf = NULL;
+	oldpwd = ft_search_for_env_variable("OLDPWD", *env_list);
+	pwd = ft_search_for_env_variable("PWD", *env_list);
+	if (pwd && oldpwd)
+	{
+		ft_assign((t_env *)oldpwd->content, NULL,
+			((t_env *)pwd->content)->value, "");
+		((t_env *)pwd->content)->value = NULL;
+	}
+	else if (oldpwd && !pwd && shell_data->print_quotes_for_oldpwd)
+	{
+		ft_assign((t_env *)oldpwd->content, NULL, NULL, "");
+		shell_data->print_quotes_for_oldpwd = false;
+	}
+	else if (oldpwd)
+	{
+		if (assign_oldpwd(oldpwd, cwd_buf))
+			return (assign_oldpwd(oldpwd, cwd_buf));
+	}
+	return (cd_error_handler(target_path, pwd));
+}
+
+int	cd_error_handler(char *target_path, t_list *pwd)
 {
 	char	*cwd_buf;
 
@@ -79,45 +90,15 @@ int	cd_error_handler(char *target_path, t_list *env_variable_pwd)
 		perror(target_path);
 		return (__error);
 	}
-	if (env_variable_pwd)
+	if (pwd)
 	{
 		cwd_buf = ft_calloc(MAXPATHLEN + 1, sizeof(char));
 		if (!cwd_buf)
 			return (perror("error creating cwd_bud"), __system_call_error);
 		if (!getcwd(cwd_buf, MAXPATHLEN))
-			return (free(cwd_buf), perror("error getting cwd for pwd"), __system_call_error);
-		ft_assign_name_and_value_to_env_variable((t_env *)env_variable_pwd->content, NULL, cwd_buf, "");
+			return (free(cwd_buf), perror("error getting cwd for pwd"),
+				__system_call_error);
+		ft_assign((t_env *)pwd->content, NULL, cwd_buf, "");
 	}
 	return (__success);
 }
-
-// int	replace_pwd(t_list *env_variable_pwd, char *dir)
-// {
-// 	char	*new_pwd;
-// 	char	*buff;
-// 	char	*pwd_and_slash;
-// 	char	*result;
-
-// 	buff = NULL;
-// 	new_pwd = getcwd(buff, PATH_MAX); //handle error in shell
-// 	if (new_pwd)//only like this if it got allocated
-// 		ft_assign_name_and_value_to_env_variable((t_env *)env_variable_pwd->content, NULL, new_pwd, "");
-// 	else
-// 	{
-// 		if (dir)
-// 			pwd_and_slash = ft_strjoin("/", dir);
-// 		else
-// 			pwd_and_slash = ft_strdup("/");
-// 		if (!pwd_and_slash)
-// 			return (ft_free_pointer_and_set_to_null((void **)&dir), __system_call_error); //handle error in shell
-// 		if (((t_env *)env_variable_pwd->content)->value)
-// 			result = ft_strjoin(((t_env *)env_variable_pwd->content)->value, pwd_and_slash);
-// 		else
-// 			result = ft_strdup(pwd_and_slash);
-// 		ft_free_pointer_and_set_to_null((void **)&dir);
-// 		if (!result)
-// 			return (ft_free_pointer_and_set_to_null((void **)&pwd_and_slash), __system_call_error); //handle error in shell
-// 		printf("%s\n", ((t_env *)env_variable_pwd->content)->value);//why?
-// 	}
-// 	return (0);
-// }
