@@ -60,5 +60,6 @@ minishell_tester/
 *
 !*/
 testfiles
+minishell_tester/
 !*.c
 !*.h
