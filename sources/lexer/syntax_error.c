@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:59:19 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 14:50:24 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 16:11:16 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,30 +42,28 @@ bool	ft_is_equal_quote_ammount(char *s)
 	return (true);
 }
 
-int	ft_search_and_print_syntax_error(t_shell_data *shell_data)
+bool	ft_is_syntax_error_in_tokens(t_list *tokens)
 {
-	t_list		*temp;
 	t_tokens	*token;
 	t_tokens	*next_token;
 
-	temp = shell_data->all_tokens;
-	while (temp)
+	while (tokens)
 	{
-		token = (t_tokens *)temp->content;
-		if (temp->next)
-			next_token = (t_tokens *)temp->next->content;
+		token = (t_tokens *)tokens->content;
+		if (tokens->next)
+			next_token = (t_tokens *)tokens->next->content;
 		else
 			next_token = NULL;
-		if (ft_is_syntax_error_in_tokens(token, next_token))
-			return (__syntax_error);
-		temp = temp->next;
+		if (ft_check_for_syntax_error(token, next_token))
+			return (true);
+		tokens = tokens->next;
 	}
-	return (__success);
+	return (false);
 }
 
 //checks for operator no operator order
 //only pipe && pipe at the end are considered an error
-bool	ft_is_syntax_error_in_tokens(t_tokens *token, t_tokens *next_token)
+bool	ft_check_for_syntax_error(t_tokens *token, t_tokens *next_token)
 {
 	if (token->type == syntax_error)
 	{

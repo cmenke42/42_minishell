@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 16:04:56 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 16:11:32 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ char	ft_get_redirection_out_type(int len);
 char	ft_get_pipe_operator_type(int len);
 	// syntax_error.c
 bool	ft_is_equal_quote_ammount(char *s);
-int		ft_search_and_print_syntax_error(t_shell_data *shell_data);
-bool	ft_is_syntax_error_in_tokens(t_tokens *token, t_tokens *next_token);
+bool	ft_is_syntax_error_in_tokens(t_list *tokens);
+bool	ft_check_for_syntax_error(t_tokens *token, t_tokens *next_token);
 bool	ft_is_operator(char token_type);
 void	ft_print_token_syntax_error(t_tokens *token);
 	// heredoc_file_creation_deletion.c

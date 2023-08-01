@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 15:43:20 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 16:11:45 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	ft_process_command_line(t_shell_data *shell_data)
 	if (!shell_data->all_tokens)
 		return (__dont_add_to_history);
 	ft_lstiter(shell_data->all_tokens, ft_assign_token_type);
-	if (ft_search_and_print_syntax_error(shell_data) == __syntax_error)
+	if (ft_is_syntax_error_in_tokens(shell_data->all_tokens))
 		return (__syntax_error);
 	status = ft_handle_heredocs(shell_data);
 	if (status)
