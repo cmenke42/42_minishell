@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:32:40 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/31 13:32:57 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 12:08:20 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,7 +220,10 @@ bool	ft_replace_variable_name_with_value(char **string, char **token, char *name
 		name_len = 2;
 	first_part = NULL;
 	if (name)
+	{
 		name_len += ft_strlen(name);
+		ft_free_pointer_and_set_to_null((void **)&name);
+	}
 	if (*string - *token > 0)
 	{
 		first_part = ft_substr(*token, 0, *string - *token);
@@ -228,7 +231,7 @@ bool	ft_replace_variable_name_with_value(char **string, char **token, char *name
 			return (false);
 		// printf("first_part:%s\n", first_part);
 	}
-	if (first_part)
+	if (first_part && value)
 	{
 		first_part_and_value = ft_strjoin(first_part, value);
 		if (!first_part_and_value)

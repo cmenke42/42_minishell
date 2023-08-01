@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 16:16:48 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/31 17:56:04 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 12:03:48 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	ft_execute_commands(t_shell_data *shell_data)
 	if (!ft_fork_child_processes(shell_data, number_of_commands))
 		status = __system_call_error;
 	if (status == __success)
-		ft_set_singals_handler_while_parent_execution();
+		ft_set_singals_in_parent_during_execution();
 	ft_close_all_pipes(shell_data->pipe_fds, number_of_commands - 1);
 	ft_free_double_pointer_int(&shell_data->pipe_fds, number_of_commands - 1);
 	ft_wait_for_child_processes_and_get_exit_code(shell_data, number_of_commands); // store the exit_code

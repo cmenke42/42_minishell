@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 18:56:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/31 18:43:13 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 12:11:19 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,14 @@
 int	ft_export(char **arguemnts, t_list **env_list)
 {
 	int i;
-	int status;
 
 	i = 0;
-	status = __success;
 	while (arguemnts[++i])
 	{
 		if (!ft_strcmp(arguemnts[i], "_"))
 			continue;
-		status = ft_update_or_add_env_variable(arguemnts[i], env_list, NULL, NULL);
-		if (status)
-			return (status);
+		if (ft_update_or_add_env_variable(arguemnts[i], env_list, NULL, NULL) == __system_call_error)
+			return (__system_call_error);
 	}
 	if (i == 1)
 	{

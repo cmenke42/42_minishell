@@ -6,7 +6,7 @@
 #    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 00:17:32 by cmenke            #+#    #+#              #
-#    Updated: 2023/07/31 19:45:30 by cmenke           ###   ########.fr        #
+#    Updated: 2023/08/01 12:02:55 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,8 @@ EXECUTION := $(addprefix execution/,create_processes.c \
 									duplication_of_fds_in_child.c \
 									single_builtin_execution.c)
 
-SIGNALS := $(addprefix signals/, )
+SIGNALS := $(addprefix signals/, set_signals_functions.c \
+								signal_handlers.c)
 
 SRCS := $(addprefix ${SRCDIR}/,main.c \
 								${BUILTINS} \
