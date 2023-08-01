@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 17:27:43 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 17:59:49 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,10 @@ bool	ft_create_one_token(char *start, char *end, t_list **token);
 	// tokenize_command_line_helpers.c
 void	ft_skip_to_next_non_delimiter(char **command_line);
 bool	ft_is_whitespace(char c);
-void	ft_skip_quote_block(char **string, bool	only_single_quotes);
+void	ft_skip_quote_block(char **string, bool	only_single_quotes, bool end_with_quote);
 void	ft_move_while_same_char(char **command_line, char c);
 	//set_token_types.c
 void	ft_assign_token_type(void *node);
-char	ft_get_token_type(char *string);
-char	ft_get_redirection_in_type(int len);
-char	ft_get_redirection_out_type(int len);
-char	ft_get_pipe_operator_type(int len);
 	// syntax_error.c
 bool	ft_is_equal_quote_ammount(char *s);
 bool	ft_is_syntax_error_in_tokens(t_list *tokens);

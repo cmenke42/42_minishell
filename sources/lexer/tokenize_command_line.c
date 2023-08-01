@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 13:46:05 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 18:00:06 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_find_next_token(char **string, char **start, t_list **tokens)
 {
 	while (**string)
 	{
-		ft_skip_quote_block(string, false);
+		ft_skip_quote_block(string, false, false);
 		if (**string == '<' || **string == '>' || **string == '|')
 		{
 			if (*start != *string)

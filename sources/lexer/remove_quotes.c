@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:38:02 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 17:27:35 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 23:43:30 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,15 @@ static void	ft_process_quote_string(char *string, char *new_string,
 	quote = '\0';
 	while (string[i])
 	{
-		if ((string[i] == '\'' || string[i] == '\"') && quote == '\0')
-			quote = string[i++];
-		else if (string[i] == quote)
+		if (string[i] == '\'' || string[i] == '\"')
 		{
-			quote = '\0';
-			i++;
-			continue ;
+			quote = string[i];
+			while (string[++i] && string[i] != quote)
+				copy_or_count(string + i, new_string + j++, count);
+			if (string[i])
+				i++;
 		}
-		if (string[i] != quote)
+		else
 			copy_or_count(string + i++, new_string + j++, count);
 	}
 }

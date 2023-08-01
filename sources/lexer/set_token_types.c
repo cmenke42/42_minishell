@@ -6,11 +6,16 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:25:41 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 14:50:54 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 17:32:18 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static char	ft_get_token_type(char *string);
+static char	ft_get_redirection_in_type(int len);
+static char	ft_get_redirection_out_type(int len);
+static char	ft_get_pipe_operator_type(int len);
 
 void	ft_assign_token_type(void *node)
 {
@@ -20,7 +25,7 @@ void	ft_assign_token_type(void *node)
 	token->type = ft_get_token_type(token->token);
 }
 
-char	ft_get_token_type(char *string)
+static char	ft_get_token_type(char *string)
 {
 	int		len;
 	char	first_character;
@@ -37,7 +42,7 @@ char	ft_get_token_type(char *string)
 		return (text);
 }
 
-char	ft_get_redirection_in_type(int len)
+static char	ft_get_redirection_in_type(int len)
 {
 	if (len == 1)
 		return (redirection_in);
@@ -47,7 +52,7 @@ char	ft_get_redirection_in_type(int len)
 		return (syntax_error);
 }
 
-char	ft_get_redirection_out_type(int len)
+static char	ft_get_redirection_out_type(int len)
 {
 	if (len == 1)
 		return (redirection_out_trunc);
@@ -57,7 +62,7 @@ char	ft_get_redirection_out_type(int len)
 		return (syntax_error);
 }
 
-char	ft_get_pipe_operator_type(int len)
+static char	ft_get_pipe_operator_type(int len)
 {
 	if (len == 1)
 		return (pipe_operator);

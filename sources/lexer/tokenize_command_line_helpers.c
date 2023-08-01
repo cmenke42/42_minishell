@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 13:41:18 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 13:42:14 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 17:59:29 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ bool	ft_is_whitespace(char c)
 	return (c == '\t' || c == ' ');
 }
 
-void	ft_skip_quote_block(char **string, bool	only_single_quotes)
+void	ft_skip_quote_block(char **string, bool	only_single_quotes,
+			bool end_with_quote)
 {
 	char	quote;
 
@@ -34,7 +35,7 @@ void	ft_skip_quote_block(char **string, bool	only_single_quotes)
 			quote = '\"';
 		while (++(*string) && **string != quote)
 			;
-		if (**string && **string == quote)
+		if (**string && **string == quote && !end_with_quote)
 			*string += 1;
 	}
 }

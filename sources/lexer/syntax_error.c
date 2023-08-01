@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:59:19 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 16:11:16 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 22:44:20 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,29 @@
 //If there is a quote it searches for the next quote of the same type.
 //If there is not a second quote of the same type this means the ammount of 
 //quotes is not equal.
-bool	ft_is_equal_quote_ammount(char *s)
+bool	ft_is_equal_quote_ammount(char *string)
 {
-	int	i;
+	char	quote;
 
-	i = 0;
-	while (s[i])
+	quote = '\0';
+	while (*string)
 	{
-		if (s[i] == '\'')
+		if ((*string == '\'' || *string == '\"'))
 		{
-			while (s[++i] && s[i] != '\'')
-				;
-			if (s[i] != '\'')
-				return (ft_putendl_fd(L_RED SQUOTE_ERROR STYLE_DEF, 2), false);
+			if (quote == '\0')
+				quote = *string;
+			else if (*string == quote)
+				quote = '\0';
 		}
-		else if (s[i] == '\"')
-		{
-			while (s[++i] && s[i] != '\"')
-				;
-			if (s[i] != '\"')
-				return (ft_putendl_fd(L_RED DQUOTE_ERROR STYLE_DEF, 2), false);
-		}
-		if (s[i])
-			i++;
+		string++;
 	}
-	return (true);
+	if (quote == '\'')
+		ft_print_error_message("syntax error while looking for matching",
+			"`", "'", "'");
+	else if (quote == '"')
+		ft_print_error_message("syntax error while looking for matching",
+			"`", "\"", "'");
+	return (quote == '\0');
 }
 
 bool	ft_is_syntax_error_in_tokens(t_list *tokens)
