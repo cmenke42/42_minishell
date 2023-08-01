@@ -6,26 +6,13 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:25:41 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 13:02:37 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 14:50:54 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-//checking the oder -> operator - no operator
-bool	ft_set_token_types_and_check_for_syntax_error(t_shell_data *shell_data)
-{
-	t_list	*tokens;
-
-	tokens = shell_data->all_tokens;
-	ft_lstiter(tokens, ft_set_token_types);
-	if (ft_search_and_print_syntax_error(shell_data))
-		return (true);
-	// ft_lstclear(&shell_data->all_tokens, ft_clear_token);
-	return (false);
-}
-
-void	ft_set_token_types(void *node)
+void	ft_assign_token_type(void *node)
 {
 	t_tokens	*token;
 
@@ -41,30 +28,39 @@ char	ft_get_token_type(char *string)
 	len = ft_strlen(string);
 	first_character = string[0];
 	if (first_character == '<')
-	{
-		if (len == 1)
-			return (redirection_in);
-		else if (len == 2)
-			return (redirection_in_heredoc);
-		else
-			return (syntax_error);	
-	}
+		return (ft_get_redirection_in_type(len));
 	else if (first_character == '>')
-	{
-		if (len == 1)
-			return (redirection_out_trunc);
-		else if (len == 2)
-			return (redirection_out_append);
-		else
-			return (syntax_error);
-	}
+		return (ft_get_redirection_out_type(len));
 	else if (first_character == '|')
-	{
-		if (len == 1)
-			return (pipe_operator);
-		else
-			return (syntax_error);
-	}
+		return (ft_get_pipe_operator_type(len));
 	else
 		return (text);
+}
+
+char	ft_get_redirection_in_type(int len)
+{
+	if (len == 1)
+		return (redirection_in);
+	else if (len == 2)
+		return (redirection_in_heredoc);
+	else
+		return (syntax_error);
+}
+
+char	ft_get_redirection_out_type(int len)
+{
+	if (len == 1)
+		return (redirection_out_trunc);
+	else if (len == 2)
+		return (redirection_out_append);
+	else
+		return (syntax_error);
+}
+
+char	ft_get_pipe_operator_type(int len)
+{
+	if (len == 1)
+		return (pipe_operator);
+	else
+		return (syntax_error);
 }

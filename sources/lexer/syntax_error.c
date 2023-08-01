@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:59:19 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 13:04:04 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 14:50:24 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ bool	ft_is_equal_quote_ammount(char *s)
 	return (true);
 }
 
-bool	ft_search_and_print_syntax_error(t_shell_data *shell_data)
+int	ft_search_and_print_syntax_error(t_shell_data *shell_data)
 {
 	t_list		*temp;
 	t_tokens	*token;
@@ -57,10 +57,10 @@ bool	ft_search_and_print_syntax_error(t_shell_data *shell_data)
 		else
 			next_token = NULL;
 		if (ft_is_syntax_error_in_tokens(token, next_token))
-			return (true);
+			return (__syntax_error);
 		temp = temp->next;
 	}
-	return (false);
+	return (__success);
 }
 
 //checks for operator no operator order

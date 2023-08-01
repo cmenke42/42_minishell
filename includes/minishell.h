@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 00:10:38 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 13:43:37 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/01 14:48:45 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,19 +85,20 @@ int	increase_shlvl(t_list **env_list);
 int		ft_tokenize_command_line(char *command_line_read, t_list **tokens);
 int		ft_find_next_token(char **string, char **start, t_list **tokens);
 bool	ft_create_one_token(char *start, char *end, t_list **token);
-// tokenize_command_line_helpers.c
+	// tokenize_command_line_helpers.c
 void	ft_skip_to_next_non_delimiter(char **command_line);
 bool	ft_is_whitespace(char c);
 void	ft_skip_quote_block(char **string, bool	only_single_quotes);
 void	ft_move_while_same_char(char **command_line, char c);
-
 	//set_token_types.c
-bool	ft_set_token_types_and_check_for_syntax_error(t_shell_data *shell_data);
-void	ft_set_token_types(void *node);
+void	ft_assign_token_type(void *node);
 char	ft_get_token_type(char *string);
+char	ft_get_redirection_in_type(int len);
+char	ft_get_redirection_out_type(int len);
+char	ft_get_pipe_operator_type(int len);
 	// syntax_error.c
 bool	ft_is_equal_quote_ammount(char *s);
-bool	ft_search_and_print_syntax_error(t_shell_data *shell_data);
+int		ft_search_and_print_syntax_error(t_shell_data *shell_data);
 bool	ft_is_syntax_error_in_tokens(t_tokens *token, t_tokens *next_token);
 bool	ft_is_operator(char token_type);
 void	ft_print_token_syntax_error(t_tokens *token);
