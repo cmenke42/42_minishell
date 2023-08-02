@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 14:36:06 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/02 00:15:48 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/02 14:02:02 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,13 @@ t_list	*ft_search_for_env_variable(char *variable_name, t_list *env_list)
 		env_list = env_list->next;
 	}
 	return (NULL);
+}
+
+void	ft_print_export_wrong_identifier(char *argument)
+{
+	ft_putstr_fd("minishell: export: `", 2);
+	ft_putstr_fd(argument, 2);
+	ft_putendl_fd("': not a valid identifier", 2);
 }
 
 void	ft_swap(void **var1, void **var2)

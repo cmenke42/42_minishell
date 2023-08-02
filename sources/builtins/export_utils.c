@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 17:14:14 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 21:17:13 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/02 14:00:16 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ bool	ft_is_syntax_error_in_env_name(char *string)
 
 	syntax_error = false;
 	i = 0;
-	if (!(ft_isalpha(string[i]) || string[i++] == '_' || string[0] == '='))
+	if (!(ft_isalpha(string[i]) || string[i++] == '_'))
 		syntax_error = true;
 	else
 	{
@@ -113,11 +113,4 @@ void	ft_assign(t_env *env_variable,
 		env_variable->print_empty_quotes = true;
 	else
 		env_variable->print_empty_quotes = false;
-}
-
-void	ft_print_export_wrong_identifier(char *argument)
-{
-	ft_putstr_fd("minishell: export: `", 2);
-	ft_putstr_fd(argument, 2);
-	ft_putendl_fd("': not a valid identifier", 2);
 }
