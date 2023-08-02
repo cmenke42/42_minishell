@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:47:42 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 23:47:56 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/02 00:11:14 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,7 @@ bool	ft_is_quotes_in_delimiter(char *string);
 bool	ft_expand_variables_in_heredoc_line(char **line, t_shell_data *shell_data);
 
 	//split_in_sequences.c
-int		ft_split_tokens_in_sequences(t_shell_data *shell_data);
-bool	ft_find_pipe_operator(t_list **tokens);
-void	ft_cut_out_pipe_node(t_list **tokens, t_list *next_token_node);
-bool	ft_assing_tokens_to_sequence(t_list *start_of_sequence,
-			t_list **command_sequences);
+int		ft_split_tokens_in_sequences(t_list *tokens, t_list **command_sequences);
 	// expand_variables.c
 // bool	ft_search_for_variable_expansion(t_shell_data *shell_data);
 bool	ft_expand_variables(t_list *tokens, t_shell_data *shell_data);

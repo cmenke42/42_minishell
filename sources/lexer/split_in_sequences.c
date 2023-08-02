@@ -6,20 +6,23 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:59:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/31 13:26:45 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/02 00:18:34 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_split_tokens_in_sequences(t_shell_data *shell_data)
-{
-	t_list				*tokens;
-	t_list				*start_of_sequence;
-	bool				pipe_inside;
+static bool	ft_find_pipe_operator(t_list **tokens);
+static void	ft_cut_out_pipe_node(t_list **tokens, t_list *previous_token_node);
+static bool	ft_assign_tokens(t_list *start_of_tokens,
+				t_list **command_sequences);
 
-	tokens = shell_data->all_tokens;
-	start_of_sequence = shell_data->all_tokens;
+int	ft_split_tokens_in_sequences(t_list *tokens, t_list **command_sequences)
+{
+	t_list	*start_of_tokens;
+	bool	pipe_inside;
+
+	start_of_tokens = tokens;
 	pipe_inside = true;
 	if (!tokens)
 		return (__stop_execution);
@@ -29,12 +32,13 @@ int	ft_split_tokens_in_sequences(t_shell_data *shell_data)
 			pipe_inside = ft_find_pipe_operator(&tokens);
 		if (pipe_inside || !tokens)
 		{
-			if (!ft_assing_tokens_to_sequence(start_of_sequence, &shell_data->command_sequences))
+			if (!ft_assign_tokens(start_of_tokens, command_sequences))
 			{
-				//maybe free something
+				if (command_sequences)
+					ft_lstclear(&start_of_tokens, ft_clear_token);
 				return (__system_call_error);
 			}
-			start_of_sequence = tokens;
+			start_of_tokens = tokens;
 		}
 		else if (tokens)
 			tokens = tokens->next;
@@ -42,10 +46,10 @@ int	ft_split_tokens_in_sequences(t_shell_data *shell_data)
 	return (__success);
 }
 
-bool	ft_find_pipe_operator(t_list **tokens)
+static bool	ft_find_pipe_operator(t_list **tokens)
 {
-	t_tokens	*token;
 	t_list		*previous_token_node;
+	t_tokens	*token;
 
 	previous_token_node = NULL;
 	while (*tokens)
@@ -63,7 +67,7 @@ bool	ft_find_pipe_operator(t_list **tokens)
 	return (false);
 }
 
-void	ft_cut_out_pipe_node(t_list **tokens, t_list *previous_token_node)
+static void	ft_cut_out_pipe_node(t_list **tokens, t_list *previous_token_node)
 {
 	t_list	*temp;
 
@@ -74,35 +78,23 @@ void	ft_cut_out_pipe_node(t_list **tokens, t_list *previous_token_node)
 	ft_lstdelone(temp, ft_clear_token);
 }
 
-bool	ft_assing_tokens_to_sequence(t_list *start_of_sequence, t_list **command_sequences)
+static bool	ft_assign_tokens(t_list *start_of_tokens,
+				t_list **command_sequences)
 {
 	t_command_sequences	*one_sequence;
 	t_list				*new_sequence_node;
 
 	one_sequence = ft_calloc(1, sizeof(t_command_sequences));
 	if (!one_sequence)
-	{
-		ft_lstclear(&start_of_sequence, ft_clear_token);
-		perror("error creating one_sequence node");
-		return (false);
-	}
+		return (perror("error creating one_sequence"), false);
 	new_sequence_node = ft_lstnew((void *)one_sequence);
 	if (!new_sequence_node)
 	{
 		free(one_sequence);
-		ft_lstclear(&start_of_sequence, ft_clear_token);
-		perror("error creating one_sequence node");
+		perror("error creating new_sequence_node");
 		return (false);
 	}
-	one_sequence->tokens = start_of_sequence;
+	one_sequence->tokens = start_of_tokens;
 	ft_lstadd_back(command_sequences, new_sequence_node);
 	return (true);
 }
-
-//preapare
-//create node to store the contents
-
-//read the tokens and process the input
-	//check for redirection and remove the nodes from the list -> stop at an error in this sequence
-	//check for the first text node -> command
-	//then check for 

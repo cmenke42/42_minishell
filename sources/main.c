@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 21:20:29 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/02 00:13:14 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	ft_process_command_line(t_shell_data *shell_data)
 		return (status);
 	if (!ft_expand_variables(shell_data->all_tokens, shell_data))
 		return (__system_call_error);
-	status = ft_split_tokens_in_sequences(shell_data);
+	status = ft_split_tokens_in_sequences(shell_data->all_tokens, &shell_data->command_sequences);
 	if (status)
 		return (status);
 	status = ft_execute_commands(shell_data);  //handle the syntax errors of builtin commands??? // is there a case where a syntax error comes back?? -> when open failed
