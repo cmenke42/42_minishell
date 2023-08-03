@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 18:56:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 21:20:58 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/02 14:03:19 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,16 @@ int	name_value_status(char **name, char **value,
 	status = __success;
 	equal_sign = ft_strchr(argument, '=');
 	if (ft_is_syntax_error_in_env_name(argument))
+	{
 		status = __stop_execution;
+		return (status);
+	}
 	if (ft_create_name_and_value(argument,
 			name, value, equal_sign) == __system_call_error)
+	{
 		status = __system_call_error;
+		return (status);
+	}
 	return (status);
 }
 
