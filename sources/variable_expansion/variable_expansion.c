@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_variables.c                                 :+:      :+:    :+:   */
+/*   variable_expansion.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:32:40 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/03 22:43:19 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/03 23:24:35 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	ft_update_quote_state(bool *in_single_quotes,
-				bool *in_double_quotes, char c);
+static bool	ft_expand_one_variable(int expansion_case, char **string,
+			char **token, t_shell_data *shell_data);
+static int	ft_get_expansion_case(char **string, bool in_double_quotes);
+static bool	ft_replace_name_with_value(char **string, char **token,
+		char *variable_name, char *variable_value);
 
-bool	ft_expand_variables(t_list **tokens, t_shell_data *shell_data)
+bool	ft_expand_variables_in_tokens(t_list **tokens, t_shell_data *shell_data)
 {
 	t_list		*previous;
 	t_list		*current;
@@ -26,7 +29,7 @@ bool	ft_expand_variables(t_list **tokens, t_shell_data *shell_data)
 	while (current)
 	{
 		next = current->next;
-		if (!ft_do_variable_expansion(&((t_tokens *)current->content)->token,
+		if (!ft_expand_variables_in_string(&((t_tokens *)current->content)->token,
 				shell_data, false))
 			return (ft_putendl_fd("error - variable expansion", 2), false);
 		if (!ft_strcmp(((t_tokens *)current->content)->token, ""))
@@ -38,7 +41,7 @@ bool	ft_expand_variables(t_list **tokens, t_shell_data *shell_data)
 	return (true);
 }
 
-bool	ft_do_variable_expansion(char **string, t_shell_data *shell_data,
+bool	ft_expand_variables_in_string(char **string, t_shell_data *shell_data,
 				bool ignore_quotes)
 {
 	char	*moving_string;
@@ -58,7 +61,7 @@ bool	ft_do_variable_expansion(char **string, t_shell_data *shell_data,
 		{
 			expansion_case = ft_get_expansion_case(&moving_string,
 					in_double_quotes);
-			if (!ft_handle_variable_expansion(expansion_case, &moving_string,
+			if (!ft_expand_one_variable(expansion_case, &moving_string,
 					string, shell_data))
 				return (false);
 		}
@@ -68,16 +71,7 @@ bool	ft_do_variable_expansion(char **string, t_shell_data *shell_data,
 	return (true);
 }
 
-static void	ft_update_quote_state(bool *in_single_quotes,
-				bool *in_double_quotes, char c)
-{
-	if (c == '\'' && !*in_double_quotes)
-		*in_single_quotes = !*in_single_quotes;
-	else if (c == '\"' && !*in_single_quotes)
-		*in_double_quotes = !*in_double_quotes;
-}
-
-bool	ft_handle_variable_expansion(int expansion_case, char **string,
+static bool	ft_expand_one_variable(int expansion_case, char **string,
 			char **token, t_shell_data *shell_data)
 {
 	char	*name;
@@ -107,67 +101,56 @@ bool	ft_handle_variable_expansion(int expansion_case, char **string,
 	return (!error);
 }
 
-bool	ft_is_char_quote(char c)
+static int	ft_get_expansion_case(char **string, bool in_double_quotes)
 {
-	return (c == '\'' || c == '\"');
-}
+	char	next_char;
 
-//start at 1 && len -1 for the dollar removal
-bool	ft_get_variable_name(char *string, char **variable_name)
-{
-	int		i;
-	char	*limiters;
-
-	limiters = " \t\n$?\"\'=";
-	i = 1;
-	while (string[i] && !ft_strchr(limiters, string[i]))
-		i++;
-	if (i == 1)
-		return (true);
-	*variable_name = ft_substr(string, 1, i - 1);
-	if (!variable_name)
-		return (perror("error creating variable_name"), false);
-	return (true);
-}
-
-bool	ft_get_variable_value(char *name, char **value, t_list *env_list)
-{
-	t_list	*variable_node;
-
-	if (!name)
-		return (true);
-	variable_node = ft_search_for_env_variable(name, env_list);
-	if (variable_node)
+	next_char = *(*string + 1);
+	if (ft_is_whitespace(next_char)
+		|| (in_double_quotes && ft_is_char_quote(next_char)) || !next_char)
 	{
-		if (((t_env *)variable_node->content)->value)
-		{
-			*value = ft_strdup(((t_env *)variable_node->content)->value);
-			if (!*value)
-				return (perror("error creating value"), false);
-		}
+		(*string)++;
+		return (v_keep_dollar);
 	}
-	return (true);
+	if (next_char == '$')
+	{
+		(*string) += 2;
+		return (v_keep_dollar);
+	}
+	else if ((next_char) == '?')
+		return (v_exit_code);
+	else if (in_double_quotes)
+		return (v_untrimmed_value);
+	else
+		return (v_trim_value);
 }
 
-void	ft_cut_out_empty_node(t_list **tokens, t_list *previous_token_node,
-			t_list **current_token_node)
+//at least remove the dollar
+//otherwise replace the name with the value
+static bool	ft_replace_name_with_value(char **string, char **token,
+		char *variable_name, char *variable_value)
 {
-	t_list	*temp;
+	int		variable_name_len;
+	int		variable_value_len;
+	int		total_len;
+	char	*new_string;
 
-	temp = *current_token_node;
-	if (previous_token_node)
-		previous_token_node->next = (*current_token_node)->next;
-	*current_token_node = (*current_token_node)->next;
-	if (temp == *tokens)
-		*tokens = *current_token_node;
-	ft_lstdelone(temp, ft_clear_token);
-}
-
-bool	ft_get_exit_code_string(char **name, char **value, int exit_code)
-{
-	*value = ft_itoa(exit_code);
-	*name = ft_strdup("?");
-	if (!*name || !*value)
-		return (perror("error creating exit_code string"), false);
+	variable_name_len = 1;
+	variable_value_len = 0;
+	if (variable_name)
+		variable_name_len += ft_strlen(variable_name);
+	if (variable_value)
+		variable_value_len = ft_strlen(variable_value);
+	total_len = ft_strlen(*token) - variable_name_len + variable_value_len;
+	new_string = malloc(sizeof(char) * (total_len + 1));
+	if (!new_string)
+		return (perror("error replacing variable name with value"), false);
+	ft_strlcpy(new_string, *token, *string - *token + 1);
+	if (variable_value)
+		ft_strlcat(new_string, variable_value, total_len + 1);
+	ft_strlcat(new_string, *string + variable_name_len, total_len + 1);
+	free(*token);
+	*token = new_string;
+	*string = new_string;
 	return (true);
 }

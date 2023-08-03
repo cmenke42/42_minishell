@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:47:42 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/03 22:41:02 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/03 23:32:03 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,22 +100,23 @@ bool	ft_expand_variables_in_heredoc_line(char **line, t_shell_data *shell_data);
 
 	//split_in_sequences.c
 int		ft_split_tokens_in_sequences(t_list *tokens, t_list **command_sequences);
-	// expand_variables.c
-// bool	ft_search_for_variable_expansion(t_shell_data *shell_data);
-bool	ft_expand_variables(t_list **tokens, t_shell_data *shell_data);
-bool	ft_do_variable_expansion(char **string, t_shell_data *shell_data, bool ignore_quotes);
-// bool	ft_execute_specific_case_of_variable_expansion(char	**string,
-// 			char **token, bool in_double_quotes, t_shell_data *shell_data);
+	//variable_expansion.c
+bool	ft_expand_variables_in_tokens(t_list **tokens, t_shell_data *shell_data);
+bool	ft_expand_variables_in_string(char **string, t_shell_data *shell_data,
+				bool ignore_quotes);
+	//variable_expansion_utils.c
+void	ft_cut_out_empty_node(t_list **tokens, t_list *previous_token_node,
+			t_list **current_token_node);
+void	ft_update_quote_state(bool *in_single_quotes,
+				bool *in_double_quotes, char c);
+void	ft_skip_whitespace(char *string, int *i);
 bool	ft_is_char_quote(char c);
+	//variable_expansion_trim_value.c
+bool	ft_trim_value(char **string);
+	//variable_expansion_get_name_value.c
 bool	ft_get_variable_name(char *string, char **variable_name);
 bool	ft_get_variable_value(char *name, char **value, t_list *env_list);
-bool	ft_replace_name_with_value(char **string, char **token, char *variable_name, char *variable_value);
-bool	ft_trim_value(char **string);
-void	ft_skip_whitespace(char *string, int *i);
-void	ft_cut_out_empty_node(t_list **tokens, t_list *previous_token_node, t_list **current_token_node);
 bool	ft_get_exit_code_string(char **name, char **value, int exit_code);
-int		ft_get_expansion_case(char **string, bool in_double_quotes);
-bool	ft_handle_variable_expansion(int expansion_case, char **string, char **token, t_shell_data *shell_data);
 
 // ---
 int		ft_handle_redirection_operators(t_command_sequences *one_sequence,
@@ -135,12 +136,9 @@ void	ft_copy_token_from_list_to_array(char **arguments, int *i,
 			char **token);
 	//remove_quotes
 bool	ft_remove_quotes_from_string(char **string);
-// bool	ft_create_heredoc_names(t_shell_data *shell_data);
-// int		ft_count_heredocs(t_list *tokens);
-// char	*ft_create_here_doc_name(int i);
-// bool	ft_create_and_save_heredocs(t_list *tokens_of_sequence, int *i);
-// char	*create_heredoc(t_tokens *command, int *i);
-// int		ft_create_heredoc_file(char **heredoc_filename, int *i);
+void	ft_count_length(char *new_string, int *count, char c);
+void	ft_copy_char(char *new_string, int *count, char c);
+
 // clearing
 	//ft_free_double_pointer.c
 void	ft_free_double_pointer_char(char ***ptr);

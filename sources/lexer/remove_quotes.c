@@ -6,16 +6,14 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:38:02 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/03 19:27:04 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/03 22:59:38 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 static void	ft_process_quote_string(char *string, char *new_string,
-				void (*copy_or_count)(char *, char *, int *), int *count);
-static void	ft_count_length(char *string, char *new_string, int *count);
-static void	ft_copy_char(char *string, char *new_string, int *count);
+		void (*copy_or_count)(char *, int *, char), int *count);
 
 //pass string as reference
 bool	ft_remove_quotes_from_string(char **string)
@@ -40,7 +38,7 @@ bool	ft_remove_quotes_from_string(char **string)
 }
 
 static void	ft_process_quote_string(char *string, char *new_string,
-		void (*copy_or_count)(char *, char *, int *), int *count)
+		void (*copy_or_count)(char *, int *, char), int *count)
 {
 	char	quote;
 	int		i;
@@ -55,24 +53,24 @@ static void	ft_process_quote_string(char *string, char *new_string,
 		{
 			quote = string[i];
 			while (string[++i] && string[i] != quote)
-				copy_or_count(string + i, new_string + j++, count);
+				copy_or_count(new_string + j++, count, string[i]);
 			if (string[i])
 				i++;
 		}
 		else
-			copy_or_count(string + i++, new_string + j++, count);
+			copy_or_count(new_string + j++, count, string[i++]);
 	}
 }
 
-static void	ft_count_length(char *string, char *new_string, int *count)
+void	ft_count_length(char *new_string, int *count, char c)
 {
-	(void)string;
 	(void)new_string;
+	(void)c;
 	(*count)++;
 }
 
-static void	ft_copy_char(char *string, char *new_string, int *count)
+void	ft_copy_char(char *new_string, int *count, char c)
 {
 	(void)count;
-	*new_string = *string;
+	*new_string = c;
 }

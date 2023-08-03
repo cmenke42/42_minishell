@@ -6,7 +6,7 @@
 #    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 23:48:03 by cmenke            #+#    #+#              #
-#    Updated: 2023/08/03 21:00:04 by cmenke           ###   ########.fr        #
+#    Updated: 2023/08/03 23:32:48 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,15 +32,9 @@ LEXER := $(addprefix lexer/,tokenize_command_line.c \
 								syntax_error.c \
 								set_token_types.c \
 								split_in_sequences.c \
-								expand_variables.c \
-								expand_utils.c \
 								redirection.c \
 								token_list_to_char_array.c \
-								remove_quotes.c \
-								heredoc.c \
-								heredoc_file_creation_deletion.c \
-								heredoc_helpers.c \
-								new_expand_variables.c)
+								remove_quotes.c)
 
 EXECUTION := $(addprefix execution/,create_processes.c \
 									get_envp_cmd_paths.c \
@@ -52,12 +46,23 @@ EXECUTION := $(addprefix execution/,create_processes.c \
 SIGNALS := $(addprefix signals/, set_signals_functions.c \
 								signal_handlers.c)
 
+VARIABLE_EXPANSION := $(addprefix variable_expansion/, variable_expansion.c \
+														variable_expansion_get_name_value.c \
+														variable_expansion_trim_value.c \
+														variable_expansion_utils.c)
+
+HEREDOC := $(addprefix heredoc/, heredoc.c \
+									heredoc_file_creation_deletion.c \
+									heredoc_helpers.c)
+
 SRCS := $(addprefix ${SRCDIR}/,main.c \
 								${BUILTINS} \
 								${LEXER} \
 								${EXECUTION} \
 								${SIGNALS} \
 								${CLEARING} \
+								${VARIABLE_EXPANSION} \
+								${HEREDOC} \
 								helpers.c \
 								print_error.c)
 

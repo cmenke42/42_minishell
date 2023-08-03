@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/03 21:41:12 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/03 23:10:45 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	ft_process_command_line(t_shell_data *shell_data)
 	status = ft_handle_heredocs(shell_data);
 	if (status)
 		return (status);
-	if (!ft_expand_variables(&shell_data->all_tokens, shell_data))
+	if (!ft_expand_variables_in_tokens(&shell_data->all_tokens, shell_data))
 		return (__system_call_error);
 	status = ft_split_tokens_in_sequences(shell_data->all_tokens, &shell_data->command_sequences);
 	if (status)

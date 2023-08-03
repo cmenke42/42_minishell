@@ -1,19 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_utils.c                                     :+:      :+:    :+:   */
+/*   trim_variable_value.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/17 17:25:07 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/03 22:45:25 by cmenke           ###   ########.fr       */
+/*   Created: 2023/08/03 23:04:09 by cmenke            #+#    #+#             */
+/*   Updated: 2023/08/03 23:05:07 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	ft_count_length(char *new_string, int *count, char c);
-static void	ft_copy_char(char *new_string, int *count, char c);
 static void	ft_process_string_to_trim(char *string, char *result, int *count,
 				void (*copy_or_count)(char *, int *, char));
 
@@ -56,24 +54,4 @@ static void	ft_process_string_to_trim(char *string, char *result, int *count,
 		if (string[i])
 			copy_or_count(result + j++, count, string[i++]);
 	}
-}
-
-void	ft_skip_whitespace(char *string, int *i)
-{
-	while (string[*i] && (ft_is_whitespace(string[*i])
-			|| string[*i] == '\n')) //what about the new line???
-		*i += 1;
-}
-
-static void	ft_count_length(char *new_string, int *count, char c)
-{
-	(void)new_string;
-	(void)c;
-	(*count)++;
-}
-
-static void	ft_copy_char(char *new_string, int *count, char c)
-{
-	(void)count;
-	*new_string = c;
 }

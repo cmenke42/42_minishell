@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:07:55 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/03 22:26:01 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/03 23:11:57 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ static bool	ft_fill_heredoc(char *heredoc_name, char **delimiter,
 		if (!line || !ft_strcmp(line, *delimiter))
 			break ;
 		if (!no_expansion
-			&& !ft_do_variable_expansion(&line, shell_data, true))
+			&& !ft_expand_variables_in_string(&line, shell_data, true))
 			return (free(line), close(heredoc_fd), false);
 		ft_putendl_fd(line, heredoc_fd);
 		free(line);
