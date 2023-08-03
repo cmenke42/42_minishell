@@ -6,11 +6,13 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 11:48:04 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 12:17:36 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/02 12:03:55 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	g_signal_number;
 
 void	ft_handle_sigint_in_parent_during_execution(int sig_num)
 {

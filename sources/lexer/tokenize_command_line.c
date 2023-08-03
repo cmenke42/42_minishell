@@ -6,11 +6,14 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 18:00:06 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/02 12:05:45 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static int	ft_find_next_token(char **string, char **start, t_list **tokens);
+static bool	ft_create_one_token(char *start, char *end, t_list **tokens);
 
 int	ft_tokenize_command_line(char *command_line_read, t_list **tokens)
 {
@@ -31,7 +34,7 @@ int	ft_tokenize_command_line(char *command_line_read, t_list **tokens)
 }
 
 //seaparates the string by whitespace and opeartors
-int	ft_find_next_token(char **string, char **start, t_list **tokens)
+static int	ft_find_next_token(char **string, char **start, t_list **tokens)
 {
 	while (**string)
 	{
@@ -55,7 +58,7 @@ int	ft_find_next_token(char **string, char **start, t_list **tokens)
 	return (__success);
 }
 
-bool	ft_create_one_token(char *start, char *end, t_list **tokens)
+static bool	ft_create_one_token(char *start, char *end, t_list **tokens)
 {
 	t_tokens	*token;
 	t_list		*new_node;

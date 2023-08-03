@@ -6,13 +6,11 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/02 00:13:14 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/02 12:04:09 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	g_signal_number;
 
 //what to do when we get arguments for the minishell? -> nothing
 int	main(int argc, char **argv, char **envp)

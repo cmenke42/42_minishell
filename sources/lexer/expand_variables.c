@@ -3,31 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variables.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:32:40 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 21:20:12 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/03 08:49:43 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// bool	ft_search_for_variable_expansion(t_shell_data *shell_data)
-// {
-// 	t_list	*command_sequences;
+static void	ft_update_quote_state(bool *in_single_quotes, bool *in_double_quotes, char c);
 
-// 	command_sequences = shell_data->command_sequences;
-// 	while (command_sequences)
-// 	{
-// 		if (!ft_expand_variable(((t_command_sequences *)command_sequences->content)->tokens, shell_data))
-// 		{
-// 			printf("error expanding variables\n");
-// 			return (false);
-// 		}
-// 		command_sequences = command_sequences->next;
-// 	}
-// 	return (true);
-// }
+//What parameters should this function have?
+	//tokens
+	//env_list
+	//exit_code
 
 bool	ft_expand_variables(t_list *tokens, t_shell_data *shell_data)
 {
@@ -72,17 +62,10 @@ bool	ft_do_variable_expansion(t_tokens *token, t_shell_data *shell_data)
 	//determine wheter the $ is in single, double or no quotes
 	while (*string)
 	{
-		if (!in_single_quotes && !in_double_quotes && *string == '\'')
-			in_single_quotes = true;
-		else if (in_single_quotes && *string == '\'')
-			in_single_quotes = false;
-		if (!in_double_quotes && !in_single_quotes && *string == '\"')
-			in_double_quotes = true;
-		else if (in_double_quotes && !in_single_quotes && *string == '\"')
-			in_double_quotes = false;
+		ft_update_quote_state(&in_single_quotes, &in_double_quotes, *string);
 		if (*string == '$' && !in_single_quotes)
 		{
-			if (!ft_execute_specific_case_of_variable_expansion(&string, &token->token, in_double_quotes, shell_data))
+			if (!ft_execute_specific_case_of_variable_expansion(&string, &token->token, in_double_quotes, shell_data))//if return is string check for NULL
 				return (false); //maybe clear something
 		}
 		else
@@ -91,8 +74,32 @@ bool	ft_do_variable_expansion(t_tokens *token, t_shell_data *shell_data)
 	return (true);
 }
 
+static void	ft_update_quote_state(bool *in_single_quotes, bool *in_double_quotes, char c)
+{
+	if (c == '\'' && !*in_double_quotes)
+		*in_single_quotes = !*in_single_quotes;
+	else if (c == '\"' && !*in_single_quotes)
+		*in_double_quotes = !*in_double_quotes;
+}
+
+// bool	ft_handle_variable_expansion(int expansion_case, char **string, char **token, t_shell_data *shell_data)
+// {
+// 	char	*name;
+// 	char	*value;
+
+// 	name = NULL;
+// 	value = NULL;
+// 	if (expansion_case == expand_to_exit_code || expansion_case == expand_to_trimmed_value || expansion_case == expand_to_untrimmed_value)
+// 	{
+// 		if (!ft_get_variable_name(*string, &name));
+// 			return (false);
+// 	}
+
+// 	return (true);
+// }
+
 //string starts at the $
-bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token, bool in_double_quotes, t_shell_data *shell_data)
+bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token, bool in_double_quotes, t_shell_data *shell_data) //return string?
 {
 	char	*variable_name;
 	char	*trimmed;
@@ -156,11 +163,8 @@ bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token,
 		// printf("replace with trimmed value\n");
 		if (!ft_get_variable_name(*string, &variable_name))
 			return (false);
-		// printf("variable_name:%s\n", variable_name);
-		// Trim the value if needed in the get value funciton
 		value = ft_get_variable_value(shell_data->env_list, variable_name);
 		trimmed = ft_trim_variable_value(value);
-		// printf("TRIMMED VALUE: %s\n", trimmed);
 		if (!ft_replace_variable_name_with_value(string, token, variable_name, trimmed))
 			return (false);
 		

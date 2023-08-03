@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:47:42 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/02 00:11:14 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/02 12:11:02 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,9 @@ void	ft_set_singals_in_parent_during_execution(void);
 void	ft_handle_sigint_in_parent_during_execution(int sig_num);
 void	ft_handle_sigquit_in_parent_during_execution(int sig_num);
 void	ft_handle_sigint_in_minishell(int sig_num);
-
-//shlvl
-int		increase_shlvl(t_list **env_list);
 //lexer
 	//tokenize_command_line.c
 int		ft_tokenize_command_line(char *command_line_read, t_list **tokens);
-int		ft_find_next_token(char **string, char **start, t_list **tokens);
-bool	ft_create_one_token(char *start, char *end, t_list **token);
 	// tokenize_command_line_helpers.c
 void	ft_skip_to_next_non_delimiter(char **command_line);
 bool	ft_is_whitespace(char c);
@@ -94,20 +89,11 @@ void	ft_assign_token_type(void *node);
 	// syntax_error.c
 bool	ft_is_equal_quote_ammount(char *s);
 bool	ft_is_syntax_error_in_tokens(t_list *tokens);
-bool	ft_check_for_syntax_error(t_tokens *token, t_tokens *next_token);
-bool	ft_is_operator(char token_type);
-void	ft_print_token_syntax_error(t_tokens *token);
-	// heredoc_file_creation_deletion.c
-bool	ft_create_heredoc_files(t_shell_data *shell_data);
-int		ft_count_heredocs(t_list *tokens);
-char	*ft_create_here_doc_name(int i);
-void	ft_delete_heredoc_files(char **heredoc_files);
 	//heredoc
 int		ft_handle_heredocs(t_shell_data *shell_data);
-void	ft_process_heredoc_reading(t_shell_data *shell_data);
-int		ft_read_heredocs_in_child_process(t_shell_data *shell_data);
-int		ft_open_reading_for_heredocs(t_list *tokens, char **heredocs, t_shell_data *shell_data);
-bool	ft_fill_heredoc(char *heredoc_name, char *delimiter, t_shell_data *shell_data);
+	// heredoc_file_creation_deletion.c
+bool	ft_create_heredoc_files(t_shell_data *shell_data);
+void	ft_delete_heredoc_files(char **heredoc_files);
 	// heredoc_helpers.c
 bool	ft_is_quotes_in_delimiter(char *string);
 bool	ft_expand_variables_in_heredoc_line(char **line, t_shell_data *shell_data);

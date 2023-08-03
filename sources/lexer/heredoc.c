@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:07:55 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/01 21:20:17 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/02 12:13:09 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static int	ft_read_heredocs_in_child_process(t_shell_data *shell_data);
+static void	ft_process_heredoc_reading(t_shell_data *shell_data);
+static int	ft_open_reading_for_heredocs(t_list *tokens,
+				char **heredocs, t_shell_data *shell_data);
+static bool	ft_fill_heredoc(char *heredoc_name, char *delimiter,
+				t_shell_data *shell_data);
 
 int	ft_handle_heredocs(t_shell_data *shell_data)
 {
@@ -24,7 +31,7 @@ int	ft_handle_heredocs(t_shell_data *shell_data)
 	return (status);
 }
 
-int	ft_read_heredocs_in_child_process(t_shell_data *shell_data)
+static int	ft_read_heredocs_in_child_process(t_shell_data *shell_data)
 {
 	pid_t	process_id;
 	int		stat_loc;
@@ -48,7 +55,7 @@ int	ft_read_heredocs_in_child_process(t_shell_data *shell_data)
 	return (__success);
 }
 
-void	ft_process_heredoc_reading(t_shell_data *shell_data)
+static void	ft_process_heredoc_reading(t_shell_data *shell_data)
 {
 	int	exit_code;
 
@@ -58,7 +65,7 @@ void	ft_process_heredoc_reading(t_shell_data *shell_data)
 	exit(exit_code);
 }
 
-int	ft_open_reading_for_heredocs(t_list *tokens,
+static int	ft_open_reading_for_heredocs(t_list *tokens,
 			char **heredocs, t_shell_data *shell_data)
 {
 	t_tokens	*one_token;
@@ -73,7 +80,7 @@ int	ft_open_reading_for_heredocs(t_list *tokens,
 		next_token = (t_tokens *)tokens->next->content;
 		if (one_token->type == redirection_in_heredoc)
 		{
-			if (!ft_fill_heredoc(heredocs[i], next_token->token, shell_data))
+			if (!ft_fill_heredoc(heredocs[i], next_token->token, shell_data)) //maybe use same loop and different function
 				return (1);
 			i++;
 		}
@@ -82,7 +89,7 @@ int	ft_open_reading_for_heredocs(t_list *tokens,
 	return (0);
 }
 
-bool	ft_fill_heredoc(char *heredoc_name, char *delimiter,
+static bool	ft_fill_heredoc(char *heredoc_name, char *delimiter,
 			t_shell_data *shell_data)
 {
 	char	*line;

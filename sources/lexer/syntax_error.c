@@ -6,11 +6,15 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:59:19 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 22:44:20 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/02 12:07:33 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static bool	ft_check_for_syntax_error(t_tokens *token, t_tokens *next_token);
+static bool	ft_is_operator(char token_type);
+static void	ft_print_token_syntax_error(t_tokens *token);
 
 //If there is a quote it searches for the next quote of the same type.
 //If there is not a second quote of the same type this means the ammount of 
@@ -61,7 +65,7 @@ bool	ft_is_syntax_error_in_tokens(t_list *tokens)
 
 //checks for operator no operator order
 //only pipe && pipe at the end are considered an error
-bool	ft_check_for_syntax_error(t_tokens *token, t_tokens *next_token)
+static bool	ft_check_for_syntax_error(t_tokens *token, t_tokens *next_token)
 {
 	if (token->type == syntax_error)
 	{
@@ -87,14 +91,14 @@ bool	ft_check_for_syntax_error(t_tokens *token, t_tokens *next_token)
 	return (false);
 }
 
-bool	ft_is_operator(char token_type)
+static bool	ft_is_operator(char token_type)
 {
 	if (token_type >= 1 && token_type <= 6)
 		return (true);
 	return (false);
 }
 
-void	ft_print_token_syntax_error(t_tokens *token)
+static void	ft_print_token_syntax_error(t_tokens *token)
 {
 	if (token)
 	{

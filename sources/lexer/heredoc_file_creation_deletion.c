@@ -6,11 +6,14 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:41:28 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 15:46:05 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/02 12:10:21 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static int	ft_count_heredocs(t_list *tokens);
+static char	*ft_create_here_doc_name(int i);
 
 bool	ft_create_heredoc_files(t_shell_data *shell_data)
 {
@@ -34,7 +37,7 @@ bool	ft_create_heredoc_files(t_shell_data *shell_data)
 	return (true);
 }
 
-int	ft_count_heredocs(t_list *tokens)
+static int	ft_count_heredocs(t_list *tokens)
 {
 	t_tokens	*one_token;
 	int			i;
@@ -50,7 +53,7 @@ int	ft_count_heredocs(t_list *tokens)
 	return (i);
 }
 
-char	*ft_create_here_doc_name(int i)
+static char	*ft_create_here_doc_name(int i)
 {
 	char	*file_number;
 	char	*heredoc_filename;
