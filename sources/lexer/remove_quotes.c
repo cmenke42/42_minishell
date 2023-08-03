@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:38:02 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 23:43:30 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/03 19:27:04 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@ static void	ft_copy_char(char *string, char *new_string, int *count);
 //pass string as reference
 bool	ft_remove_quotes_from_string(char **string)
 {
-	int		len;
 	char	*new_string;
+	int		len;
 
 	len = 0;
+	if (!*string)
+		return (true);
 	ft_process_quote_string(*string, NULL, ft_count_length, &len);
 	if (len == (int)ft_strlen(*string))
 		return (true);

@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 16:50:05 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/02 14:07:19 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/03 22:40:36 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,8 @@ enum	e_error_codes
 
 enum e_variable_expansion_cases
 {
-	keep_dollar,
-	remove_dollar,
-	expand_to_exit_code,
-	expand_to_untrimmed_value,
-	expand_to_trimmed_value
+	v_keep_dollar,
+	v_exit_code,
+	v_untrimmed_value,
+	v_trim_value
 };

@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:07:55 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/02 12:13:09 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/03 22:26:01 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	ft_read_heredocs_in_child_process(t_shell_data *shell_data);
 static void	ft_process_heredoc_reading(t_shell_data *shell_data);
 static int	ft_open_reading_for_heredocs(t_list *tokens,
 				char **heredocs, t_shell_data *shell_data);
-static bool	ft_fill_heredoc(char *heredoc_name, char *delimiter,
+static bool	ft_fill_heredoc(char *heredoc_name, char **delimiter,
 				t_shell_data *shell_data);
 
 int	ft_handle_heredocs(t_shell_data *shell_data)
@@ -80,7 +80,7 @@ static int	ft_open_reading_for_heredocs(t_list *tokens,
 		next_token = (t_tokens *)tokens->next->content;
 		if (one_token->type == redirection_in_heredoc)
 		{
-			if (!ft_fill_heredoc(heredocs[i], next_token->token, shell_data)) //maybe use same loop and different function
+			if (!ft_fill_heredoc(heredocs[i], &next_token->token, shell_data)) //maybe use same loop and different function
 				return (1);
 			i++;
 		}
@@ -89,26 +89,26 @@ static int	ft_open_reading_for_heredocs(t_list *tokens,
 	return (0);
 }
 
-static bool	ft_fill_heredoc(char *heredoc_name, char *delimiter,
+static bool	ft_fill_heredoc(char *heredoc_name, char **delimiter,
 			t_shell_data *shell_data)
 {
 	char	*line;
 	int		heredoc_fd;
 	bool	no_expansion;
 
-	no_expansion = ft_is_quotes_in_delimiter(delimiter);
+	no_expansion = ft_is_quotes_in_delimiter(*delimiter);
 	heredoc_fd = open(heredoc_name, O_CREAT | O_RDWR | O_TRUNC, RW_R__R__);
 	if (heredoc_fd == -1)
 		return (perror("error opening heredoc file writing"), false);
-	if (no_expansion && !ft_remove_quotes_from_string(&delimiter))
+	if (no_expansion && !ft_remove_quotes_from_string(delimiter))
 		return (close(heredoc_fd), false);
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || !ft_strcmp(line, delimiter))
+		if (!line || !ft_strcmp(line, *delimiter))
 			break ;
 		if (!no_expansion
-			&& !ft_expand_variables_in_heredoc_line(&line, shell_data))
+			&& !ft_do_variable_expansion(&line, shell_data, true))
 			return (free(line), close(heredoc_fd), false);
 		ft_putendl_fd(line, heredoc_fd);
 		free(line);

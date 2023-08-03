@@ -6,7 +6,7 @@
 #    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 23:48:03 by cmenke            #+#    #+#              #
-#    Updated: 2023/08/01 23:48:13 by cmenke           ###   ########.fr        #
+#    Updated: 2023/08/03 21:00:04 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,8 @@ LEXER := $(addprefix lexer/,tokenize_command_line.c \
 								remove_quotes.c \
 								heredoc.c \
 								heredoc_file_creation_deletion.c \
-								heredoc_helpers.c)
+								heredoc_helpers.c \
+								new_expand_variables.c)
 
 EXECUTION := $(addprefix execution/,create_processes.c \
 									get_envp_cmd_paths.c \
@@ -73,7 +74,7 @@ INCLUDE := ${LIBFTDIR}/${LIBFT} -lreadline \
 -I ${HOME}/goinfre/.brew/opt/readline/include/ \
 -L ${HOME}/goinfre/.brew/opt/readline/lib/
 
-CFLAGS := -Wall -Wextra -g -O0 #-fsanitize=address
+CFLAGS := -Wall -Wextra -g -O0 -fsanitize=address
 ##to have the same flags in libft and minishell
 export CFLAGS
 # CFLAGS := -Wall -Werror -Wextra

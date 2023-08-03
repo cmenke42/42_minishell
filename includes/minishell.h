@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:47:42 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/02 12:11:02 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/03 22:41:02 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,17 +102,20 @@ bool	ft_expand_variables_in_heredoc_line(char **line, t_shell_data *shell_data);
 int		ft_split_tokens_in_sequences(t_list *tokens, t_list **command_sequences);
 	// expand_variables.c
 // bool	ft_search_for_variable_expansion(t_shell_data *shell_data);
-bool	ft_expand_variables(t_list *tokens, t_shell_data *shell_data);
-bool	ft_do_variable_expansion(t_tokens *token, t_shell_data *shell_data);
-bool	ft_execute_specific_case_of_variable_expansion(char	**string,
-			char **token, bool in_double_quotes, t_shell_data *shell_data);
+bool	ft_expand_variables(t_list **tokens, t_shell_data *shell_data);
+bool	ft_do_variable_expansion(char **string, t_shell_data *shell_data, bool ignore_quotes);
+// bool	ft_execute_specific_case_of_variable_expansion(char	**string,
+// 			char **token, bool in_double_quotes, t_shell_data *shell_data);
 bool	ft_is_char_quote(char c);
 bool	ft_get_variable_name(char *string, char **variable_name);
-char	*ft_get_variable_value(t_list *env_list, char *variable_name);
-bool	ft_replace_variable_name_with_value(char **string, char **token,
-			char *name, char *value);
-char	*ft_trim_variable_value(char *string);
-void	ft_cut_out_empty_node(t_list **tokens, t_list *previous_token_node);
+bool	ft_get_variable_value(char *name, char **value, t_list *env_list);
+bool	ft_replace_name_with_value(char **string, char **token, char *variable_name, char *variable_value);
+bool	ft_trim_value(char **string);
+void	ft_skip_whitespace(char *string, int *i);
+void	ft_cut_out_empty_node(t_list **tokens, t_list *previous_token_node, t_list **current_token_node);
+bool	ft_get_exit_code_string(char **name, char **value, int exit_code);
+int		ft_get_expansion_case(char **string, bool in_double_quotes);
+bool	ft_handle_variable_expansion(int expansion_case, char **string, char **token, t_shell_data *shell_data);
 
 // ---
 int		ft_handle_redirection_operators(t_command_sequences *one_sequence,

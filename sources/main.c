@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/02 12:04:09 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/03 21:41:12 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ int	main(int argc, char **argv, char **envp)
 		shell_data->command_line_read = readline(PROMPT);
 		if (shell_data->command_line_read && *shell_data->command_line_read)
 		{
+			// printf("command line read: %s\n", shell_data->command_line_read);
+			// ft_replace_variable_name_with_value(&shell_data->command_line_read, &shell_data->command_line_read, NULL, "Alabama");
+			// printf("command line read: %s\n", shell_data->command_line_read);
+			// continue;
 			status = ft_process_command_line(shell_data);
 			if (status != __system_call_error && status != __dont_add_to_history)
 				add_history(shell_data->command_line_read);
@@ -68,7 +72,7 @@ int	ft_process_command_line(t_shell_data *shell_data)
 	status = ft_handle_heredocs(shell_data);
 	if (status)
 		return (status);
-	if (!ft_expand_variables(shell_data->all_tokens, shell_data))
+	if (!ft_expand_variables(&shell_data->all_tokens, shell_data))
 		return (__system_call_error);
 	status = ft_split_tokens_in_sequences(shell_data->all_tokens, &shell_data->command_sequences);
 	if (status)
