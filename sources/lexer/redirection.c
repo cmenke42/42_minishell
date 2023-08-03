@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:29:42 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/01 23:16:41 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/03 12:22:19 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_handle_redirection_operators(t_command_sequences *one_sequence, t_list *tokens_of_sequence, t_shell_data *shell_data)
+int	ft_handle_redirection_operators(t_command_sequences *one_sequence,
+	t_list *tokens_of_sequence, t_shell_data *shell_data)
 {
 	t_tokens	*one_token;
 	t_tokens	*next_token;
@@ -29,13 +30,14 @@ int	ft_handle_redirection_operators(t_command_sequences *one_sequence, t_list *t
 		{
 			if (!ft_remove_quotes_from_string(&next_token->token))
 				return (__system_call_error);
-			if(ft_do_redirection(one_sequence, one_token, next_token, shell_data) == __stop_execution)
+			if (ft_do_redirection(one_sequence, one_token, next_token,
+					shell_data) == __stop_execution)
 				return (__stop_execution);
 			tokens_of_sequence = tokens_of_sequence->next->next;
 		}
 		else
 			tokens_of_sequence = tokens_of_sequence->next;
-		if(!tokens_of_sequence)
+		if (!tokens_of_sequence)
 			break ;
 	}
 	if (tokens_of_sequence)
@@ -47,12 +49,18 @@ int	ft_handle_redirection_operators(t_command_sequences *one_sequence, t_list *t
 	return (__success);
 }
 
-int	ft_do_redirection(t_command_sequences *one_sequence, t_tokens *operator_token, t_tokens *file_token, t_shell_data *shell_data)
+int	ft_do_redirection(t_command_sequences *one_sequence,
+		t_tokens *operator_token, t_tokens *file_token,
+		t_shell_data *shell_data)
 {
-	if (operator_token->type == redirection_in || operator_token->type == redirection_in_heredoc)
-		return(ft_input_redirection(&one_sequence->input_fd, operator_token, file_token, shell_data));
-	else if (operator_token->type == redirection_out_trunc || operator_token->type == redirection_out_append)
-		return (ft_output_redirection(&one_sequence->output_fd, operator_token->type, file_token));
+	if (operator_token->type == redirection_in
+		|| operator_token->type == redirection_in_heredoc)
+		return (ft_input_redirection(&one_sequence->input_fd,
+				operator_token, file_token, shell_data));
+	else if (operator_token->type == redirection_out_trunc
+		|| operator_token->type == redirection_out_append)
+		return (ft_output_redirection(&one_sequence->output_fd,
+				operator_token->type, file_token));
 	return (__success);
 }
 
@@ -74,19 +82,22 @@ int	ft_output_redirection(int *output_fd, char operator, t_tokens *file_token)
 	return (__success);
 }
 
-int	ft_input_redirection(int *input_fd, t_tokens *operator_token, t_tokens *file_token, t_shell_data *shell_data)
+int	ft_input_redirection(int *input_fd, t_tokens *operator_token,
+	t_tokens *file_token, t_shell_data *shell_data)
 {
-	int fd;
+	int	fd;
 
 	fd = 0;
 	if (operator_token->type == redirection_in)
 		fd = open(file_token->token, O_RDONLY);
 	else if (operator_token->type == redirection_in_heredoc)
-		fd = open(shell_data->heredocs[operator_token->heredoc_number], O_RDONLY);
+		fd = open(shell_data->heredocs[operator_token->heredoc_number],
+				O_RDONLY);
 	if (*input_fd > 0)
 		close(*input_fd);
 	if (fd == -1)
-		return (ft_put_redirection_error(file_token->token), __stop_execution);
+		return (ft_put_redirection_error(file_token->token),
+			__stop_execution);
 	file_token->type = redirection_filename;
 	*input_fd = fd;
 	return (__success);

@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variables.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:32:40 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/03 08:49:43 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/03 13:20:33 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	ft_update_quote_state(bool *in_single_quotes, bool *in_double_quotes, char c);
+static void	ft_update_quote_state(bool *in_single_quotes,
+				bool *in_double_quotes, char c);
 
 //What parameters should this function have?
 	//tokens
@@ -31,7 +32,8 @@ bool	ft_expand_variables(t_list *tokens, t_shell_data *shell_data)
 			tokens = tokens->next;
 		else
 		{
-			if (!ft_do_variable_expansion((t_tokens *)tokens->content, shell_data))
+			if (!ft_do_variable_expansion((t_tokens *)tokens->content,
+					shell_data))
 			{
 				ft_putendl_fd("some error with the expansion", 2);
 				return (false);
@@ -65,7 +67,8 @@ bool	ft_do_variable_expansion(t_tokens *token, t_shell_data *shell_data)
 		ft_update_quote_state(&in_single_quotes, &in_double_quotes, *string);
 		if (*string == '$' && !in_single_quotes)
 		{
-			if (!ft_execute_specific_case_of_variable_expansion(&string, &token->token, in_double_quotes, shell_data))//if return is string check for NULL
+			if (!ft_execute_specific_case_of_variable_expansion(&string,
+					&token->token, in_double_quotes, shell_data)) //if return is string check for NULL
 				return (false); //maybe clear something
 		}
 		else
@@ -74,7 +77,8 @@ bool	ft_do_variable_expansion(t_tokens *token, t_shell_data *shell_data)
 	return (true);
 }
 
-static void	ft_update_quote_state(bool *in_single_quotes, bool *in_double_quotes, char c)
+static void	ft_update_quote_state(bool *in_single_quotes,
+				bool *in_double_quotes, char c)
 {
 	if (c == '\'' && !*in_double_quotes)
 		*in_single_quotes = !*in_single_quotes;
@@ -99,7 +103,8 @@ static void	ft_update_quote_state(bool *in_single_quotes, bool *in_double_quotes
 // }
 
 //string starts at the $
-bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token, bool in_double_quotes, t_shell_data *shell_data) //return string?
+bool	ft_execute_specific_case_of_variable_expansion(char	**string,
+	char **token, bool in_double_quotes, t_shell_data *shell_data) //return string?
 {
 	char	*variable_name;
 	char	*trimmed;
@@ -111,7 +116,8 @@ bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token,
 	//keep the dollar sign
 	// $ \0     $\t  \0 || '$' || "$''" "$""" || $\0
 	if (ft_is_whitespace(*(*string + 1))
-		|| (in_double_quotes && ft_is_char_quote(*(*string + 1))) || !*(*string + 1))
+		|| (in_double_quotes && ft_is_char_quote(*(*string + 1)))
+		|| !*(*string + 1))
 	{
 		// printf("keep the dollar\n");
 		*string += 1;
@@ -129,7 +135,7 @@ bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token,
 	else if ((*(*string + 1)) == '$')
 	{
 		*string += 1;
-		return (true); 
+		return (true);
 	}
 	//exit code $?
 	else if ((*(*string + 1)) == '?')
@@ -145,7 +151,8 @@ bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token,
 		if (!exit_code)
 			return (false);
 		// printf("PID:%s", process_id);
-		if (!ft_replace_variable_name_with_value(string, token, NULL, exit_code))
+		if (!ft_replace_variable_name_with_value(string, token, NULL,
+				exit_code))
 			return (false);
 	}
 	//replace with value
@@ -154,7 +161,8 @@ bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token,
 		// printf("replace with value\n");
 		if (!ft_get_variable_name(*string, &variable_name))
 			return (false);
-		if (!ft_replace_variable_name_with_value(string, token, variable_name, ft_get_variable_value(shell_data->env_list, variable_name)))
+		if (!ft_replace_variable_name_with_value(string, token, variable_name,
+				ft_get_variable_value(shell_data->env_list, variable_name)))
 			return (false);
 	}
 	//replace with trimmed value
@@ -165,9 +173,9 @@ bool	ft_execute_specific_case_of_variable_expansion(char	**string, char **token,
 			return (false);
 		value = ft_get_variable_value(shell_data->env_list, variable_name);
 		trimmed = ft_trim_variable_value(value);
-		if (!ft_replace_variable_name_with_value(string, token, variable_name, trimmed))
+		if (!ft_replace_variable_name_with_value(string, token, variable_name,
+				trimmed))
 			return (false);
-		
 	}
 	return (true);
 }
@@ -209,7 +217,8 @@ char	*ft_get_variable_value(t_list *env_list, char *variable_name)
     return (value);
 }
 
-bool	ft_replace_variable_name_with_value(char **string, char **token, char *name, char *value)
+bool	ft_replace_variable_name_with_value(char **string, char **token,
+			char *name, char *value)
 {
 	char	*first_part;
 	char	*first_part_and_value;
@@ -217,10 +226,9 @@ bool	ft_replace_variable_name_with_value(char **string, char **token, char *name
 	char	*result;
 	int		name_len;
 
-
 	//for the $$ PID
 	name_len = 1;
-	if((*(*string + 1)) == '$' || (*(*string + 1)) == '?')
+	if ((*(*string + 1)) == '$' || (*(*string + 1)) == '?')
 		name_len = 2;
 	first_part = NULL;
 	if (name)
@@ -244,7 +252,7 @@ bool	ft_replace_variable_name_with_value(char **string, char **token, char *name
 		// printf("first_part_and_value:%s\n", first_part_and_value);
 	}
 	//there are leaks!!!!!!!!1
-	else if(!first_part)
+	else if (!first_part)
 		first_part_and_value = value;
 	//printf("hello\n");
 	// +1 for the $;
