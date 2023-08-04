@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:47:42 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 19:33:08 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 19:53:39 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,6 @@ bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data,
 			t_cmd_sequences *sequence_to_execute);
 void	ft_print_error(char *command, char *error_message);
 bool	ft_is_slash_in_command(char *command);
-void	ft_close_redirection_files(int input_fd, int output_fd);
 	//single_builtin_execution
 int		ft_execute_single_builtin(t_shell_data *shell_data,
 			int number_of_commands, t_cmd_sequences *sequence_to_execute,

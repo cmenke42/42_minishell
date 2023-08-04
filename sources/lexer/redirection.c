@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:29:42 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/04 19:11:16 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 19:53:12 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,28 @@ int	ft_handle_redirection_operators(t_cmd_sequences *sequence,
 static bool	ft_do_redirection(t_cmd_sequences *sequence,
 		t_tokens *operator_node, t_tokens *file_node, char **heredocs)
 {
-	if (operator_node->type == redirection_in
-		|| operator_node->type == redirection_in_heredoc)
+	bool status;
+
+	status = true;
+	if (operator_node->type == redirection_in || operator_node->type == redirection_in_heredoc)
 	{
-		return (ft_input_redirection(&sequence->input_fd,
-				operator_node, file_node, heredocs));
+		status = ft_input_redirection(&sequence->input_fd,
+				operator_node, file_node, heredocs);
 	}
 	else if (operator_node->type == redirection_out_trunc
 		|| operator_node->type == redirection_out_append)
 	{
-		return (ft_output_redirection(&sequence->output_fd,
-				operator_node->type, file_node));
+		status = ft_output_redirection(&sequence->output_fd,
+				operator_node->type, file_node);
 	}
-	return (true);
+	if (!status)
+	{
+		if (sequence->input_fd > 0)
+			close(sequence->input_fd);
+		if (sequence->output_fd > 0)
+			close(sequence->output_fd);
+	}
+	return (status);
 }
 
 static bool	ft_output_redirection(int *output_fd, char operator,

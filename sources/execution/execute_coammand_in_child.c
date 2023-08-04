@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 19:36:11 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 19:53:30 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ void	ft_execute_command_in_child(t_shell_data *shell_data,
 	shell_data->exit_code = 1;
 	if (ft_handle_redirection_operators(sequence_to_execute,
 			sequence_to_execute->tokens, shell_data->heredocs))
-		ft_close_redirection_files(sequence_to_execute->input_fd,
-			sequence_to_execute->output_fd);
+		;
 	else if (!ft_token_list_to_args_array(&sequence_to_execute->args,
 			sequence_to_execute->tokens))
 		;
@@ -149,12 +148,4 @@ bool	ft_is_slash_in_command(char *command)
 		i++;
 	}
 	return (false);
-}
-
-void ft_close_redirection_files(int input_fd, int output_fd)
-{
-	if (input_fd > 0)
-		close(input_fd);
-	if (output_fd > 0)
-		close(output_fd);
 }
