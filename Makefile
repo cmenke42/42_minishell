@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
+#    By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 23:48:03 by cmenke            #+#    #+#              #
-#    Updated: 2023/08/03 23:32:48 by cmenke           ###   ########.fr        #
+#    Updated: 2023/08/04 11:25:30 by wmoughar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,8 @@ EXECUTION := $(addprefix execution/,create_processes.c \
 									execute_coammand_in_child.c \
 									env_list_to_char_array.c \
 									duplication_of_fds_in_child.c \
-									single_builtin_execution.c)
+									single_builtin_execution.c \
+									invoke_close_functions.c)
 
 SIGNALS := $(addprefix signals/, set_signals_functions.c \
 								signal_handlers.c)
@@ -79,7 +80,7 @@ INCLUDE := ${LIBFTDIR}/${LIBFT} -lreadline \
 -I ${HOME}/goinfre/.brew/opt/readline/include/ \
 -L ${HOME}/goinfre/.brew/opt/readline/lib/
 
-CFLAGS := -Wall -Wextra -g -O0 -fsanitize=address
+CFLAGS := -Wall -Wextra -g -O0 #-fsanitize=address
 ##to have the same flags in libft and minishell
 export CFLAGS
 # CFLAGS := -Wall -Werror -Wextra

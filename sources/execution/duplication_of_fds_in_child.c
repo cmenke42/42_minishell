@@ -3,29 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   duplication_of_fds_in_child.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:23:14 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/26 14:58:03 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 11:30:20 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	ft_duplication_of_fds(int **pipe_fds, t_command_sequences *sequence_to_execute, int number_of_commands, int command_index)
+bool	ft_duplication_of_fds(int **pipe_fds,
+	t_command_sequences *sequence_to_execute, int number_of_commands,
+	int command_index)
 {
 	bool	status;
 
 	status = true;
-	if(!ft_input_redirection_in_child(pipe_fds, sequence_to_execute->input_fd, command_index))
+	if (!ft_input_redirection_in_child(pipe_fds, sequence_to_execute->input_fd,
+			command_index))
 		status = false;
-	if(!ft_output_redirection_in_child(pipe_fds, sequence_to_execute->output_fd, number_of_commands, command_index))
+	if (!ft_output_redirection_in_child(pipe_fds,
+			sequence_to_execute->output_fd, number_of_commands, command_index))
 		status = false;
 	ft_close_all_pipes(pipe_fds, number_of_commands - 1);
 	return (status);
 }
 
-bool	ft_input_redirection_in_child(int **pipe_fds, int input_fd, int command_index)
+bool	ft_input_redirection_in_child(int **pipe_fds, int input_fd,
+	int command_index)
 {
 	if (input_fd > 0)
 	{
@@ -44,7 +49,8 @@ bool	ft_input_redirection_in_child(int **pipe_fds, int input_fd, int command_ind
 	return (true);
 }
 
-bool	ft_output_redirection_in_child(int **pipe_fds, int output_fd, int number_of_commands, int command_index)
+bool	ft_output_redirection_in_child(int **pipe_fds, int output_fd,
+	int number_of_commands, int command_index)
 {
 	if (output_fd > 1)
 	{

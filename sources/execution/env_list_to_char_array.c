@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_list_to_char_array.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:43:42 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/27 19:23:32 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 11:31:04 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ bool	ft_env_list_to_envp_array(t_shell_data *shell_data)
 
 	i = 0;
 	env_list = shell_data->env_list;
-	shell_data->envp_array = ft_calloc(ft_lstsize(env_list) + 1, sizeof(char *));
+	shell_data->envp_array = ft_calloc(ft_lstsize(env_list) + 1,
+			sizeof(char *));
 	if (!shell_data->envp_array)
 		return (perror("error creatin envp array"), false);
 	while (env_list)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_coammand_in_child.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 01:17:32 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 11:50:54 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,24 @@
 
 // 1 | 2 | 3 | 4 | 5 | 6
 
-void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_commands, t_command_sequences *sequence_to_execute, int command_index)
+void	ft_execute_command_in_child(t_shell_data *shell_data,
+	int number_of_commands, t_command_sequences *sequence_to_execute,
+	int command_index)
 {
 	int	exit_code;
 
 	ft_restore_default_signals();
 	shell_data->exit_code = 1;
-	if (ft_handle_redirection_operators(sequence_to_execute, sequence_to_execute->tokens, shell_data->heredocs)) //close the opened fds in case of error
+	if (ft_handle_redirection_operators(sequence_to_execute,
+			sequence_to_execute->tokens, shell_data->heredocs)) //close the opened fds in case of error
 		;
-	else if (!ft_token_list_to_args_array(&sequence_to_execute->args, sequence_to_execute->tokens))
+	else if (!ft_token_list_to_args_array(&sequence_to_execute->args,
+			sequence_to_execute->tokens))
 		;
 	else if (!ft_env_list_to_envp_array(shell_data))
 		;
-	else if (!ft_duplication_of_fds(shell_data->pipe_fds, sequence_to_execute, number_of_commands, command_index))
+	else if (!ft_duplication_of_fds(shell_data->pipe_fds, sequence_to_execute,
+			number_of_commands, command_index))
 		;
 	else if (ft_execution_of_command(shell_data, sequence_to_execute, false))
 		;
@@ -37,7 +42,8 @@ void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_command
 	exit(exit_code);
 }
 
-int	ft_execution_of_command(t_shell_data *shell_data, t_command_sequences *sequence_to_execute, bool single_builtin)
+int	ft_execution_of_command(t_shell_data *shell_data,
+	t_command_sequences *sequence_to_execute, bool single_builtin)
 {
 	int	status;
 
@@ -48,41 +54,28 @@ int	ft_execution_of_command(t_shell_data *shell_data, t_command_sequences *seque
 		return (status);
 	else if (!ft_check_if_cmd_path_is_valid(shell_data, sequence_to_execute))
 		;
-	else if (execve(sequence_to_execute->command_path, sequence_to_execute->args, shell_data->envp_array) == -1)
+	else if (execve(sequence_to_execute->command_path,
+			sequence_to_execute->args, shell_data->envp_array) == -1)
 		perror("minishell: execve");
-	return (__error);
+	return (__mini_error);
 }
 
-int	ft_execute_builtin_if_builtin(t_shell_data *shell_data, t_command_sequences *sequence_to_execute)
+int	ft_execute_builtin_if_builtin(t_shell_data *shell_data,
+	t_command_sequences *sequence_to_execute)
 {
 	char	*command;
 	int		status;
 
 	status = __success;
 	command = sequence_to_execute->args[0];
-	if (!ft_strcmp("echo", command))
-		ft_echo(sequence_to_execute->args);
-	else if (!ft_strcmp("cd", command))
-		status = ft_cd(sequence_to_execute->args, &shell_data->env_list, shell_data); //error
-	else if (!ft_strcmp("pwd", command))
-		status = ft_pwd(NULL, true); //error
-	else if (!ft_strcmp("export", command))
-		status = ft_export(sequence_to_execute->args, &shell_data->env_list); //system call error possible
-	else if (!ft_strcmp("unset", command))
-		status = ft_unset(sequence_to_execute->args, &shell_data->env_list, shell_data); //syntax error possible
-	else if (!ft_strcmp("env", command))
-		ft_print_env_list(shell_data->env_list);
-	else if (!ft_strcmp("exit", command))
-		ft_exit(sequence_to_execute->args, shell_data);
-	else
-		return (__no_builtin_found);
+	status = get_builtin_command(shell_data, sequence_to_execute, command,
+		status);
 	if (status == __success)
 		shell_data->exit_code = 0;
 	return (status);
 }
 
-
-bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data, t_command_sequences *sequence_to_execute)
+bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data,t_command_sequences *sequence_to_execute)
 {
 	struct stat fileInfo;
 

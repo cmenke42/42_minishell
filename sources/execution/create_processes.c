@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_processes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 16:16:48 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 12:03:48 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 11:26:05 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@
 
 //close unneeded file descriptors
 
-
 int	ft_execute_commands(t_shell_data *shell_data)
 {
 	int		number_of_commands;
@@ -51,11 +50,13 @@ int	ft_execute_commands(t_shell_data *shell_data)
 	number_of_commands = ft_lstsize(shell_data->command_sequences);
 	if (!ft_create_pipes(shell_data, number_of_commands - 1))
 		return (__system_call_error);
-	
 	// ft_print_pipe_fds(shell_data->pipe_fds, number_of_commands - 1);
-	if (number_of_commands == 1 && ft_is_builtin((t_command_sequences *)shell_data->command_sequences->content))
+	if (number_of_commands == 1 && ft_is_builtin((t_command_sequences *)
+			shell_data->command_sequences->content))
 	{
-		status = ft_execute_single_builtin(shell_data, number_of_commands, (t_command_sequences *)shell_data->command_sequences->content, 0);
+		status = ft_execute_single_builtin(shell_data, number_of_commands,
+				(t_command_sequences *)shell_data->command_sequences->content,
+				0);
 		ft_set_minisell_signals();
 		return (status);
 	}	
@@ -63,10 +64,7 @@ int	ft_execute_commands(t_shell_data *shell_data)
 		status = __system_call_error;
 	if (status == __success)
 		ft_set_singals_in_parent_during_execution();
-	ft_close_all_pipes(shell_data->pipe_fds, number_of_commands - 1);
-	ft_free_double_pointer_int(&shell_data->pipe_fds, number_of_commands - 1);
-	ft_wait_for_child_processes_and_get_exit_code(shell_data, number_of_commands); // store the exit_code
-	ft_set_minisell_signals();
+	call_functions(shell_data, number_of_commands);
 	return (status);
 }
 
@@ -96,11 +94,12 @@ bool	ft_create_pipes(t_shell_data *shell_data, int number_of_pipes)
 	return (true);
 }
 
-bool	ft_fork_child_processes(t_shell_data *shell_data, int number_of_commands)
+bool	ft_fork_child_processes(t_shell_data *shell_data,
+	int number_of_commands)
 {
 	int		i;
 	t_list	*command_sequences;
-	
+
 	command_sequences = shell_data->command_sequences;
 	shell_data->process_ids = ft_calloc(number_of_commands, sizeof(pid_t));
 	if (!shell_data->process_ids)
@@ -112,14 +111,16 @@ bool	ft_fork_child_processes(t_shell_data *shell_data, int number_of_commands)
 		if (shell_data->process_ids[i] == -1)
 			return (perror("error forking child process"), false);
 		if (shell_data->process_ids[i] == 0)
-			ft_execute_command_in_child(shell_data, number_of_commands, (t_command_sequences *)command_sequences->content, i);
+			ft_execute_command_in_child(shell_data, number_of_commands,
+				(t_command_sequences *)command_sequences->content, i);
 		i++;
 		command_sequences = command_sequences->next;
 	}
 	return (true);
 }
 
-void	ft_wait_for_child_processes_and_get_exit_code(t_shell_data *shell_data, int number_of_commands)
+void	ft_wait_for_child_processes_and_get_exit_code(t_shell_data *shell_data,
+	int number_of_commands)
 {
 	int		stat_loc;
 	int		exit_code;
@@ -142,7 +143,8 @@ void	ft_wait_for_child_processes_and_get_exit_code(t_shell_data *shell_data, int
 	shell_data->exit_code = exit_code;
 }
 
-void	ft_get_exit_code(int *exit_code, int stat_loc, bool first_encounter, bool reset_signal_number)
+void	ft_get_exit_code(int *exit_code, int stat_loc, bool first_encounter,
+	bool reset_signal_number)
 {
 	if (reset_signal_number)
 		g_signal_number = 0; //reset the signal number so we see the one from last executed command

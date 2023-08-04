@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 16:50:05 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/03 22:40:36 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 11:36:30 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ enum	e_error_codes
 	__syntax_error,
 	__system_call_error,
 	__stop_execution,
-	__error,
+	__mini_error,
 	__no_builtin_found
 };
 

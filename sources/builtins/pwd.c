@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 11:30:23 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/01 21:19:20 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/04 10:46:49 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_pwd(char **pwd, bool print)
 	if (!path)
 	{
 		ft_putstr_fd("minishell: path doesn't exist\n", 2);
-		return (__error);
+		return (__mini_error);
 	}
 	if (print)
 		ft_print_pwd_and_free(path);
