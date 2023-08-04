@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:29:42 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/04 01:05:45 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 01:09:53 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	ft_handle_redirection_operators(t_command_sequences *sequence,
 	{
 		current = (t_tokens *)tokens->content;
 		next = (t_tokens *)tokens->next->content;
-		if (current->type >= 3 && current->type <= 6)
+		if (current->type >= redirection_in
+			&& current->type <= redirection_out_append)
 		{
 			if (!ft_do_redirection(sequence, current, next, heredocs))
 				return (__stop_execution);
