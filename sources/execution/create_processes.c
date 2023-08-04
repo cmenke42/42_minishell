@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_processes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 16:16:48 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 11:26:05 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:06:07 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@
 
 // -----
 
-//start with how many pipes are neeeded -> number of command_sequences - 1
+//start with how many pipes are neeeded -> number of cmd_sequences - 1
 	//store the pipes in an 2 d array
 
-//then fork processes for each command_sequences existing
+//then fork processes for each cmd_sequences existing
 	//When to fork:
 		// more than one process
 		//no builtin
@@ -47,15 +47,15 @@ int	ft_execute_commands(t_shell_data *shell_data)
 	int		status;
 
 	status = __success;
-	number_of_commands = ft_lstsize(shell_data->command_sequences);
+	number_of_commands = ft_lstsize(shell_data->cmd_sequences);
 	if (!ft_create_pipes(shell_data, number_of_commands - 1))
 		return (__system_call_error);
 	// ft_print_pipe_fds(shell_data->pipe_fds, number_of_commands - 1);
 	if (number_of_commands == 1 && ft_is_builtin((t_command_sequences *)
-			shell_data->command_sequences->content))
+			shell_data->cmd_sequences->content))
 	{
 		status = ft_execute_single_builtin(shell_data, number_of_commands,
-				(t_command_sequences *)shell_data->command_sequences->content,
+				(t_command_sequences *)shell_data->cmd_sequences->content,
 				0);
 		ft_set_minisell_signals();
 		return (status);
@@ -98,9 +98,9 @@ bool	ft_fork_child_processes(t_shell_data *shell_data,
 	int number_of_commands)
 {
 	int		i;
-	t_list	*command_sequences;
+	t_list	*cmd_sequences;
 
-	command_sequences = shell_data->command_sequences;
+	cmd_sequences = shell_data->cmd_sequences;
 	shell_data->process_ids = ft_calloc(number_of_commands, sizeof(pid_t));
 	if (!shell_data->process_ids)
 		return (perror("error creating shell_data->process_ids"), false);
@@ -112,9 +112,9 @@ bool	ft_fork_child_processes(t_shell_data *shell_data,
 			return (perror("error forking child process"), false);
 		if (shell_data->process_ids[i] == 0)
 			ft_execute_command_in_child(shell_data, number_of_commands,
-				(t_command_sequences *)command_sequences->content, i);
+				(t_command_sequences *)cmd_sequences->content, i);
 		i++;
-		command_sequences = command_sequences->next;
+		cmd_sequences = cmd_sequences->next;
 	}
 	return (true);
 }

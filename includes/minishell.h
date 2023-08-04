@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:47:42 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 11:48:43 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:06:07 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,11 @@ extern int	g_signal_number;
 
 //main
 int		ft_process_command_line(t_shell_data *shell_data);
+void	ft_exit_ctrl_d(t_shell_data *shell_data);
+//prepare_minishell.c
+int 	ft_prepare_minishell(t_shell_data **shell_data, char **envp);
 int		ft_prepare_env_variables(t_shell_data *shell_data);
 int		increase_shlvl(t_list **env_list);
-void	ft_exit_ctrl_d(t_shell_data *shell_data);
-
 //print_error.c
 void	ft_print_error_message(char *part1, char *part2, char *part3, char *part4);
 
@@ -79,7 +80,7 @@ void	ft_handle_sigquit_in_parent_during_execution(int sig_num);
 void	ft_handle_sigint_in_minishell(int sig_num);
 //lexer
 	//tokenize_command_line.c
-int		ft_tokenize_command_line(char *command_line_read, t_list **tokens);
+int		ft_tokenize_command_line(char *cmd_line, t_list **tokens);
 	// tokenize_command_line_helpers.c
 void	ft_skip_to_next_non_delimiter(char **command_line);
 bool	ft_is_whitespace(char c);
@@ -99,7 +100,7 @@ void	ft_delete_heredoc_files(char **heredoc_files);
 bool	ft_is_quotes_in_delimiter(char *string);
 
 	//split_in_sequences.c
-int		ft_split_tokens_in_sequences(t_list *tokens, t_list **command_sequences);
+int		ft_split_tokens_in_sequences(t_list *tokens, t_list **cmd_sequences);
 	//variable_expansion.c
 bool	ft_expand_variables_in_tokens(t_list **tokens, t_shell_data *shell_data);
 bool	ft_expand_variables_in_string(char **string, t_shell_data *shell_data,
@@ -142,7 +143,7 @@ void	ft_free_shell_data(t_shell_data *shell_data, bool everything);
 void	ft_clear_command_sequence(void *node);
 void	ft_clear_token(void *node);
 void	ft_clear_env_variable(void *node);
-// void	ft_free_command_sequences(void *command_sequences);
+// void	ft_free_command_sequences(void *cmd_sequences);
 
 //execution
 	//invoke_close_functions
@@ -198,16 +199,16 @@ char	*ft_create_one_env_variable(t_env *one_variable);
 //helpers.c
 	// void ft_print_list(t_list *list);
 void	ft_print_token_list(t_list *tokens);
-void	ft_print_command_sequences(t_list *command_sequences);
+void	ft_print_command_sequences(t_list *cmd_sequences);
 void	ft_print_tokens_and_type(t_list *tokens);//
-void	ft_print_command_sequences_args(t_list *command_sequences);/////////////
+void	ft_print_command_sequences_args(t_list *cmd_sequences);/////////////
 void	ft_print_double_array(char **array);
 void	ft_print_envp_array(char **envp_array);
 void	ft_print_pipe_fds(int **pipe_fds, int number_of_pipes);
-void	ft_print_command_sequences(t_list *command_sequences);
+void	ft_print_command_sequences(t_list *cmd_sequences);
 void	ft_print_token_list(t_list *tokens);
 void	ft_print_double_array(char **array);
-void	ft_print_command_sequences_args(t_list *command_sequences);
+void	ft_print_command_sequences_args(t_list *cmd_sequences);
 void	ft_print_tokens_and_type(t_list *tokens);
 
 #endif

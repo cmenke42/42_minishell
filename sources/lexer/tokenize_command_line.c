@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 00:31:18 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 19:04:56 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,23 @@
 static int	ft_find_next_token(char **string, char **start, t_list **tokens);
 static bool	ft_create_one_token(char *start, char *end, t_list **tokens);
 
-int	ft_tokenize_command_line(char *command_line_read, t_list **tokens)
+int	ft_tokenize_command_line(char *cmd_line, t_list **tokens)
 {
 	char				*start;
 	//what need to happen when there is a newline in the command line read?
-	while (*command_line_read)
+	while (*cmd_line)
 	{
-		ft_skip_to_next_non_delimiter(&command_line_read);
-		start = command_line_read;
-		ft_find_next_token(&command_line_read, &start, tokens);
-		if (start != command_line_read 
-			&& !ft_create_one_token(start, command_line_read, tokens))
+		ft_skip_to_next_non_delimiter(&cmd_line);
+		start = cmd_line;
+		ft_find_next_token(&cmd_line, &start, tokens);
+		if (start != cmd_line 
+			&& !ft_create_one_token(start, cmd_line, tokens))
 		{
 			return (__system_call_error);
 		}
 	}
 	if (!*tokens)
-		return (__dont_add_to_history);
+		return (__no_history);
 	return (__success);
 }
 

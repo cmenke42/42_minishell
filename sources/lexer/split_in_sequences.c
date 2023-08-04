@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:59:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 00:18:58 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 19:06:07 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static bool	ft_find_pipe_operator(t_list **tokens);
 static bool	ft_assign_tokens(t_list *start_of_tokens,
-				t_list **command_sequences);
+				t_list **cmd_sequences);
 
-int	ft_split_tokens_in_sequences(t_list *tokens, t_list **command_sequences)
+int	ft_split_tokens_in_sequences(t_list *tokens, t_list **cmd_sequences)
 {
 	t_list	*start_of_tokens;
 	bool	pipe_inside;
@@ -31,9 +31,9 @@ int	ft_split_tokens_in_sequences(t_list *tokens, t_list **command_sequences)
 			pipe_inside = ft_find_pipe_operator(&tokens);
 		if (pipe_inside || !tokens)
 		{
-			if (!ft_assign_tokens(start_of_tokens, command_sequences))
+			if (!ft_assign_tokens(start_of_tokens, cmd_sequences))
 			{
-				if (command_sequences)
+				if (cmd_sequences)
 					ft_lstclear(&start_of_tokens, ft_clear_token);
 				return (__system_call_error);
 			}
@@ -71,7 +71,7 @@ static bool	ft_find_pipe_operator(t_list **tokens)
 }
 
 static bool	ft_assign_tokens(t_list *start_of_tokens,
-				t_list **command_sequences)
+				t_list **cmd_sequences)
 {
 	t_command_sequences	*one_sequence;
 	t_list				*new_sequence_node;
@@ -87,6 +87,6 @@ static bool	ft_assign_tokens(t_list *start_of_tokens,
 		return (false);
 	}
 	one_sequence->tokens = start_of_tokens;
-	ft_lstadd_back(command_sequences, new_sequence_node);
+	ft_lstadd_back(cmd_sequences, new_sequence_node);
 	return (true);
 }
