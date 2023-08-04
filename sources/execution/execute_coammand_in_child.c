@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 00:52:25 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 01:17:32 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_execute_command_in_child(t_shell_data *shell_data, int number_of_command
 
 	ft_restore_default_signals();
 	shell_data->exit_code = 1;
-	if (ft_handle_redirection_operators(sequence_to_execute, sequence_to_execute->tokens, shell_data->heredocs))
+	if (ft_handle_redirection_operators(sequence_to_execute, sequence_to_execute->tokens, shell_data->heredocs)) //close the opened fds in case of error
 		;
 	else if (!ft_token_list_to_args_array(&sequence_to_execute->args, sequence_to_execute->tokens))
 		;

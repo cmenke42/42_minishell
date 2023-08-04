@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:29:42 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/04 01:09:53 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 01:18:50 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,10 @@ static bool	ft_output_redirection(int *output_fd, char operator,
 	if (*output_fd > 1)
 		close(*output_fd);
 	file_node->type = redirection_filename;
+	*output_fd = fd;
 	if (fd == -1)
 		return (ft_print_error_message(file_node->token, ": ",
 				strerror(errno), NULL), false);
-	*output_fd = fd;
 	return (true);
 }
 
@@ -95,10 +95,10 @@ static bool	ft_input_redirection(int *input_fd, t_tokens *operator_node,
 		fd = open(heredocs[operator_node->heredoc_number], O_RDONLY);
 	if (*input_fd > 0)
 		close(*input_fd);
+	file_node->type = redirection_filename;
+	*input_fd = fd;
 	if (fd == -1)
 		return (ft_print_error_message(file_node->token, ": ",
 				strerror(errno), NULL), false);
-	file_node->type = redirection_filename;
-	*input_fd = fd;
 	return (true);
 }
