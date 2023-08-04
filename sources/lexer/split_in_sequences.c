@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:59:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 19:06:07 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 19:11:16 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,10 @@ static bool	ft_find_pipe_operator(t_list **tokens)
 static bool	ft_assign_tokens(t_list *start_of_tokens,
 				t_list **cmd_sequences)
 {
-	t_command_sequences	*one_sequence;
+	t_cmd_sequences	*one_sequence;
 	t_list				*new_sequence_node;
 
-	one_sequence = ft_calloc(1, sizeof(t_command_sequences));
+	one_sequence = ft_calloc(1, sizeof(t_cmd_sequences));
 	if (!one_sequence)
 		return (perror("error creating one_sequence"), false);
 	new_sequence_node = ft_lstnew((void *)one_sequence);

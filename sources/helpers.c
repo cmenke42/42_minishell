@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:46:20 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 19:06:07 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 19:11:16 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ void	ft_print_double_pointer(char **string)
 
 void	ft_print_command_sequences_args(t_list *cmd_sequences)
 {
-	t_command_sequences	*one_sequence;
+	t_cmd_sequences	*one_sequence;
 	int i;
 
 	i = 0;
 	while (cmd_sequences)
 	{
 		printf("\nSequence %d\n", i++);
-		one_sequence = (t_command_sequences *)cmd_sequences->content;
+		one_sequence = (t_cmd_sequences *)cmd_sequences->content;
 		ft_print_double_array(one_sequence->args);
 		cmd_sequences = cmd_sequences->next;
 	}
@@ -92,14 +92,14 @@ void	ft_print_token_list(t_list *tokens)
 
 void	ft_print_command_sequences(t_list *cmd_sequences)
 {
-	t_command_sequences	*one_sequence;
+	t_cmd_sequences	*one_sequence;
 	int i;
 
 	i = 0;
 	while (cmd_sequences)
 	{
 		printf("\nSequence %d\n", i++);
-		one_sequence = (t_command_sequences *)cmd_sequences->content;
+		one_sequence = (t_cmd_sequences *)cmd_sequences->content;
 		ft_print_token_list(one_sequence->tokens);
 		cmd_sequences = cmd_sequences->next;
 	}

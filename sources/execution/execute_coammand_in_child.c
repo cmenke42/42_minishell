@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_coammand_in_child.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 11:50:54 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:36:11 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // 1 | 2 | 3 | 4 | 5 | 6
 
 void	ft_execute_command_in_child(t_shell_data *shell_data,
-	int number_of_commands, t_command_sequences *sequence_to_execute,
+	int number_of_commands, t_cmd_sequences *sequence_to_execute,
 	int command_index)
 {
 	int	exit_code;
@@ -23,8 +23,9 @@ void	ft_execute_command_in_child(t_shell_data *shell_data,
 	ft_restore_default_signals();
 	shell_data->exit_code = 1;
 	if (ft_handle_redirection_operators(sequence_to_execute,
-			sequence_to_execute->tokens, shell_data->heredocs)) //close the opened fds in case of error
-		;
+			sequence_to_execute->tokens, shell_data->heredocs))
+		ft_close_redirection_files(sequence_to_execute->input_fd,
+			sequence_to_execute->output_fd);
 	else if (!ft_token_list_to_args_array(&sequence_to_execute->args,
 			sequence_to_execute->tokens))
 		;
@@ -37,13 +38,14 @@ void	ft_execute_command_in_child(t_shell_data *shell_data,
 		;
 	exit_code = shell_data->exit_code;
 	rl_clear_history();
+	ft_close_all_pipes(shell_data->pipe_fds, number_of_commands - 1);
 	ft_free_double_pointer_int(&shell_data->pipe_fds, number_of_commands - 1);
 	ft_free_shell_data(shell_data, true);
 	exit(exit_code);
 }
 
 int	ft_execution_of_command(t_shell_data *shell_data,
-	t_command_sequences *sequence_to_execute, bool single_builtin)
+	t_cmd_sequences *sequence_to_execute, bool single_builtin)
 {
 	int	status;
 
@@ -61,7 +63,7 @@ int	ft_execution_of_command(t_shell_data *shell_data,
 }
 
 int	ft_execute_builtin_if_builtin(t_shell_data *shell_data,
-	t_command_sequences *sequence_to_execute)
+	t_cmd_sequences *sequence_to_execute)
 {
 	char	*command;
 	int		status;
@@ -75,7 +77,7 @@ int	ft_execute_builtin_if_builtin(t_shell_data *shell_data,
 	return (status);
 }
 
-bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data,t_command_sequences *sequence_to_execute)
+bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data,t_cmd_sequences *sequence_to_execute)
 {
 	struct stat fileInfo;
 
@@ -147,4 +149,12 @@ bool	ft_is_slash_in_command(char *command)
 		i++;
 	}
 	return (false);
+}
+
+void ft_close_redirection_files(int input_fd, int output_fd)
+{
+	if (input_fd > 0)
+		close(input_fd);
+	if (output_fd > 0)
+		close(output_fd);
 }

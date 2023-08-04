@@ -6,40 +6,11 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 16:16:48 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 19:06:07 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 19:28:45 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-//go through the tokens and then put the token contents as arguments for the execution part.
-	//delete the token list after finishing this process.
-	//if something goes wrong in that process stop the execution of that process??
-//after that go on with finding the command path
-	//check the 4 different options
-		//builtin
-		//path
-		//comannd
-		//executabel
-//then exccute the command
-	//if execution fails free all the content that was brought into the child process which is allocated
-	//save the exit status of that command
-
-
-// -----
-
-//start with how many pipes are neeeded -> number of cmd_sequences - 1
-	//store the pipes in an 2 d array
-
-//then fork processes for each cmd_sequences existing
-	//When to fork:
-		// more than one process
-		//no builtin
-
-//start to call the functions in the child process to prepare the command
-	//handle redirections,...
-
-//close unneeded file descriptors
 
 int	ft_execute_commands(t_shell_data *shell_data)
 {
@@ -50,13 +21,11 @@ int	ft_execute_commands(t_shell_data *shell_data)
 	number_of_commands = ft_lstsize(shell_data->cmd_sequences);
 	if (!ft_create_pipes(shell_data, number_of_commands - 1))
 		return (__system_call_error);
-	// ft_print_pipe_fds(shell_data->pipe_fds, number_of_commands - 1);
-	if (number_of_commands == 1 && ft_is_builtin((t_command_sequences *)
+	if (number_of_commands == 1 && ft_is_builtin((t_cmd_sequences *)
 			shell_data->cmd_sequences->content))
 	{
 		status = ft_execute_single_builtin(shell_data, number_of_commands,
-				(t_command_sequences *)shell_data->cmd_sequences->content,
-				0);
+				(t_cmd_sequences *)shell_data->cmd_sequences->content, 0);
 		ft_set_minisell_signals();
 		return (status);
 	}	
@@ -64,7 +33,7 @@ int	ft_execute_commands(t_shell_data *shell_data)
 		status = __system_call_error;
 	if (status == __success)
 		ft_set_singals_in_parent_during_execution();
-	call_functions(shell_data, number_of_commands);
+	call_functions(shell_data, number_of_commands);//
 	return (status);
 }
 
@@ -112,14 +81,14 @@ bool	ft_fork_child_processes(t_shell_data *shell_data,
 			return (perror("error forking child process"), false);
 		if (shell_data->process_ids[i] == 0)
 			ft_execute_command_in_child(shell_data, number_of_commands,
-				(t_command_sequences *)cmd_sequences->content, i);
+				(t_cmd_sequences *)cmd_sequences->content, i);
 		i++;
 		cmd_sequences = cmd_sequences->next;
 	}
 	return (true);
 }
 
-void	ft_wait_for_child_processes_and_get_exit_code(t_shell_data *shell_data,
+void	ft_wait_for_childs_and_get_exit_code(t_shell_data *shell_data,
 	int number_of_commands)
 {
 	int		stat_loc;

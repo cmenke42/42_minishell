@@ -6,25 +6,29 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 15:50:13 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 00:52:33 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 19:28:30 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_execute_single_builtin(t_shell_data *shell_data, int number_of_commands, t_command_sequences *sequence_to_execute, int command_index)
+int	ft_execute_single_builtin(t_shell_data *shell_data, int number_of_commands,
+		t_cmd_sequences *sequence_to_execute, int command_index)
 {
-	int status;
+	int	status;
 
 	status = __success;
 	shell_data->exit_code = 1;
 	if (!ft_save_standard_fds(shell_data))
 		return (__system_call_error);
 	ft_restore_default_signals();
-	status = ft_handle_redirection_operators(sequence_to_execute, sequence_to_execute->tokens, shell_data->heredocs);
-	if (!status && !ft_token_list_to_args_array(&sequence_to_execute->args, sequence_to_execute->tokens))
+	status = ft_handle_redirection_operators(sequence_to_execute,
+			sequence_to_execute->tokens, shell_data->heredocs);
+	if (!status && !ft_token_list_to_args_array(&sequence_to_execute->args,
+			sequence_to_execute->tokens))
 		status = __system_call_error;
-	if (!status && !ft_duplication_of_fds(shell_data->pipe_fds, sequence_to_execute, number_of_commands, command_index))
+	if (!status && !ft_duplication_of_fds(shell_data->pipe_fds,
+			sequence_to_execute, number_of_commands, command_index))
 		status = __system_call_error;
 	if (!status)
 		status = ft_execution_of_command(shell_data, sequence_to_execute, true);
@@ -33,10 +37,10 @@ int	ft_execute_single_builtin(t_shell_data *shell_data, int number_of_commands, 
 	return (status);
 }
 
-bool	ft_is_builtin(t_command_sequences *sequence_to_execute)
+bool	ft_is_builtin(t_cmd_sequences *sequence_to_execute)
 {
-	char	*command;
 	t_tokens	*token;
+	char		*command;
 
 	token = (t_tokens *)sequence_to_execute->tokens->content;
 	command = token->token;

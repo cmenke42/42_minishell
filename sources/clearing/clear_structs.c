@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 17:08:25 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 19:06:07 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 19:11:16 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ void	ft_free_shell_data(t_shell_data *shell_data, bool everything)
 
 void	ft_clear_command_sequence(void *node)
 {
-	t_command_sequences	*sequence;
+	t_cmd_sequences	*sequence;
 
 	if (!node)
 		return ;
-	sequence = (t_command_sequences *)node;
+	sequence = (t_cmd_sequences *)node;
 	ft_free_pointer_and_set_to_null((void **)&sequence->command_path);
 	ft_free_double_pointer_char(&sequence->envp_command_paths);
 	if (sequence->args)

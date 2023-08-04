@@ -6,20 +6,20 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:29:42 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/04 01:18:50 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 19:11:16 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static bool	ft_do_redirection(t_command_sequences *sequence,
+static bool	ft_do_redirection(t_cmd_sequences *sequence,
 				t_tokens *operator_node, t_tokens *file_node, char **heredocs);
 static bool	ft_input_redirection(int *input_fd, t_tokens *operator_node,
 				t_tokens *file_node, char **heredocs);
 static bool	ft_output_redirection(int *output_fd, char operator,
 				t_tokens *file_node);
 
-int	ft_handle_redirection_operators(t_command_sequences *sequence,
+int	ft_handle_redirection_operators(t_cmd_sequences *sequence,
 	t_list *tokens, char **heredocs)
 {
 	t_tokens	*current;
@@ -45,7 +45,7 @@ int	ft_handle_redirection_operators(t_command_sequences *sequence,
 	return (__success);
 }
 
-static bool	ft_do_redirection(t_command_sequences *sequence,
+static bool	ft_do_redirection(t_cmd_sequences *sequence,
 		t_tokens *operator_node, t_tokens *file_node, char **heredocs)
 {
 	if (operator_node->type == redirection_in

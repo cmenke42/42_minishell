@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   duplication_of_fds_in_child.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:23:14 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 11:30:20 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:36:37 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 bool	ft_duplication_of_fds(int **pipe_fds,
-	t_command_sequences *sequence_to_execute, int number_of_commands,
+	t_cmd_sequences *sequence_to_execute, int number_of_commands,
 	int command_index)
 {
 	bool	status;
@@ -25,7 +25,6 @@ bool	ft_duplication_of_fds(int **pipe_fds,
 	if (!ft_output_redirection_in_child(pipe_fds,
 			sequence_to_execute->output_fd, number_of_commands, command_index))
 		status = false;
-	ft_close_all_pipes(pipe_fds, number_of_commands - 1);
 	return (status);
 }
 
@@ -69,21 +68,6 @@ bool	ft_output_redirection_in_child(int **pipe_fds, int output_fd,
 	return (true);
 }
 
-// void	ft_close_pipes_except_for_needed_ones(int **pipe_fds, int number_of_pipes, int command_index)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (i < number_of_pipes - 1)
-// 	{
-// 		if (i != command_index - 1)
-// 			close(pipe_fds[i][0]);
-// 		if (i != command_index)
-// 			close(pipe_fds[i][1]);
-// 		i++;
-// 	}
-// }
-
 void	ft_close_all_pipes(int **pipe_fds, int number_of_pipes)
 {
 	int	i;
@@ -93,8 +77,10 @@ void	ft_close_all_pipes(int **pipe_fds, int number_of_pipes)
 		return ;
 	while (i < number_of_pipes)
 	{
-		close(pipe_fds[i][0]);
-		close(pipe_fds[i][1]);
+		if (pipe_fds[i][0] > 0)
+			close(pipe_fds[i][0]);
+		if (pipe_fds[i][1] > 0)
+			close(pipe_fds[i][1]);
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 16:50:05 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 19:06:07 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 19:11:16 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_command_sequences
 	char	**args;
 	int		input_fd;
 	int		output_fd;
-}				t_command_sequences;
+}				t_cmd_sequences;
 
 typedef struct s_tokens
 {
