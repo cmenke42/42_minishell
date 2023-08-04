@@ -6,14 +6,13 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:59:06 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/02 00:18:34 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 00:18:58 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 static bool	ft_find_pipe_operator(t_list **tokens);
-static void	ft_cut_out_pipe_node(t_list **tokens, t_list *previous_token_node);
 static bool	ft_assign_tokens(t_list *start_of_tokens,
 				t_list **command_sequences);
 
@@ -48,34 +47,27 @@ int	ft_split_tokens_in_sequences(t_list *tokens, t_list **command_sequences)
 
 static bool	ft_find_pipe_operator(t_list **tokens)
 {
-	t_list		*previous_token_node;
+	t_list		*previous;
+	t_list		*next;
 	t_tokens	*token;
 
-	previous_token_node = NULL;
+	previous = NULL;
+	next = NULL;
 	while (*tokens)
 	{
+		next = (*tokens)->next;
 		token = (t_tokens *)((*tokens)->content);
 		if (token->type == pipe_operator)
 		{
-			ft_cut_out_pipe_node(tokens, previous_token_node);
+			ft_cut_out_node(tokens, previous, *tokens, NULL);
+			*tokens = next;
 			return (true);
 		}
-		previous_token_node = *tokens;
-		if (*tokens)
-			*tokens = (*tokens)->next;
+		else
+			previous = *tokens;
+		*tokens = next;
 	}
 	return (false);
-}
-
-static void	ft_cut_out_pipe_node(t_list **tokens, t_list *previous_token_node)
-{
-	t_list	*temp;
-
-	temp = *tokens;
-	if (previous_token_node)
-		previous_token_node->next = NULL;
-	*tokens = (*tokens)->next;
-	ft_lstdelone(temp, ft_clear_token);
 }
 
 static bool	ft_assign_tokens(t_list *start_of_tokens,

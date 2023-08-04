@@ -6,14 +6,31 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:38:02 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/03 22:59:38 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 01:06:32 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 static void	ft_process_quote_string(char *string, char *new_string,
-		void (*copy_or_count)(char *, int *, char), int *count);
+				void (*copy_or_count)(char *, int *, char), int *count);
+
+bool	ft_remove_quotes_from_tokens(t_list *tokens)
+{
+	t_tokens	*one_token;
+
+	while (tokens)
+	{
+		one_token = (t_tokens *)tokens->content;
+		if (one_token->type == text)
+		{
+			if (!ft_remove_quotes_from_string(&one_token->token))
+				return (false);
+		}
+		tokens = tokens->next;
+	}
+	return (true);
+}
 
 //pass string as reference
 bool	ft_remove_quotes_from_string(char **string)

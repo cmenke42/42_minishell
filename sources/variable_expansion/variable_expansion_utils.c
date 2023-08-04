@@ -6,23 +6,22 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 23:05:12 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/03 23:22:20 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 00:12:10 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_cut_out_empty_node(t_list **tokens, t_list *previous_token_node,
-			t_list **current_token_node)
+void	ft_cut_out_node(t_list **tokens, t_list *previous,
+			t_list *current, t_list *next)
 {
 	t_list	*temp;
 
-	temp = *current_token_node;
-	if (previous_token_node)
-		previous_token_node->next = (*current_token_node)->next;
-	*current_token_node = (*current_token_node)->next;
+	temp = current;
+	if (previous)
+		previous->next = next;
 	if (temp == *tokens)
-		*tokens = *current_token_node;
+		*tokens = current->next;
 	ft_lstdelone(temp, ft_clear_token);
 }
 

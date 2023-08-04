@@ -6,13 +6,14 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:47:42 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/03 23:32:03 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 00:51:42 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <errno.h>
 # include <limits.h>
 # include <sys/param.h>
 # include <stdio.h>
@@ -96,7 +97,6 @@ bool	ft_create_heredoc_files(t_shell_data *shell_data);
 void	ft_delete_heredoc_files(char **heredoc_files);
 	// heredoc_helpers.c
 bool	ft_is_quotes_in_delimiter(char *string);
-bool	ft_expand_variables_in_heredoc_line(char **line, t_shell_data *shell_data);
 
 	//split_in_sequences.c
 int		ft_split_tokens_in_sequences(t_list *tokens, t_list **command_sequences);
@@ -105,8 +105,8 @@ bool	ft_expand_variables_in_tokens(t_list **tokens, t_shell_data *shell_data);
 bool	ft_expand_variables_in_string(char **string, t_shell_data *shell_data,
 				bool ignore_quotes);
 	//variable_expansion_utils.c
-void	ft_cut_out_empty_node(t_list **tokens, t_list *previous_token_node,
-			t_list **current_token_node);
+void	ft_cut_out_node(t_list **tokens, t_list *previous,
+			t_list *current, t_list *next);
 void	ft_update_quote_state(bool *in_single_quotes,
 				bool *in_double_quotes, char c);
 void	ft_skip_whitespace(char *string, int *i);
@@ -117,24 +117,14 @@ bool	ft_trim_value(char **string);
 bool	ft_get_variable_name(char *string, char **variable_name);
 bool	ft_get_variable_value(char *name, char **value, t_list *env_list);
 bool	ft_get_exit_code_string(char **name, char **value, int exit_code);
-
-// ---
-int		ft_handle_redirection_operators(t_command_sequences *one_sequence,
-			t_list *tokens_of_sequence, t_shell_data *shell_data);
-int		ft_do_redirection(t_command_sequences *one_sequence,
-			t_tokens *operator_token, t_tokens *file_token,
-			t_shell_data *shell_data);
-int		ft_output_redirection(int *output_fd, char operator,
-			t_tokens *file_token);
-int		ft_input_redirection(int *input_fd, t_tokens *operator_token,
-			t_tokens *file_token, t_shell_data *shell_data);
+	//redirection.c
+int	ft_handle_redirection_operators(t_command_sequences *sequence,
+	t_list *tokens, char **heredocs);
 void	ft_put_redirection_error(char *file);
 	//token_list_to_char_array
-bool	ft_token_list_to_args_array(t_command_sequences *one_sequence);
-int		ft_count_arguments(t_list *tokens);
-void	ft_copy_token_from_list_to_array(char **arguments, int *i,
-			char **token);
+bool	ft_token_list_to_args_array(char ***arguments, t_list *tokens);
 	//remove_quotes
+bool	ft_remove_quotes_from_tokens(t_list *tokens);
 bool	ft_remove_quotes_from_string(char **string);
 void	ft_count_length(char *new_string, int *count, char c);
 void	ft_copy_char(char *new_string, int *count, char c);

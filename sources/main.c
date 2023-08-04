@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/03 23:10:45 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 00:39:00 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ int	ft_process_command_line(t_shell_data *shell_data)
 	status = ft_tokenize_command_line(shell_data->command_line_read, &shell_data->all_tokens);
 	if (status)
 		return (status);
-	if (!shell_data->all_tokens)
-		return (__dont_add_to_history);
 	ft_lstiter(shell_data->all_tokens, ft_assign_token_type);
 	if (ft_is_syntax_error_in_tokens(shell_data->all_tokens))
 		return (__syntax_error);
@@ -73,6 +71,8 @@ int	ft_process_command_line(t_shell_data *shell_data)
 	if (status)
 		return (status);
 	if (!ft_expand_variables_in_tokens(&shell_data->all_tokens, shell_data))
+		return (__system_call_error);
+	if (!ft_remove_quotes_from_tokens(shell_data->all_tokens))
 		return (__system_call_error);
 	status = ft_split_tokens_in_sequences(shell_data->all_tokens, &shell_data->command_sequences);
 	if (status)

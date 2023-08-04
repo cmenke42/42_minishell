@@ -6,17 +6,17 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:32:40 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/03 23:24:35 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 00:07:02 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 static bool	ft_expand_one_variable(int expansion_case, char **string,
-			char **token, t_shell_data *shell_data);
+				char **token, t_shell_data *shell_data);
 static int	ft_get_expansion_case(char **string, bool in_double_quotes);
 static bool	ft_replace_name_with_value(char **string, char **token,
-		char *variable_name, char *variable_value);
+				char *variable_name, char *variable_value);
 
 bool	ft_expand_variables_in_tokens(t_list **tokens, t_shell_data *shell_data)
 {
@@ -29,11 +29,11 @@ bool	ft_expand_variables_in_tokens(t_list **tokens, t_shell_data *shell_data)
 	while (current)
 	{
 		next = current->next;
-		if (!ft_expand_variables_in_string(&((t_tokens *)current->content)->token,
-				shell_data, false))
+		if (!ft_expand_variables_in_string(
+				&((t_tokens *)current->content)->token, shell_data, false))
 			return (ft_putendl_fd("error - variable expansion", 2), false);
 		if (!ft_strcmp(((t_tokens *)current->content)->token, ""))
-			ft_cut_out_empty_node(tokens, previous, &current);
+			ft_cut_out_node(tokens, previous, current, next);
 		else
 			previous = current;
 		current = next;

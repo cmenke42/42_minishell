@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 15:50:13 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/31 18:48:09 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 00:52:33 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	ft_execute_single_builtin(t_shell_data *shell_data, int number_of_commands, 
 	if (!ft_save_standard_fds(shell_data))
 		return (__system_call_error);
 	ft_restore_default_signals();
-	status = ft_handle_redirection_operators(sequence_to_execute, sequence_to_execute->tokens, shell_data);
-	if (!status && !ft_token_list_to_args_array(sequence_to_execute))
+	status = ft_handle_redirection_operators(sequence_to_execute, sequence_to_execute->tokens, shell_data->heredocs);
+	if (!status && !ft_token_list_to_args_array(&sequence_to_execute->args, sequence_to_execute->tokens))
 		status = __system_call_error;
 	if (!status && !ft_duplication_of_fds(shell_data->pipe_fds, sequence_to_execute, number_of_commands, command_index))
 		status = __system_call_error;

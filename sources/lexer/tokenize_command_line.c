@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:48:01 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/02 12:05:45 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 00:31:18 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	ft_tokenize_command_line(char *command_line_read, t_list **tokens)
 			return (__system_call_error);
 		}
 	}
+	if (!*tokens)
+		return (__dont_add_to_history);
 	return (__success);
 }
 
