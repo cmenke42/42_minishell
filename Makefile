@@ -6,7 +6,7 @@
 #    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 23:48:03 by cmenke            #+#    #+#              #
-#    Updated: 2023/08/04 18:55:28 by cmenke           ###   ########.fr        #
+#    Updated: 2023/08/04 20:41:50 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,13 +14,14 @@ NAME := minishell
 
 SRCDIR := sources
 
-BUILTINS := $(addprefix builtins/,echo.c \
+BUILTINS := $(addprefix builtins/,cd.c \
+								echo.c \
 								env.c \
-								export.c \
-								unset.c \
+								exit.c \
+								export_print_list.c \
 								pwd.c \
-								exit.c\
-								cd.c \
+								unset.c \
+								export.c \
 								export_utils.c\
 								export_utils2.c)
 

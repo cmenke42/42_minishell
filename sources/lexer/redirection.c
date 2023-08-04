@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:29:42 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/04 19:53:12 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 21:00:47 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static bool	ft_do_redirection(t_cmd_sequences *sequence,
 	{
 		if (sequence->input_fd > 0)
 			close(sequence->input_fd);
-		if (sequence->output_fd > 0)
+		if (sequence->output_fd > 1)
 			close(sequence->output_fd);
 	}
 	return (status);

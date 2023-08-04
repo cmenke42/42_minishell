@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 11:38:04 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/04 20:23:06 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 20:42:41 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,6 @@ int	name_value_status(char **name, char **value,
 //print export
 int		ft_export(char **arguemnts, t_list **env_list);
 int		print_export(t_list **env_list);
-t_list	*ft_sort_list_asci(t_list *lst);
-void	ft_swap(void **var1, void **var2);
-void	*ft_duplicate_env_variable(void *env_variable);
 // //pwd
 int		ft_pwd(char **pwd, bool print);
 void	ft_print_pwd_and_free(char *path);

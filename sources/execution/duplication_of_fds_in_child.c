@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:23:14 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 19:36:37 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 21:03:14 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ bool	ft_duplication_of_fds(int **pipe_fds,
 	if (!ft_output_redirection_in_child(pipe_fds,
 			sequence_to_execute->output_fd, number_of_commands, command_index))
 		status = false;
+	ft_close_all_pipes(pipe_fds, number_of_commands - 1);
 	return (status);
 }
 
