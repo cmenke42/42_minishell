@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_processes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 16:16:48 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 19:28:45 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 00:06:19 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_execute_commands(t_shell_data *shell_data)
 		status = __system_call_error;
 	if (status == __success)
 		ft_set_singals_in_parent_during_execution();
-	call_functions(shell_data, number_of_commands);//
+	call_functions(shell_data, number_of_commands);
 	return (status);
 }
 
@@ -116,7 +116,7 @@ void	ft_get_exit_code(int *exit_code, int stat_loc, bool first_encounter,
 	bool reset_signal_number)
 {
 	if (reset_signal_number)
-		g_signal_number = 0; //reset the signal number so we see the one from last executed command
+		g_signal_number = 0;
 	if (WIFEXITED(stat_loc))
 	{
 		if (first_encounter && WEXITSTATUS(stat_loc))

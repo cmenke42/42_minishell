@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_coammand_in_child.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 21:02:36 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 00:05:19 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	ft_execute_command_in_child(t_shell_data *shell_data,
 		;
 	exit_code = shell_data->exit_code;
 	rl_clear_history();
+	ft_close_all_pipes(shell_data->pipe_fds, number_of_commands - 1);
 	ft_free_double_pointer_int(&shell_data->pipe_fds, number_of_commands - 1);
 	ft_free_shell_data(shell_data, true);
 	exit(exit_code);
@@ -69,70 +70,40 @@ int	ft_execute_builtin_if_builtin(t_shell_data *shell_data,
 	status = __success;
 	command = sequence_to_execute->args[0];
 	status = get_builtin_command(shell_data, sequence_to_execute, command,
-		status);
+			status);
 	if (status == __success)
 		shell_data->exit_code = 0;
 	return (status);
 }
 
-bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data,t_cmd_sequences *sequence_to_execute)
+bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data,
+	t_cmd_sequences *sequence_to_execute)
 {
-	struct stat fileInfo;
+	struct stat	file_info;
 
-	if (sequence_to_execute->args[0][0] == '\0') //for emtpy quotes as input
+	if (sequence_to_execute->args[0][0] == '\0')
 	{
 		shell_data->exit_code = 127;
 		ft_print_error(sequence_to_execute->args[0], ": command not found\n");
 		return (false);
 	}
-	sequence_to_execute->envp_command_paths = ft_get_envp_paths(shell_data->envp_array);
-	sequence_to_execute->command_path = ft_get_cmd_path(sequence_to_execute->envp_command_paths, sequence_to_execute->args[0]);
+	assign_sequence_to_path(shell_data, sequence_to_execute);
 	if (sequence_to_execute->command_path)
 		return (true);
-	if (access(sequence_to_execute->args[0], F_OK) == 0) //if file exists
+	if (access(sequence_to_execute->args[0], F_OK) == 0)
 	{
-		if (stat(sequence_to_execute->args[0], &fileInfo) == 0 && ft_is_slash_in_command(sequence_to_execute->args[0])) //is a directory
-		{
-			if (S_ISDIR(fileInfo.st_mode))
-			{
-				shell_data->exit_code = 126;
-				ft_print_error(sequence_to_execute->args[0], ": is a directory\n");
-				return (false);
-			}
-		}
-		if (access(sequence_to_execute->args[0], X_OK) == 0 && !S_ISDIR(fileInfo.st_mode))
-		{
-			shell_data->exit_code = 126;
-			sequence_to_execute->command_path = ft_strdup(sequence_to_execute->args[0]);
-			if (!sequence_to_execute->command_path)
-				return (perror("error in ft_strdup sequence_to_execute->args[0]"), false);
-			return (true);
-		}
-		else if (!S_ISDIR(fileInfo.st_mode) && ft_is_slash_in_command(sequence_to_execute->args[0]))
-		{
-			shell_data->exit_code = 126;
-			ft_putstr_fd("minishell: ", 2);
-			perror(sequence_to_execute->args[0]);
+		if (!is_file_directory(shell_data, sequence_to_execute, file_info))
 			return (false);
-		}
+		else if (is_file_executable(shell_data, sequence_to_execute, file_info))
+			return (true);
+		else if (!handle_non_exe(shell_data, sequence_to_execute, file_info))
+			return (false);
 	}
-	else if (ft_is_slash_in_command(sequence_to_execute->args[0]) || !ft_search_for_env_variable("PATH", shell_data->env_list)) //no such directory
-	{
-		shell_data->exit_code = 127;
-		ft_putstr_fd("minishell: ", 2);
-		perror(sequence_to_execute->args[0]);
+	else if (!is_path_invalid(shell_data, sequence_to_execute))
 		return (false);
-	}
 	ft_print_error(sequence_to_execute->args[0], ": command not found\n");
 	shell_data->exit_code = 127;
 	return (false);
-}
-
-void	ft_print_error(char *command, char *error_message)
-{
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(command, 2);
-	ft_putstr_fd(error_message, 2);
 }
 
 bool	ft_is_slash_in_command(char *command)

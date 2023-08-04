@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   invoke_close_functions.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 11:25:35 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/04 19:23:01 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 00:06:39 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ int	get_builtin_command(t_shell_data *shell_data,
 		ft_echo(sequence_to_execute->args);
 	else if (!ft_strcmp("cd", command))
 		status = ft_cd(sequence_to_execute->args, &shell_data->env_list,
-				shell_data); //error
+				shell_data);
 	else if (!ft_strcmp("pwd", command))
-		status = ft_pwd(NULL, true); //error
+		status = ft_pwd(NULL, true);
 	else if (!ft_strcmp("export", command))
-		status = ft_export(sequence_to_execute->args, &shell_data->env_list); //system call error possible
+		status = ft_export(sequence_to_execute->args, &shell_data->env_list);
 	else if (!ft_strcmp("unset", command))
 		status = ft_unset(sequence_to_execute->args, &shell_data->env_list,
-				shell_data); //syntax error possible
+				shell_data);
 	else if (!ft_strcmp("env", command))
 		ft_print_env_list(shell_data->env_list);
 	else if (!ft_strcmp("exit", command))
@@ -42,4 +42,11 @@ int	get_builtin_command(t_shell_data *shell_data,
 	else
 		return (__no_builtin_found);
 	return (status);
+}
+
+void	ft_print_error(char *command, char *error_message)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(command, 2);
+	ft_putstr_fd(error_message, 2);
 }
