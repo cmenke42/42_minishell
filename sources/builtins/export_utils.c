@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 17:14:14 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 20:11:57 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 21:20:07 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	store_var_in_node(t_list **env_list, char *name,
 	return (__success);
 }
 
-int	ft_create_name_and_value(char *argument, char **name,
+bool	ft_create_name_and_value(char *argument, char **name,
 	char **value, char *equal_sign)
 {
 	int		value_len;
@@ -43,21 +43,19 @@ int	ft_create_name_and_value(char *argument, char **name,
 	{
 		*name = ft_strdup(argument);
 		if (!*name)
-			return (perror("error creating name in store_env"),
-				__system_call_error);
-		return (__success);
+			return (perror("error creating name in store_env"), false);
+		return (true);
 	}
 	else
 	{
 		*name = ft_substr(argument, 0, equal_sign - argument);
 		if (!*name)
-			return (perror("error creating name in store_env"),
-				__system_call_error);
+			return (perror("error creating name in store_env"), false);
 	}
 	value_len = ft_strlen(equal_sign + 1);
 	if (value_len > 0)
 		ft_substr_value(value, name, equal_sign, value_len);
-	return (__success);
+	return (true);
 }
 
 //argument with or without equal sign as input

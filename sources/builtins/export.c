@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 18:56:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 20:36:00 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 21:19:52 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	ft_export(char **arguemnts, t_list **env_list)
 	bool	syntax_error;
 
 	i = 0;
-	status = __success;
 	syntax_error = false;
 	while (arguemnts[++i])
 	{
@@ -27,7 +26,9 @@ int	ft_export(char **arguemnts, t_list **env_list)
 			continue ;
 		status = ft_update_or_add_env_variable(arguemnts[i],
 				env_list, NULL, NULL);
-		if (status)
+		if (status == __syntax_error)
+			syntax_error = true;
+		else if (status)
 			return (status);
 	}
 	if (i == 1)
@@ -37,7 +38,7 @@ int	ft_export(char **arguemnts, t_list **env_list)
 	}
 	if (syntax_error)
 		return (__syntax_error);
-	return (status);
+	return (__success);
 }
 
 //only allocated memory for name && value
@@ -74,20 +75,10 @@ int	ft_update_or_add_env_variable(char *argument, t_list **env_list,
 int	name_value_status(char **name, char **value,
 	char *equal_sign, char *argument)
 {
-	int	status;
-
-	status = __success;
 	equal_sign = ft_strchr(argument, '=');
 	if (ft_is_syntax_error_in_env_name(argument))
-	{
-		status = __stop_execution;
-		return (status);
-	}
-	if (ft_create_name_and_value(argument,
-			name, value, equal_sign) == __system_call_error)
-	{
-		status = __system_call_error;
-		return (status);
-	}
-	return (status);
+		return (__syntax_error);
+	if (!ft_create_name_and_value(argument, name, value, equal_sign))
+		return (__system_call_error);
+	return (__success);
 }

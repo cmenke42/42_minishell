@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 11:38:04 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/04 20:42:41 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 21:20:16 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int		change_dir(t_list **env_list, char *target_path,
 int		cd_error_handler(char *dir, t_list *env_variable_pwd);
 int		store_var_in_node(t_list **env_list, char *name,
 			char *value, char *equal_sign);
-int		ft_create_name_and_value(char *argument, char **name,
-			char **value, char *equal_sign);
+bool	ft_create_name_and_value(char *argument, char **name,
+	char **value, char *equal_sign);
 int		ft_substr_value(char **value, char **name,
 			char *equal_sign, int value_len);
 bool	ft_is_syntax_error_in_env_name(char *string);
