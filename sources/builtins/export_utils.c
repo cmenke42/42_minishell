@@ -5,95 +5,42 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/26 17:14:14 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 21:20:07 by cmenke           ###   ########.fr       */
+/*   Created: 2023/08/01 14:36:06 by wmoughar          #+#    #+#             */
+/*   Updated: 2023/08/04 22:53:30 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-
-
-int	store_var_in_node(t_list **env_list, char *name,
-	char *value, char *equal_sign)
+t_list	*ft_search_for_env_variable(char *variable_name, t_list *env_list)
 {
-	t_list	*new_node;
-	t_env	*env_variable;
+	t_env	*one_env_variable;
 
-	env_variable = ft_calloc(1, sizeof(t_env));
-	if (!env_variable)
-		return (perror("error creating env_variable"), __system_call_error);
-	new_node = ft_lstnew((void *)env_variable);
-	if (!new_node)
-		return (free(env_variable),
-			perror("error creating new_node for env_variable"),
-			__system_call_error);
-	ft_assign(env_variable,
-		name, value, equal_sign);
-	ft_lstadd_front(env_list, new_node);
-	return (__success);
+	if (!variable_name || !env_list)
+		return (NULL);
+	while (env_list)
+	{
+		one_env_variable = (t_env *)env_list->content;
+		if (!ft_strcmp(one_env_variable->name, variable_name))
+			return (env_list);
+		env_list = env_list->next;
+	}
+	return (NULL);
 }
 
-bool	ft_create_name_and_value(char *argument, char **name,
-	char **value, char *equal_sign)
+void	ft_print_export_wrong_identifier(char *argument)
 {
-	int		value_len;
-
-	if (!equal_sign)
-	{
-		*name = ft_strdup(argument);
-		if (!*name)
-			return (perror("error creating name in store_env"), false);
-		return (true);
-	}
-	else
-	{
-		*name = ft_substr(argument, 0, equal_sign - argument);
-		if (!*name)
-			return (perror("error creating name in store_env"), false);
-	}
-	value_len = ft_strlen(equal_sign + 1);
-	if (value_len > 0)
-		ft_substr_value(value, name, equal_sign, value_len);
-	return (true);
+	ft_put
+	ft_putstr_fd("minishell: export: `", 2);
+	ft_putstr_fd(argument, 2);
+	ft_putendl_fd("': not a valid identifier", 2);
 }
 
 //argument with or without equal sign as input
-bool	ft_is_syntax_error_in_env_name(char *string)
-{
-	bool	syntax_error;
-	int		i;
 
-	syntax_error = false;
-	i = 0;
-	if (!(ft_isalpha(string[i]) || string[i++] == '_'))
-		syntax_error = true;
-	else
-	{
-		while (!syntax_error && string[i] && string[i] != '=')
-		{
-			if (!(ft_isalnum(string[i]) || string[i] == '_'))
-				syntax_error = true;
-			i++;
-		}
-	}
-	if (syntax_error)
-		return (ft_print_export_wrong_identifier(string), true);
-	return (false);
-}
 
-void	ft_assign(t_env *env_variable,
-	char *name, char *value, char *equal_sign)
+void	ft_free_name_and_value(char **name, char **value)
 {
-	if (name)
-	{
-		ft_free_pointer_and_set_to_null((void **)&env_variable->name);
-		env_variable->name = name;
-	}
-	ft_free_pointer_and_set_to_null((void **)&env_variable->value);
-	env_variable->value = value;
-	if (!env_variable->value && equal_sign)
-		env_variable->print_empty_quotes = true;
-	else
-		env_variable->print_empty_quotes = false;
+	ft_free_pointer_and_set_to_null((void **)name);
+	ft_free_pointer_and_set_to_null((void **)value);
 }

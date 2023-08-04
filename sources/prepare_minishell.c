@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 18:52:58 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 20:22:30 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 22:23:13 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,7 @@ static bool	increase_shlvl(t_list **env_list)
 		value = ft_strdup("1");
 		if (!value)
 			return (free(name), perror("error creating SHLVL - 1"), false);
-		if (store_var_in_node(env_list, name, value
-				, "=") == __system_call_error)
+		if (!store_var_in_node(env_list, name, value, "="))
 			return (free(name), free(value), false);
 		return (true);
 	}

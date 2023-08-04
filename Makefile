@@ -6,7 +6,7 @@
 #    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 23:48:03 by cmenke            #+#    #+#              #
-#    Updated: 2023/08/04 20:41:50 by cmenke           ###   ########.fr        #
+#    Updated: 2023/08/04 22:36:43 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ BUILTINS := $(addprefix builtins/,cd.c \
 								echo.c \
 								env.c \
 								exit.c \
+								export_create_name_value.c \
 								export_print_list.c \
 								pwd.c \
 								unset.c \
