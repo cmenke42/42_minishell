@@ -3,31 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 17:14:14 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/02 14:05:45 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/04 20:11:57 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_store_env_in_list(char **env, t_list **env_list)
-{
-	int		i;
 
-	if (!env)
-		return (__success);
-	i = 0;
-	while (env[i])
-	{
-		if (ft_update_or_add_env_variable(env[i],
-				env_list, NULL, NULL) == __system_call_error)
-			return (__system_call_error);
-		i++;
-	}
-	return (__success);
-}
 
 int	store_var_in_node(t_list **env_list, char *name,
 	char *value, char *equal_sign)

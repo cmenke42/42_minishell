@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 13:15:06 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/01 21:16:51 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/04 20:07:26 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static int	ft_exit_code(char *str, bool *print_exit);
+static bool	ft_get_number(char *str, int *exit_code);
 
 void	ft_exit(char **args, t_shell_data *shell_data)
 {
@@ -36,7 +39,7 @@ void	ft_exit(char **args, t_shell_data *shell_data)
 	exit(exit_code);
 }
 
-int	ft_exit_code(char *str, bool *print_exit)
+static int	ft_exit_code(char *str, bool *print_exit)
 {
 	int	exit_code;
 
@@ -54,7 +57,7 @@ int	ft_exit_code(char *str, bool *print_exit)
 	return (exit_code);
 }
 
-bool	ft_get_number(char *str, int *exit_code)
+static bool	ft_get_number(char *str, int *exit_code)
 {
 	unsigned long int	temp;
 	unsigned long int	result;

@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 11:30:47 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/01 21:19:26 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/04 20:03:31 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static void	ft_lstremove(t_list **env_list_new, t_list *env_variable_to_remove);
 
 int	ft_unset(char **arguments, t_list **env_list_new, t_shell_data *shell_data)
 {
@@ -35,7 +37,7 @@ int	ft_unset(char **arguments, t_list **env_list_new, t_shell_data *shell_data)
 	return (__success);
 }
 
-void	ft_lstremove(t_list **env_list_new, t_list *env_variable_to_remove)
+static void	ft_lstremove(t_list **env_list_new, t_list *env_variable_to_remove)
 {
 	t_list	*prev;
 

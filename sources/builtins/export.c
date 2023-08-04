@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 18:56:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/02 14:03:19 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/04 20:10:44 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,55 +40,6 @@ int	ft_export(char **arguemnts, t_list **env_list)
 	return (status);
 }
 
-int	print_export(t_list **env_list)
-{
-	t_list	*sorted_env_list;
-	t_list	*start_of_sorted_list;
-	t_env	*one_env_variable;
-
-	sorted_env_list = ft_lstmap(*env_list,
-			ft_duplicate_env_variable, ft_clear_env_variable);
-	if (!sorted_env_list)
-		return (__system_call_error);
-	sorted_env_list = ft_sort_list_asci(sorted_env_list);
-	start_of_sorted_list = sorted_env_list;
-	while (sorted_env_list)
-	{
-		one_env_variable = (t_env *)sorted_env_list->content;
-		printf("declare -x %s", one_env_variable->name);
-		if (one_env_variable->value)
-			printf("=\"%s\"\n", one_env_variable->value);
-		else if (one_env_variable->print_empty_quotes)
-			printf("=\"\"\n");
-		else
-			printf("\n");
-		sorted_env_list = sorted_env_list->next;
-	}
-	ft_lstclear(&start_of_sorted_list, ft_clear_env_variable);
-	return (__success);
-}
-
-int	name_value_status(char **name, char **value,
-	char *equal_sign, char *argument)
-{
-	int	status;
-
-	status = __success;
-	equal_sign = ft_strchr(argument, '=');
-	if (ft_is_syntax_error_in_env_name(argument))
-	{
-		status = __stop_execution;
-		return (status);
-	}
-	if (ft_create_name_and_value(argument,
-			name, value, equal_sign) == __system_call_error)
-	{
-		status = __system_call_error;
-		return (status);
-	}
-	return (status);
-}
-
 //only allocated memory for name && value
 int	ft_update_or_add_env_variable(char *argument, t_list **env_list,
 		char *name, char *value)
@@ -118,6 +69,55 @@ int	ft_update_or_add_env_variable(char *argument, t_list **env_list,
 		ft_free_pointer_and_set_to_null((void **)&value);
 	}
 	return (status);
+}
+
+int	name_value_status(char **name, char **value,
+	char *equal_sign, char *argument)
+{
+	int	status;
+
+	status = __success;
+	equal_sign = ft_strchr(argument, '=');
+	if (ft_is_syntax_error_in_env_name(argument))
+	{
+		status = __stop_execution;
+		return (status);
+	}
+	if (ft_create_name_and_value(argument,
+			name, value, equal_sign) == __system_call_error)
+	{
+		status = __system_call_error;
+		return (status);
+	}
+	return (status);
+}
+
+int	print_export(t_list **env_list)
+{
+	t_list	*sorted_env_list;
+	t_list	*start_of_sorted_list;
+	t_env	*one_env_variable;
+
+	sorted_env_list = ft_lstmap(*env_list,
+			ft_duplicate_env_variable, ft_clear_env_variable);
+	if (!sorted_env_list)
+		return (__system_call_error);
+	sorted_env_list = ft_sort_list_asci(sorted_env_list);
+	start_of_sorted_list = sorted_env_list;
+	while (sorted_env_list)
+	{
+		one_env_variable = (t_env *)sorted_env_list->content;
+		printf("declare -x %s", one_env_variable->name);
+		if (one_env_variable->value)
+			printf("=\"%s\"\n", one_env_variable->value);
+		else if (one_env_variable->print_empty_quotes)
+			printf("=\"\"\n");
+		else
+			printf("\n");
+		sorted_env_list = sorted_env_list->next;
+	}
+	ft_lstclear(&start_of_sorted_list, ft_clear_env_variable);
+	return (__success);
 }
 
 void	*ft_duplicate_env_variable(void *env_variable)

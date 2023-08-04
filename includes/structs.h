@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 16:50:05 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 19:11:16 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 20:04:53 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,14 @@ typedef struct s_tokens
 	char	type;
 	int		heredoc_number;
 }				t_tokens;
+
+typedef struct s_env
+{
+	char			*name;
+	char			*value;
+	bool			print_empty_quotes;
+	struct s_env	*next;
+}	t_env;
 
 enum e_token_type
 {

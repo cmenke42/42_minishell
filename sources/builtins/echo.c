@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:57:18 by npavelic          #+#    #+#             */
-/*   Updated: 2023/08/01 21:16:40 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/04 20:06:00 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static void	print_lines(int i, char **str);
 
 void	ft_echo(char **command)
 {
@@ -37,7 +39,7 @@ void	ft_echo(char **command)
 		printf("\n");
 }
 
-void	print_lines(int i, char **str)
+static void	print_lines(int i, char **str)
 {
 	while (str[i])
 	{

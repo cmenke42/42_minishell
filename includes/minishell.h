@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:47:42 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 19:53:39 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 20:13:17 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ int		ft_process_command_line(t_shell_data *shell_data);
 void	ft_exit_ctrl_d(t_shell_data *shell_data);
 //prepare_minishell.c
 int 	ft_prepare_minishell(t_shell_data **shell_data, char **envp);
-int		ft_prepare_env_variables(t_shell_data *shell_data);
-int		increase_shlvl(t_list **env_list);
 //print_error.c
 void	ft_print_error_message(char *part1, char *part2, char *part3, char *part4);
 

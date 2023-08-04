@@ -6,11 +6,13 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 10:49:26 by cmenke            #+#    #+#             */
-/*   Updated: 2023/07/31 10:49:28 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 20:06:33 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static void	ft_print_one_env_variable(t_env *env_variable);
 
 void	ft_print_env_list(t_list *env_list)
 {
@@ -24,7 +26,7 @@ void	ft_print_env_list(t_list *env_list)
 	}
 }
 
-void	ft_print_one_env_variable(t_env *env_variable)
+static void	ft_print_one_env_variable(t_env *env_variable)
 {
 	if (env_variable->name && env_variable->value)
 		printf("%s=%s\n", env_variable->name, env_variable->value);
