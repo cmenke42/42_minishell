@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 16:50:05 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/05 20:22:13 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 22:51:51 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 /// @all_tokens: all the tokens from the tokenized command line
 /// @env_list: the environment variables in a linked list
 /// it stores the original ones from the envp and the new ones from export
+
 typedef struct s_shell_data
 {
 	int		exit_code;

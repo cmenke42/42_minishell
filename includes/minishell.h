@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:47:42 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/05 20:12:21 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 22:43:33 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void	ft_clear_env_variable(void *node);
 int		get_builtin_command(t_shell_data *shell_data,
 			t_cmd_sequences *sequence_to_execute, char *command,
 			int status);
-bool 	empty_quotes(t_cmd_sequences *sequence_to_execute,
+bool	empty_quotes(t_cmd_sequences *sequence_to_execute,
 			t_shell_data *shell_data);
 	//create_processes
 int		ft_execute_commands(t_shell_data *shell_data);
@@ -204,6 +204,6 @@ void	ft_print_token_list(t_list *tokens);
 void	ft_print_double_array(char **array);
 void	ft_print_command_sequences_args(t_list *cmd_sequences);
 //delete them
-void		ft_print_tokens_and_type(t_list *tokens);
+void	ft_print_tokens_and_type(t_list *tokens);
 
 #endif
