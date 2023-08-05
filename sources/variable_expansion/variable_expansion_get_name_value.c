@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 23:22:02 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/03 23:23:24 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 20:05:38 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ bool	ft_get_variable_name(char *string, char **variable_name)
 	int		i;
 	char	*delimiters;
 
-	delimiters = " \t\n$?\"\'=";
+	delimiters = " \t\n$?\"\'=[]";
 	i = 1;
 	while (string[i] && !ft_strchr(delimiters, string[i]))
 		i++;

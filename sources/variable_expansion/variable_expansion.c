@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:32:40 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/05 00:55:17 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 20:02:25 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static bool	ft_expand_one_variable(int expansion_case, char **string,
 static int	ft_get_expansion_case(char **string, bool in_double_quotes);
 static bool	ft_replace_name_with_value(char **string, char **token,
 				char *variable_name, char *variable_value);
+
+bool	ft_add_quotes_to_protect_value(char **value, int expansion_case);
 
 bool	ft_expand_variables_in_tokens(t_list **tokens, t_shell_data *shell_data)
 {
@@ -90,6 +92,8 @@ static bool	ft_expand_one_variable(int expansion_case, char **string,
 			error = true;
 		else if (expansion_case == v_trim_value && !ft_trim_value(&value))
 			error = true;
+		else if (!ft_add_quotes_to_protect_value(&value, expansion_case))
+			error = true;
 		else if (expansion_case == v_exit_code
 			&& !ft_get_exit_code_string(&name, &value, shell_data->exit_code))
 			error = true;
@@ -99,6 +103,39 @@ static bool	ft_expand_one_variable(int expansion_case, char **string,
 	ft_free_ptr_and_set_to_null((void **)&name);
 	ft_free_ptr_and_set_to_null((void **)&value);
 	return (!error);
+}
+
+bool	ft_add_quotes_to_protect_value(char **value, int expansion_case)
+{
+	char	*new_value;
+	int		value_len;
+
+	if (!*value)
+		return (true);
+	value_len = ft_strlen(*value);
+	if (expansion_case == v_trim_value)
+		value_len += 2;
+	else if (expansion_case == v_untrimmed_value)
+		value_len += 3;
+	new_value = ft_calloc(value_len + 1, sizeof(char));
+	if (!new_value)
+		return (perror("error - adding quotes to value in expansion"), false);
+	if (expansion_case == v_trim_value)
+	{
+		new_value[0] = '"';
+		ft_strlcat(new_value, *value, value_len + 1);
+		new_value[value_len - 1] = '"';
+	}
+	else if (expansion_case == v_untrimmed_value)
+	{
+		new_value[0] = '\"';
+		new_value[1] = '\"';
+		ft_strlcat(new_value, *value, value_len + 1);
+		new_value[value_len - 1] = '\"';
+	}
+	ft_free_ptr_and_set_to_null((void **)value);
+	*value = new_value;
+	return (true);
 }
 
 static int	ft_get_expansion_case(char **string, bool in_double_quotes)

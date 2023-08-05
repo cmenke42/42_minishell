@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:59:19 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/02 12:07:33 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 19:32:03 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,13 @@ bool	ft_is_syntax_error_in_tokens(t_list *tokens)
 	t_tokens	*token;
 	t_tokens	*next_token;
 
+
+	token = (t_tokens *)tokens->content;
+	if (token->type == pipe_operator)
+	{
+		ft_print_token_syntax_error(token);
+		return (true);
+	}
 	while (tokens)
 	{
 		token = (t_tokens *)tokens->content;
