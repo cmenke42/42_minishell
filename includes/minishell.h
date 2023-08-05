@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:47:42 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/05 01:55:02 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 03:16:26 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ bool	ft_remove_quotes_from_tokens(t_list *tokens);
 bool	ft_remove_quotes_from_string(char **string);
 void	ft_count_length(char *new_string, int *count, char c);
 void	ft_copy_char(char *new_string, int *count, char c);
-
 // clearing
 	//ft_free_double_pointer.c
 void	ft_free_double_pointer_char(char ***ptr);
@@ -129,11 +128,8 @@ void	ft_free_shell_data(t_shell_data *shell_data, bool everything);
 void	ft_clear_command_sequence(void *node);
 void	ft_clear_token(void *node);
 void	ft_clear_env_variable(void *node);
-// void	ft_free_command_sequences(void *cmd_sequences);
-
 //execution
 	//invoke_close_functions
-void	call_functions(t_shell_data *shell_data, int number_of_commands);
 int		get_builtin_command(t_shell_data *shell_data,
 			t_cmd_sequences *sequence_to_execute, char *command,
 			int status);
@@ -174,8 +170,6 @@ int		ft_execute_single_builtin(t_shell_data *shell_data,
 			int number_of_commands, t_cmd_sequences *sequence_to_execute,
 			int command_index);
 bool	ft_is_builtin(t_cmd_sequences *sequence_to_execute);
-bool	ft_save_standard_fds(t_shell_data *shell_data);
-bool	ft_restore_standard_fds(t_shell_data *shell_data);
 	//duplication_of_fds_in_child
 bool	ft_duplication_of_fds(int **pipe_fds,
 			t_cmd_sequences *sequence_to_execute, int number_of_commands,
@@ -186,8 +180,8 @@ bool	ft_output_redirection_in_child(int **pipe_fds, int output_fd,
 			int number_of_commands, int command_index);
 void	ft_close_all_pipes(int **pipe_fds, int number_of_pipes);
 	//get_envp_cmd_paths
-char	*ft_get_cmd_path(char **envp_paths, char *cmd);
-char	**ft_get_envp_paths(char **envp);
+bool	ft_get_cmd_path(char **envp_paths, char *cmd, char **cmd_path);
+bool	ft_get_envp_paths(char **envp, char ***envp_paths);
 	//env_list_to_char_array
 bool	ft_env_list_to_envp_array(t_shell_data *shell_data);
 char	*ft_create_one_env_variable(t_env *one_variable);

@@ -3,81 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   get_envp_cmd_paths.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:24:19 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/05 00:08:43 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/05 03:20:47 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_close_fd(int *files_fd, int *pipe_fd)
-{
-	if (files_fd)
-	{
-		if (files_fd[0] != -1)
-			close(files_fd[0]);
-		if (files_fd[1] != -1)
-			close(files_fd[1]);
-	}
-	if (pipe_fd)
-	{
-		if (pipe_fd[0] != -1)
-			close(pipe_fd[0]);
-		if (pipe_fd[1] != -1)
-			close(pipe_fd[1]);
-	}
-}
+static bool ft_add_slash_to_envp_paths(char ***envp_paths);
 
-void	ft_free_close_err_exit(int *files_fd, int *pipe_fd, char **envp_paths,
-							char *error_text)
+//checks if the cmd is to be found in one of the paths specified by envp
+bool	ft_get_cmd_path(char **envp_paths, char *cmd, char **cmd_path)
 {
-	ft_close_fd(files_fd, pipe_fd);
-	ft_free_double_pointer_char(&envp_paths);
-	if (error_text)
-	{
-		perror(error_text);
-		exit(1);
-	}
-}
-
-static char	**ft_add_slash_to_envp_paths(char **envp_paths)
-{
-	char	**result;
 	int		i;
 
+	*cmd_path = NULL;
 	i = 0;
-	while (envp_paths && envp_paths[i])
-		i++;
-	result = (char **)ft_calloc(i + 1, sizeof(char *));
-	if (!result)
-		perror("Malloc error add slash");
-	i = 0;
-	while (envp_paths && envp_paths[i])
+	while (envp_paths && envp_paths[i] && cmd)
 	{
-		result[i] = ft_strjoin(envp_paths[i], "/");
-		if (!result[i])
-		{
-			perror("Malloc error join slash");
-			ft_free_double_pointer_char(&result);
-			break ;
-		}
+		*cmd_path = ft_strjoin(envp_paths[i], cmd);
+		if (!*cmd_path)
+			return (perror("error - join cmd to path"), false);
+		if (access(*cmd_path, X_OK) == 0)
+			return (true);
+		else
+			ft_free_ptr_and_set_to_null((void **)cmd_path);
 		i++;
 	}
-	ft_free_double_pointer_char(&envp_paths);
-	return (result);
+	return (true);
 }
 
-char	**ft_get_envp_paths(char **envp)
+bool	ft_get_envp_paths(char **envp, char ***envp_paths)
 {
 	int		i;
 	char	*path_string;
-	char	**envp_paths;
 
-	i = 0;
 	path_string = NULL;
-	envp_paths = NULL;
+	*envp_paths = NULL;
+	i = 0;
 	while (envp && envp[i])
 	{
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
@@ -85,38 +50,35 @@ char	**ft_get_envp_paths(char **envp)
 		i++;
 	}
 	if (path_string)
-	{
-		envp_paths = ft_split(path_string, ':');
-		if (!envp_paths)
-			ft_free_close_err_exit(NULL, NULL, NULL, "Malloc error envp paths");
-	}
-	envp_paths = ft_add_slash_to_envp_paths(envp_paths);
-	if (!envp_paths)
-		exit(1);
-	return (envp_paths);
+		*envp_paths = ft_split(path_string, ':');
+	if (path_string && !*envp_paths)
+		return (perror("error splitting envp paths"), false);
+	if (*envp_paths && !ft_add_slash_to_envp_paths(envp_paths))
+		return (ft_free_double_pointer_char(envp_paths), false);
+	return (true);
 }
 
-//checks if the cmd is to be found in one of the paths specified by envp
-char	*ft_get_cmd_path(char **envp_paths, char *cmd)
+static bool ft_add_slash_to_envp_paths(char ***envp_paths)
 {
+	char	**result;
 	int		i;
-	char	*cmd_path;
 
-	cmd_path = NULL;
 	i = 0;
-	while (envp_paths && envp_paths[i] && cmd)
+	while ((*envp_paths)[i])
+		i++;
+	result = (char **)ft_calloc(i + 1, sizeof(char *));
+	if (!result)
+		return (perror("error - creating new paths array to add slash"), false);
+	i = 0;
+	while ((*envp_paths)[i])
 	{
-		cmd_path = ft_strjoin(envp_paths[i], cmd);
-		if (!cmd_path)
-		{
-			perror("Malloc error cmd path");
-			return (NULL);
-		}
-		if (access(cmd_path, X_OK) == 0)
-			return (cmd_path);
-		else
-			free(cmd_path);
+		result[i] = ft_strjoin((*envp_paths)[i], "/");
+		if (!result[i])
+			return (perror("error - join slash to envp_paths"),
+				ft_free_double_pointer_char(&result), false);
 		i++;
 	}
-	return (NULL);
+	ft_free_double_pointer_char(envp_paths);
+	*envp_paths = result;
+	return (true);
 }

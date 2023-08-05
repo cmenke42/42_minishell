@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:23:14 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/05 01:57:07 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 02:14:59 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,15 @@ void	ft_close_all_pipes(int **pipe_fds, int number_of_pipes)
 	while (i < number_of_pipes)
 	{
 		if (pipe_fds[i][0] > 0)
+		{
 			close(pipe_fds[i][0]);
+			pipe_fds[i][0] = 0;
+		}
 		if (pipe_fds[i][1] > 0)
+		{
 			close(pipe_fds[i][1]);
+			pipe_fds[i][1] = 0;
+		}
 		i++;
 	}
 }

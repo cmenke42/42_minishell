@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 15:20:42 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/05 01:56:59 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 03:21:04 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,14 @@
 void	assign_sequence_to_path(t_shell_data *shell_data,
 	t_cmd_sequences *sequence_to_execute)
 {
-	sequence_to_execute->envp_command_paths
-		= ft_get_envp_paths(shell_data->envp_array);
-	sequence_to_execute->command_path
-		= ft_get_cmd_path(sequence_to_execute->envp_command_paths,
-			sequence_to_execute->args[0]);
+	if (!ft_get_envp_paths(shell_data->envp_array,
+			&sequence_to_execute->envp_command_paths))
+			;
+		// return (__system_call_error);
+	if (!ft_get_cmd_path(sequence_to_execute->envp_command_paths,
+			sequence_to_execute->args[0], &sequence_to_execute->command_path))
+			;
+		// return (__system_call_error);
 }
 
 bool	is_file_directory(t_shell_data *shell_data,

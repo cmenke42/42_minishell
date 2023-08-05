@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execute_coammand_in_child.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/05 00:05:19 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/05 02:36:24 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// 1 | 2 | 3 | 4 | 5 | 6
 
 void	ft_execute_command_in_child(t_shell_data *shell_data,
 	int number_of_commands, t_cmd_sequences *sequence_to_execute,

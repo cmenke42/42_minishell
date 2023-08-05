@@ -6,11 +6,14 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 15:50:13 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 19:28:30 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 02:17:04 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static bool	ft_save_standard_fds(t_shell_data *shell_data);
+static bool	ft_restore_standard_fds(t_shell_data *shell_data);
 
 int	ft_execute_single_builtin(t_shell_data *shell_data, int number_of_commands,
 		t_cmd_sequences *sequence_to_execute, int command_index)
@@ -62,7 +65,7 @@ bool	ft_is_builtin(t_cmd_sequences *sequence_to_execute)
 		return (false);
 }
 
-bool	ft_save_standard_fds(t_shell_data *shell_data)
+static bool	ft_save_standard_fds(t_shell_data *shell_data)
 {
 	shell_data->default_stdin = dup(STDIN_FILENO);
 	if (shell_data->default_stdin == -1)
@@ -76,7 +79,7 @@ bool	ft_save_standard_fds(t_shell_data *shell_data)
 	return (true);
 }
 
-bool	ft_restore_standard_fds(t_shell_data *shell_data)
+static bool	ft_restore_standard_fds(t_shell_data *shell_data)
 {
 	bool	status;
 

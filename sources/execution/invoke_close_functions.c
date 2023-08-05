@@ -6,19 +6,11 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 11:25:35 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/05 01:16:32 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 02:30:58 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	call_functions(t_shell_data *shell_data, int number_of_commands)
-{
-	ft_close_all_pipes(shell_data->pipe_fds, number_of_commands - 1);
-	ft_free_double_pointer_int(&shell_data->pipe_fds, number_of_commands - 1);
-	ft_wait_for_childs_and_get_exit_code(shell_data, number_of_commands);
-	ft_set_minisell_signals();
-}
 
 int	get_builtin_command(t_shell_data *shell_data,
 	t_cmd_sequences *sequence_to_execute, char *command, int status)
