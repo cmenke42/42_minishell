@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   invoke_close_functions.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 11:25:35 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/05 02:30:58 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 17:30:11 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,16 @@ void	ft_print_error(char *command, char *error_message)
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(command, 2);
 	ft_putstr_fd(error_message, 2);
+}
+
+bool empty_quotes(t_cmd_sequences *sequence_to_execute,
+	t_shell_data *shell_data)
+{
+	if (sequence_to_execute->args[0][0] == '\0')
+	{
+		shell_data->exit_code = 127;
+		ft_print_error(sequence_to_execute->args[0], ": command not found\n");
+		return (false);
+	}
+	return (true);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:47:42 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/05 03:16:26 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 17:28:15 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,8 @@ void	ft_clear_env_variable(void *node);
 int		get_builtin_command(t_shell_data *shell_data,
 			t_cmd_sequences *sequence_to_execute, char *command,
 			int status);
+bool 	empty_quotes(t_cmd_sequences *sequence_to_execute,
+			t_shell_data *shell_data);
 	//create_processes
 int		ft_execute_commands(t_shell_data *shell_data);
 bool	ft_create_pipes(t_shell_data *shell_data, int number_of_pipes);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_coammand_in_child.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/05 02:36:24 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 17:30:50 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,11 @@ bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data,
 	t_cmd_sequences *sequence_to_execute)
 {
 	struct stat	file_info;
-
+	
+	ft_memset(&file_info, 0, sizeof(file_info));
 	if (sequence_to_execute->args[0][0] == '\0')
-	{
-		shell_data->exit_code = 127;
-		ft_print_error(sequence_to_execute->args[0], ": command not found\n");
+	if (!empty_quotes(sequence_to_execute, shell_data))
 		return (false);
-	}
 	assign_sequence_to_path(shell_data, sequence_to_execute);
 	if (sequence_to_execute->command_path)
 		return (true);
