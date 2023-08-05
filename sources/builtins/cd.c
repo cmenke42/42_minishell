@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 10:49:18 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/05 01:24:26 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 22:17:58 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,12 @@ static bool	ft_get_target_path(char **arguments, t_list *env_list,
 		if (!home)
 		{
 			ft_print_error_message("cd: HOME not set", NULL, NULL, NULL);
+			return (false);
+		}
+		else if (!((t_env *)home->content)->value)
+		{
+			ft_print_error_message("cd: couldn't change directory",
+				NULL, NULL, NULL);
 			return (false);
 		}
 		else
