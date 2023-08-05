@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   trim_variable_value.c                              :+:      :+:    :+:   */
+/*   variable_expansion_trim_value.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 23:04:09 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/03 23:05:07 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 20:22:13 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,33 @@ static void	ft_process_string_to_trim(char *string, char *result, int *count,
 		if (string[i])
 			copy_or_count(result + j++, count, string[i++]);
 	}
+}
+
+bool	ft_add_quotes_to_protect_value(char **value, int expansion_case)
+{
+	char	*new_value;
+	int		value_len;
+
+	if (!*value)
+		return (true);
+	value_len = ft_strlen(*value);
+	if (expansion_case == v_trim)
+		value_len += 2;
+	else if (expansion_case == v_no_trim)
+		value_len += 3;
+	new_value = ft_calloc(value_len + 1, sizeof(char));
+	if (!new_value)
+		return (perror("error - adding quotes to value in expansion"), false);
+	new_value[0] = '\"';
+	if (expansion_case == v_trim)
+		ft_strlcat(new_value, *value, value_len + 1);
+	else if (expansion_case == v_no_trim)
+	{
+		new_value[1] = '\"';
+		ft_strlcat(new_value, *value, value_len + 1);
+	}
+	new_value[value_len - 1] = '\"';
+	ft_free_ptr_and_set_to_null((void **)value);
+	*value = new_value;
+	return (true);
 }

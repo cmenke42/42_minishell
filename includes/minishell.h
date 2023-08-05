@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:47:42 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/05 17:28:15 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/05 20:12:21 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ bool	ft_expand_variables_in_tokens(t_list **tokens,
 bool	ft_expand_variables_in_string(char **string, t_shell_data *shell_data,
 			bool ignore_quotes);
 	//variable_expansion_utils.c
+bool	ft_add_quotes_to_protect_value(char **value, int expansion_case);
 void	ft_cut_out_node(t_list **tokens, t_list *previous,
 			t_list *current, t_list *next);
 void	ft_update_quote_state(bool *in_single_quotes,

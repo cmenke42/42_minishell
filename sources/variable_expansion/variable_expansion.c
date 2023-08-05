@@ -6,19 +6,17 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:32:40 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/05 20:02:25 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 20:22:21 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static bool	ft_expand_one_variable(int expansion_case, char **string,
+static bool	ft_expand_one_variable(int exp_case, char **string,
 				char **token, t_shell_data *shell_data);
 static int	ft_get_expansion_case(char **string, bool in_double_quotes);
 static bool	ft_replace_name_with_value(char **string, char **token,
 				char *variable_name, char *variable_value);
-
-bool	ft_add_quotes_to_protect_value(char **value, int expansion_case);
 
 bool	ft_expand_variables_in_tokens(t_list **tokens, t_shell_data *shell_data)
 {
@@ -49,7 +47,7 @@ bool	ft_expand_variables_in_string(char **string, t_shell_data *shell_data,
 	char	*moving_string;
 	bool	in_double_quotes;
 	bool	in_single_quotes;
-	int		expansion_case;
+	int		exp_case;
 
 	moving_string = *string;
 	in_double_quotes = false;
@@ -61,9 +59,9 @@ bool	ft_expand_variables_in_string(char **string, t_shell_data *shell_data,
 				&in_double_quotes, *moving_string);
 		if (*moving_string == '$' && !in_single_quotes)
 		{
-			expansion_case = ft_get_expansion_case(&moving_string,
+			exp_case = ft_get_expansion_case(&moving_string,
 					in_double_quotes);
-			if (!ft_expand_one_variable(expansion_case, &moving_string,
+			if (!ft_expand_one_variable(exp_case, &moving_string,
 					string, shell_data))
 				return (false);
 		}
@@ -73,7 +71,7 @@ bool	ft_expand_variables_in_string(char **string, t_shell_data *shell_data,
 	return (true);
 }
 
-static bool	ft_expand_one_variable(int expansion_case, char **string,
+static bool	ft_expand_one_variable(int exp_case, char **string,
 			char **token, t_shell_data *shell_data)
 {
 	char	*name;
@@ -83,59 +81,24 @@ static bool	ft_expand_one_variable(int expansion_case, char **string,
 	name = NULL;
 	value = NULL;
 	error = false;
-	if (expansion_case == v_exit_code || expansion_case == v_trim_value
-		|| expansion_case == v_untrimmed_value)
+	if (exp_case == v_exit_code || exp_case == v_trim || exp_case == v_no_trim)
 	{
 		if (!ft_get_variable_name(*string, &name))
 			error = true;
 		else if (!ft_get_variable_value(name, &value, shell_data->env_list))
 			error = true;
-		else if (expansion_case == v_trim_value && !ft_trim_value(&value))
+		else if (exp_case == v_trim && !ft_trim_value(&value))
 			error = true;
-		else if (!ft_add_quotes_to_protect_value(&value, expansion_case))
+		else if (!ft_add_quotes_to_protect_value(&value, exp_case))
 			error = true;
-		else if (expansion_case == v_exit_code
+		else if (exp_case == v_exit_code
 			&& !ft_get_exit_code_string(&name, &value, shell_data->exit_code))
 			error = true;
 		else if (!ft_replace_name_with_value(string, token, name, value))
 			error = true;
 	}
-	ft_free_ptr_and_set_to_null((void **)&name);
-	ft_free_ptr_and_set_to_null((void **)&value);
+	ft_free_name_and_value(&name, &value);
 	return (!error);
-}
-
-bool	ft_add_quotes_to_protect_value(char **value, int expansion_case)
-{
-	char	*new_value;
-	int		value_len;
-
-	if (!*value)
-		return (true);
-	value_len = ft_strlen(*value);
-	if (expansion_case == v_trim_value)
-		value_len += 2;
-	else if (expansion_case == v_untrimmed_value)
-		value_len += 3;
-	new_value = ft_calloc(value_len + 1, sizeof(char));
-	if (!new_value)
-		return (perror("error - adding quotes to value in expansion"), false);
-	if (expansion_case == v_trim_value)
-	{
-		new_value[0] = '"';
-		ft_strlcat(new_value, *value, value_len + 1);
-		new_value[value_len - 1] = '"';
-	}
-	else if (expansion_case == v_untrimmed_value)
-	{
-		new_value[0] = '\"';
-		new_value[1] = '\"';
-		ft_strlcat(new_value, *value, value_len + 1);
-		new_value[value_len - 1] = '\"';
-	}
-	ft_free_ptr_and_set_to_null((void **)value);
-	*value = new_value;
-	return (true);
 }
 
 static int	ft_get_expansion_case(char **string, bool in_double_quotes)
@@ -157,9 +120,9 @@ static int	ft_get_expansion_case(char **string, bool in_double_quotes)
 	else if ((next_char) == '?')
 		return (v_exit_code);
 	else if (in_double_quotes)
-		return (v_untrimmed_value);
+		return (v_no_trim);
 	else
-		return (v_trim_value);
+		return (v_trim);
 }
 
 //at least remove the dollar
