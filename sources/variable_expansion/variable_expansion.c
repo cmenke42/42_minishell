@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:32:40 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 00:07:02 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 00:55:17 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ static bool	ft_expand_one_variable(int expansion_case, char **string,
 		else if (!ft_replace_name_with_value(string, token, name, value))
 			error = true;
 	}
-	ft_free_pointer_and_set_to_null((void **)&name);
-	ft_free_pointer_and_set_to_null((void **)&value);
+	ft_free_ptr_and_set_to_null((void **)&name);
+	ft_free_ptr_and_set_to_null((void **)&value);
 	return (!error);
 }
 

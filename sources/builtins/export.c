@@ -6,13 +6,11 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 18:56:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 23:04:23 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 00:55:17 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static void	ft_free_name_and_value(char **name, char **value);
 
 int	ft_export(char **arguemnts, t_list **env_list)
 {
@@ -90,9 +88,9 @@ bool	ft_is_syntax_error_in_env_name(char *string)
 	}
 	if (syntax_error)
 	{
-		ft_print_error_message("minishell: export: `", string,
-			"': not a valid identifier");
-		return (ft_print_export_wrong_identifier(string), true);
+		ft_print_error_message("export: `", string,
+			"': not a valid identifier", NULL);
+		return (true);
 	}
 	return (false);
 }
@@ -120,10 +118,10 @@ void	ft_assign(t_env *env_variable,
 {
 	if (name)
 	{
-		ft_free_pointer_and_set_to_null((void **)&env_variable->name);
+		ft_free_ptr_and_set_to_null((void **)&env_variable->name);
 		env_variable->name = name;
 	}
-	ft_free_pointer_and_set_to_null((void **)&env_variable->value);
+	ft_free_ptr_and_set_to_null((void **)&env_variable->value);
 	env_variable->value = value;
 	if (!env_variable->value && print_empty_quotes)
 		env_variable->print_empty_quotes = true;

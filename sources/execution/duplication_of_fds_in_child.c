@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:23:14 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 21:03:14 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 01:57:07 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ bool	ft_input_redirection_in_child(int **pipe_fds, int input_fd,
 	if (input_fd > 0)
 	{
 		if (dup2(input_fd, STDIN_FILENO) == -1)
-		{	
+		{
 			close(input_fd);
 			return (perror("error duplicating input fd"), false);
 		}

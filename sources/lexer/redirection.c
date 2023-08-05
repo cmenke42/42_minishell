@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:29:42 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/04 21:00:47 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 01:30:15 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,11 @@ int	ft_handle_redirection_operators(t_cmd_sequences *sequence,
 static bool	ft_do_redirection(t_cmd_sequences *sequence,
 		t_tokens *operator_node, t_tokens *file_node, char **heredocs)
 {
-	bool status;
+	bool	status;
 
 	status = true;
-	if (operator_node->type == redirection_in || operator_node->type == redirection_in_heredoc)
+	if (operator_node->type == redirection_in
+		|| operator_node->type == redirection_in_heredoc)
 	{
 		status = ft_input_redirection(&sequence->input_fd,
 				operator_node, file_node, heredocs);

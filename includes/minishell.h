@@ -6,66 +6,53 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:47:42 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 20:13:17 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 01:55:02 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+//general
 # include <errno.h>
 # include <limits.h>
 # include <sys/param.h>
 # include <stdio.h>
+# include <stdbool.h>
 //readline
 # include <readline/readline.h>
 # include <readline/history.h>
-
-//tc functions
-# include <termios.h>
-
 //signals
 # include <signal.h>
-
-// //terminal
-// # include <sys/ttydefaults.h>
-
-# include <stdbool.h>
-
 //open
 # include <fcntl.h>
-
 //Wait functions
 # include <sys/types.h>
 # include <sys/wait.h>
-
 //lstat
 # include <sys/stat.h>
 
 //custom
 # include "../libft/libft.h"
 # include "structs.h"
-# include "env.h"
+# include "builtins.h"
 # include "colors.h"
 
 # define SHELL_NAME "minishell"
 # define PROMPT "minishell:$ "
-# define SQUOTE_ERROR "minishell: syntax error while looking for matching `''"
-# define DQUOTE_ERROR "minishell: syntax error while looking for matching `\"'"
-
+//permission for open
 # define RW_R__R__ 0644
 
 extern int	g_signal_number;
-
-//extern const char* token_enum_to_string[][2]; //remove this
 
 //main
 int		ft_process_command_line(t_shell_data *shell_data);
 void	ft_exit_ctrl_d(t_shell_data *shell_data);
 //prepare_minishell.c
-int 	ft_prepare_minishell(t_shell_data **shell_data, char **envp);
+int		ft_prepare_minishell(t_shell_data **shell_data, char **envp);
 //print_error.c
-void	ft_print_error_message(char *part1, char *part2, char *part3, char *part4);
+void	ft_print_error_message(char *part1, char *part2,
+			char *part3, char *part4);
 
 //signals
 	//set_signals_functions.c
@@ -82,7 +69,8 @@ int		ft_tokenize_command_line(char *cmd_line, t_list **tokens);
 	// tokenize_command_line_helpers.c
 void	ft_skip_to_next_non_delimiter(char **command_line);
 bool	ft_is_whitespace(char c);
-void	ft_skip_quote_block(char **string, bool	only_single_quotes, bool end_with_quote);
+void	ft_skip_quote_block(char **string, bool	only_single_quotes,
+			bool end_with_quote);
 void	ft_move_while_same_char(char **command_line, char c);
 	//set_token_types.c
 void	ft_assign_token_type(void *node);
@@ -100,14 +88,15 @@ bool	ft_is_quotes_in_delimiter(char *string);
 	//split_in_sequences.c
 int		ft_split_tokens_in_sequences(t_list *tokens, t_list **cmd_sequences);
 	//variable_expansion.c
-bool	ft_expand_variables_in_tokens(t_list **tokens, t_shell_data *shell_data);
+bool	ft_expand_variables_in_tokens(t_list **tokens,
+			t_shell_data *shell_data);
 bool	ft_expand_variables_in_string(char **string, t_shell_data *shell_data,
-				bool ignore_quotes);
+			bool ignore_quotes);
 	//variable_expansion_utils.c
 void	ft_cut_out_node(t_list **tokens, t_list *previous,
 			t_list *current, t_list *next);
 void	ft_update_quote_state(bool *in_single_quotes,
-				bool *in_double_quotes, char c);
+			bool *in_double_quotes, char c);
 void	ft_skip_whitespace(char *string, int *i);
 bool	ft_is_char_quote(char c);
 	//variable_expansion_trim_value.c
@@ -117,9 +106,8 @@ bool	ft_get_variable_name(char *string, char **variable_name);
 bool	ft_get_variable_value(char *name, char **value, t_list *env_list);
 bool	ft_get_exit_code_string(char **name, char **value, int exit_code);
 	//redirection.c
-int	ft_handle_redirection_operators(t_cmd_sequences *sequence,
-	t_list *tokens, char **heredocs);
-void	ft_put_redirection_error(char *file);
+int		ft_handle_redirection_operators(t_cmd_sequences *sequence,
+			t_list *tokens, char **heredocs);
 	//token_list_to_char_array
 bool	ft_token_list_to_args_array(char ***arguments, t_list *tokens);
 	//remove_quotes
@@ -132,7 +120,7 @@ void	ft_copy_char(char *new_string, int *count, char c);
 	//ft_free_double_pointer.c
 void	ft_free_double_pointer_char(char ***ptr);
 void	ft_free_double_pointer_int(int ***ptr, int size);
-void	ft_free_pointer_and_set_to_null(void **ptr);
+void	ft_free_ptr_and_set_to_null(void **ptr);
 	// clear_all.c
 void	ft_clear_token(void *token);
 void	ft_clear_command_sequence(void *sequence);
@@ -170,6 +158,17 @@ bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data,
 			t_cmd_sequences *sequence_to_execute);
 void	ft_print_error(char *command, char *error_message);
 bool	ft_is_slash_in_command(char *command);
+	// execute_command_in_child_cleanup
+void	assign_sequence_to_path(t_shell_data *shell_data,
+			t_cmd_sequences *sequence_to_execute);
+bool	is_file_directory(t_shell_data *shell_data,
+			t_cmd_sequences *sequence_to_execute, struct stat file_info);
+bool	is_file_executable(t_shell_data *shell_data,
+			t_cmd_sequences *sequence_to_execute, struct stat file_info);
+bool	handle_non_exe(t_shell_data *shell_data,
+			t_cmd_sequences *sequence_to_execute, struct stat file_info);
+bool	is_path_invalid(t_shell_data *shell_data,
+			t_cmd_sequences *sequence_to_execute);
 	//single_builtin_execution
 int		ft_execute_single_builtin(t_shell_data *shell_data,
 			int number_of_commands, t_cmd_sequences *sequence_to_execute,
@@ -207,6 +206,7 @@ void	ft_print_command_sequences(t_list *cmd_sequences);
 void	ft_print_token_list(t_list *tokens);
 void	ft_print_double_array(char **array);
 void	ft_print_command_sequences_args(t_list *cmd_sequences);
-void	ft_print_tokens_and_type(t_list *tokens);
+//delete them
+void		ft_print_tokens_and_type(t_list *tokens);
 
 #endif

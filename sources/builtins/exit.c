@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 13:15:06 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/04 20:07:26 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 01:09:15 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_exit(char **args, t_shell_data *shell_data)
 	{
 		print_exit = false;
 		printf("exit\n");
-		ft_print_error("exit:", " too many arguments\n");
+		ft_print_error_message("exit:", " too many arguments", NULL, NULL);
 		exit_code = 1;
 	}
 	else

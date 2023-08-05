@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:25:39 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 19:10:32 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 00:55:17 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	ft_free_double_pointer_int(int ***ptr, int size)
 	}
 }
 
-void	ft_free_pointer_and_set_to_null(void **ptr)
+void	ft_free_ptr_and_set_to_null(void **ptr)
 {
 	if (!ptr || !*ptr)
 		return ;

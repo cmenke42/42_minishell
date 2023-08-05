@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export_utils.c                                     :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 14:36:06 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/04 22:53:30 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 01:03:04 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,18 @@ t_list	*ft_search_for_env_variable(char *variable_name, t_list *env_list)
 	return (NULL);
 }
 
-void	ft_print_export_wrong_identifier(char *argument)
-{
-	ft_put
-	ft_putstr_fd("minishell: export: `", 2);
-	ft_putstr_fd(argument, 2);
-	ft_putendl_fd("': not a valid identifier", 2);
-}
-
-//argument with or without equal sign as input
-
-
 void	ft_free_name_and_value(char **name, char **value)
 {
-	ft_free_pointer_and_set_to_null((void **)name);
-	ft_free_pointer_and_set_to_null((void **)value);
+	ft_free_ptr_and_set_to_null((void **)name);
+	ft_free_ptr_and_set_to_null((void **)value);
+}
+
+bool	ft_get_current_working_directory(char **cwd_buf)
+{
+	*cwd_buf = ft_calloc(MAXPATHLEN + 1, sizeof(char));
+	if (!*cwd_buf)
+		return (perror("error creating cwd_buf"), false);
+	if (!getcwd(*cwd_buf, MAXPATHLEN))
+		return (free(*cwd_buf), perror("error getting cwd"), false);
+	return (true);
 }

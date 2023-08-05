@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 22:34:55 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 22:42:36 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 00:55:17 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ bool	ft_create_name_and_value(char *argument, char **name,
 	if (!ft_create_name(argument, name, position_of_equal_sign))
 		return (false);
 	if (!ft_create_value(value, position_of_equal_sign))
-		return (ft_free_pointer_and_set_to_null((void **)name), false);
+		return (ft_free_ptr_and_set_to_null((void **)name), false);
 	return (true);
 }
 

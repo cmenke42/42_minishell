@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command_in_child_cleanup.c                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 15:20:42 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/05 00:07:40 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/05 01:56:59 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	assign_sequence_to_path(t_shell_data *shell_data,
 	sequence_to_execute->command_path
 		= ft_get_cmd_path(sequence_to_execute->envp_command_paths,
 			sequence_to_execute->args[0]);
-}	
+}
 
 bool	is_file_directory(t_shell_data *shell_data,
 	t_cmd_sequences *sequence_to_execute, struct stat file_info)

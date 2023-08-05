@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 18:52:58 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 22:23:13 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/04 23:26:06 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,13 @@ static bool	increase_shlvl(t_list **env_list)
 		value = ft_strdup("1");
 		if (!value)
 			return (free(name), perror("error creating SHLVL - 1"), false);
-		if (!store_var_in_node(env_list, name, value, "="))
+		if (!store_var_in_node(env_list, name, value, true))
 			return (free(name), free(value), false);
 		return (true);
 	}
 	value = ft_itoa(ft_atoi(((t_env *)shlvl->content)->value) + 1);
 	if (!value)
 		return (free(name), perror("error creating SHLVL Value + 1"), false);
-	ft_assign((t_env *)shlvl->content, name, value, "=");
+	ft_assign((t_env *)shlvl->content, name, value, true);
 	return (true);
 }

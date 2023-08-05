@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_processes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 16:16:48 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/05 00:06:19 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/05 01:56:42 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_execute_commands(t_shell_data *shell_data)
 				(t_cmd_sequences *)shell_data->cmd_sequences->content, 0);
 		ft_set_minisell_signals();
 		return (status);
-	}	
+	}
 	if (!ft_fork_child_processes(shell_data, number_of_commands))
 		status = __system_call_error;
 	if (status == __success)
@@ -38,7 +38,7 @@ int	ft_execute_commands(t_shell_data *shell_data)
 }
 
 bool	ft_create_pipes(t_shell_data *shell_data, int number_of_pipes)
-{	
+{
 	int	i;
 
 	if (number_of_pipes == 0)
@@ -55,7 +55,7 @@ bool	ft_create_pipes(t_shell_data *shell_data, int number_of_pipes)
 			ft_close_all_pipes(shell_data->pipe_fds, i);
 			ft_free_double_pointer_int(&shell_data->pipe_fds, i);
 			return (perror("error creating shell_data->pipe_fds[i]"), false);
-		}	
+		}
 		if (pipe(shell_data->pipe_fds[i]) == -1)
 			return (perror("error creating pipe"), false);
 		i++;

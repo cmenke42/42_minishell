@@ -6,7 +6,7 @@
 #    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 23:48:03 by cmenke            #+#    #+#              #
-#    Updated: 2023/08/04 22:36:43 by cmenke           ###   ########.fr        #
+#    Updated: 2023/08/05 01:25:30 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,11 +20,10 @@ BUILTINS := $(addprefix builtins/,cd.c \
 								exit.c \
 								export_create_name_value.c \
 								export_print_list.c \
+								export.c \
 								pwd.c \
 								unset.c \
-								export.c \
-								export_utils.c\
-								export_utils2.c)
+								utils.c)
 
 CLEARING := $(addprefix clearing/,free_double_pointer.c \
 									clear_structs.c)
@@ -41,6 +40,7 @@ LEXER := $(addprefix lexer/,tokenize_command_line.c \
 EXECUTION := $(addprefix execution/,create_processes.c \
 									get_envp_cmd_paths.c \
 									execute_coammand_in_child.c \
+									execute_command_in_child_cleanup.c \
 									env_list_to_char_array.c \
 									duplication_of_fds_in_child.c \
 									single_builtin_execution.c \
@@ -72,7 +72,7 @@ SRCS := $(addprefix ${SRCDIR}/,main.c \
 
 OBJS := ${SRCS:.c=.o}
 
-HEADER := includes/minishell.h includes/colors.h includes/structs.h includes/env.h
+HEADER := includes/minishell.h includes/colors.h includes/structs.h includes/builtins.h
 
 LIBFTDIR := libft
 

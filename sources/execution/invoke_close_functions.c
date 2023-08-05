@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   invoke_close_functions.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 11:25:35 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/05 00:06:39 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/05 01:16:32 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int	get_builtin_command(t_shell_data *shell_data,
 	if (!ft_strcmp("echo", command))
 		ft_echo(sequence_to_execute->args);
 	else if (!ft_strcmp("cd", command))
-		status = ft_cd(sequence_to_execute->args, &shell_data->env_list,
-				shell_data);
+		status = ft_cd(sequence_to_execute->args, shell_data->env_list,
+				&shell_data->print_quotes_for_oldpwd);
 	else if (!ft_strcmp("pwd", command))
 		status = ft_pwd(NULL, true);
 	else if (!ft_strcmp("export", command))
