@@ -6,13 +6,13 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:24:19 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/05 03:20:47 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/05 03:26:30 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static bool ft_add_slash_to_envp_paths(char ***envp_paths);
+static bool	ft_add_slash_to_envp_paths(char ***envp_paths);
 
 //checks if the cmd is to be found in one of the paths specified by envp
 bool	ft_get_cmd_path(char **envp_paths, char *cmd, char **cmd_path)
@@ -58,7 +58,7 @@ bool	ft_get_envp_paths(char **envp, char ***envp_paths)
 	return (true);
 }
 
-static bool ft_add_slash_to_envp_paths(char ***envp_paths)
+static bool	ft_add_slash_to_envp_paths(char ***envp_paths)
 {
 	char	**result;
 	int		i;
