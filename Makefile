@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+         #
+#    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 23:48:03 by cmenke            #+#    #+#              #
-#    Updated: 2023/08/05 17:17:10 by wmoughar         ###   ########.fr        #
+#    Updated: 2023/08/06 00:25:20 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,14 +37,13 @@ LEXER := $(addprefix lexer/,tokenize_command_line.c \
 								token_list_to_char_array.c \
 								remove_quotes.c)
 
-EXECUTION := $(addprefix execution/,create_processes.c \
-									get_envp_cmd_paths.c \
-									execute_coammand_in_child.c \
-									execute_command_in_child_cleanup.c \
-									env_list_to_char_array.c \
+EXECUTION := $(addprefix execution/,check_if_cmd_is_valid.c \
+									create_processes.c \
 									duplication_of_fds_in_child.c \
-									single_builtin_execution.c \
-									invoke_close_functions.c)
+									env_list_to_char_array.c \
+									execute_coammand_in_child.c \
+									get_envp_cmd_paths.c \
+									single_builtin_execution.c)
 
 SIGNALS := $(addprefix signals/, set_signals_functions.c \
 								signal_handlers.c)
@@ -83,7 +82,7 @@ INCLUDE := ${LIBFTDIR}/${LIBFT} -lreadline \
 -I ${HOME}/goinfre/.brew/opt/readline/include/ \
 -L ${HOME}/goinfre/.brew/opt/readline/lib/
 
-CFLAGS := -Wall -Wextra -g -O0 #-fsanitize=address
+CFLAGS := -Wall -Wextra -g -O0 -fsanitize=address
 ##to have the same flags in libft and minishell
 export CFLAGS
 # CFLAGS := -Wall -Werror -Wextra

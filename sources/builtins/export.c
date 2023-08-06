@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 18:56:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/05 00:55:17 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/06 00:15:51 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_update_or_add_env_variable(char *argument, t_list **env_list,
 	}
 	else if (name && value)
 		print_empty_quotes = true;
-	env_update = ft_search_for_env_variable(name, *env_list);
+	env_update = ft_find_env_variable(name, *env_list);
 	if (env_update)
 		ft_assign((t_env *)env_update->content,
 			name, value, print_empty_quotes);

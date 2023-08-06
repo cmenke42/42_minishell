@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 11:38:04 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/05 01:45:53 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/06 00:15:51 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ft_print_pwd_and_free(char *path);
 int		ft_unset(char **arguments, t_list **env_list_new,
 			t_shell_data *shell_data);
 //utils.c
-t_list	*ft_search_for_env_variable(char *argument, t_list *env_list);
+t_list	*ft_find_env_variable(char *argument, t_list *env_list);
 void	ft_free_name_and_value(char **name, char **value);
 bool	ft_get_current_working_directory(char **cwd_buf);
 

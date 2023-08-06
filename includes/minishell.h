@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:47:42 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/05 22:43:33 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/06 00:06:08 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,21 +153,10 @@ int		ft_execution_of_command(t_shell_data *shell_data,
 			t_cmd_sequences *sequence_to_execute, bool single_builtin);
 int		ft_execute_builtin_if_builtin(t_shell_data *shell_data,
 			t_cmd_sequences *sequence_to_execute);
-bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data,
+	//check_if_cmd_is_valid
+bool	ft_is_cmd_valid(t_shell_data *shell_data,
 			t_cmd_sequences *sequence_to_execute);
 void	ft_print_error(char *command, char *error_message);
-bool	ft_is_slash_in_command(char *command);
-	// execute_command_in_child_cleanup
-void	assign_sequence_to_path(t_shell_data *shell_data,
-			t_cmd_sequences *sequence_to_execute);
-bool	is_file_directory(t_shell_data *shell_data,
-			t_cmd_sequences *sequence_to_execute, struct stat file_info);
-bool	is_file_executable(t_shell_data *shell_data,
-			t_cmd_sequences *sequence_to_execute, struct stat file_info);
-bool	handle_non_exe(t_shell_data *shell_data,
-			t_cmd_sequences *sequence_to_execute, struct stat file_info);
-bool	is_path_invalid(t_shell_data *shell_data,
-			t_cmd_sequences *sequence_to_execute);
 	//single_builtin_execution
 int		ft_execute_single_builtin(t_shell_data *shell_data,
 			int number_of_commands, t_cmd_sequences *sequence_to_execute,

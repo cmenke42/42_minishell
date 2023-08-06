@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 11:30:47 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/04 20:03:31 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/06 00:15:51 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_unset(char **arguments, t_list **env_list_new, t_shell_data *shell_data)
 	{
 		if (ft_is_syntax_error_in_env_name(arguments[i]))
 			return (__syntax_error);
-		env_variable_to_remove = ft_search_for_env_variable(arguments[i],
+		env_variable_to_remove = ft_find_env_variable(arguments[i],
 				*env_list_new);
 		if (env_variable_to_remove && !ft_strcmp(arguments[i], "PWD"))
 			shell_data->print_quotes_for_oldpwd = true;

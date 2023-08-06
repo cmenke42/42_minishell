@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 14:36:06 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/05 21:59:31 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/06 00:15:51 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_list	*ft_search_for_env_variable(char *variable_name, t_list *env_list)
+t_list	*ft_find_env_variable(char *variable_name, t_list *env_list)
 {
 	t_env	*one_env_variable;
 

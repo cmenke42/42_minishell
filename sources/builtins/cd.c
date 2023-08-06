@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 10:49:18 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/05 22:17:58 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/06 00:15:51 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int	ft_cd(char **arguments, t_list *env_list, bool *print_quotes_for_oldpwd)
 	cwd_old = NULL;
 	if (!ft_get_target_path(arguments, env_list, &target_path))
 		return (__mini_error);
-	oldpwd = ft_search_for_env_variable("OLDPWD", env_list);
-	pwd = ft_search_for_env_variable("PWD", env_list);
+	oldpwd = ft_find_env_variable("OLDPWD", env_list);
+	pwd = ft_find_env_variable("PWD", env_list);
 	if (!ft_get_current_working_directory(&cwd_old))
 		return (__system_call_error);
 	if (!ft_change_working_directory(target_path))
@@ -48,7 +48,7 @@ static bool	ft_get_target_path(char **arguments, t_list *env_list,
 
 	if (!arguments[1])
 	{
-		home = ft_search_for_env_variable("HOME", env_list);
+		home = ft_find_env_variable("HOME", env_list);
 		if (!home)
 		{
 			ft_print_error_message("cd: HOME not set", NULL, NULL, NULL);

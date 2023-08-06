@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_expansion_get_name_value.c                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 23:22:02 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/05 22:31:35 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/06 00:15:51 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ bool	ft_get_variable_value(char *name, char **value, t_list *env_list)
 
 	if (!name)
 		return (true);
-	variable_node = ft_search_for_env_variable(name, env_list);
+	variable_node = ft_find_env_variable(name, env_list);
 	if (variable_node)
 	{
 		if (((t_env *)variable_node->content)->value)

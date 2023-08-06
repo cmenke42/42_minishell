@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_coammand_in_child.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/05 17:30:50 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/06 00:07:32 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	ft_execution_of_command(t_shell_data *shell_data,
 		return (status);
 	else if (!single_builtin && status != __no_builtin_found)
 		return (status);
-	else if (!ft_check_if_cmd_path_is_valid(shell_data, sequence_to_execute))
+	else if (!ft_is_cmd_valid(shell_data, sequence_to_execute))
 		;
 	else if (execve(sequence_to_execute->command_path,
 			sequence_to_execute->args, shell_data->envp_array) == -1)
@@ -74,44 +74,26 @@ int	ft_execute_builtin_if_builtin(t_shell_data *shell_data,
 	return (status);
 }
 
-bool	ft_check_if_cmd_path_is_valid(t_shell_data *shell_data,
-	t_cmd_sequences *sequence_to_execute)
+int	get_builtin_command(t_shell_data *shell_data,
+	t_cmd_sequences *sequence_to_execute, char *command, int status)
 {
-	struct stat	file_info;
-	
-	ft_memset(&file_info, 0, sizeof(file_info));
-	if (sequence_to_execute->args[0][0] == '\0')
-	if (!empty_quotes(sequence_to_execute, shell_data))
-		return (false);
-	assign_sequence_to_path(shell_data, sequence_to_execute);
-	if (sequence_to_execute->command_path)
-		return (true);
-	if (access(sequence_to_execute->args[0], F_OK) == 0)
-	{
-		if (!is_file_directory(shell_data, sequence_to_execute, file_info))
-			return (false);
-		else if (is_file_executable(shell_data, sequence_to_execute, file_info))
-			return (true);
-		else if (!handle_non_exe(shell_data, sequence_to_execute, file_info))
-			return (false);
-	}
-	else if (!is_path_invalid(shell_data, sequence_to_execute))
-		return (false);
-	ft_print_error(sequence_to_execute->args[0], ": command not found\n");
-	shell_data->exit_code = 127;
-	return (false);
-}
-
-bool	ft_is_slash_in_command(char *command)
-{
-	int	i;
-
-	i = 0;
-	while (command[i])
-	{
-		if (command[i] == '/')
-			return (true);
-		i++;
-	}
-	return (false);
+	if (!ft_strcmp("echo", command))
+		ft_echo(sequence_to_execute->args);
+	else if (!ft_strcmp("cd", command))
+		status = ft_cd(sequence_to_execute->args, shell_data->env_list,
+				&shell_data->print_quotes_for_oldpwd);
+	else if (!ft_strcmp("pwd", command))
+		status = ft_pwd(NULL, true);
+	else if (!ft_strcmp("export", command))
+		status = ft_export(sequence_to_execute->args, &shell_data->env_list);
+	else if (!ft_strcmp("unset", command))
+		status = ft_unset(sequence_to_execute->args, &shell_data->env_list,
+				shell_data);
+	else if (!ft_strcmp("env", command))
+		ft_print_env_list(shell_data->env_list);
+	else if (!ft_strcmp("exit", command))
+		ft_exit(sequence_to_execute->args, shell_data);
+	else
+		return (__no_builtin_found);
+	return (status);
 }

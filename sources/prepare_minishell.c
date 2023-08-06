@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 18:52:58 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 23:26:06 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/06 00:15:51 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	ft_prepare_env_variables(t_shell_data *shell_data)
 	if (ft_update_or_add_env_variable("OLDPWD", &shell_data->env_list,
 			NULL, NULL) == __system_call_error)
 		return (__system_call_error);
-	if (!ft_search_for_env_variable("PWD", shell_data->env_list))
+	if (!ft_find_env_variable("PWD", shell_data->env_list))
 	{
 		pwd_name = ft_strdup("PWD");
 		if (!pwd_name)
@@ -79,7 +79,7 @@ static bool	increase_shlvl(t_list **env_list)
 	name = ft_strdup("SHLVL");
 	if (!name)
 		return (perror("error creating name - SHLVL"), false);
-	shlvl = ft_search_for_env_variable("SHLVL", *env_list);
+	shlvl = ft_find_env_variable("SHLVL", *env_list);
 	if (!shlvl || !((t_env *)shlvl->content)->value)
 	{
 		value = ft_strdup("1");

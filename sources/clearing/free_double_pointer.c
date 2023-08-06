@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:25:39 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/05 00:55:17 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/06 00:22:27 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_free_double_pointer_int(int ***ptr, int size)
 	{
 		while (i < size)
 			free(temp[i++]);
-		free(temp); //unnecessary free causing issues
+		free(temp);
 		*ptr = NULL;
 	}
 }
