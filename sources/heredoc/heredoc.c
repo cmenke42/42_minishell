@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:07:55 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/06 15:48:36 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/06 18:30:59 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static void	ft_process_heredoc_reading(t_shell_data *shell_data)
 {
 	int	exit_code;
 
+	shell_data->add_no_quotes = true;
 	exit_code = ft_open_reading_for_heredocs(shell_data->all_tokens,
 			shell_data->heredocs, shell_data);
 	ft_free_shell_data(shell_data, true);

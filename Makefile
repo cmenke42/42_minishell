@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+         #
+#    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 23:48:03 by cmenke            #+#    #+#              #
-#    Updated: 2023/08/06 16:03:30 by wmoughar         ###   ########.fr        #
+#    Updated: 2023/08/06 18:20:19 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,7 +67,6 @@ SRCS := $(addprefix ${SRCDIR}/,main.c \
 								${VARIABLE_EXPANSION} \
 								${HEREDOC} \
 								helpers.c \
-								helpers2.c \
 								print_error.c \
 								prepare_minishell.c)
 

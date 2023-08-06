@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:59:19 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/06 00:23:09 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/06 17:50:07 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,11 @@ bool	ft_is_syntax_error_in_tokens(t_list *tokens)
 //only pipe && pipe at the end are considered an error
 static bool	ft_check_for_syntax_error(t_tokens *token, t_tokens *next_token)
 {
-	if (token->type == syntax_error)
-	{
-		ft_print_token_syntax_error(next_token);
-		return (true);
-	}
+	if (token->type == syntax_error && *token->token == '|')
+		return (ft_print_error_message("syntax error near unexpected token `",
+				"|", "'", NULL), true);
+	else if (token->type == syntax_error)
+		return (ft_print_token_syntax_error(next_token), true);
 	else if (ft_is_operator(token->type)
 		&& (!next_token || ft_is_operator(next_token->type)))
 	{

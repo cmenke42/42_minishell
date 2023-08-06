@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_if_cmd_is_valid.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 15:20:42 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/06 15:39:45 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/06 18:01:11 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	ft_is_cmd_valid(t_shell_data *shell_data,
 
 	command = sequence_to_execute->args[0];
 	if (!command)
-		return (perror("Error\n"), false);
+		return (false);
 	if (ft_strchr(command, '/') || !ft_find_env_variable("PATH",
 			shell_data->env_list))
 	{

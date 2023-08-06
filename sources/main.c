@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:48:03 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 22:43:08 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/06 18:22:52 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	main(int argc, char **argv, char **envp)
 				add_history(shell_data->cmd_line);
 			else if (status == __system_call_error)
 				return (ft_free_shell_data(shell_data, true), exit(1), 1);
-			// rl_on_new_line();
 		}
 		else if (!shell_data->cmd_line)
 			ft_exit_ctrl_d(shell_data);
@@ -67,9 +66,6 @@ int	ft_process_command_line(t_shell_data *shell_data)
 	if (status)
 		return (status);
 	status = ft_execute_commands(shell_data);
-	//handle the syntax errors of builtin commands???
-	// is there a case where a syntax error comes back?? -> when open failed
-	// //syntax error for ambibous redirect????
 	return (status);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_processes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 16:16:48 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/06 16:53:01 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/06 18:21:06 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,15 @@ bool	ft_create_pipes(t_shell_data *shell_data, int number_of_pipes)
 	while (i < number_of_pipes)
 	{
 		shell_data->pipe_fds[i] = ft_calloc(2, sizeof(int));
-		if (!shell_data->pipe_fds[i])
+		if (!shell_data->pipe_fds[i] || pipe(shell_data->pipe_fds[i]) == -1)
 		{
 			ft_close_all_pipes(shell_data->pipe_fds, i);
 			ft_free_double_pointer_int(&shell_data->pipe_fds, i);
-			return (perror("error creating shell_data->pipe_fds[i]"), false);
+			if (!shell_data->pipe_fds[i])
+				return (perror("error creating shell_data->pipe_fds[]"), false);
+			else
+				return (perror("error creating pipe"), false);
 		}
-		if (pipe(shell_data->pipe_fds[i]) == -1)
-			return (perror("error creating pipe"), false);
 		i++;
 	}
 	return (true);

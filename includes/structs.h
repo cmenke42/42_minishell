@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 16:50:05 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/06 15:57:05 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/06 18:30:43 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 /// @default_stdin:
 /// @default_stdout:
 /// @print_quotes_for_oldpwd: if true, oldpwd="" will be printed one time if set
+/// @add_no_quotes: if true, no quotes will be added to the expanded variable
+// value for proterction
 /// @cmd_line: the command line that the user entered
 /// @envp_array: the environment variables from the env_list
 /// @pipe_fds:
@@ -37,6 +39,7 @@ typedef struct s_shell_data
 	int		default_stdin;
 	int		default_stdout;
 	bool	print_quotes_for_oldpwd;
+	bool	add_no_quotes;
 	char	*cmd_line;
 	char	**envp_array;
 	int		**pipe_fds;
@@ -109,7 +112,8 @@ enum	e_error_codes
 	__system_call_error,
 	__stop_execution,
 	__mini_error,
-	__no_builtin_found
+	__no_builtin_found,
+	__success_but_stop
 };
 
 enum e_variable_expansion_cases

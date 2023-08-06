@@ -6,13 +6,13 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 10:49:18 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/06 00:15:51 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/06 18:20:40 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static bool	ft_get_target_path(char **arguments, t_list *env_list,
+static int	ft_get_target_path(char **arguments, t_list *env_list,
 				char **target_path);
 static void	ft_update_oldpwd(t_list *oldpwd, t_list *pwd,
 				bool *print_quotes_for_oldpwd, char *cwd_old);
@@ -25,10 +25,13 @@ int	ft_cd(char **arguments, t_list *env_list, bool *print_quotes_for_oldpwd)
 	t_list	*pwd;
 	t_list	*oldpwd;
 	char	*cwd_old;
+	int		status;
 
 	cwd_old = NULL;
-	if (!ft_get_target_path(arguments, env_list, &target_path))
-		return (__mini_error);
+	status = __success;
+	status = ft_get_target_path(arguments, env_list, &target_path);
+	if (status)
+		return (status);
 	oldpwd = ft_find_env_variable("OLDPWD", env_list);
 	pwd = ft_find_env_variable("PWD", env_list);
 	if (!ft_get_current_working_directory(&cwd_old))
@@ -41,7 +44,7 @@ int	ft_cd(char **arguments, t_list *env_list, bool *print_quotes_for_oldpwd)
 	return (__success);
 }
 
-static bool	ft_get_target_path(char **arguments, t_list *env_list,
+static int	ft_get_target_path(char **arguments, t_list *env_list,
 		char **target_path)
 {
 	t_list	*home;
@@ -52,20 +55,16 @@ static bool	ft_get_target_path(char **arguments, t_list *env_list,
 		if (!home)
 		{
 			ft_print_error_message("cd: HOME not set", NULL, NULL, NULL);
-			return (false);
+			return (__mini_error);
 		}
 		else if (!((t_env *)home->content)->value)
-		{
-			ft_print_error_message("cd: couldn't change directory",
-				NULL, NULL, NULL);
-			return (false);
-		}
+			return (__success_but_stop);
 		else
 			*target_path = ((t_env *)home->content)->value;
 	}
 	else
 		*target_path = arguments[1];
-	return (true);
+	return (__success);
 }
 
 static void	ft_update_oldpwd(t_list *oldpwd, t_list *pwd,

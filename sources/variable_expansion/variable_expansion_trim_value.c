@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 23:04:09 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/05 20:22:13 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/06 18:34:44 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	ft_process_string_to_trim(char *string, char *result, int *count,
 	}
 }
 
-bool	ft_add_quotes_to_protect_value(char **value, int expansion_case)
+bool	protect_value(char **value, int expansion_case)
 {
 	char	*new_value;
 	int		value_len;

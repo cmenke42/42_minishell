@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/06 00:07:32 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/06 18:18:07 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	ft_execute_builtin_if_builtin(t_shell_data *shell_data,
 	command = sequence_to_execute->args[0];
 	status = get_builtin_command(shell_data, sequence_to_execute, command,
 			status);
-	if (status == __success)
+	if (status == __success || status == __success_but_stop)
 		shell_data->exit_code = 0;
 	return (status);
 }

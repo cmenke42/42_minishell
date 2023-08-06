@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 13:41:18 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/01 17:59:29 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/06 18:21:22 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ void	ft_move_while_same_char(char **command_line, char c)
 
 	if (c == '<' || c == '>')
 		max_len = 2;
-	else if (c == '|')
-		max_len = 1;
 	else
 		max_len = -1;
 	while ((max_len == -1 || max_len-- > 0) && **command_line == c)
