@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:32:40 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/06 18:34:44 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/06 19:28:49 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static bool	ft_expand_one_variable(int exp_case, char **string,
 		else if (!shell_data->add_no_quotes && !protect_value(&value, exp_case))
 			error = true;
 		else if (exp_case == v_exit_code
-			&& !ft_get_exit_code_string(&name, &value, shell_data->exit_code))
+			&& !ft_get_exit_code_string(&name, &value, shell_data))
 			error = true;
 		else if (!ft_replace_name_with_value(string, token, name, value))
 			error = true;

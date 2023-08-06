@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 18:52:58 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/06 00:15:51 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/06 21:26:27 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static bool	increase_shlvl(t_list **env_list);
 
 int	ft_prepare_minishell(t_shell_data **shell_data, char **envp)
 {
+	g_signal_number = 0;
 	*shell_data = ft_calloc(1, sizeof(t_shell_data));
 	if (!*shell_data)
 		return (perror("shell_data struct allocation error"), exit(1), 1);

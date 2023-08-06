@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:47:42 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/06 18:34:44 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/06 19:31:58 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,8 @@ bool	ft_trim_value(char **string);
 	//variable_expansion_get_name_value.c
 bool	ft_get_variable_name(char *string, char **variable_name);
 bool	ft_get_variable_value(char *name, char **value, t_list *env_list);
-bool	ft_get_exit_code_string(char **name, char **value, int exit_code);
+bool	ft_get_exit_code_string(char **name, char **value,
+			t_shell_data *shell_data);
 	//redirection.c
 int		ft_handle_redirection_operators(t_cmd_sequences *sequence,
 			t_list *tokens, char **heredocs);
@@ -134,8 +135,6 @@ void	ft_clear_env_variable(void *node);
 int		get_builtin_command(t_shell_data *shell_data,
 			t_cmd_sequences *sequence_to_execute, char *command,
 			int status);
-bool	empty_quotes(t_cmd_sequences *sequence_to_execute,
-			t_shell_data *shell_data);
 	//check_file
 bool	ft_is_file_existent(char *command, t_shell_data *shell_data);
 bool	ft_is_directory(char *command, t_shell_data *shell_data);
@@ -164,7 +163,6 @@ int		ft_execute_builtin_if_builtin(t_shell_data *shell_data,
 	//check_if_cmd_is_valid
 bool	ft_is_cmd_valid(t_shell_data *shell_data,
 			t_cmd_sequences *sequence_to_execute);
-void	ft_print_error(char *command, char *error_message);
 	//single_builtin_execution
 int		ft_execute_single_builtin(t_shell_data *shell_data,
 			int number_of_commands, t_cmd_sequences *sequence_to_execute,
@@ -186,21 +184,21 @@ bool	ft_get_envp_paths(char **envp, char ***envp_paths);
 bool	ft_env_list_to_envp_array(t_shell_data *shell_data);
 char	*ft_create_one_env_variable(t_env *one_variable);
 
-//delete!!!!
-//helpers.c
-	// void ft_print_list(t_list *list);
-void	ft_print_token_list(t_list *tokens);
-void	ft_print_command_sequences(t_list *cmd_sequences);
-void	ft_print_tokens_and_type(t_list *tokens);//
-void	ft_print_command_sequences_args(t_list *cmd_sequences);/////////////
-void	ft_print_double_array(char **array);
-void	ft_print_envp_array(char **envp_array);
-void	ft_print_pipe_fds(int **pipe_fds, int number_of_pipes);
-void	ft_print_command_sequences(t_list *cmd_sequences);
-void	ft_print_token_list(t_list *tokens);
-void	ft_print_double_array(char **array);
-void	ft_print_command_sequences_args(t_list *cmd_sequences);
-//delete them
-void	ft_print_tokens_and_type(t_list *tokens);
+// //delete!!!!
+// //helpers.c
+// 	// void ft_print_list(t_list *list);
+// void	ft_print_token_list(t_list *tokens);
+// void	ft_print_command_sequences(t_list *cmd_sequences);
+// void	ft_print_tokens_and_type(t_list *tokens);//
+// void	ft_print_command_sequences_args(t_list *cmd_sequences);/////////////
+// void	ft_print_double_array(char **array);
+// void	ft_print_envp_array(char **envp_array);
+// void	ft_print_pipe_fds(int **pipe_fds, int number_of_pipes);
+// void	ft_print_command_sequences(t_list *cmd_sequences);
+// void	ft_print_token_list(t_list *tokens);
+// void	ft_print_double_array(char **array);
+// void	ft_print_command_sequences_args(t_list *cmd_sequences);
+// //delete them
+// void	ft_print_tokens_and_type(t_list *tokens);
 
 #endif

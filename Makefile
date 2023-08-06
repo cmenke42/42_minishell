@@ -6,7 +6,7 @@
 #    By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 23:48:03 by cmenke            #+#    #+#              #
-#    Updated: 2023/08/06 18:20:19 by cmenke           ###   ########.fr        #
+#    Updated: 2023/08/06 20:10:10 by cmenke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,7 +83,7 @@ INCLUDE := ${LIBFTDIR}/${LIBFT} -lreadline \
 -I ${HOME}/goinfre/.brew/opt/readline/include/ \
 -L ${HOME}/goinfre/.brew/opt/readline/lib/
 
-CFLAGS := -Wall -Wextra -g -O0 #-fsanitize=address
+CFLAGS := -Wall -Werror -Wextra -g -O0 #-fsanitize=address
 ##to have the same flags in libft and minishell
 export CFLAGS
 # CFLAGS := -Wall -Werror -Wextra

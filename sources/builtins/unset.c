@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 11:30:47 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/06 16:55:40 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/06 20:38:40 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_unset(char **arguments, t_list **env_list_new, t_shell_data *shell_data)
 		i++;
 	}
 	if (syntax_error)
-		return (syntax_error);
+		return (__syntax_error);
 	return (__success);
 }
 

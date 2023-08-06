@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:07:55 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/06 18:30:59 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/06 20:51:59 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	ft_handle_heredocs(t_shell_data *shell_data)
 		return (__system_call_error);
 	if (shell_data->heredocs)
 		status = ft_read_heredocs_in_child_process(shell_data);
+	if (status != __success)
+		shell_data->exit_code = 1;
 	return (status);
 }
 
@@ -100,7 +102,7 @@ static bool	ft_fill_heredoc(char *heredoc_name, char **delimiter,
 	no_expansion = ft_is_quotes_in_delimiter(*delimiter);
 	heredoc_fd = open(heredoc_name, O_CREAT | O_RDWR | O_TRUNC, RW_R__R__);
 	if (heredoc_fd == -1)
-		return (perror("error opening heredoc file writing"), false);
+		return (perror("error opening heredoc"), false);
 	if (no_expansion && !ft_remove_quotes_from_string(delimiter))
 		return (close(heredoc_fd), false);
 	while (1)

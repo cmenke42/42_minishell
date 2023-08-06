@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 11:38:04 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/06 00:15:51 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/06 19:07:19 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_echo(char **command);
 //env
 void	ft_print_env_list(t_list *env_list);
 //exit
-void	ft_exit(char **args, t_shell_data *shell_data);
+int		ft_exit(char **args, t_shell_data *shell_data);
 //export
 	//export_create_name_value.c
 bool	ft_create_name_and_value(char *argument, char **name,

@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 20:35:32 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 23:26:47 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/06 20:16:52 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	print_export(t_list **env_list)
 
 	sorted_env_list = ft_lstmap(*env_list,
 			ft_duplicate_env_variable, ft_clear_env_variable);
-	if (!sorted_env_list)
+	if (!sorted_env_list && *env_list)
 		return (__system_call_error);
 	sorted_env_list = ft_sort_list_asci(sorted_env_list);
 	start_of_sorted_list = sorted_env_list;

@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 13:15:06 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/05 01:09:15 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/06 19:58:03 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,33 @@
 static int	ft_exit_code(char *str, bool *print_exit);
 static bool	ft_get_number(char *str, int *exit_code);
 
-void	ft_exit(char **args, t_shell_data *shell_data)
+int	ft_exit(char **args, t_shell_data *shell_data)
 {
 	int		exit_code;
 	bool	print_exit;
 
-	exit_code = 0;
 	print_exit = true;
 	if (!args[1])
-		;
+		shell_data->exit_code = 0;
 	else if (args[2])
 	{
-		print_exit = false;
 		printf("exit\n");
 		ft_print_error_message("exit:", " too many arguments", NULL, NULL);
-		exit_code = 1;
+		shell_data->exit_code = 1;
+		return (__stop_execution);
 	}
 	else
-		exit_code = ft_exit_code(args[1], &print_exit);
-	ft_free_shell_data(shell_data, true);
-	if (print_exit)
-		printf("exit\n");
-	exit(exit_code);
+		shell_data->exit_code = ft_exit_code(args[1], &print_exit);
+	if (!shell_data->in_child_process)
+	{
+		if (print_exit)
+			printf("exit\n");
+		rl_clear_history();
+		exit_code = shell_data->exit_code;
+		ft_free_shell_data(shell_data, true);
+		exit(exit_code);
+	}
+	return (__stop_execution);
 }
 
 static int	ft_exit_code(char *str, bool *print_exit)

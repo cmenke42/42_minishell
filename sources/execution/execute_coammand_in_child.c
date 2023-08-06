@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/06 18:18:07 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/06 19:07:00 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	ft_execute_command_in_child(t_shell_data *shell_data,
 
 	ft_restore_default_signals();
 	shell_data->exit_code = 1;
+	shell_data->in_child_process = true;
 	if (ft_handle_redirection_operators(sequence_to_execute,
 			sequence_to_execute->tokens, shell_data->heredocs))
 		;
@@ -92,7 +93,7 @@ int	get_builtin_command(t_shell_data *shell_data,
 	else if (!ft_strcmp("env", command))
 		ft_print_env_list(shell_data->env_list);
 	else if (!ft_strcmp("exit", command))
-		ft_exit(sequence_to_execute->args, shell_data);
+		status = ft_exit(sequence_to_execute->args, shell_data);
 	else
 		return (__no_builtin_found);
 	return (status);

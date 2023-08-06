@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 23:22:02 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/06 00:15:51 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/06 21:26:15 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ bool	ft_get_variable_name(char *string, char **variable_name)
 	int		i;
 	char	*delimiters;
 
-	delimiters = " \t\n$?\"\'=[]";
+	delimiters = " \t\n$?\"\'=[]()";
 	i = 1;
 	while (string[i] && !ft_strchr(delimiters, string[i]))
 		i++;
@@ -49,9 +49,10 @@ bool	ft_get_variable_value(char *name, char **value, t_list *env_list)
 	return (true);
 }
 
-bool	ft_get_exit_code_string(char **name, char **value, int exit_code)
+bool	ft_get_exit_code_string(char **name, char **value,
+			t_shell_data *shell_data)
 {
-	*value = ft_itoa(exit_code);
+	*value = ft_itoa(shell_data->exit_code);
 	*name = ft_strdup("?");
 	if (!*name || !*value)
 		return (perror("error creating exit_code string"), false);

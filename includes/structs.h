@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 16:50:05 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/06 18:30:43 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/06 21:07:02 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ typedef struct s_shell_data
 	int		default_stdout;
 	bool	print_quotes_for_oldpwd;
 	bool	add_no_quotes;
+	bool	in_child_process;
+	bool	waiting_for_process;
 	char	*cmd_line;
 	char	**envp_array;
 	int		**pipe_fds;
@@ -113,7 +115,8 @@ enum	e_error_codes
 	__stop_execution,
 	__mini_error,
 	__no_builtin_found,
-	__success_but_stop
+	__success_but_stop,
+	__general_syntax_error
 };
 
 enum e_variable_expansion_cases
