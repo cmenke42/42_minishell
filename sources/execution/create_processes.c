@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 16:16:48 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/06 15:43:00 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/06 16:53:01 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ bool	ft_create_pipes(t_shell_data *shell_data, int number_of_pipes)
 
 	if (number_of_pipes == 0)
 		return (true);
-	shell_data->pipe_fds = ft_calloc(number_of_pipes, sizeof(int [2]));
+	shell_data->pipe_fds = ft_calloc(number_of_pipes, sizeof(int *));
 	if (!shell_data->pipe_fds)
 		return (perror("error creating shell_data->pipe_fds"), false);
 	i = 0;
