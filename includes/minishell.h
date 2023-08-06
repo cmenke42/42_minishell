@@ -6,7 +6,7 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:47:42 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/06 15:37:59 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/06 15:52:21 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ bool	ft_is_file_existent(char *command, t_shell_data *shell_data);
 bool	ft_is_directory(char *command, t_shell_data *shell_data);
 bool	ft_is_executable(char *command, t_shell_data *shell_data);
 bool	ft_search_in_env_paths_for_cmd(t_shell_data *shell_data,
-				t_cmd_sequences *sequence_to_execute);
+			t_cmd_sequences *sequence_to_execute);
 bool	ft_check_file(char *command, t_shell_data *shell_data);
 
 	//create_processes

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:46:20 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/04 19:11:16 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/06 15:57:46 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void ft_print_pipe_fds(int **pipe_fds, int number_of_pipes)
+void	ft_print_pipe_fds(int **pipe_fds, int number_of_pipes)
 {
 	int	i;
 
@@ -41,8 +41,8 @@ void	ft_print_envp_array(char **envp_array)
 
 void	ft_print_double_pointer(char **string)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (string && string[i])
 		printf("%s\n", string[i++]);
@@ -51,7 +51,7 @@ void	ft_print_double_pointer(char **string)
 void	ft_print_command_sequences_args(t_list *cmd_sequences)
 {
 	t_cmd_sequences	*one_sequence;
-	int i;
+	int				i;
 
 	i = 0;
 	while (cmd_sequences)
@@ -63,10 +63,9 @@ void	ft_print_command_sequences_args(t_list *cmd_sequences)
 	}
 }
 
-
 void	ft_print_double_array(char **array)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (array[i])
@@ -75,7 +74,6 @@ void	ft_print_double_array(char **array)
 		i++;
 	}
 }
-
 
 //printg the token list
 void	ft_print_token_list(t_list *tokens)
@@ -121,7 +119,6 @@ void ft_print_tokens_and_type(t_list *tokens)
 {
 	t_list		*temp;
 	t_tokens	*token;
-
 
 	temp = tokens;
 	while (temp)

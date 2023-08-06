@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_expansion_utils.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 23:05:12 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/05 20:15:45 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/06 15:50:17 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_update_quote_state(bool *in_single_quotes,
 void	ft_skip_whitespace(char *string, int *i)
 {
 	while (string[*i] && (ft_is_whitespace(string[*i])
-			|| string[*i] == '\n')) //what about the new line???
+			|| string[*i] == '\n'))
 		*i += 1;
 }
 

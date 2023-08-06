@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:07:55 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/05 00:55:17 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/06 15:48:36 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static int	ft_open_reading_for_heredocs(t_list *tokens,
 		next_token = (t_tokens *)tokens->next->content;
 		if (one_token->type == redirection_in_heredoc)
 		{
-			if (!ft_fill_heredoc(heredocs[i], &next_token->token, shell_data)) //maybe use same loop and different function
+			if (!ft_fill_heredoc(heredocs[i], &next_token->token, shell_data))
 				return (1);
 			i++;
 		}

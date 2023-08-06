@@ -6,11 +6,14 @@
 /*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 16:50:05 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/05 22:51:51 by wmoughar         ###   ########.fr       */
+/*   Updated: 2023/08/06 15:57:05 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef STRUCTS_H
+# define STRUCTS_H
+
+# include "minishell.h"
 
 /// @brief The main struct that holds all the data for the shell
 /// @details
@@ -116,3 +119,5 @@ enum e_variable_expansion_cases
 	v_no_trim,
 	v_trim
 };
+
+#endif
