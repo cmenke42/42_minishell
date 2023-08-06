@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:47:42 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/06 00:06:08 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/06 15:37:59 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,14 @@ int		get_builtin_command(t_shell_data *shell_data,
 			int status);
 bool	empty_quotes(t_cmd_sequences *sequence_to_execute,
 			t_shell_data *shell_data);
+	//check_file
+bool	ft_is_file_existent(char *command, t_shell_data *shell_data);
+bool	ft_is_directory(char *command, t_shell_data *shell_data);
+bool	ft_is_executable(char *command, t_shell_data *shell_data);
+bool	ft_search_in_env_paths_for_cmd(t_shell_data *shell_data,
+				t_cmd_sequences *sequence_to_execute);
+bool	ft_check_file(char *command, t_shell_data *shell_data);
+
 	//create_processes
 int		ft_execute_commands(t_shell_data *shell_data);
 bool	ft_create_pipes(t_shell_data *shell_data, int number_of_pipes);

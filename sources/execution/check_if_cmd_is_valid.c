@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   check_if_cmd_is_valid.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 15:20:42 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/06 00:24:51 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/06 15:39:45 by wmoughar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static bool	ft_is_file_existent(char *command, t_shell_data *shell_data);
-static bool	ft_is_directory(char *command, t_shell_data *shell_data);
-static bool	ft_is_executable(char *command, t_shell_data *shell_data);
-static bool	ft_search_in_env_paths_for_cmd(t_shell_data *shell_data,
-				t_cmd_sequences *sequence_to_execute);
 
 bool	ft_is_cmd_valid(t_shell_data *shell_data,
 	t_cmd_sequences *sequence_to_execute)
@@ -24,14 +18,12 @@ bool	ft_is_cmd_valid(t_shell_data *shell_data,
 	char	*command;
 
 	command = sequence_to_execute->args[0];
+	if (!command)
+		return (perror("Error\n"), false);
 	if (ft_strchr(command, '/') || !ft_find_env_variable("PATH",
 			shell_data->env_list))
 	{
-		if (!ft_is_file_existent(command, shell_data))
-			return (false);
-		if (ft_is_directory(command, shell_data))
-			return (false);
-		if (!ft_is_executable(command, shell_data))
+		if (!ft_check_file(command, shell_data))
 			return (false);
 		sequence_to_execute->command_path = ft_strdup(command);
 		if (!sequence_to_execute->command_path)
@@ -48,7 +40,7 @@ bool	ft_is_cmd_valid(t_shell_data *shell_data,
 	return (false);
 }
 
-static bool	ft_is_file_existent(char *command, t_shell_data *shell_data)
+bool	ft_is_file_existent(char *command, t_shell_data *shell_data)
 {
 	if (access(command, F_OK))
 	{
@@ -60,7 +52,7 @@ static bool	ft_is_file_existent(char *command, t_shell_data *shell_data)
 	return (true);
 }
 
-static bool	ft_is_directory(char *command, t_shell_data *shell_data)
+bool	ft_is_directory(char *command, t_shell_data *shell_data)
 {
 	struct stat	file_info;
 
@@ -79,7 +71,7 @@ static bool	ft_is_directory(char *command, t_shell_data *shell_data)
 	return (false);
 }
 
-static bool	ft_is_executable(char *command, t_shell_data *shell_data)
+bool	ft_is_executable(char *command, t_shell_data *shell_data)
 {
 	if (access(command, X_OK) == 0)
 		return (true);
@@ -91,7 +83,7 @@ static bool	ft_is_executable(char *command, t_shell_data *shell_data)
 	}
 }
 
-static bool	ft_search_in_env_paths_for_cmd(t_shell_data *shell_data,
+bool	ft_search_in_env_paths_for_cmd(t_shell_data *shell_data,
 	t_cmd_sequences *sequence_to_execute)
 {
 	if (!ft_get_envp_paths(shell_data->envp_array,
