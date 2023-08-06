@@ -6,7 +6,7 @@
 #    By: wmoughar <wmoughar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/01 23:48:03 by cmenke            #+#    #+#              #
-#    Updated: 2023/08/06 15:38:19 by wmoughar         ###   ########.fr        #
+#    Updated: 2023/08/06 16:03:30 by wmoughar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,6 +67,7 @@ SRCS := $(addprefix ${SRCDIR}/,main.c \
 								${VARIABLE_EXPANSION} \
 								${HEREDOC} \
 								helpers.c \
+								helpers2.c \
 								print_error.c \
 								prepare_minishell.c)
 
