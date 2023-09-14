@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 23:22:02 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/06 22:22:55 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/07 00:35:20 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,11 @@ bool	ft_get_variable_value(char *name, char **value, t_list *env_list)
 bool	ft_get_exit_code_string(char **name, char **value,
 			t_shell_data *shell_data)
 {
+	if (g_signal_number != 0)
+	{
+		shell_data->exit_code = 1;
+		g_signal_number = 0;
+	}
 	*value = ft_itoa(shell_data->exit_code);
 	*name = ft_strdup("?");
 	if (!*name || !*value)

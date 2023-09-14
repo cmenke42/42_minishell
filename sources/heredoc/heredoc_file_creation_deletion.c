@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:41:28 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/06 19:26:44 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/07 00:37:55 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,7 @@ void	ft_delete_heredoc_files(char **heredoc_files)
 		return ;
 	while (heredoc_files[i])
 	{
-		if (unlink(heredoc_files[i]) == -1)
-			;
+		unlink(heredoc_files[i]);
 		i++;
 	}
 }

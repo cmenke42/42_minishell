@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:34:29 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/06 19:07:00 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/07 00:40:02 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,17 @@ void	ft_execute_command_in_child(t_shell_data *shell_data,
 	shell_data->in_child_process = true;
 	if (ft_handle_redirection_operators(sequence_to_execute,
 			sequence_to_execute->tokens, shell_data->heredocs))
-		;
+		exit_code = shell_data->exit_code;
 	else if (!ft_token_list_to_args_array(&sequence_to_execute->args,
 			sequence_to_execute->tokens))
-		;
+		exit_code = shell_data->exit_code;
 	else if (!ft_env_list_to_envp_array(shell_data))
-		;
+		exit_code = shell_data->exit_code;
 	else if (!ft_duplication_of_fds(shell_data->pipe_fds, sequence_to_execute,
 			number_of_commands, command_index))
-		;
+		exit_code = shell_data->exit_code;
 	else if (ft_execution_of_command(shell_data, sequence_to_execute, false))
-		;
+		exit_code = shell_data->exit_code;
 	exit_code = shell_data->exit_code;
 	rl_clear_history();
 	ft_close_all_pipes(shell_data->pipe_fds, number_of_commands - 1);

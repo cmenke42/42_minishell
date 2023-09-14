@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:07:55 by wmoughar          #+#    #+#             */
-/*   Updated: 2023/08/06 20:51:59 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/07 00:26:28 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	ft_read_heredocs_in_child_process(t_shell_data *shell_data)
 		ft_process_heredoc_reading(shell_data);
 	signal(SIGINT, ft_handle_sigint_in_parent_during_execution);
 	waitpid(process_id, &stat_loc, 0);
-	ft_get_exit_code(&exit_code, stat_loc, true, false);
+	ft_get_exit_code(&exit_code, stat_loc, true, true);
 	ft_set_minisell_signals();
 	if (exit_code == 1)
 		return (__system_call_error);

@@ -6,7 +6,7 @@
 /*   By: cmenke <cmenke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 10:49:18 by cmenke            #+#    #+#             */
-/*   Updated: 2023/08/06 18:20:40 by cmenke           ###   ########.fr       */
+/*   Updated: 2023/08/07 00:18:13 by cmenke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	ft_get_target_path(char **arguments, t_list *env_list,
 				char **target_path);
 static void	ft_update_oldpwd(t_list *oldpwd, t_list *pwd,
-				bool *print_quotes_for_oldpwd, char *cwd_old);
+				bool *print_quotes_for_oldpwd, char **cwd_old);
 static bool	ft_change_working_directory(char *target_path);
 static bool	ft_update_pwd(t_list *pwd);
 
@@ -38,7 +38,7 @@ int	ft_cd(char **arguments, t_list *env_list, bool *print_quotes_for_oldpwd)
 		return (__system_call_error);
 	if (!ft_change_working_directory(target_path))
 		return (ft_free_ptr_and_set_to_null((void **)&cwd_old), __mini_error);
-	ft_update_oldpwd(oldpwd, pwd, print_quotes_for_oldpwd, cwd_old);
+	ft_update_oldpwd(oldpwd, pwd, print_quotes_for_oldpwd, &cwd_old);
 	if (!ft_update_pwd(pwd))
 		return (__system_call_error);
 	return (__success);
@@ -68,13 +68,18 @@ static int	ft_get_target_path(char **arguments, t_list *env_list,
 }
 
 static void	ft_update_oldpwd(t_list *oldpwd, t_list *pwd,
-			bool *print_quotes_for_oldpwd, char *cwd_old)
+			bool *print_quotes_for_oldpwd, char **cwd_old)
 {
 	t_env	*oldpwd_env;
 	t_env	*pwd_env;
 
 	if (oldpwd)
 		oldpwd_env = (t_env *)oldpwd->content;
+	if (oldpwd && !pwd && !*print_quotes_for_oldpwd)
+	{
+		ft_assign(oldpwd_env, NULL, *cwd_old, true);
+		return ;
+	}
 	if (oldpwd && pwd)
 	{
 		pwd_env = (t_env *)pwd->content;
@@ -86,9 +91,7 @@ static void	ft_update_oldpwd(t_list *oldpwd, t_list *pwd,
 		ft_assign(oldpwd_env, NULL, NULL, true);
 		*print_quotes_for_oldpwd = false;
 	}
-	else if (oldpwd)
-		ft_assign(oldpwd_env, NULL, cwd_old, true);
-	ft_free_ptr_and_set_to_null((void **)&cwd_old);
+	ft_free_ptr_and_set_to_null((void **)cwd_old);
 }
 
 static bool	ft_change_working_directory(char *target_path)
@@ -112,7 +115,7 @@ static bool	ft_update_pwd(t_list *pwd)
 	{
 		if (!ft_get_current_working_directory(&cwd_buf))
 			return (false);
-		ft_assign((t_env *)pwd->content, NULL, cwd_buf, "");
+		ft_assign((t_env *)pwd->content, NULL, cwd_buf, true);
 	}
 	return (true);
 }
